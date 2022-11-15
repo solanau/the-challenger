@@ -1,0 +1,20 @@
+{
+    "id": "string",
+    "eventId": "string",
+    "eventPubkey": "4gjRSyQjjnrbTkr9XmxiU4k7DKj6ZXfBZRpzcAYAKZx4",
+    "key": 1,
+    "iconKey": 1,
+    "iconSize": 35,
+    "title": "string",
+    "type": 1,
+    "difficulty": "Hard",
+    "description": "string",
+    "shortDescription": "string",
+    "githubUrl": "string",
+    "rewardValue": "number",
+    "rewardType": "string",
+    "formComponents": [],
+    "createdAt": "string",
+    "startDate": "string",
+    "endDate": "string"
+}
