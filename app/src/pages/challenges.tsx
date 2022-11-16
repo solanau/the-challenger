@@ -12,7 +12,7 @@ import {
     isActiveChallenge,
     isExpiredChallenge,
     isPendingChallenge,
-    toChallenge_Firebase
+    toChallenge_Firebase,
 } from 'utils/challenge';
 
 type ChallengesPageProps = {
@@ -61,7 +61,9 @@ export const getServerSideProps: GetServerSideProps = async context => {
     const accessToken = session?.accessToken as string;
 
     const user = await getCurrentUser(accessToken);
-    const userSubmissions = await fetchSubmissionsForUsername(user.login);
+    const userSubmissions = user
+        ? await fetchSubmissionsForUsername(user.login)
+        : [];
 
     const challengePayloads = await fetchChallengesForEvent();
     const challenges = (
