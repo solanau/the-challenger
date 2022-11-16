@@ -15,3 +15,5 @@ export const DatabaseError = (type: string) =>
     `Error writing ${type} to database.`;
 export const DuplicateSubmissionError = () =>
     "Duplicate submission. There's a single submission per challenge.";
+export const NotFoundError = () =>
+    "Not found. The document request wasn't found.";

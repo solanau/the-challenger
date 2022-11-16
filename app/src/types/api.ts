@@ -59,6 +59,7 @@ export type PrizePayload = {
 };
 
 export type SubmissionPayload = {
+    id: string;
     challengeId: string;
     challengePubkey: string;
     // userPubkey: string,

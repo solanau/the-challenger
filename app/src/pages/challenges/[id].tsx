@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import {
     createNewSubmission,
     fetchChallengeById,
-    fetchSubmissionsForUsername,
+    fetchSubmissions,
 } from 'lib/api';
 import { getCurrentUser } from 'lib/github';
 import { GetServerSideProps, NextPage } from 'next';
@@ -22,6 +22,7 @@ import { ChallengeView } from 'types/challenge';
 import { User } from 'types/github';
 import { cn } from 'utils';
 import { toChallenge_Firebase } from 'utils/challenge';
+import { v4 as uuid } from 'uuid';
 
 type ChallengePageProps = {
     user: User;
@@ -56,6 +57,7 @@ const Challenge: NextPage<ChallengePageProps> = ({
 
             try {
                 await createNewSubmission({
+                    id: uuid(),
                     challengeId: challenge.id,
                     challengePubkey,
                     username: user.login,
@@ -231,7 +233,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
     const accessToken = session?.accessToken as string;
 
     const user = await getCurrentUser(accessToken);
-    const userSubmissions = await fetchSubmissionsForUsername(user.login);
+    const userSubmissions = await fetchSubmissions({ username: user.login });
 
     let challengeId = context.params.id;
     if (challengeId instanceof Array) {

@@ -9,6 +9,7 @@ import {
     PrizePayload,
     ProfilePayload,
     SubmissionPayload,
+    SubmissionStatus,
 } from 'types/api';
 
 export async function fetchProfileForPubkey(
@@ -188,35 +189,27 @@ export async function updatePrize(payload: PrizePayload): Promise<string> {
         .then(res => res.data);
 }
 
-export async function fetchAllSubmissions(): Promise<SubmissionPayload[]> {
+export async function fetchSubmissions(
+    params: Partial<{ eventId: string; username: string; challengeId: string }>,
+): Promise<SubmissionPayload[]> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
                 '/submissions',
+            {
+                params,
+            },
         )
         .then(res => res.data);
 }
 
-export async function fetchSubmissionsForChallenge(
-    challengePubkey: PublicKey,
-): Promise<SubmissionPayload[]> {
+export async function fetchSubmissionById(
+    submissionId: string,
+): Promise<SubmissionPayload> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/submissions/' +
-                challengePubkey.toBase58(),
-        )
-        .then(res => res.data);
-}
-
-export async function fetchSubmissionsForUsername(
-    username: string,
-): Promise<SubmissionPayload[]> {
-    return await axios
-        .get(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/submissions/' +
-                username,
+                `/submissions/${submissionId}`,
         )
         .then(res => res.data);
 }
@@ -230,6 +223,22 @@ export async function createNewSubmission(
                 '/submission/' +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
+        )
+        .then(res => res.data);
+}
+
+export async function updateSubmissionStatus(
+    submissionId: string,
+    status: SubmissionStatus,
+): Promise<string> {
+    return await axios
+        .patch(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/submission/' +
+                submissionId +
+                '/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            { status },
         )
         .then(res => res.data);
 }
