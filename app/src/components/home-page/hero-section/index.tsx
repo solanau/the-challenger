@@ -126,7 +126,7 @@ const HeroSection = () => {
                         />
                     </div>
                     <div className="absolute top-[450px] -right-[200px] z-20 sm:top-[350px] sm:-right-[100px] md:-right-[400px] md:top-[150px] lg:-top-[150px]">
-                        <Image
+                        {/* <Image
                             src="/helicopter.png"
                             className="hidden md:block"
                             alt="solana icon"
@@ -137,7 +137,7 @@ const HeroSection = () => {
                             className="block md:hidden"
                             alt="solana icon"
                             width={1000}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>
