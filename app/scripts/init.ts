@@ -44,7 +44,7 @@ async function main() {
         mintTitle: 'Heavy Duty Bounty NFT: Easy',
         mintSymbol: 'HDNE',
         mintUri:
-            'https://raw.githubusercontent.com/heavy-duty/the-callenger/api/assets/heavy-duty-nft-badge-easy.json?token=GHSAT0AAAAAAB3CH6AW7ILJJ4IZVOUXJDNAY3QB3HQ',
+            'https://raw.githubusercontent.com/heavy-duty/the-challenger/api/assets/heavy-duty-nft-badge-easy.json?token=GHSAT0AAAAAAB3CH6AW7ILJJ4IZVOUXJDNAY3QB3HQ',
         decimals: 0,
     });
     console.log(`   nftBadgePubkeyEasy: ${nftBadgePubkeyEasy}`);
@@ -53,7 +53,7 @@ async function main() {
         mintTitle: 'Heavy Duty Bounty NFT: Medium',
         mintSymbol: 'HDNM',
         mintUri:
-            'https://raw.githubusercontent.com/heavy-duty/the-callenger/api/assets/heavy-duty-nft-badge-medium.json?token=GHSAT0AAAAAAB3CH6AXIYDHQVFZL6LDFL5WY3QB34Q',
+            'https://raw.githubusercontent.com/heavy-duty/the-challenger/api/assets/heavy-duty-nft-badge-medium.json?token=GHSAT0AAAAAAB3CH6AXIYDHQVFZL6LDFL5WY3QB34Q',
         decimals: 0,
     });
     console.log(`   nftBadgePubkeyMedium: ${nftBadgePubkeyMedium}`);
@@ -62,7 +62,7 @@ async function main() {
         mintTitle: 'Heavy Duty Bounty NFT: Hard',
         mintSymbol: 'HDNH',
         mintUri:
-            'https://raw.githubusercontent.com/heavy-duty/the-callenger/api/assets/heavy-duty-nft-badge-hard.json?token=GHSAT0AAAAAAB3CH6AWHBXRYFEYIAC3KNAUY3QB4MQ',
+            'https://raw.githubusercontent.com/heavy-duty/the-challenger/api/assets/heavy-duty-nft-badge-hard.json?token=GHSAT0AAAAAAB3CH6AWHBXRYFEYIAC3KNAUY3QB4MQ',
         decimals: 0,
     });
     console.log(`   nftBadgePubkeyHard: ${nftBadgePubkeyHard}`);
