@@ -1,6 +1,6 @@
-import ReactMarkdown from 'react-markdown';
 import { createElement } from 'react';
-import rehypeRaw from "rehype-raw";
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 
 type MarkdownProps = {
     as?: string;
