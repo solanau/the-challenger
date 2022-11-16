@@ -72,14 +72,14 @@ exports.fetchSubmissionsForUsername = async (req, res) => {
 exports.createNewSubmission = async function (req, res) {
     if (req.params.masterApiKey != MASTER_API_KEY) {
         console.error(MasterApiKeyError());
-        res.status(400).send(MasterApiKeyError());
+        return res.status(400).send(MasterApiKeyError());
     } else {
         let rawSubmission: SubmissionPayload;
         try {
             rawSubmission = req.body;
         } catch (error) {
             console.log(error);
-            res.status(500).send(PayloadError());
+            return res.status(500).send(PayloadError());
         }
 
         const pastSubmissions = await db
@@ -90,7 +90,7 @@ exports.createNewSubmission = async function (req, res) {
             .get();
 
         if (pastSubmissions.size > 0) {
-            res.status(400).send(DuplicateSubmissionError());
+            return res.status(400).send(DuplicateSubmissionError());
         }
 
         try {
@@ -101,12 +101,12 @@ exports.createNewSubmission = async function (req, res) {
             const newDoc = await db
                 .collection(submissionCollection)
                 .add(submission);
-            res.status(201).send({
+            return res.status(201).send({
                 submissionId: newDoc.id,
             });
         } catch (error) {
             console.log(error);
-            res.status(500).send(DatabaseError(objectType));
+            return res.status(500).send(DatabaseError(objectType));
         }
     }
 };
