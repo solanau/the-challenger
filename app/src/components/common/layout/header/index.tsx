@@ -1,4 +1,3 @@
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Image from 'components/common/image';
 import OverflowMenu from 'components/common/overflow-menu';
 import Text from 'components/common/text';
@@ -113,7 +112,7 @@ const Header = () => {
                         <div className="h-15 w-px bg-line" />
                         <OverflowMenu />
                     </div>
-                    <WalletMultiButton></WalletMultiButton>
+                    {/* <WalletMultiButton></WalletMultiButton> */}
                 </div>
             </div>
             <style>

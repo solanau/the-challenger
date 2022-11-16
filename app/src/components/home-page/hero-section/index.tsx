@@ -69,11 +69,7 @@ const HeroSection = () => {
                         the ecosystem. Complete challenges to
                         <a className="mx-1 font-bold text-primary">level up</a>
                         your position on the leaderboard and battle your way to
-                        even more prizes including a
-                        <a className="mx-1 font-bold text-primary">
-                            helicopter
-                        </a>
-                        ride in a choppa!
+                        even more prizes!
                     </Text>
                     <div className="mb-10 mt-72 flex w-full flex-row flex-wrap justify-center  gap-4  sm:mb-20 md:mt-0 md:justify-start">
                         <Link
