@@ -1,19 +1,8 @@
-import { PublicKey } from "@solana/web3.js";
-import { createChallenge, updateChallenge } from "prestige-protocol";
+import { Keypair } from "@solana/web3.js";
 import { db } from "..";
-import {
-  connection,
-  MASTER_API_KEY,
-  PRESTIGE_PROGRAM_ID,
-  WALLET,
-} from "../util/const";
+import { MASTER_API_KEY } from "../util/const";
 import { ChallengePayload } from "../util/types";
-import {
-  DatabaseError,
-  MasterApiKeyError,
-  PayloadError,
-  PrestigeError,
-} from "../util/util";
+import { DatabaseError, MasterApiKeyError, PayloadError } from "../util/util";
 
 const objectType = "Challenge";
 const challengeCollection = "challenges";
@@ -80,7 +69,8 @@ exports.createNewChallenge = async function (req, res) {
     res.status(400).send(MasterApiKeyError());
   } else {
     let rawChallenge: Omit<ChallengePayload, "pubkey">;
-    let challengePubkey: PublicKey;
+    // let challengePubkey: PublicKey;
+    const challengePubkey = Keypair.generate().publicKey;
     try {
       rawChallenge = req.body;
       if (!rawChallenge["authorName"]) rawChallenge["authorName"] = "None";
@@ -88,22 +78,22 @@ exports.createNewChallenge = async function (req, res) {
       console.log(error);
       res.status(500).send(PayloadError());
     }
-    try {
-      challengePubkey = (
-        await createChallenge(
-          connection,
-          WALLET,
-          PRESTIGE_PROGRAM_ID,
-          new PublicKey(rawChallenge.eventPubkey),
-          rawChallenge.title,
-          rawChallenge.shortDescription,
-          rawChallenge.authorName
-        )
-      )[0];
-    } catch (error) {
-      console.log(error);
-      res.status(400).send(PrestigeError(objectType));
-    }
+    // try {
+    //   challengePubkey = (
+    //     await createChallenge(
+    //       connection,
+    //       WALLET,
+    //       PRESTIGE_PROGRAM_ID,
+    //       new PublicKey(rawChallenge.eventPubkey),
+    //       rawChallenge.title,
+    //       rawChallenge.shortDescription,
+    //       rawChallenge.authorName
+    //     )
+    //   )[0];
+    // } catch (error) {
+    //   console.log(error);
+    //   res.status(400).send(PrestigeError(objectType));
+    // }
     try {
       const challenge: ChallengePayload = {
         pubkey: challengePubkey.toBase58(),
@@ -133,21 +123,21 @@ exports.updateChallenge = async function (req, res) {
       console.log(error);
       res.status(400).send(PayloadError());
     }
-    try {
-      await updateChallenge(
-        connection,
-        WALLET,
-        PRESTIGE_PROGRAM_ID,
-        new PublicKey(rawChallenge.pubkey),
-        new PublicKey(rawChallenge.eventPubkey),
-        rawChallenge.title,
-        rawChallenge.description,
-        rawChallenge.authorName
-      );
-    } catch (error) {
-      console.log(error);
-      res.status(500).send(PrestigeError(objectType));
-    }
+    // try {
+    //   await updateChallenge(
+    //     connection,
+    //     WALLET,
+    //     PRESTIGE_PROGRAM_ID,
+    //     new PublicKey(rawChallenge.pubkey),
+    //     new PublicKey(rawChallenge.eventPubkey),
+    //     rawChallenge.title,
+    //     rawChallenge.description,
+    //     rawChallenge.authorName
+    //   );
+    // } catch (error) {
+    //   console.log(error);
+    //   res.status(500).send(PrestigeError(objectType));
+    // }
     try {
       const challenge: ChallengePayload = { ...rawChallenge };
       const newDoc = await db

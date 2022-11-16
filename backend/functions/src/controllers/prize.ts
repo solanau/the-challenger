@@ -1,9 +1,5 @@
-import { PublicKey } from "@solana/web3.js";
-import {
-  createPrize,
-  fetchPrizeAndMintMetadata,
-  updatePrize,
-} from "prestige-protocol";
+import { Keypair, PublicKey } from "@solana/web3.js";
+import { fetchPrizeAndMintMetadata, updatePrize } from "prestige-protocol";
 import { db } from "..";
 import {
   connection,
@@ -31,24 +27,12 @@ exports.fetchPrizesForEvent = async (req, res) => {
   try {
     const prizeQuerySnapshot = await db.collection(prizeCollection).get();
     const prizes: PrizeMintMetadataPayload[] = [];
-    for (var doc of prizeQuerySnapshot.docs) {
+    for (const doc of prizeQuerySnapshot.docs) {
       const data = doc.data();
       const onChainData = await fetchPrizeAndMintMetadata(
         connection,
         new PublicKey(data.pubkey)
       );
-      prizes.push({
-        pubkey: onChainData.address.toBase58(),
-        challengePubkey: onChainData.prize.challenge.toBase58(),
-        mintPubkey: onChainData.mint.address.toBase58(),
-        mintTitle: onChainData.metadata.data.name,
-        mintSymbol: onChainData.metadata.data.symbol,
-        mintUri: onChainData.metadata.data.uri,
-        decimals: onChainData.mint.decimals,
-        escrowOrMintAuthority:
-          onChainData.prize.escrow_or_mint_authority.toBase58(),
-        quantity: onChainData.prize.quantity.toNumber(),
-      });
       prizes.push({
         pubkey: data.pubkey,
         challengePubkey: data.challengePubkey,
@@ -75,7 +59,8 @@ exports.createNewPrize = async (req, res) => {
     res.status(400).send(MasterApiKeyError());
   } else {
     let rawPrize: Omit<PrizePayload, "pubkey">;
-    let prizePubkey: PublicKey;
+    // let prizePubkey: PublicKey;
+    const prizePubkey = Keypair.generate().publicKey;
     try {
       rawPrize = {
         challengePubkey: req.body["challengePubkey"],
@@ -88,23 +73,23 @@ exports.createNewPrize = async (req, res) => {
       console.log(error);
       res.status(400).send(PayloadError());
     }
-    try {
-      prizePubkey = (
-        await createPrize(
-          connection,
-          WALLET,
-          PRESTIGE_PROGRAM_ID,
-          new PublicKey(rawPrize.challengePubkey),
-          new PublicKey(rawPrize.mintPubkey),
-          new PublicKey(rawPrize.escrowOrMintAuthority),
-          rawPrize.mintControl,
-          rawPrize.quantity
-        )
-      )[0];
-    } catch (error) {
-      console.log(error);
-      res.status(500).send(PrestigeError(objectType));
-    }
+    // try {
+    //   prizePubkey = (
+    //     await createPrize(
+    //       connection,
+    //       WALLET,
+    //       PRESTIGE_PROGRAM_ID,
+    //       new PublicKey(rawPrize.challengePubkey),
+    //       new PublicKey(rawPrize.mintPubkey),
+    //       new PublicKey(rawPrize.escrowOrMintAuthority),
+    //       rawPrize.mintControl,
+    //       rawPrize.quantity
+    //     )
+    //   )[0];
+    // } catch (error) {
+    //   console.log(error);
+    //   res.status(500).send(PrestigeError(objectType));
+    // }
     try {
       const prize: PrizeDto = { pubkey: prizePubkey.toBase58(), ...rawPrize };
       const newDoc = await db.collection(prizeCollection).add(prize);
