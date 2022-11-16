@@ -86,11 +86,12 @@ exports.createNewSubmission = async function (req, res) {
                 ...rawSubmission,
                 status: 'pending',
             };
-            const newDoc = await db
-                .collection(submissionCollection)
-                .add(submission);
+            await db
+                .doc(`${submissionCollection}/${submission.id}`)
+                .set(submission);
+
             return res.status(201).send({
-                submissionId: newDoc.id,
+                submissionId: submission.id,
             });
         } catch (error) {
             console.log(error);
