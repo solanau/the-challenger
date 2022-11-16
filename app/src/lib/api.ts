@@ -49,7 +49,7 @@ export async function fetchChallengesForEvent(): Promise<ChallengePayload[]> {
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
                 '/challenges/' +
-                process.env.HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
         )
         .then(res => res.data);
 }
