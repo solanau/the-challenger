@@ -88,14 +88,14 @@ There's many awesome communities out there, for now let's start with joining Sol
         type: 'Social',
         difficulty: 'Easy',
         shortDescription:
-            'Post a tweet with the hashtags #LisbonDevChallenge #ChopperChallenge',
+            'Post a tweet with the hashtags #MunichDevChallenge #LedgerChallenge',
         description: `
 ___
 ### Description
 
-Sup hunter! Are you hanging at the Lisbon Hacker House?
+Sup hunter! Are you hanging at the Munich Hacker House?
 Give us proof!
-Take a picture at some place inside and post it on Twitter with the hashtags #LisbonDevChallenge #ChopperChallenge
+Take a picture at some place inside and post it on Twitter with the hashtags #MunichDevChallenge #LedgerChallenge
 `,
         githubUrl: 'some githubUrl',
         authorName: 'HeavyDutyBuild',
@@ -2962,7 +2962,7 @@ To complete this challenge you will need to:
 
 1. Download and Install <a href="https://unity3d.com/get-unity/download" target="_blank">Unity</a>.
 2. Install the Solana.Unity-SDK following the <a href="https://github.com/garbles-labs/Solana.Unity-SDK#installation" target="_blank">instructions</a>
-3. Modify the example wallet scene changing the main title to Lisbon Hacker House
+3. Modify the example wallet scene changing the main title to Munich Hacker House
 4. Compile the scene to WebGL (be sure to <a href="https://www.youtube.com/watch?v=2jjESP58jsA" target="_blank">disable compression</a>)
 5. Host the demo on Github pages
 

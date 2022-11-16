@@ -1,9 +1,19 @@
-import { Keypair } from '@solana/web3.js';
-// import { createEvent, updateEvent } from 'prestige-protocol';
+import { Keypair, PublicKey } from '@solana/web3.js';
+import { updateEvent } from 'prestige-protocol';
 import { db } from '..';
-import { MASTER_API_KEY } from '../util/const';
+import {
+    connection,
+    MASTER_API_KEY,
+    PRESTIGE_PROGRAM_ID,
+    WALLET,
+} from '../util/const';
 import { EventPayload } from '../util/types';
-import { DatabaseError, MasterApiKeyError, PayloadError } from '../util/util';
+import {
+    DatabaseError,
+    MasterApiKeyError,
+    PayloadError,
+    PrestigeError,
+} from '../util/util';
 
 interface EventDto {
     pubkey: string;
@@ -55,29 +65,28 @@ exports.createNewEvent = async (req, res) => {
             res.status(400).send(PayloadError());
         }
         // try {
-        //     eventPubkey = await createEvent(
-        //         connection,
-        //         WALLET,
-        //         PRESTIGE_PROGRAM_ID,
-        //         rawEvent.title,
-        //         rawEvent.description,
-        //         rawEvent.location,
-        //         rawEvent.host,
-        //         rawEvent.date,
-        //     );
+        //   eventPubkey = await createEvent(
+        //     connection,
+        //     WALLET,
+        //     PRESTIGE_PROGRAM_ID,
+        //     rawEvent.title,
+        //     rawEvent.description,
+        //     rawEvent.location,
+        //     rawEvent.host,
+        //     rawEvent.date
+        //   );
         // } catch (error) {
-        //     console.log(error);
-        //     res.status(500).send(PrestigeError(objectType));
+        //   console.log(error);
+        //   res.status(500).send(PrestigeError(objectType));
         // }
         try {
             const event: EventDto = {
-                pubkey: process.env.EVENT_PUBKEY,
+                pubkey: eventPubkey.toBase58(),
                 ...rawEvent,
             };
             const newDoc = await db.collection(eventCollection).add(event);
-
             res.status(201).send({
-                pubkey: event.pubkey,
+                pubkey: eventPubkey.toBase58(),
             });
         } catch (error) {
             console.log(error);
@@ -106,22 +115,22 @@ exports.updateEvent = async (req, res) => {
             console.log(error);
             res.status(400).send(PayloadError());
         }
-        // try {
-        //     await updateEvent(
-        //         connection,
-        //         WALLET,
-        //         PRESTIGE_PROGRAM_ID,
-        //         new PublicKey(rawEvent.pubkey),
-        //         rawEvent.title,
-        //         rawEvent.description,
-        //         rawEvent.location,
-        //         rawEvent.host,
-        //         rawEvent.date,
-        //     );
-        // } catch (error) {
-        //     console.log(error);
-        //     res.status(500).send(PrestigeError(objectType));
-        // }
+        try {
+            await updateEvent(
+                connection,
+                WALLET,
+                PRESTIGE_PROGRAM_ID,
+                new PublicKey(rawEvent.pubkey),
+                rawEvent.title,
+                rawEvent.description,
+                rawEvent.location,
+                rawEvent.host,
+                rawEvent.date,
+            );
+        } catch (error) {
+            console.log(error);
+            res.status(500).send(PrestigeError(objectType));
+        }
         try {
             const event: EventDto = { ...rawEvent };
             const newDoc = await db
