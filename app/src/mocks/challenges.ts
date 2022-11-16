@@ -1200,7 +1200,10 @@ In this challenge you're going to learn about custom account data on Solana.
 
 Good luck **hunter**!
 
-1. Preview the Solana Bytes video on [Custom Account Data](https://www.youtube.com/watch?v=SCS6jt8sye0&list=PLilwLeBwGuK51Ji870apdb88dnBr1Xqhm&index=7).
+1. Preview the Solana Bytes video on Custom Account Data.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SCS6jt8sye0" title="Custom Account Data" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 2. Look out for the answers to the challenge questions.
 3. Use the documentation provided as an additional resource!
 
