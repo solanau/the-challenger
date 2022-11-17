@@ -3,7 +3,10 @@ import { ChallengePayload } from 'types/api';
 let i = 100;
 
 // TODO: refactor for types, collection, interfaces etc
-export const mockChallenges: Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[] = [
+export const mockChallenges: Omit<
+    ChallengePayload,
+    'pubkey' | 'eventPubkey' | 'eventId'
+>[] = [
     // Heavy Duty Social
     {
         key: ++i,
@@ -85,14 +88,14 @@ There's many awesome communities out there, for now let's start with joining Sol
         type: 'Social',
         difficulty: 'Easy',
         shortDescription:
-            'Post a tweet with the hashtags #LisbonDevChallenge #ChopperChallenge',
+            'Post a tweet with the hashtags #MunichDevChallenge #LedgerChallenge',
         description: `
 ___
 ### Description
 
-Sup hunter! Are you hanging at the Lisbon Hacker House?
+Sup hunter! Are you hanging at the Munich Hacker House?
 Give us proof!
-Take a picture at some place inside and post it on Twitter with the hashtags #LisbonDevChallenge #ChopperChallenge
+Take a picture at some place inside and post it on Twitter with the hashtags #MunichDevChallenge #LedgerChallenge
 `,
         githubUrl: 'some githubUrl',
         authorName: 'HeavyDutyBuild',
@@ -122,7 +125,8 @@ Take a picture at some place inside and post it on Twitter with the hashtags #Li
         title: 'Charity Challenge',
         type: 'Social',
         difficulty: 'Easy',
-        shortDescription: 'A little help to a non-profit ONG based at Venezuela',
+        shortDescription:
+            'A little help to a non-profit ONG based at Venezuela',
         description: `
 ___
 ### Description
@@ -277,7 +281,8 @@ ___
         title: 'Mayhem League Gaming Competition',
         type: 'Game',
         difficulty: 'Easy',
-        shortDescription: 'Participate and win A Trash Panda and more with Mayhem League!',
+        shortDescription:
+            'Participate and win A Trash Panda and more with Mayhem League!',
         description: `
 ___
 ### Description
@@ -1195,7 +1200,10 @@ In this challenge you're going to learn about custom account data on Solana.
 
 Good luck **hunter**!
 
-1. Preview the Solana Bytes video on [Custom Account Data](https://www.youtube.com/watch?v=SCS6jt8sye0&list=PLilwLeBwGuK51Ji870apdb88dnBr1Xqhm&index=7).
+1. Preview the Solana Bytes video on Custom Account Data.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SCS6jt8sye0" title="Custom Account Data" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 2. Look out for the answers to the challenge questions.
 3. Use the documentation provided as an additional resource!
 
@@ -1398,7 +1406,7 @@ ___
                 key: 'thirdAnswer',
                 label: 'How long did it take you to deploy this program without error?',
                 placeholder: `Account Addresss...`,
-            },     
+            },
         ],
     },
     // Learn about Solana Staking.
@@ -2450,8 +2458,7 @@ ___
         title: 'Solana Unity Save Game Data',
         type: 'Game',
         difficulty: 'Easy',
-        shortDescription:
-            'Play with Fractal!',
+        shortDescription: 'Play with Fractal!',
         description: `
 ___
 ### Description
@@ -2512,8 +2519,7 @@ ___
         title: 'Solana Unity Save Game Data',
         type: 'Game',
         difficulty: 'Easy',
-        shortDescription:
-            'Learn concepts of ev.io on fractal!',
+        shortDescription: 'Learn concepts of ev.io on fractal!',
         description: `
 ___
 ### Description
@@ -2579,8 +2585,7 @@ ___
         title: 'Metaplex NFT Standard and tools',
         type: 'NFT',
         difficulty: 'Easy',
-        shortDescription:
-            'Metaplex NFT Standard and tools',
+        shortDescription: 'Metaplex NFT Standard and tools',
         description: `
 ___
 ### Description
@@ -2737,8 +2742,7 @@ ___
         title: 'Solana Unity Save Game Data',
         type: 'Game',
         difficulty: 'Easy',
-        shortDescription:
-            'Learn about raindrops and boots!',
+        shortDescription: 'Learn about raindrops and boots!',
         description: `
 ___
 ### Description
@@ -2875,7 +2879,7 @@ ___
         type: 'Game',
         difficulty: 'Medium',
         shortDescription:
-        'Create an SSO login using Solana Unity SDK and Web3Auth SDK Challenge!',
+            'Create an SSO login using Solana Unity SDK and Web3Auth SDK Challenge!',
         description: `
 ___
 ### Description
@@ -2945,8 +2949,7 @@ ___
         title: 'Unity SDK 101-1 webgl',
         type: 'Game',
         difficulty: 'Medium',
-        shortDescription:
-        'Solana Unity SDK and WebGL basics!',
+        shortDescription: 'Solana Unity SDK and WebGL basics!',
         description: `
 ___
 ### Description
@@ -2959,7 +2962,7 @@ To complete this challenge you will need to:
 
 1. Download and Install <a href="https://unity3d.com/get-unity/download" target="_blank">Unity</a>.
 2. Install the Solana.Unity-SDK following the <a href="https://github.com/garbles-labs/Solana.Unity-SDK#installation" target="_blank">instructions</a>
-3. Modify the example wallet scene changing the main title to Lisbon Hacker House
+3. Modify the example wallet scene changing the main title to Munich Hacker House
 4. Compile the scene to WebGL (be sure to <a href="https://www.youtube.com/watch?v=2jjESP58jsA" target="_blank">disable compression</a>)
 5. Host the demo on Github pages
 
@@ -3005,8 +3008,7 @@ ___
         title: 'Friktion SDK Challenge 1!',
         type: 'SDK',
         difficulty: 'Hard',
-        shortDescription:
-        'Build a unique application using Friktion SDK!',
+        shortDescription: 'Build a unique application using Friktion SDK!',
         description: `
 ___
 ### Description
@@ -3081,8 +3083,7 @@ ___
         title: 'ORAO VRF SDK Challenge 1',
         type: 'SDK',
         difficulty: 'Medium',
-        shortDescription:
-        'Random numbers with ORAO using VRF',
+        shortDescription: 'Random numbers with ORAO using VRF',
         description: `
 ___
 ### Description
@@ -3147,5 +3148,4 @@ ___
             },
         ],
     },
-
 ];

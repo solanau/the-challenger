@@ -1,9 +1,9 @@
 import Image from 'components/common/image';
-import Link from 'next/link';
-import NavElement from './nav-element';
 import OverflowMenu from 'components/common/overflow-menu';
 import Text from 'components/common/text';
+import Link from 'next/link';
 import { useState } from 'react';
+import NavElement from './nav-element';
 
 const Header = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
@@ -30,7 +30,7 @@ const Header = () => {
                             className="font-thin !tracking-widest sm:inline"
                         >
                             {' '}
-                            Lisbon{' '}
+                            Munich{' '}
                         </Text>
                     </div>
                 </div>
@@ -112,10 +112,8 @@ const Header = () => {
                         <div className="h-15 w-px bg-line" />
                         <OverflowMenu />
                     </div>
+                    {/* <WalletMultiButton></WalletMultiButton> */}
                 </div>
-                {/* <div>
-                    <WalletMultiButton></WalletMultiButton>
-                </div> */}
             </div>
             <style>
                 {`

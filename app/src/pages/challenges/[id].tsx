@@ -3,7 +3,11 @@ import FormBuilder from 'components/common/form-builder';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
 import { useFormik } from 'formik';
-import { createNewSubmission, fetchChallengeById, fetchSubmissionsForUsername } from 'lib/api';
+import {
+    createNewSubmission,
+    fetchChallengeById,
+    fetchSubmissions,
+} from 'lib/api';
 import { getCurrentUser } from 'lib/github';
 import { GetServerSideProps, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
@@ -18,6 +22,7 @@ import { ChallengeView } from 'types/challenge';
 import { User } from 'types/github';
 import { cn } from 'utils';
 import { toChallenge_Firebase } from 'utils/challenge';
+import { v4 as uuid } from 'uuid';
 
 type ChallengePageProps = {
     user: User;
@@ -25,8 +30,11 @@ type ChallengePageProps = {
     challenge: ChallengeView;
 };
 
-const Challenge: NextPage<ChallengePageProps> = ({ user, challengePubkey, challenge }) => {
-
+const Challenge: NextPage<ChallengePageProps> = ({
+    user,
+    challengePubkey,
+    challenge,
+}) => {
     const router = useRouter();
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -36,56 +44,33 @@ const Challenge: NextPage<ChallengePageProps> = ({ user, challengePubkey, challe
         onSubmit: async values => {
             setIsLoading(true);
 
-            const submissionMap = Object.keys(values)
-                .map((key, index) => {
-                    const fieldIndex = challenge.formComponents.findIndex(
-                        formComponent => formComponent.field === key,
-                    );
-                    const label = challenge.formComponents[fieldIndex].label;
-
-                    return `${index + 1}. ${label}:\n${values[key]}`;
-                });
-            const submission = submissionMap
-                .reduce(
-                    (message, field) => `${message}\n${field}`,
-                    `
-___
-### Submission Entered:
-
-Challenge Id: [#${challenge.id}]
-Hunter: ${user.name || user.login}
-`,
+            const answers = Object.keys(values).map(key => {
+                const fieldIndex = challenge.formComponents.findIndex(
+                    formComponent => formComponent.field === key,
                 );
 
-            // Fails:
-            try {
-                const submissionId = await createNewSubmission({
-                    challengeId: challenge.id,
-                    challengePubkey: challengePubkey,
-                    username: user.login,
-                    answers: [],
-                });
-            } catch (e) {
-                console.log(e);
-            }
-
-            const response = await fetch('/api/bounties', {
-                body: JSON.stringify({
-                    body: challenge.description + submission,
-                    title: `Challenge Submission (#${challenge.key}): ${challenge.title}`,
-                    points: challenge.reward,
-                    challengeId: challenge.id,
-                }),
-                headers: { 'Content-Type': 'application/json' },
-                method: 'POST',
+                return {
+                    field: challenge.formComponents[fieldIndex],
+                    value: values[key],
+                };
             });
-            const data = await response.json();
 
-            if (response.ok) {
+            try {
+                await createNewSubmission({
+                    id: uuid(),
+                    challengeId: challenge.id,
+                    challengePubkey,
+                    username: user.login,
+                    answers,
+                    eventId:
+                        process.env
+                            .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
+                    status: 'pending',
+                });
                 alert('Submission Sent!');
                 router.push('/challenges');
-            } else {
-                alert(JSON.stringify(data));
+            } catch (e) {
+                alert(JSON.stringify(e));
                 setIsLoading(false);
             }
         },
@@ -171,12 +156,15 @@ Hunter: ${user.name || user.login}
                             <Markdown>{challenge.description}</Markdown>
                         )}
 
-                        { challenge.submittedStatus ? 
-                            <div className="flex flex-col justify-front gap-2 pt-4 font-thin text-green-400 p-2">
+                        {challenge.submittedStatus ? (
+                            <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-green-400">
                                 <Markdown>{`### How to Submit `}</Markdown>
-                                <p className='mt-4'>You&apos;ve already submitted this challenge!</p>
+                                <p className="mt-4">
+                                    You&apos;ve already submitted this
+                                    challenge!
+                                </p>
                             </div>
-                            :
+                        ) : (
                             <div>
                                 {challenge.timeStatus === 'active' && (
                                     <form onSubmit={formik.handleSubmit}>
@@ -189,8 +177,8 @@ Hunter: ${user.name || user.login}
 
                                         <div className="flex flex-row justify-end gap-2 pt-4 text-right font-thin">
                                             <Markdown>
-                                            **please review your entry before
-                                            clicking submit*
+                                                **please review your entry
+                                                before clicking submit*
                                             </Markdown>
                                         </div>
                                         <div className="width-full flex flex-row justify-end gap-2 pt-4">
@@ -205,7 +193,7 @@ Hunter: ${user.name || user.login}
                                     </form>
                                 )}
                             </div>
-                        }
+                        )}
                     </section>
                 </div>
             ) : (
@@ -243,12 +231,14 @@ export const getServerSideProps: GetServerSideProps = async context => {
     );
 
     const accessToken = session?.accessToken as string;
-    
+
     const user = await getCurrentUser(accessToken);
-    const userSubmissions = await fetchSubmissionsForUsername(user.login);
+    const userSubmissions = await fetchSubmissions({ username: user.login });
 
     let challengeId = context.params.id;
-    if (challengeId instanceof Array) { challengeId = challengeId[0] }
+    if (challengeId instanceof Array) {
+        challengeId = challengeId[0];
+    }
 
     const challengePayload = await fetchChallengeById(challengeId);
 
@@ -256,7 +246,10 @@ export const getServerSideProps: GetServerSideProps = async context => {
         props: {
             user,
             challengePubkey: challengePayload.pubkey,
-            challenge: await toChallenge_Firebase(userSubmissions, challengePayload),
+            challenge: await toChallenge_Firebase(
+                userSubmissions,
+                challengePayload,
+            ),
         },
     };
 };

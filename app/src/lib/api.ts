@@ -7,15 +7,60 @@ import {
     MintPayload,
     PrizeMintMetadataPayload,
     PrizePayload,
+    ProfilePayload,
     SubmissionPayload,
+    SubmissionStatus,
 } from 'types/api';
+
+export async function fetchProfileForPubkey(
+    pubkey: string,
+): Promise<ProfilePayload> {
+    return await axios
+        .get(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/profile/' +
+                pubkey +
+                process.env
+                    .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
+        )
+        .then(res => res.data);
+}
+
+export async function createNewProfile(
+    payload: ProfilePayload,
+): Promise<string> {
+    return await axios
+        .post(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/profile/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            payload,
+        )
+        .then(res => res.data.pubkey);
+}
+
+export async function updateProfile(
+    pubkey: string,
+    payload: ProfilePayload,
+): Promise<string> {
+    return await axios
+        .put(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/profile/' +
+                pubkey +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            payload,
+        )
+        .then(res => res.data);
+}
 
 export async function fetchEventsForAuthority(): Promise<EventPayload[]> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
                 '/events/' +
-                process.env.HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
+                process.env
+                    .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
         )
         .then(res => res.data);
 }
@@ -33,11 +78,15 @@ export async function createNewEvent(
         .then(res => res.data.pubkey);
 }
 
-export async function updateEvent(payload: EventPayload): Promise<string> {
+export async function updateEvent(
+    eventId: string,
+    payload: EventPayload,
+): Promise<string> {
     return await axios
         .put(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
                 '/event/' +
+                eventId +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
@@ -49,7 +98,7 @@ export async function fetchChallengesForEvent(): Promise<ChallengePayload[]> {
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
                 '/challenges/' +
-                process.env.HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
         )
         .then(res => res.data);
 }
@@ -140,35 +189,27 @@ export async function updatePrize(payload: PrizePayload): Promise<string> {
         .then(res => res.data);
 }
 
-export async function fetchAllSubmissions(): Promise<SubmissionPayload[]> {
+export async function fetchSubmissions(
+    params: Partial<{ eventId: string; username: string; challengeId: string }>,
+): Promise<SubmissionPayload[]> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
                 '/submissions',
+            {
+                params,
+            },
         )
         .then(res => res.data);
 }
 
-export async function fetchSubmissionsForChallenge(
-    challengePubkey: PublicKey,
-): Promise<SubmissionPayload[]> {
+export async function fetchSubmissionById(
+    submissionId: string,
+): Promise<SubmissionPayload> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/submissions/' +
-                challengePubkey.toBase58(),
-        )
-        .then(res => res.data);
-}
-
-export async function fetchSubmissionsForUsername(
-    username: string,
-): Promise<SubmissionPayload[]> {
-    return await axios
-        .get(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/submissions/' +
-                username,
+                `/submissions/${submissionId}`,
         )
         .then(res => res.data);
 }
@@ -182,6 +223,22 @@ export async function createNewSubmission(
                 '/submission/' +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
+        )
+        .then(res => res.data);
+}
+
+export async function updateSubmissionStatus(
+    submissionId: string,
+    status: SubmissionStatus,
+): Promise<string> {
+    return await axios
+        .patch(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/submission/' +
+                submissionId +
+                '/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            { status },
         )
         .then(res => res.data);
 }

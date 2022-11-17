@@ -5,10 +5,10 @@ import { signIn, useSession } from 'next-auth/react';
 import Button from 'components/common/button';
 
 import Image from 'components/common/image';
+import Text from 'components/common/text';
 import Link from 'next/link';
 import React from 'react';
 import { TbBrandChrome, TbBrandGithub } from 'react-icons/tb';
-import Text from 'components/common/text';
 import { cn } from 'utils';
 
 const HeroSection = () => {
@@ -46,44 +46,30 @@ const HeroSection = () => {
             <div className="flex">
                 <div className="relative z-30 mt-28 flex h-full w-full flex-col items-center justify-evenly gap-16 px-4 pt-20 text-left sm:mt-20 sm:items-start sm:px-8 md:px-16 lg:mt-0 lg:px-32 xl:px-64">
                     <Text className="font-bold" variant="super-hero">
-                        LISBON DEV CHALLENGE
+                        MUNICH DEV CHALLENGE
                     </Text>
                     <Text className="max-w-[650px]" variant="paragraph">
-                    Welcome 
-                        <a
-                            className="font-bold mx-1 text-primary"
-                        >
+                        Welcome
+                        <a className="mx-1 font-bold text-primary">
                             hackers
-                        </a> to the first ever 
-                        <a
-                            className="font-bold mx-1 text-primary"
-                        >Lisbon hacker house </a>bounty challenge competition!
-                    We are excited to be hosting another challenge event where hackers from all over the world
-                    compete to 
-                        <a
-                            className="font-bold mx-1 text-primary"
-                        >
+                        </a>{' '}
+                        to the first ever
+                        <a className="mx-1 font-bold text-primary">HackaTUM </a>
+                        bounty challenge competition! We are excited to be
+                        hosting another challenge event where hackers from all
+                        over the world compete to
+                        <a className="mx-1 font-bold text-primary">
                             earn prizes and rewards
                         </a>
-                      and the title of bounty challenge champion. Learn to 
-                        <a
-                            className="font-bold mx-1 text-primary"
-                        >
+                        and the title of bounty challenge champion. Learn to
+                        <a className="mx-1 font-bold text-primary">
                             build on Solana
-                        </a> 
-                        while exploring the many protocols, sdks, and tools in the ecosystem.
-                    Complete challenges to 
-                        <a
-                            className="font-bold mx-1 text-primary"
-                        >level up
-                        </a> 
-                        your position on the leaderboard and battle your way to even more prizes including a
-                        <a
-                            className="font-bold mx-1 text-primary"
-                        >
-                         helicopter
                         </a>
-                        ride in a choppa!
+                        while exploring the many protocols, sdks, and tools in
+                        the ecosystem. Complete challenges to
+                        <a className="mx-1 font-bold text-primary">level up</a>
+                        your position on the leaderboard and battle your way to
+                        even more prizes!
                     </Text>
                     <div className="mb-10 mt-72 flex w-full flex-row flex-wrap justify-center  gap-4  sm:mb-20 md:mt-0 md:justify-start">
                         <Link
@@ -140,7 +126,7 @@ const HeroSection = () => {
                         />
                     </div>
                     <div className="absolute top-[450px] -right-[200px] z-20 sm:top-[350px] sm:-right-[100px] md:-right-[400px] md:top-[150px] lg:-top-[150px]">
-                        <Image
+                        {/* <Image
                             src="/helicopter.png"
                             className="hidden md:block"
                             alt="solana icon"
@@ -151,7 +137,7 @@ const HeroSection = () => {
                             className="block md:hidden"
                             alt="solana icon"
                             width={1000}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>
