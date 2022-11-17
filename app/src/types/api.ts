@@ -1,6 +1,6 @@
 import { ChallengeType } from './challenge';
 
-export type SubmissionStatus = 'pending' | 'invalid' | 'complete';
+export type SubmissionStatus = 'pending' | 'invalid' | 'incorrect' | 'complete';
 
 export type EventPayload = {
     pubkey: string;
