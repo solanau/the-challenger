@@ -2620,10 +2620,10 @@ prelude-ls@^1.2.1:
   resolved "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-prestige-protocol@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.npmjs.org/prestige-protocol/-/prestige-protocol-0.0.8.tgz"
-  integrity sha512-wjgBIMKoS2GbFHwx1MJl9rW5m22OnoDh19PAeXeFDDnOAyNHZ3Ky5P4TowvA3h7OGuT+RUtt6/YhJqJz70KGWw==
+prestige-protocol@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/prestige-protocol/-/prestige-protocol-0.0.9.tgz#0e7fbafab560acf5dd8ee16d222b083ae39f0c4a"
+  integrity sha512-drdWa8CkW/dD3GDz3/HsN0PAjtGNrqZ3qc7efrW1ifjIQTd3ue3z18AbTsEd+RF/jI/vVO1cEJefx0sYz9TKiA==
   dependencies:
     "@metaplex-foundation/mpl-token-metadata" "^2.3.3"
     "@solana/spl-token" "^0.3.5"

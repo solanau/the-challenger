@@ -1,5 +1,5 @@
-import { Keypair, PublicKey } from '@solana/web3.js';
-import { updateEvent } from 'prestige-protocol';
+import { PublicKey } from '@solana/web3.js';
+import { createEvent, updateEvent } from 'prestige-protocol';
 import { db } from '..';
 import {
     connection,
@@ -23,9 +23,6 @@ interface EventDto {
 const objectType = 'Event';
 const eventCollection = 'events';
 
-/**
- * Doesn't load from chain
- */
 exports.fetchEventsForAuthority = async (req, res) => {
     try {
         const eventQuerySnapshot = await db.collection(eventCollection).get();
@@ -49,8 +46,7 @@ exports.createNewEvent = async (req, res) => {
         res.status(400).send(MasterApiKeyError());
     } else {
         let rawEvent: Omit<EventPayload, 'pubkey'>;
-        // let eventPubkey: PublicKey;
-        const eventPubkey = Keypair.generate().publicKey;
+        let eventPubkey: PublicKey;
         try {
             rawEvent = {
                 authority: req.body['authority'],
@@ -64,21 +60,23 @@ exports.createNewEvent = async (req, res) => {
             console.log(error);
             res.status(400).send(PayloadError());
         }
-        // try {
-        //   eventPubkey = await createEvent(
-        //     connection,
-        //     WALLET,
-        //     PRESTIGE_PROGRAM_ID,
-        //     rawEvent.title,
-        //     rawEvent.description,
-        //     rawEvent.location,
-        //     rawEvent.host,
-        //     rawEvent.date
-        //   );
-        // } catch (error) {
-        //   console.log(error);
-        //   res.status(500).send(PrestigeError(objectType));
-        // }
+        try {
+            eventPubkey = (
+                await createEvent(
+                    connection,
+                    WALLET,
+                    PRESTIGE_PROGRAM_ID,
+                    rawEvent.title,
+                    rawEvent.description,
+                    rawEvent.location,
+                    rawEvent.host,
+                    rawEvent.date,
+                )
+            )[0];
+        } catch (error) {
+            console.log(error);
+            res.status(500).send(PrestigeError(objectType));
+        }
         try {
             const event: EventDto = {
                 pubkey: eventPubkey.toBase58(),
