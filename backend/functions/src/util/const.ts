@@ -10,6 +10,6 @@ export const connection = new Connection(
 );
 // export const connection = new Connection('http://localhost:8899', 'confirmed');
 export const PRESTIGE_PROGRAM_ID = new PublicKey(
-    '5p6mE4t2S74vpPf1PjbqPXkzSB8aGdY6r89bwbgRs6fr',
+    'ASmLp2sk5HDpNfMVez7xUEbzsrwTSVNNHPggzyWcGuZw',
 );
 export const WALLET = createKeypairFromFile('./wallet/master.json');

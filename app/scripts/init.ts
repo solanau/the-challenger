@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+import fs from 'fs';
 import {
     createNewChallenge,
     createNewCustomMint,
@@ -6,7 +8,7 @@ import {
 } from '../src/lib/api';
 import { mockChallenges } from '../src/mocks/challenges';
 
-require('dotenv').config();
+dotenv.config();
 
 /**
  * This script will initialize everything for us in the DB.
@@ -88,12 +90,12 @@ async function main() {
     });
     console.log(`   eventPubkey: ${eventPubkey}`);
 
-    const envConfigs: string = require('fs').readFileSync('./.env', 'utf-8');
+    const envConfigs: string = fs.readFileSync('./.env', 'utf-8');
     const newEnvConfigs = envConfigs.replace(
         RegExp('HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=.*\\s'),
         `HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=${eventPubkey}\n`,
     );
-    require('fs').writeFileSync('./.env', newEnvConfigs);
+    fs.writeFileSync('./.env', newEnvConfigs);
 
     console.log('Event created.');
 
@@ -108,6 +110,7 @@ async function main() {
     for (const chal of mockChallenges) {
         const challengePubkey = await createNewChallenge({
             eventPubkey: eventPubkey,
+            state: 'open',
             ...chal,
         });
 

@@ -1,5 +1,5 @@
 import { PublicKey } from '@solana/web3.js';
-import { createChallenge, updateChallenge } from 'prestige-protocol';
+import { createChallenge } from 'prestige-protocol';
 import { db } from '..';
 import {
     connection,
@@ -134,21 +134,6 @@ exports.updateChallenge = async function (req, res) {
         } catch (error) {
             console.log(error);
             res.status(400).send(PayloadError());
-        }
-        try {
-            await updateChallenge(
-                connection,
-                WALLET,
-                PRESTIGE_PROGRAM_ID,
-                new PublicKey(rawChallenge.pubkey),
-                new PublicKey(rawChallenge.eventPubkey),
-                rawChallenge.title,
-                rawChallenge.description,
-                rawChallenge.authorName,
-            );
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(PrestigeError(objectType));
         }
         try {
             const challenge: ChallengePayload = { ...rawChallenge };

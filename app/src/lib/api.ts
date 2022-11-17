@@ -1,4 +1,3 @@
-import { PublicKey } from '@solana/web3.js';
 import axios from 'axios';
 import {
     ChallengePayload,
@@ -18,8 +17,7 @@ export async function fetchProfileForPubkey(
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/profile/' +
-                pubkey +
+                `/profile/${pubkey}/` +
                 process.env
                     .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
         )
@@ -46,8 +44,7 @@ export async function updateProfile(
     return await axios
         .put(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/profile/' +
-                pubkey +
+                `/profile/${pubkey}/` +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
@@ -85,8 +82,7 @@ export async function updateEvent(
     return await axios
         .put(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/event/' +
-                eventId +
+                `/event/${eventId}/` +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
@@ -109,8 +105,7 @@ export async function fetchChallengeById(
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenge/id/' +
-                id,
+                `/challenge/id/${id}/`,
         )
         .then(res => res.data);
 }
@@ -121,8 +116,7 @@ export async function fetchChallengeByKey(
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenge/key/' +
-                key,
+                `/challenge/key/${key}`,
         )
         .then(res => res.data);
 }
@@ -141,12 +135,13 @@ export async function createNewChallenge(
 }
 
 export async function updateChallenge(
+    pubkey: string,
     payload: ChallengePayload,
 ): Promise<string> {
     return await axios
         .put(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenge/' +
+                `/challenge/${pubkey}/` +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
@@ -154,13 +149,12 @@ export async function updateChallenge(
 }
 
 export async function fetchPrizesForChallenge(
-    challengePubkey: PublicKey,
+    pubkey: string,
 ): Promise<PrizeMintMetadataPayload[]> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/prizes/' +
-                challengePubkey.toBase58(),
+                `/prizes/${pubkey}`,
         )
         .then(res => res.data);
 }
@@ -190,7 +184,12 @@ export async function updatePrize(payload: PrizePayload): Promise<string> {
 }
 
 export async function fetchSubmissions(
-    params: Partial<{ eventId: string; username: string; challengeId: string }>,
+    params: Partial<{
+        eventPubkey: string;
+        eventId: string;
+        username: string;
+        challengeId: string;
+    }>,
 ): Promise<SubmissionPayload[]> {
     return await axios
         .get(
@@ -234,9 +233,7 @@ export async function updateSubmissionStatus(
     return await axios
         .patch(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/submission/' +
-                submissionId +
-                '/' +
+                `/submission/${submissionId}/` +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             { status },
         )
