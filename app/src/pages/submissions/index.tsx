@@ -50,7 +50,7 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({
                         </div>
 
                         <div>
-                            <div>
+                            <div className="mt-3">
                                 Filter by status:
                                 <select
                                     name="status"
@@ -62,7 +62,7 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({
                                                 .value as SubmissionStatus,
                                         )
                                     }
-                                    className="bg-white bg-opacity-10 px-2 py-1"
+                                    className="ml-3 bg-white bg-opacity-10 px-2 py-1"
                                 >
                                     <option
                                         value="pending"
@@ -87,7 +87,7 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({
 
                             {filteredSubmissions.length > 0 ? (
                                 filteredSubmissions.map((submission, index) => (
-                                    <Card key={index} className="p-4">
+                                    <Card key={index} className="m-5 p-4">
                                         <Text variant="heading">
                                             {submission.challenge.title}
                                         </Text>
