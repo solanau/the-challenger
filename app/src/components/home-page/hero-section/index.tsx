@@ -118,7 +118,7 @@ const HeroSection = () => {
                     </div>
                 </div>
                 <div className="flex">
-                    <div className="absolute  -right-10 top-[65px] lg:-top-[150px]">
+                    <div className="absolute -right-10 top-[-10px] lg:-top-[150px]">
                         <Image
                             src="/clouds.png"
                             alt="solana icon"
