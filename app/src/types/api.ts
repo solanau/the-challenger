@@ -1,5 +1,7 @@
 import { ChallengeType } from './challenge';
 
+export type SubmissionStatus = 'pending' | 'invalid' | 'incorrect' | 'complete';
+
 export type EventPayload = {
     pubkey: string;
     authority: string;
@@ -57,11 +59,14 @@ export type PrizePayload = {
 };
 
 export type SubmissionPayload = {
+    id: string;
     challengeId: string;
     challengePubkey: string;
     // userPubkey: string,
     username: string;
     answers: any[];
+    eventId: string;
+    status: SubmissionStatus;
 };
 
 export type PrizeMintMetadataPayload = {

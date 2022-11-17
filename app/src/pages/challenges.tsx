@@ -1,7 +1,7 @@
 import ActiveChallengesSection from 'components/challenges-page/active-challenges-section';
 import ExpiredChallengesSection from 'components/challenges-page/expired-challenges-section';
 import PendingChallengesSection from 'components/challenges-page/pending-challenges-section';
-import { fetchChallengesForEvent, fetchSubmissionsForUsername } from 'lib/api';
+import { fetchChallengesForEvent, fetchSubmissions } from 'lib/api';
 import { getCurrentUser } from 'lib/github';
 import { GetServerSideProps, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
     const user = await getCurrentUser(accessToken);
     const userSubmissions = user
-        ? await fetchSubmissionsForUsername(user.login)
+        ? await fetchSubmissions({ username: user.login })
         : [];
 
     const challengePayloads = await fetchChallengesForEvent();

@@ -44,6 +44,7 @@
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.4",
         "@types/react": "17.0.38",
+        "@types/uuid": "^8.3.4",
         "@typescript-eslint/eslint-plugin": "^5.29.0",
         "@typescript-eslint/parser": "^5.29.0",
         "autoprefixer": "^10.4.2",
