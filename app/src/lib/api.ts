@@ -277,3 +277,14 @@ export async function createNewCustomMint(
         )
         .then(res => res.data.pubkey);
 }
+
+export async function fetchEventByName(
+    eventName: string,
+): Promise<EventPayload> {
+    return await axios
+        .get(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                `/events/${eventName}`,
+        )
+        .then(res => res.data);
+}
