@@ -8,7 +8,7 @@ import NavElement from './nav-element';
 const Header = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
     return (
-        <header className="fixed top-0 z-50 flex h-20 w-full flex-row items-center justify-between  bg-transparent bg-opacity-40 px-6  backdrop-blur-xl">
+        <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between  bg-transparent bg-opacity-40 px-6  backdrop-blur-xl">
             <Link href="/" passHref>
                 <div className="flex w-fit cursor-pointer flex-row items-center gap-3 md:gap-6">
                     <Image

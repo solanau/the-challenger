@@ -89,7 +89,9 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({
                                 filteredSubmissions.map((submission, index) => (
                                     <Card key={index} className="p-4">
                                         <Text variant="heading">
-                                            {submission.challenge.title}
+                                            {submission.challenge
+                                                ? submission.challenge.title
+                                                : 'Challenge not found'}
                                         </Text>
 
                                         <Text variant="label">
@@ -172,7 +174,7 @@ export const getServerSideProps = async context => {
 
                 return {
                     ...submission,
-                    challenge: challenges[challengeIndex],
+                    challenge: challenges[challengeIndex] ?? null,
                 };
             }),
         },
