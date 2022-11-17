@@ -61,13 +61,14 @@ const Submission: NextPage<SubmissionPageProps> = ({
                             <div
                                 className={cn(
                                     'tooltip-bottom tooltip-error',
-                                    !validBountyName && 'tooltip tooltip-open',
+                                    !validBountyName && 'tooltip-open tooltip',
                                 )}
                                 data-tip="Submission name"
                             >
                                 <div className="flex h-12 flex-col justify-between md:h-20">
                                     <h1 className="peer border-none bg-transparent text-4xl font-medium placeholder-white/90 outline-none md:text-6xl">
-                                        {challenge.title}
+                                        {challenge.title ??
+                                            'Challenge not found'}
                                     </h1>
                                 </div>
                             </div>
