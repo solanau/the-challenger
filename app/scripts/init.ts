@@ -4,6 +4,7 @@ import {
     createNewChallenge,
     createNewCustomMint,
     createNewEvent,
+    createNewPot,
     createNewPrize,
 } from '../src/lib/api';
 import { mockChallenges } from '../src/mocks/challenges';
@@ -15,10 +16,14 @@ dotenv.config();
  *
  * Run it once, then our App & API are good to go.
  *
- * We can change these values when we want to launch a new event.
+ * REQUIREMENTS (.env):
+ *  - DESIGNATED MINT (SAY, USDC)
+ *  - DEASIGNATED ESCROW FOR THAT MINT
  */
 
 async function main() {
+    const envConfigs: string = fs.readFileSync('./.env', 'utf-8');
+
     /**
      * Create the token assets for the bounties.
      */
@@ -75,29 +80,49 @@ async function main() {
      * Create the current event.
      */
 
-    // const eventPubkey = "CBMB4EQBmryBvddACmuUvuZd9CauzjpMUaZkXeNUE1WK";
-
     console.log('Creating event...');
 
     const eventPubkey = await createNewEvent({
         authority:
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
-        title: 'Solana Hacker House Lisbon',
-        description: 'Hacker House in Lisbon, Portugal',
-        location: 'Lisbon, Portugal',
+        title: 'HackaTUM Munich',
+        description: 'HackaTUM Hackathon in Munich, Germany',
+        location: 'Munich, Germany',
         host: 'Solana Foundation',
-        date: '11-09-22',
+        date: '11-18-22',
     });
     console.log(`   eventPubkey: ${eventPubkey}`);
 
-    const envConfigs: string = fs.readFileSync('./.env', 'utf-8');
-    const newEnvConfigs = envConfigs.replace(
-        RegExp('HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=.*\\s'),
-        `HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=${eventPubkey}\n`,
-    );
-    fs.writeFileSync('./.env', newEnvConfigs);
-
     console.log('Event created.');
+
+    /**
+     * Create the prize pot.
+     */
+
+    console.log('Creating prize pot...');
+
+    const potPubkey = await createNewPot({
+        eventPubkey: eventPubkey,
+        mint: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_POT_MINT,
+        escrowOrMintAuthority:
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_POT_ESCROW_PUBKEY,
+        mintControl: 2,
+        pot: 2000,
+    });
+    console.log(`   potPubkey: ${potPubkey}`);
+
+    console.log('Prize pot created.');
+
+    const newEnvConfigs = envConfigs
+        .replace(
+            RegExp('HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=.*\\s'),
+            `HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=${eventPubkey}\n`,
+        )
+        .replace(
+            RegExp('HEAVY_DUTY_BOUNTY_API_POT_PUBKEY=.*\\s'),
+            `HEAVY_DUTY_BOUNTY_API_POT_PUBKEY=${potPubkey}\n`,
+        );
+    fs.writeFileSync('./.env', newEnvConfigs);
 
     /**
      * Import all mock challenges into the database.
