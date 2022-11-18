@@ -1,16 +1,16 @@
 /* eslint-disable indent */
-import { MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRef, useState } from 'react';
+import { MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
 
+import { useUser } from 'hooks/use-user';
+import Link from 'next/link';
+import { TbBrandGithub } from 'react-icons/tb';
 import Button from '../button';
 import Card from '../card';
 import Chip from '../chip';
 import Image from '../image';
-import Link from 'next/link';
-import { TbBrandGithub } from 'react-icons/tb';
 import Text from '../text';
-import { useUser } from 'hooks/use-user';
 
 const OverflowMenu = () => {
     const buttonRef = useRef();

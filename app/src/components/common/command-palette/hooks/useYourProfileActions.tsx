@@ -1,6 +1,6 @@
 import { Action, useRegisterActions } from 'kbar';
-import { useMemo } from 'react';
 import { useSession } from 'next-auth/react';
+import { useMemo } from 'react';
 
 export default function useProfileAction() {
     const { data: session } = useSession();

@@ -30,7 +30,7 @@ const Header = () => {
                             className="font-thin !tracking-widest sm:inline"
                         >
                             {' '}
-                            Munich{' '}
+                            Munich!{' '}
                         </Text>
                     </div>
                 </div>
