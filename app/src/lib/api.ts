@@ -128,11 +128,11 @@ export async function createNewPot(
 }
 
 export async function fetchChallengesForEvent(): Promise<ChallengePayload[]> {
+    const eventPubkey = (await fetchConfig()).eventPubkey;
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenges/' +
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
+                `/challenges/${eventPubkey}`,
         )
         .then(res => res.data);
 }
