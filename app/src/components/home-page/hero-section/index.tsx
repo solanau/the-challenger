@@ -56,8 +56,9 @@ const HeroSection = () => {
                         to the first ever
                         <a className="mx-1 font-bold text-primary">HackaTUM </a>
                         bounty challenge competition! We are excited to be
-                        hosting another challenge event where hackers from all
-                        over the world compete to
+                        hosting these challenges here in Munich and look forward
+                        to seeing each and every one of your submissions! Start
+                        competing now to
                         <a className="mx-1 font-bold text-primary">
                             earn prizes and rewards
                         </a>
@@ -65,7 +66,7 @@ const HeroSection = () => {
                         <a className="mx-1 font-bold text-primary">
                             build on Solana
                         </a>
-                        while exploring the many protocols, sdks, and tools in
+                        while exploring the many protocols, SDKs, and tools in
                         the ecosystem. Complete challenges to
                         <a className="mx-1 font-bold text-primary">level up</a>
                         your position on the leaderboard and battle your way to
