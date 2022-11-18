@@ -69,6 +69,7 @@ export type SubmissionPayload = {
     answers: any[];
     eventId: string;
     status: SubmissionStatus;
+    challenge: ChallengePayload;
 };
 
 export type PrizeMintMetadataPayload = {

@@ -53,6 +53,7 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
                         process.env
                             .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
                     status: 'pending',
+                    challenge,
                 });
                 alert('Submission Sent!');
             } catch (e) {
@@ -142,7 +143,7 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
 
                             <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-6 xl:px-48 xl:py-8">
                                 <Markdown>
-                                    {`### Rewards: ${challenge.reward} Points 🔥 `}
+                                    {`### Rewards: ${challenge.rewardValue} Points 🔥 `}
                                 </Markdown>
 
                                 {challenge.timeStatus !== 'pending' && (
@@ -227,7 +228,7 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
 export default Challenge;
 
 export const getServerSideProps: GetServerSideProps = async context => {
-    let challengeId = context.params.id;
+    let challengeId = context.params.challengeId;
     if (challengeId instanceof Array) {
         challengeId = challengeId[0];
     }

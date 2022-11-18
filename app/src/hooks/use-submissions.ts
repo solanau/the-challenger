@@ -9,7 +9,7 @@ export type SubmissionFilters = Partial<{
     challengeId: string;
 }>;
 
-export const useSubmissions = (filters: SubmissionFilters) => {
+export const useSubmissions = (filters: SubmissionFilters = {}) => {
     const [submissions, setSubmissions] = useState<SubmissionPayload[]>([]);
 
     useEffect(() =>

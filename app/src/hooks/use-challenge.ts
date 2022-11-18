@@ -7,26 +7,31 @@ import { toChallengeFirebase } from 'utils/challenge';
 import { firestore } from 'utils/firebase';
 import { useSubmissions } from './use-submissions';
 
-export const useChallenge = (challengeId: string) => {
+export const useChallenge = (challengeId: string | null) => {
     const { user } = useAuth();
     const submissions = useSubmissions({ userId: user.uid });
-    const [challenge, setChallenge] = useState<ChallengeView | null>(null);
+    const [challenge, setChallenge] = useState<ChallengeView>(null);
 
-    useEffect(
-        () =>
-            onSnapshot(
-                doc(firestore, `challenges/${challengeId}`),
-                snapshot => {
-                    setChallenge(
-                        toChallengeFirebase(submissions, {
-                            uid: snapshot.id,
-                            ...snapshot.data(),
-                        } as ChallengePayload),
-                    );
-                },
-            ),
-        [challengeId, submissions],
-    );
+    useEffect(() => {
+        if (challengeId === null) {
+            setChallenge(null);
+            return;
+        }
+
+        const unsubscribe = onSnapshot(
+            doc(firestore, `challenges/${challengeId}`),
+            snapshot => {
+                setChallenge(
+                    toChallengeFirebase(submissions, {
+                        uid: snapshot.id,
+                        ...snapshot.data(),
+                    } as ChallengePayload),
+                );
+            },
+        );
+
+        return () => unsubscribe();
+    }, [challengeId, submissions]);
 
     return challenge;
 };

@@ -35,7 +35,8 @@ export interface BaseChallenge {
     key: number;
     type: ChallengeType;
     title: string;
-    reward: number;
+    rewardValue: number;
+    rewardType: string;
     startDate: string;
     endDate: string;
     timeStatus: ChallengeTimeStatus;
@@ -47,6 +48,7 @@ export interface BaseChallenge {
     formComponents: FieldConfig[];
     authorTwitter?: string;
     authorGithub?: string;
+    eventPubkey: string;
 }
 
 export type ActiveChallenge = BaseChallenge & {

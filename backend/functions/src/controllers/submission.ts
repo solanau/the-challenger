@@ -1,6 +1,6 @@
 import { db } from '..';
 import { MASTER_API_KEY } from '../util/const';
-import { SubmissionPayload } from '../util/types';
+import { ChallengePayload, SubmissionPayload } from '../util/types';
 import {
     DatabaseError,
     DuplicateSubmissionError,
@@ -81,10 +81,18 @@ exports.createNewSubmission = async function (req, res) {
             return res.status(400).send(DuplicateSubmissionError());
         }
 
+        const challenge = await db
+            .doc(`challenges/${rawSubmission.challengeId}`)
+            .get();
+
         try {
             const submission: SubmissionPayload = {
                 ...rawSubmission,
                 status: 'pending',
+                challenge: {
+                    uid: challenge.id,
+                    ...challenge.data(),
+                } as ChallengePayload,
             };
             await db
                 .doc(`${submissionCollection}/${submission.id}`)

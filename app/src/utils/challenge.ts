@@ -151,7 +151,6 @@ export const toChallenge = async (
     expiredAgo: getChallengeExpiredAgo(challenge),
     progress: getChallengeProgress(challenge),
     bonus: getChallengeBonus(challenge),
-    reward: challenge.rewardValue,
 });
 
 export const toChallengeFirebase = (
@@ -169,7 +168,6 @@ export const toChallengeFirebase = (
     expiredAgo: getChallengeExpiredAgo(challenge),
     progress: getChallengeProgress(challenge),
     bonus: getChallengeBonus(challenge),
-    reward: challenge.rewardValue,
 });
 
 export const getChallengeIdAndCompletionStatusForIssue = (

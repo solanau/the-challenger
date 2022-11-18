@@ -11,6 +11,7 @@ export type EventPayload = {
 };
 
 export type ChallengePayload = {
+    uid: string;
     id: string;
     pubkey: string;
     eventPubkey: string;
@@ -61,6 +62,7 @@ export type SubmissionPayload = {
     eventId: string;
     challengeId: string;
     challengePubkey: string;
+    challenge: ChallengePayload;
     username: string;
     answers: any[];
     status: SubmissionStatus;
