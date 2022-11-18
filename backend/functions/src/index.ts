@@ -4,6 +4,7 @@ import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
+const configRoute = require('./controllers/config');
 const profileRoute = require('./controllers/profile');
 const eventRoute = require('./controllers/event');
 const potRoute = require('./controllers/pot');
@@ -19,8 +20,17 @@ admin.initializeApp(functions.config().firebase);
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({ origin: ['http://localhost:3000', "https://germany.heavyduty.builders"] }));
+app.use(
+    cors({
+        origin: ['http://localhost:3000', 'https://germany.heavyduty.builders'],
+    }),
+);
 
+app.get('/config', async (req, res) => await configRoute.fetchConfig(req, res));
+app.put(
+    '/config/:masterApiKey',
+    async (req, res) => await configRoute.updateConfig(req, res),
+);
 app.get(
     '/profile/:pubkey',
     async (req, res) => await profileRoute.fetchProfileForPubkey(req, res),

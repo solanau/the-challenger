@@ -2,6 +2,18 @@ import { ChallengeType } from './challenge';
 
 export type SubmissionStatus = 'pending' | 'invalid' | 'incorrect' | 'complete';
 
+export type ConfigPayload = {
+    id: number;
+    masterWalletPubkey: string;
+    eventPubkey: string;
+    potPubkey: string;
+    potEscrowPubkey: string;
+    xpTokenPubkey: string;
+    nftBadgePubkeyEasy: string;
+    nftBadgePubkeyMedium: string;
+    nftBadgePubkeyHard: string;
+};
+
 export type EventPayload = {
     pubkey: string;
     authority: string;

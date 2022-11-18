@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
     ChallengePayload,
+    ConfigPayload,
     EventPayload,
     IssuePayoutPayload,
     IssueRewardsBatchPayload,
@@ -13,6 +14,27 @@ import {
     SubmissionPayload,
     SubmissionStatus,
 } from 'types/api';
+
+export async function fetchConfig(): Promise<ConfigPayload> {
+    return await axios
+        .get(process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT + '/config')
+        .then(res => res.data.params);
+}
+
+export async function updateConfig(
+    params: Partial<ConfigPayload>,
+): Promise<ConfigPayload[]> {
+    return await axios
+        .put(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/config/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            {
+                params,
+            },
+        )
+        .then(res => res.data);
+}
 
 export async function fetchProfileForPubkey(
     pubkey: string,

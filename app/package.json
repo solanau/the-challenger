@@ -6,6 +6,7 @@
     "private": false,
     "scripts": {
         "init": "ts-node scripts/init.ts",
+        "import": "ts-node scripts/import.ts",
         "freeze": "ts-node scripts/freeze.ts",
         "conclude": "ts-node scripts/conclude.ts",
         "dev": "next dev",
