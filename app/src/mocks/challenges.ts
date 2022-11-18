@@ -10,7 +10,7 @@ export const mockChallenges: Omit<
     // Heavy Duty Social
     {
         key: ++i,
-        id: '221004011',
+        id: '221004000',
         iconKey: 1, // social
         iconSize: 35, // default
         title: 'Social Challenge',
@@ -74,28 +74,27 @@ There's many awesome communities out there, for now let's start with joining Sol
                 placeholder: `username@email.com`,
             },
         ],
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
     },
     // Heavy Duty Social Tweet
     {
         key: ++i,
-        id: '222004011',
+        id: '221004001',
         iconKey: 1, // social
         iconSize: 35, // default
         title: 'Social Challenge',
         type: 'Social',
         difficulty: 'Easy',
-        shortDescription:
-            'Post a tweet with the hashtags #MunichDevChallenge #LedgerChallenge',
+        shortDescription: 'Post a tweet with the hashtag #MunichDevChallenge',
         description: `
 ___
 ### Description
 
 Sup hunter! Are you hanging at the Munich Hacker House?
 Give us proof!
-Take a picture at some place inside and post it on Twitter with the hashtags #MunichDevChallenge #LedgerChallenge
+Take a picture at some place inside and post it on Twitter with the hashtag #MunichDevChallenge
 `,
         githubUrl: 'some githubUrl',
         authorName: 'HeavyDutyBuild',
@@ -112,63 +111,76 @@ Take a picture at some place inside and post it on Twitter with the hashtags #Mu
                 placeholder: `Enter your link...`,
             },
         ],
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
     },
-    //  Charity challenges
+    // SuperteamDE Social
     {
         key: ++i,
-        id: '221009318',
-        iconKey: 0, // default
+        id: '221004002',
+        iconKey: 1, // social
         iconSize: 35, // default
-        title: 'Charity Challenge',
+        title: 'Social Challenge',
         type: 'Social',
         difficulty: 'Easy',
         shortDescription:
-            'A little help to a non-profit ONG based at Venezuela',
+            'Join your local German community and be part of SuperteamDE!',
         description: `
 ___
 ### Description
 
-Hunter, this is an special challenge. This one will unlock a charity reward to a non-profit ONG based at Venezuela.
+Looking to join your local German chapter for web3 learning? Join SuperteamDE!
 
-To get you 25 points and unlock the reward you should:
+Solana developers, builders, creators, and more all from across Germany will collaborate & learn together in this space.
 
-- Follow Piecitos El Tigre on Twitter: <a href="https://twitter.com/piecitos_etg" target="_blank">https://twitter.com/piecitos_etg</a>
-- Post a tweet with a positive message for the kids from el Tigre and tag our account <a href="https://twitter.com/piecitos_etg" target="_blank">@piecitos_etg</a>
-
+- Follow SuperteamDE on <a href="https://twitter.com/SuperteamDE" target="_blank">Twitter</a>.
+- Join SuperteamDE <a href="https://discord.gg/e82UXm7m" target="_blank">Discord</a> and say hi in the '🛠general' channel
 `,
         githubUrl: 'some githubUrl',
-        authorName: 'HeavyDutyBuild',
+        authorName: 'tamarincrypto',
         authorGithub: 'heavy-duty/platform',
         authorTwitter: 'HeavyDutyBuild',
         rewardValue: 25,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
         formComponents: [
             {
                 type: 'text',
-                field: 'firstAnswer',
-                key: 'firstAnswer',
+                field: 'twitterHandle',
+                key: 'twitterHandle',
                 label: 'Enter your Twitter handle',
-                placeholder: `...`,
+                placeholder: `Enter your Twitter handle...`,
             },
             {
                 type: 'text',
-                field: 'secondAnswer',
-                key: 'secondAnswer',
-                label: 'Enter the link to your tweet mentioning @piecitos_etg',
+                field: 'discordName',
+                key: 'discordName',
+                label: 'Enter your discord username',
+                placeholder: `Enter your discord username...`,
+            },
+            {
+                type: 'text',
+                field: 'hdbDiscord',
+                key: 'hdbDiscord',
+                label: 'Enter the link to your message in SuperteamDE Discord',
                 placeholder: `Enter your link...`,
             },
+            {
+                type: 'email',
+                field: 'email',
+                key: 'email',
+                label: 'Enter your email',
+                placeholder: `username@email.com`,
+            },
         ],
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
     },
     // Feedback- Developer Experience
     {
         key: ++i,
-        id: '991007041',
+        id: '221004003',
         iconKey: 0, // rocket (default)
         iconSize: 35, // default
         title: 'Solana Feedback',
@@ -272,68 +284,25 @@ ___
             },
         ],
     },
-    //  Mayhem League Gaming Competition
+    // Social Twitter - Photo - Tamar
     {
         key: ++i,
-        id: '221199610',
-        iconKey: 0, // default
-        iconSize: 35, // default
-        title: 'Mayhem League Gaming Competition',
-        type: 'Game',
-        difficulty: 'Easy',
-        shortDescription:
-            'Participate and win A Trash Panda and more with Mayhem League!',
-        description: `
-___
-### Description
-
-Find Open Dive and the Mayhem League Gaming Competition located in the HackerHouse at one of the game centers on the main floor.
-
-Battle against all hackers to be grand champion and take the prizes all for yourself.
-
-Check in with the Mayhem team to signup, ask for your code, and get ready to compete!
-
-`,
-        githubUrl: 'some githubUrl',
-        authorName: 'MayhemLeagueBB',
-        authorGithub: '',
-        authorTwitter: 'MayhemLeagueBB',
-        rewardValue: 100,
-        rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T16:00:00',
-        formComponents: [
-            {
-                type: 'text',
-                field: 'firstAnswer',
-                key: 'firstAnswer',
-                label: 'What is your signup code? ',
-                placeholder: `Enter your signup code...`,
-            },
-        ],
-    },
-    // Social Twitter - Photo - Dana
-    {
-        key: ++i,
-        id: '221004043',
+        id: '221004004',
         iconKey: 1, // social
         iconSize: 35, // default
-        title: `Social Photo Challenge`,
+        title: 'Social Photo Challenge',
         type: 'Social',
         difficulty: 'Easy',
         shortDescription:
-            'Find and Meet Dana with Solana Foundation University Relations!',
+            'Find and Meet Tamar with Solana Foundation & SuperteamDE!',
         description: `
 ___
 ### Description
 
-Time to meet others in the ecosystem! Find Dana from Solana University Relations ask some questions!
+Time to meet more folks in the Solana ecosystem! Find Tamar from Solana Foundation & SuperteamDE and ask some questions! Snap a photo together!
 
-Snap a photo together - and remember to smile to be eligible! It's so simple.
-
-- Tweet a photo of you and Dana on twitter!
-- Follow Dana with Solana Foundation University Relations on twitter <a href="https://twitter.com/DanaDegenius" target="_blank"> here</a> and say hi!
+- Tweet a photo of you and Tamar on twitter!
+- Follow Tamar on twitter <a href="https://twitter.com/tamarincrypto" target="_blank"> here </a> and say hi!
 - Link your tweets and stay tuned!
 `,
         githubUrl: 'some githubUrl',
@@ -342,9 +311,9 @@ Snap a photo together - and remember to smile to be eligible! It's so simple.
         authorTwitter: 'donnysolana',
         rewardValue: 50,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -362,38 +331,36 @@ Snap a photo together - and remember to smile to be eligible! It's so simple.
             },
         ],
     },
-    // Social Twitter - Photo - Colin
+    // Social Twitter - Photo - Noe
     {
         key: ++i,
-        id: '221004042',
+        id: '221004005',
         iconKey: 1, // social
         iconSize: 35, // default
-        title: `Social Photo Challenge`,
+        title: 'Social Photo Challenge',
         type: 'Social',
         difficulty: 'Easy',
         shortDescription:
-            'Find and Meet Colin with Solana Foundation Developer Relations!',
+            'Find and Meet Noe with Solana Foundation & SuperteamDE!',
         description: `
 ___
 ### Description
 
-Find Colin from Solana Foundation Developer Relations!
+Time to meet more folks in the Solana ecosystem! Find Noe from Solana Foundation & SuperteamDE and ask some questions! Snap a photo together!
 
-Ask some questions! Snap a photo together!
-
-- Tweet a photo of you and Colin on twitter!
-- Follow Colin on Twitter <a href="https://twitter.com/c_ogoo" target="_blank"> here </a> and say hi!
+- Tweet a photo of you and Noe on twitter!
+- Follow Noe on twitter <a href="https://twitter.com/rieker_noe" target="_blank"> here </a> and say hi!
 - Link your tweets and stay tuned!
 `,
         githubUrl: 'some githubUrl',
-        authorName: 'HeavyDutyBuild',
-        authorGithub: 'heavy-duty/platform',
-        authorTwitter: 'HeavyDutyBuild',
+        authorName: 'donnysolana',
+        authorGithub: 'donnysolana',
+        authorTwitter: 'donnysolana',
         rewardValue: 50,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -411,10 +378,56 @@ Ask some questions! Snap a photo together!
             },
         ],
     },
-    // Social Twitter - Photo - Dana
+    // Social Twitter - Photo - TJ
     {
         key: ++i,
-        id: '221004044',
+        id: '221004006',
+        iconKey: 1, // social
+        iconSize: 35, // default
+        title: 'Social Photo Challenge',
+        type: 'Social',
+        difficulty: 'Easy',
+        shortDescription: 'Find and Meet TJ with Solana Labs Payments Team!',
+        description: `
+___
+### Description
+
+Time to meet more folks in the Solana ecosystem! Find TJ from Solana Labs Payments Team and ask some questions! Snap a photo together!
+
+- Tweet a photo of you and TJ on twitter!
+- Follow TJ on twitter <a href="https://twitter.com/tj_littlejohn" target="_blank"> here </a> and say hi!
+- Link your tweets and stay tuned!
+`,
+        githubUrl: 'some githubUrl',
+        authorName: 'donnysolana',
+        authorGithub: 'donnysolana',
+        authorTwitter: 'donnysolana',
+        rewardValue: 50,
+        rewardType: 'points',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
+        formComponents: [
+            {
+                type: 'text',
+                field: 'twitterHandle',
+                key: 'twitterHandle',
+                label: 'Enter your Twitter handle',
+                placeholder: `Enter your Twitter handle...`,
+            },
+            {
+                type: 'text',
+                field: 'twitterPostLink',
+                key: 'twitterPostLink',
+                label: 'Enter link to your twitter post',
+                placeholder: `Enter link to your twitter post...`,
+            },
+        ],
+    },
+    // Social Twitter - Photo - Joe
+    {
+        key: ++i,
+        id: '221004007',
         iconKey: 1, // social
         iconSize: 35, // default
         title: 'Social Photo Challenge',
@@ -438,9 +451,101 @@ Time to meet more folks in the Solana ecosystem! Find Buffalo Joe from Solana De
         authorTwitter: 'donnysolana',
         rewardValue: 50,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
+        formComponents: [
+            {
+                type: 'text',
+                field: 'twitterHandle',
+                key: 'twitterHandle',
+                label: 'Enter your Twitter handle',
+                placeholder: `Enter your Twitter handle...`,
+            },
+            {
+                type: 'text',
+                field: 'twitterPostLink',
+                key: 'twitterPostLink',
+                label: 'Enter link to your twitter post',
+                placeholder: `Enter link to your twitter post...`,
+            },
+        ],
+    },
+    // Social Twitter - Photo - Valentin
+    {
+        key: ++i,
+        id: '221004008',
+        iconKey: 1, // social
+        iconSize: 35, // default
+        title: 'Social Photo Challenge',
+        type: 'Social',
+        difficulty: 'Easy',
+        shortDescription: 'Find and Meet Valentin with Solana Foundation!',
+        description: `
+___
+### Description
+
+Time to meet more folks in the Solana ecosystem! Find Valentin from Solana Foundation and ask some questions! Snap a photo together!
+
+- Tweet a photo of you and Valentin on twitter!
+- Follow Valentin on twitter <a href="https://twitter.com/valentinmadrid_" target="_blank"> here </a> and say hi!
+- Link your tweets and stay tuned!
+`,
+        githubUrl: 'some githubUrl',
+        authorName: 'donnysolana',
+        authorGithub: 'donnysolana',
+        authorTwitter: 'donnysolana',
+        rewardValue: 50,
+        rewardType: 'points',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
+        formComponents: [
+            {
+                type: 'text',
+                field: 'twitterHandle',
+                key: 'twitterHandle',
+                label: 'Enter your Twitter handle',
+                placeholder: `Enter your Twitter handle...`,
+            },
+            {
+                type: 'text',
+                field: 'twitterPostLink',
+                key: 'twitterPostLink',
+                label: 'Enter link to your twitter post',
+                placeholder: `Enter link to your twitter post...`,
+            },
+        ],
+    },
+    // Social Twitter - Photo - Solandy
+    {
+        key: ++i,
+        id: '221004009',
+        iconKey: 1, // social
+        iconSize: 35, // default
+        title: 'Social Photo Challenge',
+        type: 'Social',
+        difficulty: 'Easy',
+        shortDescription: 'Find and Meet Solandy with Solana Foundation!',
+        description: `
+___
+### Description
+
+Time to meet more folks in the Solana ecosystem! Find Solandy from Solana Foundation and ask some questions! Snap a photo together!
+
+- Tweet a photo of you and Solandy on twitter!
+- Follow Solandy on twitter <a href="https://twitter.com/HeyAndyS" target="_blank"> here </a> and say hi!
+- Link your tweets and stay tuned!
+`,
+        githubUrl: 'some githubUrl',
+        authorName: 'donnysolana',
+        authorGithub: 'donnysolana',
+        authorTwitter: 'donnysolana',
+        rewardValue: 50,
+        rewardType: 'points',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -515,9 +620,9 @@ ___
         authorTwitter: 'DonnySolana',
         rewardValue: 100,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -545,7 +650,7 @@ ___
     // Create a Token on Solana
     {
         key: ++i,
-        id: '221002022',
+        id: '221004011',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Create a Token',
@@ -598,9 +703,9 @@ ___
         authorTwitter: '0xCleon',
         rewardValue: 150,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -628,7 +733,7 @@ ___
     // more insight into Solana NFTs with Metaplex
     {
         key: ++i,
-        id: '221007046',
+        id: '221004012',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'NFTs 101: Overview-01',
@@ -670,9 +775,9 @@ ___
         authorTwitter: 'CyrialK',
         rewardValue: 150,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -722,7 +827,7 @@ ___
     },
     {
         key: ++i,
-        id: '221007061',
+        id: '221004013',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Solana 101: Basics-01',
@@ -762,9 +867,9 @@ ___
         authorTwitter: 'CyrialK',
         rewardValue: 100,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -799,7 +904,7 @@ ___
     // more insight into Solana NFTs with Metaplex
     {
         key: ++i,
-        id: '221007241',
+        id: '221004014',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Solana Unity Save Game Data',
@@ -843,9 +948,9 @@ ___
         authorTwitter: 'SolPlay_jonas',
         rewardValue: 150,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -880,7 +985,7 @@ ___
     // Learn how to use the new transaction format with Versioned Transactions.
     {
         key: ++i,
-        id: '221007020',
+        id: '221004015',
         iconKey: 4, // video
         iconSize: 35, // default
         title: 'Versioned Transactions',
@@ -923,9 +1028,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 150,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -953,7 +1058,7 @@ ___
     // Dive into the Solana programming model with this overview on Accounts.
     {
         key: ++i,
-        id: '221007030',
+        id: '221004016',
         iconKey: 4, // video
         iconSize: 35, // default
         title: 'Accounts Overview',
@@ -999,9 +1104,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 100,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1036,7 +1141,7 @@ ___
     // Learn more about Solana accounts and ownership.
     {
         key: ++i,
-        id: '221007100',
+        id: '221004017',
         iconKey: 4, // video
         iconSize: 35, // default
         title: 'Accounts Ownership',
@@ -1076,9 +1181,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 100,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1113,7 +1218,7 @@ ___
     // Learn about what a Cross-Program Invocation is, and how to use it.
     {
         key: ++i,
-        id: '221007101',
+        id: '221004018',
         iconKey: 4, // video
         iconSize: 35, // default
         title: 'CPI',
@@ -1155,9 +1260,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 100,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1185,7 +1290,7 @@ ___
     // Learn about custom account data on Solana.
     {
         key: ++i,
-        id: '221007102',
+        id: '221004019',
         iconKey: 4, // video
         iconSize: 35, // default
         title: 'Custom Account Data',
@@ -1227,9 +1332,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 300,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1257,7 +1362,7 @@ ___
     // Learn about phantom deeplinks for mobile wallets.
     {
         key: ++i,
-        id: '221007051',
+        id: '221004020',
         iconKey: 0, // default (rocket)
         iconSize: 35, // default
         title: 'Phantom Deeplinks: 101',
@@ -1298,9 +1403,9 @@ ___
         authorTwitter: 'donnysolana',
         rewardValue: 100,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1335,7 +1440,7 @@ ___
     // Learn more about Solana PDAs. - CyrialK
     {
         key: ++i,
-        id: '221007041',
+        id: '221004021',
         iconKey: 0, // rocket (default)
         iconSize: 35, // default
         title: 'Writing PDAs',
@@ -1382,9 +1487,9 @@ ___
         authorTwitter: 'CyrialK',
         rewardValue: 300,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1412,7 +1517,7 @@ ___
     // Learn about Solana Staking.
     {
         key: ++i,
-        id: '221007052',
+        id: '221004022',
         iconKey: 0, // rocket (default)
         iconSize: 35, // default
         title: 'Solana Staking: 101',
@@ -1455,9 +1560,9 @@ ___
         authorTwitter: 'DonnySolana',
         rewardValue: 100,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1506,7 +1611,7 @@ ___
     // Help a fren out - Stack Exchange Q/A - Steve Luscher (easy)
     {
         key: ++i,
-        id: '221007055',
+        id: '221004023',
         iconKey: 0, // rocket (default)
         iconSize: 35, // default
         title: 'Demonstrate your Knowledge',
@@ -1545,9 +1650,9 @@ ___
         authorTwitter: 'steveluscher',
         rewardValue: 100,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1565,28 +1670,28 @@ ___
             },
         ],
     },
-    // Social Twitter - Photo Bomb - Dana
+    // Social Twitter - Photo Bomb - Tamar
     {
         key: ++i,
-        id: '221005063',
+        id: '221004024',
         iconKey: 1, // social
         iconSize: 35, // default
         title: 'Social Photo Bomb Challenge',
         type: 'Social',
         difficulty: 'Easy',
         shortDescription:
-            'Photo Bomb Dana from Solana Foundation University Relations!',
+            'Photo Bomb Tamar from Solana Foundation & SuperteamDE!',
         description: `
 ___
 ### Description
 
-Find and photo bomb Dana from Solana University Relations! You and friends? Appear in a photo with Dana.
+Find and photo bomb Tamar from Solana Foundation & SuperteamDE! You and friends? Appear in a photo with Tamar.
 
-- Tweet a photo of you photo-bombing Dana on twitter!
-- Follow Dana, with Solana University Relations on twitter <a href="https://twitter.com/DanaDegenius" target="_blank"> here</a> and say hi!
+- Tweet a photo of you photo-bombing Tamar on twitter!
+- Follow Tamar, with Solana Foundation & SuperteamDE on twitter <a href="https://twitter.com/tamarincrypto" target="_blank"> here</a> and say hi!
 - Link your tweets and stay tuned!
 
-* By PHOTO Bomb we mean appear in a picture with Dana and someone else! You or someone else can still take the photo!
+* By PHOTO Bomb we mean appear in a picture with Tamar and someone else! You or someone else can still take the photo!
 `,
         githubUrl: 'some githubUrl',
         authorName: 'donnysolana',
@@ -1594,9 +1699,9 @@ Find and photo bomb Dana from Solana University Relations! You and friends? Appe
         authorTwitter: 'donnysolana',
         rewardValue: 50,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1614,28 +1719,28 @@ Find and photo bomb Dana from Solana University Relations! You and friends? Appe
             },
         ],
     },
-    // Social Twitter - Photo Bomb - Dana
+    // Social Twitter - Photo Bomb - Noe
     {
         key: ++i,
-        id: '221005064',
+        id: '221004025',
         iconKey: 1, // social
         iconSize: 35, // default
         title: 'Social Photo Bomb Challenge',
         type: 'Social',
         difficulty: 'Easy',
         shortDescription:
-            'Photo Bomb Colin from Solana Foundation Developer Relations!',
+            'Photo Bomb Noe from Solana Foundation & SuperteamDE!',
         description: `
 ___
 ### Description
 
-Find and Photobomb Colin from Solana Developer Relations and then ask some questions! Appear in a picture with Colin!
+Find and photo bomb Noe from Solana Foundation & SuperteamDE! You and friends? Appear in a photo with Noe.
 
-- Tweet a photobomb of you and Colin on twitter!
-- Follow Colin on Twitter <a href="https://twitter.com/c_ogoo" target="_blank"> here </a> and say hi!
+- Tweet a photo of you photo-bombing Noe on twitter!
+- Follow Noe, with Solana Foundation & SuperteamDE on twitter <a href="https://twitter.com/rieker_noe" target="_blank"> here</a> and say hi!
 - Link your tweets and stay tuned!
 
-* By PHOTO Bomb we mean appear in a picture with Colin and someone else! You or someone else can still take the photo!
+* By PHOTO Bomb we mean appear in a picture with Noe and someone else! You or someone else can still take the photo!
 `,
         githubUrl: 'some githubUrl',
         authorName: 'donnysolana',
@@ -1643,9 +1748,57 @@ Find and Photobomb Colin from Solana Developer Relations and then ask some quest
         authorTwitter: 'donnysolana',
         rewardValue: 50,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
+        formComponents: [
+            {
+                type: 'text',
+                field: 'twitterHandle',
+                key: 'twitterHandle',
+                label: 'Enter your Twitter handle',
+                placeholder: `Enter your Twitter handle...`,
+            },
+            {
+                type: 'text',
+                field: 'twitterPostLink',
+                key: 'twitterPostLink',
+                label: 'Enter link to your twitter post',
+                placeholder: `Enter link to your twitter post...`,
+            },
+        ],
+    },
+    // Social Twitter - Photo Bomb - TJ
+    {
+        key: ++i,
+        id: '221004026',
+        iconKey: 1, // social
+        iconSize: 35, // default
+        title: 'Social Photo Bomb Challenge',
+        type: 'Social',
+        difficulty: 'Easy',
+        shortDescription: 'Photo Bomb TJ from Solana Labs Payments Team!',
+        description: `
+___
+### Description
+
+Find and Photobomb TJ from Solana Labs Payments Team and then ask some questions! Appear in a picture with TJ!
+
+- Tweet a photobomb of you and TJ on twitter!
+- Follow TJ on Twitter <a href="https://twitter.com/c_ogoo" target="_blank"> here </a> and say hi!
+- Link your tweets and stay tuned!
+
+* By PHOTO Bomb we mean appear in a picture with TJ and someone else! You or someone else can still take the photo!
+`,
+        githubUrl: 'some githubUrl',
+        authorName: 'donnysolana',
+        authorGithub: 'donnysolana',
+        authorTwitter: 'donnysolana',
+        rewardValue: 50,
+        rewardType: 'points',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1666,7 +1819,7 @@ Find and Photobomb Colin from Solana Developer Relations and then ask some quest
     // Social Twitter - Photo Bomb - Joe
     {
         key: ++i,
-        id: '221005065',
+        id: '221004027',
         iconKey: 1, // social
         iconSize: 35, // default
         title: 'Social Photo Bomb Challenge',
@@ -1684,7 +1837,7 @@ Should we photo bomb Joe and show some love?! Appear in a photo with Joe to post
 - Follow Buffalo Joe on twitter <a href="https://twitter.com/realbuffalojoe" target="_blank"> here </a> and say hi!
 - Link your tweets and stay tuned!
 
-* By PHOTO Bomb we mean appear in a picture with Colin and someone else! You or someone else can still take the photo!
+* By PHOTO Bomb we mean appear in a picture with Joe and someone else! You or someone else can still take the photo!
 `,
         githubUrl: 'some githubUrl',
         authorName: 'donnysolana',
@@ -1692,9 +1845,105 @@ Should we photo bomb Joe and show some love?! Appear in a photo with Joe to post
         authorTwitter: 'donnysolana',
         rewardValue: 50,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
+        formComponents: [
+            {
+                type: 'text',
+                field: 'twitterHandle',
+                key: 'twitterHandle',
+                label: 'Enter your Twitter handle',
+                placeholder: `Enter your Twitter handle...`,
+            },
+            {
+                type: 'text',
+                field: 'twitterPostLink',
+                key: 'twitterPostLink',
+                label: 'Enter link to your twitter post',
+                placeholder: `Enter link to your twitter post...`,
+            },
+        ],
+    },
+    // Social Twitter - Photo Bomb - Valentin
+    {
+        key: ++i,
+        id: '221004028',
+        iconKey: 1, // social
+        iconSize: 35, // default
+        title: 'Social Photo Bomb Challenge',
+        type: 'Social',
+        difficulty: 'Easy',
+        shortDescription: 'Photo Bomb Valentin from Solana Foundation!',
+        description: `
+___
+### Description
+
+Should we photo bomb Valentin and show some love?! Appear in a photo with Valentin to post on twitter!
+
+- Tweet a photobomb of you and Valentin on twitter!
+- Follow Valentin on twitter <a href="https://twitter.com/valentinmadrid_" target="_blank"> here </a> and say hi!
+- Link your tweets and stay tuned!
+
+* By PHOTO Bomb we mean appear in a picture with Valentin and someone else! You or someone else can still take the photo!
+`,
+        githubUrl: 'some githubUrl',
+        authorName: 'donnysolana',
+        authorGithub: 'donnysolana',
+        authorTwitter: 'donnysolana',
+        rewardValue: 50,
+        rewardType: 'points',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
+        formComponents: [
+            {
+                type: 'text',
+                field: 'twitterHandle',
+                key: 'twitterHandle',
+                label: 'Enter your Twitter handle',
+                placeholder: `Enter your Twitter handle...`,
+            },
+            {
+                type: 'text',
+                field: 'twitterPostLink',
+                key: 'twitterPostLink',
+                label: 'Enter link to your twitter post',
+                placeholder: `Enter link to your twitter post...`,
+            },
+        ],
+    },
+    // Social Twitter - Photo Bomb - Solandy
+    {
+        key: ++i,
+        id: '221004029',
+        iconKey: 1, // social
+        iconSize: 35, // default
+        title: 'Social Photo Bomb Challenge',
+        type: 'Social',
+        difficulty: 'Easy',
+        shortDescription: 'Photo Bomb Solandy from Solana Foundation!',
+        description: `
+___
+### Description
+
+Should we photo bomb Solandy and show some love?! Appear in a photo with Solandy to post on twitter!
+
+- Tweet a photobomb of you and Solandy on twitter!
+- Follow Solandy on twitter <a href="https://twitter.com/HeyAndyS" target="_blank"> here </a> and say hi!
+- Link your tweets and stay tuned!
+
+* By PHOTO Bomb we mean appear in a picture with Solandy and someone else! You or someone else can still take the photo!
+`,
+        githubUrl: 'some githubUrl',
+        authorName: 'donnysolana',
+        authorGithub: 'donnysolana',
+        authorTwitter: 'donnysolana',
+        rewardValue: 50,
+        rewardType: 'points',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1715,7 +1964,7 @@ Should we photo bomb Joe and show some love?! Appear in a photo with Joe to post
     // Write a Solana program to transfer SOL between two accounts! (medium)
     {
         key: ++i,
-        id: '221007104',
+        id: '221004030',
         iconKey: 0, // rocket (default)
         iconSize: 35, // default
         title: 'Transfer SOL',
@@ -1767,9 +2016,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 300,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1797,7 +2046,7 @@ ___
     // Send a Transaction V0 using an Address Lookup Table. (medium)
     {
         key: ++i,
-        id: '221007105',
+        id: '221004031',
         iconKey: 5, // arrows L/R
         iconSize: 35, // default
         title: 'Lookup Table',
@@ -1849,9 +2098,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 300,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1879,7 +2128,7 @@ ___
     // Write custom data to the Solana blockchain. (medium)
     {
         key: ++i,
-        id: '221007106',
+        id: '221004032',
         iconKey: 0, // arrows L/R
         iconSize: 35, // default
         title: 'Writing Custom Data',
@@ -1924,9 +2173,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 300,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -1961,7 +2210,7 @@ ___
     //  Create a Solana account with a Program Derived Address using your program. (medium)
     {
         key: ++i,
-        id: '221007107',
+        id: '221004033',
         iconKey: 0, // arrows L/R
         iconSize: 35, // default
         title: 'Writing PDAs',
@@ -2010,9 +2259,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 300,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2047,7 +2296,7 @@ ___
     //  Write a custom Solana program that can create a new Token Mint with a PDA as the Mint Authority. (medium)
     {
         key: ++i,
-        id: '221007109',
+        id: '221004034',
         iconKey: 0, // arrows L/R
         iconSize: 35, // default
         title: 'PDA Mint Authority',
@@ -2099,9 +2348,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 300,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2143,7 +2392,7 @@ ___
     //  Build a unique application using Helius Webhooks. (medium)
     {
         key: ++i,
-        id: '221009138',
+        id: '221004035',
         iconKey: 0, // default
         iconSize: 35, // default
         title: 'Helius Webhooks',
@@ -2183,9 +2432,9 @@ ___
         authorTwitter: 'jstrry',
         rewardValue: 500,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2206,7 +2455,7 @@ ___
     //  Build custom instruction processing for your Solana program. (hard)
     {
         key: ++i,
-        id: '221007108',
+        id: '221004036',
         iconKey: 0, // default
         iconSize: 35, // default
         title: 'Processing Instructions',
@@ -2263,9 +2512,9 @@ ___
         authorTwitter: 'realbuffalojoe',
         rewardValue: 500,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2307,7 +2556,7 @@ ___
     //  Build a unique application using Orca SDK. (hard)
     {
         key: ++i,
-        id: '221009218',
+        id: '221004037',
         iconKey: 0, // default
         iconSize: 35, // default
         title: 'Orca SDK Challenge',
@@ -2351,9 +2600,9 @@ ___
         authorTwitter: 'donnysolana',
         rewardValue: 1000,
         rewardType: 'points',
-        createdAt: '2022-11-01T14:00:00',
-        startDate: '2022-11-01T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2374,7 +2623,7 @@ ___
     //  Build a unique application using Jupiter SDK. (hard)
     {
         key: ++i,
-        id: '221009118',
+        id: '221004038',
         iconKey: 0, // default
         iconSize: 35, // default
         title: 'Jupiter SDK Challenge',
@@ -2429,9 +2678,9 @@ ___
         rewardValue: 1000,
         rewardType: 'points',
         nftBadge: true,
-        createdAt: '2022-10-23T14:00:00',
-        startDate: '2022-10-23T14:00:00',
-        endDate: '2023-10-25T15:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2452,7 +2701,7 @@ ___
     // Play with Fractal!
     {
         key: ++i,
-        id: '221102111',
+        id: '221004039',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Solana Unity Save Game Data',
@@ -2488,9 +2737,9 @@ ___
         authorTwitter: 'SolPlay_jonas',
         rewardValue: 50,
         rewardType: 'points',
-        createdAt: '2022-11-02T14:00:00',
-        startDate: '2022-11-02T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'textArea',
@@ -2513,7 +2762,7 @@ ___
     // Learn concepts of ev.io on fractal!
     {
         key: ++i,
-        id: '221107222',
+        id: '221004040',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Solana Unity Save Game Data',
@@ -2549,9 +2798,9 @@ ___
         authorTwitter: 'SolPlay_jonas',
         rewardValue: 50,
         rewardType: 'points',
-        createdAt: '2022-11-02T14:00:00',
-        startDate: '2022-11-02T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2579,7 +2828,7 @@ ___
     // Metaplex NFT Standard and tools
     {
         key: ++i,
-        id: '221104222',
+        id: '221004041',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Metaplex NFT Standard and tools',
@@ -2622,9 +2871,9 @@ ___
         authorTwitter: 'SolPlay_jonas',
         rewardValue: 100,
         rewardType: 'points',
-        createdAt: '2022-11-02T14:00:00',
-        startDate: '2022-11-02T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2673,7 +2922,7 @@ ___
     // Create your own Unity Game on Solana referencing a tutorial
     {
         key: ++i,
-        id: '221108211',
+        id: '221004042',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Solana Unity Save Game Data',
@@ -2713,9 +2962,9 @@ ___
         authorTwitter: 'SolPlay_jonas',
         rewardValue: 500,
         rewardType: 'points',
-        createdAt: '2022-11-02T14:00:00',
-        startDate: '2022-11-02T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2736,7 +2985,7 @@ ___
     // Learn about raindrops and boots!
     {
         key: ++i,
-        id: '221105231',
+        id: '221004043',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Solana Unity Save Game Data',
@@ -2776,9 +3025,9 @@ ___
         authorTwitter: 'SolPlay_jonas',
         rewardValue: 100,
         rewardType: 'points',
-        createdAt: '2022-11-02T14:00:00',
-        startDate: '2022-11-02T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'textArea',
@@ -2808,7 +3057,7 @@ ___
     // Install Solana.Unity SDK and mint a unique NFT badge of completion in Unity!
     {
         key: ++i,
-        id: '221105232',
+        id: '221004044',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Solana Unity Save Game Data',
@@ -2856,9 +3105,9 @@ ___
         authorTwitter: 'PiccoGabriele',
         rewardValue: 200,
         rewardType: 'points',
-        createdAt: '2022-11-02T14:00:00',
-        startDate: '2022-11-02T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2872,7 +3121,7 @@ ___
     // Create an SSO login using Solana Unity SDK using Web3Auth SDK Challenge!
     {
         key: ++i,
-        id: '221103231',
+        id: '221004045',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Unity Wallet Web3Auth SDK Challenge!',
@@ -2927,9 +3176,9 @@ ___
         authorTwitter: 'PiccoGabriele',
         rewardValue: 350,
         rewardType: 'points',
-        createdAt: '2022-11-02T14:00:00',
-        startDate: '2022-11-02T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -2943,7 +3192,7 @@ ___
     // Solan Unity SDK and WebGL basics!
     {
         key: ++i,
-        id: '221105233',
+        id: '221004046',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Unity SDK 101-1 webgl',
@@ -2986,9 +3235,9 @@ ___
         authorTwitter: 'PiccoGabriele',
         rewardValue: 300,
         rewardType: 'points',
-        createdAt: '2022-11-02T14:00:00',
-        startDate: '2022-11-02T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -3002,7 +3251,7 @@ ___
     // more insight into Solana NFTs with Metaplex
     {
         key: ++i,
-        id: '221119240',
+        id: '221004047',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'Friktion SDK Challenge 1!',
@@ -3061,9 +3310,9 @@ ___
         authorTwitter: 'friktion_labs',
         rewardValue: 1000,
         rewardType: 'points',
-        createdAt: '2022-11-02T14:00:00',
-        startDate: '2022-11-02T14:00:00',
-        endDate: '2022-11-04T14:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
@@ -3077,7 +3326,7 @@ ___
     // ORAO VRF SDK Challenge 1
     {
         key: ++i,
-        id: '221103331',
+        id: '221004048',
         iconKey: 0, // rocket
         iconSize: 35, // default
         title: 'ORAO VRF SDK Challenge 1',
@@ -3114,9 +3363,9 @@ ___
         authorTwitter: 'OraoNetwork',
         rewardValue: 500,
         rewardType: 'points',
-        createdAt: '2022-11-02T14:00:00',
-        startDate: '2022-11-02T14:00:00',
-        endDate: '2022-11-03T19:00:00',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-11-18T14:00:00',
+        endDate: '2022-11-20T12:00:00',
         formComponents: [
             {
                 type: 'text',
