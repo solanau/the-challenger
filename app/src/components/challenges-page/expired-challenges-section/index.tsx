@@ -81,7 +81,7 @@ const ExpiredChallengesSection = ({ challenges }: ChallengeListProps) => (
                             </Link>
                         </div>
 
-                        <Link href={`challenges/${challenge.id}`} passHref>
+                        <Link href={`challenges/${challenge.uid}`} passHref>
                             <a>
                                 <Button
                                     className="h-20 w-20 rounded-full border-2"

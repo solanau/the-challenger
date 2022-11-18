@@ -62,7 +62,7 @@ export const getChallengeAlreadySubmittedFirebase = (
     challenge: ChallengePayload,
 ): boolean => {
     for (const sub of userSubmissions) {
-        if (sub.challengeId === challenge.id) {
+        if (sub.challengeId === challenge.uid) {
             return true;
         }
     }

@@ -2,7 +2,11 @@ import { FieldConfig } from './form';
 
 export type ChallengeTimeStatus = 'active' | 'pending' | 'expired';
 
-export type ChallengeReviewStatus = 'accepted' | 'incorrect' | 'invalid' | 'pending';
+export type ChallengeReviewStatus =
+    | 'accepted'
+    | 'incorrect'
+    | 'invalid'
+    | 'pending';
 
 export type ChallengeType =
     | 'Social'
@@ -25,7 +29,9 @@ export interface BaseChallenge {
     shortDescription: string;
     githubUrl: string;
     difficulty: string;
+    uid: string;
     id: string;
+    pubkey: string;
     key: number;
     type: ChallengeType;
     title: string;
