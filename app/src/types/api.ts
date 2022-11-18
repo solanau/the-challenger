@@ -74,7 +74,7 @@ export type SubmissionPayload = {
     userPubkey: string;
     username: string;
     answers: any[];
-    eventPubkey: string;
+    eventId: string;
     status: SubmissionStatus;
 };
 

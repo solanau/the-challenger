@@ -201,7 +201,7 @@ export async function updatePrize(payload: PrizePayload): Promise<string> {
 
 export async function fetchSubmissions(
     params: Partial<{
-        eventPubkey: string;
+        eventId: string;
         username: string;
         challengeId: string;
     }>,

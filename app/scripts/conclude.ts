@@ -33,8 +33,7 @@ async function main() {
 
     const allCorrectSubmissions = (
         await fetchSubmissions({
-            eventPubkey:
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
+            eventId: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
         })
     ).filter(sub => sub.status === 'correct');
 
