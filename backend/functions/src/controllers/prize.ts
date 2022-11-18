@@ -5,12 +5,7 @@ import {
     updatePrize,
 } from 'prestige-protocol';
 import { db } from '..';
-import {
-    connection,
-    MASTER_API_KEY,
-    PRESTIGE_PROGRAM_ID,
-    WALLET,
-} from '../util/const';
+import { connection, MASTER_API_KEY, WALLET } from '../util/const';
 import { PrizeMintMetadataPayload, PrizePayload } from '../util/types';
 import {
     DatabaseError,
@@ -81,7 +76,6 @@ exports.createNewPrize = async (req, res) => {
                 await createPrize(
                     connection,
                     WALLET,
-                    PRESTIGE_PROGRAM_ID,
                     new PublicKey(rawPrize.challengePubkey),
                     new PublicKey(rawPrize.mintPubkey),
                     new PublicKey(rawPrize.escrowOrMintAuthority),
@@ -132,7 +126,6 @@ exports.updatePrize = async (req, res) => {
             await updatePrize(
                 connection,
                 WALLET,
-                PRESTIGE_PROGRAM_ID,
                 new PublicKey(rawPrize.pubkey),
                 new PublicKey(rawPrize.challengePubkey),
                 new PublicKey(rawPrize.mintPubkey),

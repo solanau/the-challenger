@@ -10,6 +10,15 @@ export type EventPayload = {
     date: string;
 };
 
+export type PotPayload = {
+    pubkey: string;
+    eventPubkey: string;
+    mint: string;
+    escrowOrMintAuthority: string;
+    mintControl: number;
+    pot: number;
+};
+
 export type ChallengePayload = {
     id: string;
     pubkey: string;
@@ -89,6 +98,17 @@ export type MintPayload = {
 export type IssueRewardsPayload = {
     challengePubkey: string;
     userPubkey: string;
+};
+
+export type IssueRewardsBatchPayload = {
+    earnerPubkey: string;
+    challengePubkeys: string[];
+};
+
+export type IssuePayoutPayload = {
+    potPubkey: string;
+    userPubkey: string;
+    amount: number;
 };
 
 export type ProfilePayload = {

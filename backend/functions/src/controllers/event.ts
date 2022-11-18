@@ -1,12 +1,7 @@
 import { PublicKey } from '@solana/web3.js';
 import { createEvent, updateEvent } from 'prestige-protocol';
 import { db } from '..';
-import {
-    connection,
-    MASTER_API_KEY,
-    PRESTIGE_PROGRAM_ID,
-    WALLET,
-} from '../util/const';
+import { connection, MASTER_API_KEY, WALLET } from '../util/const';
 import { EventPayload } from '../util/types';
 import {
     DatabaseError,
@@ -65,7 +60,6 @@ exports.createNewEvent = async (req, res) => {
                 await createEvent(
                     connection,
                     WALLET,
-                    PRESTIGE_PROGRAM_ID,
                     rawEvent.title,
                     rawEvent.description,
                     rawEvent.location,
@@ -117,7 +111,6 @@ exports.updateEvent = async (req, res) => {
             await updateEvent(
                 connection,
                 WALLET,
-                PRESTIGE_PROGRAM_ID,
                 new PublicKey(rawEvent.pubkey),
                 rawEvent.title,
                 rawEvent.description,

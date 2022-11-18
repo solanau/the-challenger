@@ -6,10 +6,12 @@ import * as functions from 'firebase-functions';
 
 const profileRoute = require('./controllers/profile');
 const eventRoute = require('./controllers/event');
+const potRoute = require('./controllers/pot');
 const challengeRoute = require('./controllers/challenge');
 const prizeRoute = require('./controllers/prize');
 const submissionRoute = require('./controllers/submission');
 const rewardRoute = require('./controllers/reward');
+const payoutRoute = require('./controllers/payout');
 const mintRoute = require('./controllers/mint');
 
 admin.initializeApp(functions.config().firebase);
@@ -42,6 +44,10 @@ app.post(
 app.put(
     '/event/:id/:masterApiKey',
     async (req, res) => await eventRoute.updateEvent(req, res),
+);
+app.post(
+    '/pot/:masterApiKey',
+    async (req, res) => await potRoute.createNewPot(req, res),
 );
 app.get(
     '/challenges/:eventPubkey',
@@ -94,6 +100,15 @@ app.patch(
 app.post(
     '/reward/:masterApiKey',
     async (req, res) => await rewardRoute.issueAllRewardsForChallenge(req, res),
+);
+app.post(
+    '/rewardsBatch/:masterApiKey',
+    async (req, res) =>
+        await rewardRoute.issueRewardsForChallengeBatch(req, res),
+);
+app.post(
+    '/payout/:masterApiKey',
+    async (req, res) => await payoutRoute.issuePayout(req, res),
 );
 app.get(
     '/customMints',

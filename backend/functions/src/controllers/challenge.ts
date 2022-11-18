@@ -1,12 +1,7 @@
 import { PublicKey } from '@solana/web3.js';
 import { createChallenge } from 'prestige-protocol';
 import { db } from '..';
-import {
-    connection,
-    MASTER_API_KEY,
-    PRESTIGE_PROGRAM_ID,
-    WALLET,
-} from '../util/const';
+import { connection, MASTER_API_KEY, WALLET } from '../util/const';
 import { ChallengePayload } from '../util/types';
 import {
     DatabaseError,
@@ -92,7 +87,6 @@ exports.createNewChallenge = async function (req, res) {
                 await createChallenge(
                     connection,
                     WALLET,
-                    PRESTIGE_PROGRAM_ID,
                     new PublicKey(rawChallenge.eventPubkey),
                     rawChallenge.title,
                     rawChallenge.shortDescription,
