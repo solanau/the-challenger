@@ -2,8 +2,11 @@ import axios from 'axios';
 import {
     ChallengePayload,
     EventPayload,
+    IssuePayoutPayload,
+    IssueRewardsBatchPayload,
     IssueRewardsPayload,
     MintPayload,
+    PotPayload,
     PrizeMintMetadataPayload,
     PrizePayload,
     ProfilePayload,
@@ -87,6 +90,19 @@ export async function updateEvent(
             payload,
         )
         .then(res => res.data);
+}
+
+export async function createNewPot(
+    payload: Omit<PotPayload, 'pubkey'>,
+): Promise<string> {
+    return await axios
+        .post(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/pot/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            payload,
+        )
+        .then(res => res.data.pubkey);
 }
 
 export async function fetchChallengesForEvent(): Promise<ChallengePayload[]> {
@@ -186,7 +202,6 @@ export async function updatePrize(payload: PrizePayload): Promise<string> {
 export async function fetchSubmissions(
     params: Partial<{
         eventPubkey: string;
-        eventId: string;
         username: string;
         challengeId: string;
     }>,
@@ -240,6 +255,19 @@ export async function updateSubmissionStatus(
         .then(res => res.data);
 }
 
+export async function issueAllRewardsBatchForUser(
+    payload: IssueRewardsBatchPayload,
+): Promise<string> {
+    return await axios
+        .post(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/reward/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            payload,
+        )
+        .then(res => res.data);
+}
+
 export async function issueAllRewardsForChallenge(
     payload: IssueRewardsPayload,
 ): Promise<string> {
@@ -247,6 +275,19 @@ export async function issueAllRewardsForChallenge(
         .post(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
                 '/reward/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            payload,
+        )
+        .then(res => res.data);
+}
+
+export async function issuePayout(
+    payload: IssuePayoutPayload,
+): Promise<string> {
+    return await axios
+        .post(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/payout/' +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
