@@ -15,12 +15,14 @@ const firebaseConfig = {
 
 // Initialize Firebase and Firestore
 const app = initializeApp(firebaseConfig);
-export const firestore = getFirestore(app);
-export const auth = getAuth(app);
-export const functions = getFunctions(app);
+const firestore = getFirestore(app);
+const auth = getAuth(app);
+const functions = getFunctions(app);
 
 if (process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') {
     connectAuthEmulator(auth, 'http://localhost:9099');
-    connectFirestoreEmulator(firestore, 'http://localhost', 8080);
-    connectFunctionsEmulator(functions, 'http://localhost', 4001);
+    connectFirestoreEmulator(firestore, 'localhost', 8080);
+    connectFunctionsEmulator(functions, 'localhost', 4001);
 }
+
+export { firestore, auth, functions };

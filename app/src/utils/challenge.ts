@@ -6,7 +6,7 @@ import {
     ChallengeTimeStatus,
     ChallengeView,
     ExpiredChallenge,
-    PendingChallenge
+    PendingChallenge,
 } from 'types/challenge';
 import { Issue } from 'types/github';
 import { getRelativeTime } from './time';
@@ -47,7 +47,6 @@ export const getChallengeAlreadySubmitted = async (
     issuesByAssignee: Issue[],
     challenge: ChallengePayload,
 ): Promise<boolean> => {
-
     for (const labels of issuesByAssignee.map(issue => issue.labels)) {
         for (const labelName of labels.map(label => label.name)) {
             if (labelName === `challengeId:${challenge.id}`) {
@@ -58,11 +57,10 @@ export const getChallengeAlreadySubmitted = async (
     return false;
 };
 
-export const getChallengeAlreadySubmitted_Firebase = async (
+export const getChallengeAlreadySubmittedFirebase = (
     userSubmissions: SubmissionPayload[],
     challenge: ChallengePayload,
-): Promise<boolean> => {
-
+): boolean => {
     for (const sub of userSubmissions) {
         if (sub.challengeId === challenge.id) {
             return true;
@@ -140,102 +138,133 @@ export const getChallengeBonus = (challenge: ChallengePayload): number => {
 
 export const toChallenge = async (
     issuesByAssignee: Issue[],
-    challenge: ChallengePayload
+    challenge: ChallengePayload,
 ): Promise<ChallengeView> => ({
     ...challenge,
     timeStatus: getChallengeStatus(challenge),
-    submittedStatus: await getChallengeAlreadySubmitted(issuesByAssignee, challenge),
+    submittedStatus: await getChallengeAlreadySubmitted(
+        issuesByAssignee,
+        challenge,
+    ),
     expiresIn: getChallengeExpiresIn(challenge),
     startsIn: getChallengeStartsIn(challenge),
     expiredAgo: getChallengeExpiredAgo(challenge),
     progress: getChallengeProgress(challenge),
     bonus: getChallengeBonus(challenge),
     reward: challenge.rewardValue,
-})
+});
 
-export const toChallenge_Firebase = async (
+export const toChallengeFirebase = (
     userSubmissions: SubmissionPayload[],
-    challenge: ChallengePayload
-): Promise<ChallengeView> => ({
+    challenge: ChallengePayload,
+): ChallengeView => ({
     ...challenge,
     timeStatus: getChallengeStatus(challenge),
-    submittedStatus: await getChallengeAlreadySubmitted_Firebase(userSubmissions, challenge),
+    submittedStatus: getChallengeAlreadySubmittedFirebase(
+        userSubmissions,
+        challenge,
+    ),
     expiresIn: getChallengeExpiresIn(challenge),
     startsIn: getChallengeStartsIn(challenge),
     expiredAgo: getChallengeExpiredAgo(challenge),
     progress: getChallengeProgress(challenge),
     bonus: getChallengeBonus(challenge),
     reward: challenge.rewardValue,
-})
+});
 
-
-export const getChallengeIdAndCompletionStatusForIssue = (issue: Issue): [string, ChallengeReviewStatus] => {
-
+export const getChallengeIdAndCompletionStatusForIssue = (
+    issue: Issue,
+): [string, ChallengeReviewStatus] => {
     let challengeId: string = null;
-    let completionStatus: ChallengeReviewStatus = "pending";
+    let completionStatus: ChallengeReviewStatus = 'pending';
 
     for (const label of issue.labels) {
         if (label.name.match(RegExp('challengeId:'))) {
             challengeId = label.name.replace('challengeId:', '');
         }
-        if (label.name === "completed") {
+        if (label.name === 'completed') {
             completionStatus = 'accepted';
-        } else if (label.name === "incorrect") {
+        } else if (label.name === 'incorrect') {
             completionStatus = 'incorrect';
-        } else if (label.name === "invalid") {
+        } else if (label.name === 'invalid') {
             completionStatus = 'invalid';
         }
     }
 
     return [challengeId, completionStatus];
-}
+};
 
-
-export const mapifyChallengePayloadList = (challengePayloadList: Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[]) => {
-    const map = new Map<string, Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>>();
+export const mapifyChallengePayloadList = (
+    challengePayloadList: Omit<
+        ChallengePayload,
+        'pubkey' | 'eventPubkey' | 'eventId'
+    >[],
+) => {
+    const map = new Map<
+        string,
+        Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>
+    >();
     for (const c of challengePayloadList) {
         if (!map.has(c.id)) map.set(c.id, c);
     }
     return map;
-}
-
+};
 
 export const getSubmittedChallengesForUserWithStatus = (
     userIssues: Issue[],
-    challengesList: Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[],
+    challengesList: Omit<
+        ChallengePayload,
+        'pubkey' | 'eventPubkey' | 'eventId'
+    >[],
 ): [
     Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[],
     Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[],
     Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[],
     Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[],
 ] => {
-
     const challengeMap = mapifyChallengePayloadList(challengesList);
 
-    const completedChallenges: Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[] = [];
-    const incorrectChallenges: Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[] = [];
-    const invalidChallenges: Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[] = [];
-    const pendingChallenges: Omit<ChallengePayload, 'pubkey' | 'eventPubkey' | 'eventId'>[] = [];
-    
-    userIssues.map(
-        i => getChallengeIdAndCompletionStatusForIssue(i)
-    ).forEach(([challengeId, completionStatus]) => {
-        const val = challengeMap.get(challengeId);
-        if (val) {
-            if (completionStatus === 'accepted') {
-                completedChallenges.push(val);
-            }
-            if (completionStatus === 'incorrect') {
-                incorrectChallenges.push(val);
-            }
-            if (completionStatus === 'invalid') {
-                invalidChallenges.push(val);
-            }
-            if (completionStatus === 'pending') {
-                pendingChallenges.push(val);
-            }
-        }
-    });
+    const completedChallenges: Omit<
+        ChallengePayload,
+        'pubkey' | 'eventPubkey' | 'eventId'
+    >[] = [];
+    const incorrectChallenges: Omit<
+        ChallengePayload,
+        'pubkey' | 'eventPubkey' | 'eventId'
+    >[] = [];
+    const invalidChallenges: Omit<
+        ChallengePayload,
+        'pubkey' | 'eventPubkey' | 'eventId'
+    >[] = [];
+    const pendingChallenges: Omit<
+        ChallengePayload,
+        'pubkey' | 'eventPubkey' | 'eventId'
+    >[] = [];
 
-    return [completedChallenges, incorrectChallenges, invalidChallenges, pendingChallenges]
-}
+    userIssues
+        .map(i => getChallengeIdAndCompletionStatusForIssue(i))
+        .forEach(([challengeId, completionStatus]) => {
+            const val = challengeMap.get(challengeId);
+            if (val) {
+                if (completionStatus === 'accepted') {
+                    completedChallenges.push(val);
+                }
+                if (completionStatus === 'incorrect') {
+                    incorrectChallenges.push(val);
+                }
+                if (completionStatus === 'invalid') {
+                    invalidChallenges.push(val);
+                }
+                if (completionStatus === 'pending') {
+                    pendingChallenges.push(val);
+                }
+            }
+        });
+
+    return [
+        completedChallenges,
+        incorrectChallenges,
+        invalidChallenges,
+        pendingChallenges,
+    ];
+};
