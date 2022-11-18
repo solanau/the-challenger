@@ -1,16 +1,26 @@
-import { User } from 'types/user';
-import { fetcher } from 'lib/fetcher';
-import useSWR from 'swr';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { firestore } from 'utils/firebase';
 
-export const useUser = (username: string) => {
-    const { data, error } = useSWR<User>(
-        () => (username ? `/api/${username}` : null),
-        fetcher,
-    );
+export const useUser = (userId: string | null) => {
+    const [user, setUser] = useState<any>(null);
 
-    return {
-        user: data,
-        isError: error,
-        isLoading: !error && !data,
-    };
+    useEffect(() => {
+        if (userId === null) {
+            setUser(null);
+            return;
+        }
+
+        const unsubscribe = onSnapshot(
+            doc(firestore, `users/${userId}`),
+            snapshot => ({
+                uid: snapshot.id,
+                ...snapshot.data(),
+            }),
+        );
+
+        return () => unsubscribe();
+    }, [userId]);
+
+    return user;
 };

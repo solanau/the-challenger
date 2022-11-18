@@ -11,13 +11,18 @@ const prizeRoute = require('./controllers/prize');
 const submissionRoute = require('./controllers/submission');
 const rewardRoute = require('./controllers/reward');
 const mintRoute = require('./controllers/mint');
+const userRoute = require('./controllers/user');
 
 admin.initializeApp(functions.config().firebase);
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({ origin: ['http://localhost:3000', "https://germany.heavyduty.builders"] }));
+app.use(
+    cors({
+        origin: ['http://localhost:3000', 'https://germany.heavyduty.builders'],
+    }),
+);
 
 app.get(
     '/profile/:pubkey',
@@ -102,6 +107,10 @@ app.get(
 app.post(
     '/customMint/:masterApiKey',
     async (req, res) => await mintRoute.createNewCustomMint(req, res),
+);
+app.post(
+    '/users/:masterApiKey',
+    async (req, res) => await userRoute.createNewUser(req, res),
 );
 
 export const db = admin.firestore();

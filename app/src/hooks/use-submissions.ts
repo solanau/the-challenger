@@ -12,14 +12,23 @@ export type SubmissionFilters = Partial<{
 export const useSubmissions = (filters: SubmissionFilters = {}) => {
     const [submissions, setSubmissions] = useState<SubmissionPayload[]>([]);
 
-    useEffect(() =>
-        onSnapshot(
-            query(
-                collection(firestore, 'submissions'),
-                ...Object.keys(filters).map(key =>
-                    where(key, '==', filters[key]),
-                ),
-            ),
+    useEffect(() => {
+        const whereFilters = [];
+
+        if (filters.challengeId) {
+            whereFilters.push(where('challengeId', '==', filters.challengeId));
+        }
+
+        if (filters.eventId) {
+            whereFilters.push(where('eventId', '==', filters.eventId));
+        }
+
+        if (filters.userId) {
+            whereFilters.push(where('userId', '==', filters.userId));
+        }
+
+        const unsubscribe = onSnapshot(
+            query(collection(firestore, 'submissions'), ...whereFilters),
             querySnapshot => {
                 setSubmissions(
                     querySnapshot.docs.map(
@@ -31,8 +40,10 @@ export const useSubmissions = (filters: SubmissionFilters = {}) => {
                     ),
                 );
             },
-        ),
-    );
+        );
+
+        return () => unsubscribe();
+    }, [filters.challengeId, filters.eventId, filters.userId]);
 
     return submissions;
 };

@@ -227,6 +227,21 @@ export async function createNewSubmission(
         .then(res => res.data);
 }
 
+export async function createNewUser(payload: {
+    id: string;
+    userName: string;
+    fullName: string;
+}): Promise<string> {
+    return await axios
+        .post(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/users/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            payload,
+        )
+        .then(res => res.data);
+}
+
 export async function updateSubmissionStatus(
     submissionId: string,
     status: SubmissionStatus,
