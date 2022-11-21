@@ -1,9 +1,10 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { User } from 'types/user';
 import { firestore } from 'utils/firebase';
 
 export const useUser = (userId: string | null) => {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User>(null);
 
     useEffect(() => {
         if (userId === null) {
@@ -13,10 +14,18 @@ export const useUser = (userId: string | null) => {
 
         const unsubscribe = onSnapshot(
             doc(firestore, `users/${userId}`),
-            snapshot => ({
-                uid: snapshot.id,
-                ...snapshot.data(),
-            }),
+            snapshot => {
+                const data = snapshot.data();
+
+                if (!data) {
+                    setUser(null);
+                } else {
+                    setUser({
+                        id: snapshot.id,
+                        ...data,
+                    } as User);
+                }
+            },
         );
 
         return () => unsubscribe();

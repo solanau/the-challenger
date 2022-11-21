@@ -24,16 +24,20 @@ export const useChallenges = () => {
                     ),
                 ),
                 querySnapshot => {
-                    setChallenges(
-                        querySnapshot.docs
-                            .map(doc =>
-                                toChallengeFirebase(submissions, {
-                                    uid: doc.id,
-                                    ...doc.data(),
-                                } as ChallengePayload),
-                            )
-                            .sort((a, b) => (a.key > b.key ? 1 : -1)),
-                    );
+                    if (querySnapshot.empty) {
+                        setChallenges([]);
+                    } else {
+                        setChallenges(
+                            querySnapshot.docs
+                                .map(doc =>
+                                    toChallengeFirebase(submissions, {
+                                        uid: doc.id,
+                                        ...doc.data(),
+                                    } as ChallengePayload),
+                                )
+                                .sort((a, b) => (a.key > b.key ? 1 : -1)),
+                        );
+                    }
                 },
             ),
         [submissions],

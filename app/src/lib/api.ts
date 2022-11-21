@@ -1,16 +1,19 @@
 import { PublicKey } from '@solana/web3.js';
 import axios from 'axios';
+import { httpsCallable } from 'firebase/functions';
 import {
     ChallengePayload,
+    CreateSubmissionPayload,
     EventPayload,
     IssueRewardsPayload,
     MintPayload,
     PrizeMintMetadataPayload,
     PrizePayload,
     ProfilePayload,
-    SubmissionPayload,
-    SubmissionStatus,
+    SetUserPayload,
 } from 'types/api';
+import { SubmissionStatus } from 'types/submission';
+import { functions } from 'utils/firebase';
 
 export async function fetchProfileForPubkey(
     pubkey: string,
@@ -189,57 +192,34 @@ export async function updatePrize(payload: PrizePayload): Promise<string> {
         .then(res => res.data);
 }
 
-export async function fetchSubmissions(
-    params: Partial<{ eventId: string; username: string; challengeId: string }>,
-): Promise<SubmissionPayload[]> {
-    return await axios
-        .get(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/submissions',
-            {
-                params,
-            },
-        )
-        .then(res => res.data);
+export async function createSubmission(payload: CreateSubmissionPayload) {
+    const instance = httpsCallable<CreateSubmissionPayload, unknown>(
+        functions,
+        'createSubmission',
+    );
+
+    try {
+        const result = await instance(payload);
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
 }
 
-export async function fetchSubmissionById(
-    submissionId: string,
-): Promise<SubmissionPayload> {
-    return await axios
-        .get(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                `/submissions/${submissionId}`,
-        )
-        .then(res => res.data);
-}
+export async function setUser(payload: SetUserPayload) {
+    const instance = httpsCallable<SetUserPayload, unknown>(
+        functions,
+        'setUser',
+    );
 
-export async function createNewSubmission(
-    payload: SubmissionPayload,
-): Promise<string> {
-    return await axios
-        .post(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/submission/' +
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
-            payload,
-        )
-        .then(res => res.data);
-}
+    try {
+        const result = await instance(payload);
 
-export async function createNewUser(payload: {
-    id: string;
-    userName: string;
-    fullName: string;
-}): Promise<string> {
-    return await axios
-        .post(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/users/' +
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
-            payload,
-        )
-        .then(res => res.data);
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
 }
 
 export async function updateSubmissionStatus(

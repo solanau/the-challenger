@@ -21,12 +21,18 @@ export const useChallenge = (challengeId: string | null) => {
         const unsubscribe = onSnapshot(
             doc(firestore, `challenges/${challengeId}`),
             snapshot => {
-                setChallenge(
-                    toChallengeFirebase(submissions, {
-                        uid: snapshot.id,
-                        ...snapshot.data(),
-                    } as ChallengePayload),
-                );
+                const data = snapshot.data();
+
+                if (!data) {
+                    setChallenge(null);
+                } else {
+                    setChallenge(
+                        toChallengeFirebase(submissions, {
+                            uid: snapshot.id,
+                            ...snapshot.data(),
+                        } as ChallengePayload),
+                    );
+                }
             },
         );
 

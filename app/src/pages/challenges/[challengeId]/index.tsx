@@ -4,9 +4,9 @@ import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
 import { useFormik } from 'formik';
 import { useChallenge } from 'hooks/use-challenge';
-import { createNewSubmission } from 'lib/api';
+import { useCurrentUser } from 'hooks/use-current-user';
+import { createSubmission } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
-import { signIn } from 'next-auth/react';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
@@ -22,8 +22,9 @@ type ChallengePageProps = {
 const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
-    const { user } = useAuth();
+    const { isLoggedIn } = useAuth();
     const challenge = useChallenge(challengeId);
+    const user = useCurrentUser();
 
     const formik = useFormik({
         initialValues: {},
@@ -41,25 +42,16 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
                 };
             });
 
-            try {
-                await createNewSubmission({
-                    id: uuid(),
-                    challengeId,
-                    challengePubkey: challenge.pubkey,
-                    username: '',
-                    userId: user.uid,
-                    answers,
-                    eventId:
-                        process.env
-                            .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
-                    status: 'pending',
-                    challenge,
-                });
-                alert('Submission Sent!');
-            } catch (e) {
-                alert(JSON.stringify(e));
-                setIsLoading(false);
-            }
+            createSubmission({
+                id: uuid(),
+                challengeId,
+                answers,
+                eventId:
+                    process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
+            })
+                .then(() => alert('Submission Sent!'))
+                .catch(error => alert(error))
+                .finally(() => setIsLoading(false));
         },
     });
 
@@ -91,7 +83,7 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
                         }}
                     ></NextSeo>
 
-                    {user ? (
+                    {isLoggedIn ? (
                         <div className="flex flex-col">
                             <section className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                                 <Text variant="label">
@@ -186,9 +178,32 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
                                                         type="submit"
                                                         variant="orange"
                                                         text="Submit"
-                                                        disabled={isLoading}
+                                                        disabled={
+                                                            isLoading ||
+                                                            user === null
+                                                        }
                                                     />
                                                 </div>
+
+                                                {user === null && (
+                                                    <Text
+                                                        variant="paragraph"
+                                                        className="mt-4 text-right italic"
+                                                    >
+                                                        In order to submit a
+                                                        challenge, you have to
+                                                        &nbsp;
+                                                        <Link
+                                                            href="/users/profile-settings"
+                                                            passHref
+                                                        >
+                                                            <a className="text-primary underline">
+                                                                set up your
+                                                                profile.
+                                                            </a>
+                                                        </Link>
+                                                    </Text>
+                                                )}
                                             </form>
                                         )}
                                     </div>
@@ -211,11 +226,14 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
                                         />
                                     </a>
                                 </Link>
-                                <Button
-                                    variant="orange"
-                                    text="Sign in"
-                                    onClick={async () => signIn('github')}
-                                />
+                                <Link href="/login" passHref>
+                                    <a>
+                                        <Button
+                                            variant="orange"
+                                            text="Sign in"
+                                        />
+                                    </a>
+                                </Link>
                             </div>
                         </div>
                     )}

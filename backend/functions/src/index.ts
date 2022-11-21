@@ -3,6 +3,8 @@ import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { controller as submissionController } from './controllers/submission';
+import { controller as userController } from './controllers/user';
 
 const profileRoute = require('./controllers/profile');
 const eventRoute = require('./controllers/event');
@@ -11,7 +13,6 @@ const prizeRoute = require('./controllers/prize');
 const submissionRoute = require('./controllers/submission');
 const rewardRoute = require('./controllers/reward');
 const mintRoute = require('./controllers/mint');
-const userRoute = require('./controllers/user');
 
 admin.initializeApp(functions.config().firebase);
 
@@ -80,18 +81,6 @@ app.put(
     '/prize/:id/:masterApiKey',
     async (req, res) => await prizeRoute.updatePrize(req, res),
 );
-app.get(
-    '/submissions',
-    async (req, res) => await submissionRoute.fetchSubmissions(req, res),
-);
-app.get(
-    '/submissions/:id',
-    async (req, res) => await submissionRoute.fetchSubmissionById(req, res),
-);
-app.post(
-    '/submission/:masterApiKey',
-    async (req, res) => await submissionRoute.createNewSubmission(req, res),
-);
 app.patch(
     '/submission/:id/:masterApiKey',
     async (req, res) => await submissionRoute.updateSubmissionStatus(req, res),
@@ -108,10 +97,26 @@ app.post(
     '/customMint/:masterApiKey',
     async (req, res) => await mintRoute.createNewCustomMint(req, res),
 );
-app.post(
-    '/users/:masterApiKey',
-    async (req, res) => await userRoute.createNewUser(req, res),
-);
 
 export const db = admin.firestore();
 export const webApi = functions.https.onRequest(app);
+
+export const setUser = functions.https.onCall(async (data, context) => {
+    const user = await userController.setUser(
+        { id: context.auth.token.uid, email: context.auth.token.email },
+        data,
+    );
+
+    return user;
+});
+
+export const createSubmission = functions.https.onCall(
+    async (data, context) => {
+        const submission = await submissionController.createSubmission(
+            { id: context.auth.token.uid, email: context.auth.token.email },
+            data,
+        );
+
+        return submission;
+    },
+);

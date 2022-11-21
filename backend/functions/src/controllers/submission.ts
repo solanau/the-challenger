@@ -1,112 +1,59 @@
+import * as functions from 'firebase-functions';
 import { db } from '..';
 import { MASTER_API_KEY } from '../util/const';
-import { ChallengePayload, SubmissionPayload } from '../util/types';
-import {
-    DatabaseError,
-    DuplicateSubmissionError,
-    MasterApiKeyError,
-    NotFoundError,
-    PayloadError,
-} from '../util/util';
+import { Auth, CreateSubmissionPayload } from '../util/types';
+import { DatabaseError, MasterApiKeyError, NotFoundError } from '../util/util';
 
 const objectType = 'Submission';
 const submissionCollection = 'submissions';
 
-exports.fetchSubmissions = async (req, res) => {
-    try {
-        let query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>;
+export const isDuplicateSubmission = async (
+    eventId: string,
+    userId: string,
+    challengeId: string,
+) => {
+    const pastSubmissions = await db
+        .collection(submissionCollection)
+        .where('eventId', '==', eventId)
+        .where('userId', '==', userId)
+        .where('challengeId', '==', challengeId)
+        .get();
 
-        Object.keys(req.query).forEach(key => {
-            if (!query) {
-                query = db.collection(submissionCollection);
-            }
-
-            query = query.where(key, '==', req.query[key]);
-        });
-
-        const submissionQuerySnapshot = await query.get();
-        const submissions: SubmissionPayload[] = [];
-        submissionQuerySnapshot.forEach(doc => {
-            const data: any = doc.data();
-            submissions.push({
-                id: doc.id,
-                ...data,
-            });
-        });
-
-        res.status(200).json(submissions);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
+    return !pastSubmissions.empty;
 };
 
-exports.fetchSubmissionById = async (req, res) => {
-    try {
-        const submission = await db
-            .doc(`${submissionCollection}/${req.params.id}`)
-            .get();
-
-        res.status(200).json({
-            id: submission.id,
-            ...submission.data(),
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
-};
-
-exports.createNewSubmission = async function (req, res) {
-    if (req.params.masterApiKey != MASTER_API_KEY) {
-        console.error(MasterApiKeyError());
-        return res.status(400).send(MasterApiKeyError());
-    } else {
-        let rawSubmission: SubmissionPayload;
-        try {
-            rawSubmission = req.body;
-        } catch (error) {
-            console.log(error);
-            return res.status(500).send(PayloadError());
-        }
-
-        const pastSubmissions = await db
-            .collection(submissionCollection)
-            .where('eventId', '==', rawSubmission.eventId)
-            .where('username', '==', rawSubmission.username)
-            .where('challengeId', '==', rawSubmission.challengeId)
-            .get();
-
-        if (pastSubmissions.size > 0) {
-            return res.status(400).send(DuplicateSubmissionError());
+class SubmissionController {
+    async createSubmission(auth: Auth, payload: CreateSubmissionPayload) {
+        if (
+            await isDuplicateSubmission(
+                payload.eventId,
+                auth.id,
+                payload.challengeId,
+            )
+        ) {
+            throw new functions.https.HttpsError(
+                'already-exists',
+                `There's another submission exactly like this one.`,
+            );
         }
 
         const challenge = await db
-            .doc(`challenges/${rawSubmission.challengeId}`)
+            .doc(`challenges/${payload.challengeId}`)
             .get();
 
-        try {
-            const submission: SubmissionPayload = {
-                ...rawSubmission,
-                status: 'pending',
-                challenge: {
-                    uid: challenge.id,
-                    ...challenge.data(),
-                } as ChallengePayload,
-            };
-            await db
-                .doc(`${submissionCollection}/${submission.id}`)
-                .set(submission);
+        await db.doc(`submissions/${payload.id}`).set({
+            ...payload,
+            status: 'pending',
+            userId: auth.id,
+            challenge: {
+                uid: challenge.id,
+                ...challenge.data(),
+            },
+        });
 
-            return res.status(201).send({
-                submissionId: submission.id,
-            });
-        } catch (error) {
-            console.log(error);
-            return res.status(500).send(DatabaseError(objectType));
-        }
+        return payload;
     }
-};
+}
 
 exports.updateSubmissionStatus = async function (req, res) {
     if (req.params.masterApiKey != MASTER_API_KEY) {
@@ -134,3 +81,5 @@ exports.updateSubmissionStatus = async function (req, res) {
         }
     }
 };
+
+export const controller = new SubmissionController();

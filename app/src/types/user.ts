@@ -1,7 +1,7 @@
 export type User = {
-    avatarUrl: string;
-    closedBountiesCount: number;
+    id: string;
     fullName: string;
-    level: number;
-    username: string;
+    userName: string;
+    email: string;
+    walletPublicKey: string;
 };

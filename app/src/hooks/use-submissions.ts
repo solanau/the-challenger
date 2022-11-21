@@ -1,6 +1,6 @@
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { SubmissionPayload } from 'types/api';
+import { Submission } from 'types/submission';
 import { firestore } from 'utils/firebase';
 
 export type SubmissionFilters = Partial<{
@@ -10,7 +10,7 @@ export type SubmissionFilters = Partial<{
 }>;
 
 export const useSubmissions = (filters: SubmissionFilters = {}) => {
-    const [submissions, setSubmissions] = useState<SubmissionPayload[]>([]);
+    const [submissions, setSubmissions] = useState<Submission[]>([]);
 
     useEffect(() => {
         const whereFilters = [];
@@ -30,15 +30,19 @@ export const useSubmissions = (filters: SubmissionFilters = {}) => {
         const unsubscribe = onSnapshot(
             query(collection(firestore, 'submissions'), ...whereFilters),
             querySnapshot => {
-                setSubmissions(
-                    querySnapshot.docs.map(
-                        doc =>
-                            ({
-                                id: doc.id,
-                                ...doc.data(),
-                            } as SubmissionPayload),
-                    ),
-                );
+                if (querySnapshot.empty) {
+                    setSubmissions([]);
+                } else {
+                    setSubmissions(
+                        querySnapshot.docs.map(
+                            doc =>
+                                ({
+                                    id: doc.id,
+                                    ...doc.data(),
+                                } as Submission),
+                        ),
+                    );
+                }
             },
         );
 

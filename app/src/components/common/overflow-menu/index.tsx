@@ -1,8 +1,13 @@
-/* eslint-disable indent */
+import { useCurrentUser } from 'hooks/use-current-user';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useRef, useState } from 'react';
-import { MdLogin, MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
+import {
+    MdLogin,
+    MdLogout,
+    MdOutlineManageAccounts,
+    MdSettings,
+} from 'react-icons/md';
 import Button from '../button';
 import Card from '../card';
 import Text from '../text';
@@ -10,7 +15,11 @@ import Text from '../text';
 const OverflowMenu = () => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
-    const { user, logOut } = useAuth();
+    const {
+        user: { uid },
+        logOut,
+    } = useAuth();
+    const user = useCurrentUser();
 
     return (
         <>
@@ -27,80 +36,138 @@ const OverflowMenu = () => {
                         <div className="flex flex-col gap-3 p-5">
                             <div className="flex items-center justify-between">
                                 <div className="flex w-full flex-col gap-1">
-                                    <Text
-                                        variant="label"
-                                        className="text-secondary"
-                                    >
-                                        Profile
-                                    </Text>
-                                    <Text
-                                        variant="nav-heading"
-                                        className={user.uid && 'text-primary'}
-                                    >
-                                        {user.uid ? (
+                                    {user && (
+                                        <>
+                                            <Text
+                                                variant="nav-heading"
+                                                className="capitalize text-secondary"
+                                            >
+                                                {user.fullName}
+                                            </Text>
+                                            <Text
+                                                variant="label"
+                                                className="lowercase text-primary underline"
+                                            >
+                                                <Link
+                                                    onClick={() =>
+                                                        setMenuOpen(false)
+                                                    }
+                                                    href={`/${user.userName}`}
+                                                    passHref
+                                                >
+                                                    {`@${user.userName}`}
+                                                </Link>
+                                            </Text>
                                             <Link
-                                                href={`/${user.uid}`}
-                                                onClick={() =>
-                                                    setMenuOpen(false)
-                                                }
+                                                href="/users/profile-settings"
                                                 passHref
                                             >
-                                                {user.email}
+                                                <a className="flex flex-row justify-end">
+                                                    <Button
+                                                        text="Edit Profile"
+                                                        icon={MdSettings}
+                                                        variant="orange"
+                                                        className="mt-2 !w-full"
+                                                        onClick={() =>
+                                                            setMenuOpen(false)
+                                                        }
+                                                    />
+                                                </a>
                                             </Link>
-                                        ) : (
-                                            'Sign in with GitHub'
-                                        )}
-                                    </Text>
-                                    {user.uid ? (
-                                        <div className="flex flex-row items-center gap-1">
-                                            user logged in
+                                            <Button
+                                                text="Log out"
+                                                icon={MdLogout}
+                                                variant="danger"
+                                                className="mt-2 !w-full"
+                                                onClick={logOut}
+                                            />
+                                        </>
+                                    )}
+
+                                    {!uid && (
+                                        <div>
+                                            <Text
+                                                variant="nav-heading"
+                                                className="text-secondary"
+                                            >
+                                                Sign in with GitHub
+                                            </Text>
+                                            <Text
+                                                variant="label"
+                                                className="!normal-case text-secondary"
+                                            >
+                                                Connect your GitHub account for
+                                                an enhanced user experience,
+                                                including the ability to create
+                                                new and claim completed
+                                                bounties.
+                                            </Text>
+                                            <Text
+                                                variant="paragraph"
+                                                className="mt-2"
+                                            >
+                                                <Link href="/login" passHref>
+                                                    <a>
+                                                        <Button
+                                                            text="Sign in"
+                                                            icon={MdLogin}
+                                                            variant="orange"
+                                                            className="!w-full"
+                                                            onClick={() =>
+                                                                setMenuOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        />
+                                                    </a>
+                                                </Link>
+                                            </Text>
                                         </div>
-                                    ) : (
-                                        <Text
-                                            variant="label"
-                                            className="!normal-case text-secondary"
-                                        >
-                                            Connect your GitHub account for an
-                                            enhanced user experience, including
-                                            the ability to create new and claim
-                                            completed bounties.
-                                        </Text>
+                                    )}
+
+                                    {uid && !user && (
+                                        <div>
+                                            <Text
+                                                variant="nav-heading"
+                                                className="text-secondary"
+                                            >
+                                                Set up your profile.
+                                            </Text>
+                                            <Text
+                                                variant="label"
+                                                className="!normal-case text-secondary"
+                                            >
+                                                You will need to set up your
+                                                profile in order to start doing
+                                                challenges.
+                                            </Text>
+                                            <Link
+                                                href="/users/profile-settings"
+                                                passHref
+                                            >
+                                                <a className="flex flex-row justify-end">
+                                                    <Button
+                                                        text="Set up profile"
+                                                        icon={MdSettings}
+                                                        variant="orange"
+                                                        className="mt-2 !w-full"
+                                                        onClick={() =>
+                                                            setMenuOpen(false)
+                                                        }
+                                                    />
+                                                </a>
+                                            </Link>
+                                            <Button
+                                                text="Log out"
+                                                icon={MdLogout}
+                                                variant="danger"
+                                                className="mt-2 !w-full"
+                                                onClick={logOut}
+                                            />
+                                        </div>
                                     )}
                                 </div>
-                                {/* {session && (
-                                <Image
-                                    alt="Avatar"
-                                    src={session.user.image}
-                                    height={40}
-                                    className="aspect-square"
-                                    style={{ borderRadius: '50%' }}
-                                />
-                            )} */}
                             </div>
-
-                            {user.uid && (
-                                <Button
-                                    text="Log out"
-                                    icon={MdLogout}
-                                    variant="danger"
-                                    className="!w-full"
-                                    onClick={logOut}
-                                />
-                            )}
-
-                            {!user.uid && (
-                                <Link href="/login" passHref>
-                                    <a className="flex flex-row justify-end">
-                                        <Button
-                                            text="Sign in"
-                                            icon={MdLogin}
-                                            variant="orange"
-                                            className="!w-full"
-                                            onClick={() => setMenuOpen(false)}
-                                        />
-                                    </a>
-                                </Link>
-                            )}
                         </div>
                         <div className="h-px w-full bg-line" />
                     </Card>

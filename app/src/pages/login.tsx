@@ -2,20 +2,27 @@
 import Button from 'components/common/button';
 import Text from 'components/common/text';
 import { NextPage } from 'next';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { FormEvent, useState } from 'react';
 
 const LoginPage: NextPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const { logIn } = useAuth();
+    const router = useRouter();
 
     const handleFormSubmit = async (event: FormEvent) => {
         event.preventDefault();
 
-        const response = await logIn(email, password);
+        setIsLoading(true);
 
-        console.log(response);
+        logIn(email, password)
+            .then(() => router.push('/'))
+            .catch(error => alert(error))
+            .finally(() => setIsLoading(false));
     };
 
     return (
@@ -47,11 +54,24 @@ const LoginPage: NextPage = () => {
                     </label>
 
                     <div>
-                        <Button variant="orange" type="submit">
+                        <Button
+                            variant="orange"
+                            type="submit"
+                            disabled={isLoading}
+                        >
                             Submit
                         </Button>
                     </div>
                 </form>
+
+                <div>
+                    <Text variant="paragraph" className="text-xs">
+                        Haven't signed up yet?
+                        <Link href="/sign-up" passHref>
+                            <a className="text-primary"> Visit sign up page.</a>
+                        </Link>
+                    </Text>
+                </div>
             </section>
         </>
     );

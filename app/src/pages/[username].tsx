@@ -1,6 +1,6 @@
 import Button from 'components/common/button';
-import ChallengeList from 'components/common/challenge-list';
 import NavElement from 'components/common/layout/header/nav-element';
+import SubmissionList from 'components/common/submission-list';
 import Text from 'components/common/text';
 import Hero from 'components/profile-page/hero';
 import { useSubmissions } from 'hooks/use-submissions';
@@ -12,81 +12,86 @@ import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo } from 'react';
 import { MdAdd } from 'react-icons/md';
-import { ChallengePayload } from 'types/api';
 
 type ProfilePageProps = {
-    completedChallenges: ChallengePayload[];
-    incorrectChallenges: ChallengePayload[];
-    invalidChallenges: ChallengePayload[];
-    pendingChallenges: ChallengePayload[];
     userName: string;
 };
 
-const ProfilePage: NextPage<ProfilePageProps> = ({
-    completedChallenges: completedChallenges,
-    incorrectChallenges: incorrectChallenges,
-    invalidChallenges: invalidChallenges,
-    pendingChallenges: pendingChallenges,
-    userName,
-}) => {
+const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
     const { user: currentUser } = useAuth();
     const user = useUserByUserName(userName);
     const submissions = useSubmissions({ userId: user?.id });
-
-    console.log(submissions);
+    const pendingSubmissions = useMemo(
+        () => submissions.filter(submission => submission.status === 'pending'),
+        [submissions],
+    );
+    const completedSubmissions = useMemo(
+        () =>
+            submissions.filter(submission => submission.status === 'completed'),
+        [submissions],
+    );
+    const invalidSubmissions = useMemo(
+        () => submissions.filter(submission => submission.status === 'invalid'),
+        [submissions],
+    );
+    const incorrectSubmissions = useMemo(
+        () =>
+            submissions.filter(submission => submission.status === 'incorrect'),
+        [submissions],
+    );
 
     const tabs = useMemo(
         () => [
             {
                 content: (
-                    <ChallengeList
-                        key="completed-challenges"
-                        challenges={completedChallenges}
+                    <SubmissionList
+                        key="completed-submissions"
+                        submissions={completedSubmissions}
                     />
                 ),
                 id: 'completed',
                 label: 'Completed',
-                amount: completedChallenges.length,
+                amount: completedSubmissions.length,
             },
             {
                 content: (
-                    <ChallengeList
-                        key="incorrect-challenges"
-                        challenges={incorrectChallenges}
+                    <SubmissionList
+                        key="incorrect-submissions"
+                        submissions={incorrectSubmissions}
                     />
                 ),
                 id: 'incorrect',
                 label: 'Incorrect',
-                amount: incorrectChallenges.length,
+                amount: incorrectSubmissions.length,
             },
             {
                 content: (
-                    <ChallengeList
-                        key="invalid-challenges"
-                        challenges={invalidChallenges}
+                    <SubmissionList
+                        key="invalid-submissions"
+                        submissions={invalidSubmissions}
                     />
                 ),
                 id: 'invalid',
                 label: 'Invalid',
-                amount: invalidChallenges.length,
+                amount: invalidSubmissions.length,
             },
             {
                 content: (
-                    <ChallengeList
-                        key="pending-challenges"
-                        challenges={pendingChallenges}
+                    <SubmissionList
+                        key="pending-submissions"
+                        submissions={pendingSubmissions}
                     />
                 ),
                 id: 'pending',
                 label: 'Pending',
-                amount: pendingChallenges.length,
+                amount: pendingSubmissions.length,
             },
         ],
         [
-            completedChallenges,
-            incorrectChallenges,
-            invalidChallenges,
-            pendingChallenges,
+            completedSubmissions,
+            incorrectSubmissions,
+            invalidSubmissions,
+            pendingSubmissions,
         ],
     );
 
@@ -159,10 +164,6 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
     return {
         props: {
-            completedChallenges: [],
-            incorrectChallenges: [],
-            invalidChallenges: [],
-            pendingChallenges: [],
             userName,
         },
     };

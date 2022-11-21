@@ -1,14 +1,12 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { SubmissionPayload } from 'types/api';
+import { Submission } from 'types/submission';
 import { firestore } from 'utils/firebase';
 
 export const useSubmission = (
     submissionId: string | null,
-): SubmissionPayload | null => {
-    const [submission, setSubmission] = useState<SubmissionPayload | null>(
-        null,
-    );
+): Submission | null => {
+    const [submission, setSubmission] = useState<Submission | null>(null);
 
     useEffect(() => {
         if (submissionId === null) {
@@ -19,10 +17,16 @@ export const useSubmission = (
         const unsubscribe = onSnapshot(
             doc(firestore, `submissions/${submissionId}`),
             snapshot => {
-                setSubmission({
-                    id: snapshot.id,
-                    ...snapshot.data(),
-                } as SubmissionPayload);
+                const data = snapshot.data();
+
+                if (!data) {
+                    setSubmission(null);
+                } else {
+                    setSubmission({
+                        id: snapshot.id,
+                        ...snapshot.data(),
+                    } as Submission);
+                }
             },
         );
 

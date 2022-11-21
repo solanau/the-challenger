@@ -1,24 +1,40 @@
+import * as functions from 'firebase-functions';
 import { db } from '..';
-import { MASTER_API_KEY } from '../util/const';
-import { DatabaseError, MasterApiKeyError } from '../util/util';
+import { Auth, SetUserPayload } from '../util/types';
 
-const objectType = 'User';
+export const isDuplicateUserName = async (
+    currentUserId: string,
+    userName: string,
+) => {
+    const usersWithSameUsername = await db
+        .collection(`users`)
+        .where('userName', '==', userName)
+        .get();
 
-exports.createNewUser = async function (req, res) {
-    if (req.params.masterApiKey != MASTER_API_KEY) {
-        console.error(MasterApiKeyError());
-        res.status(400).send(MasterApiKeyError());
-    } else {
-        try {
-            // verify userName is not duplicate -> transaction
-            const { id } = req.body;
-            await db.doc(`users/${id}`).set(req.body);
-            res.status(201).send({
-                userId: id,
-            });
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(DatabaseError(objectType));
-        }
-    }
+    return (
+        !usersWithSameUsername.empty &&
+        usersWithSameUsername.docs.some(doc => doc.id !== currentUserId)
+    );
 };
+
+class UserController {
+    async setUser(auth: Auth, payload: SetUserPayload) {
+        if (await isDuplicateUserName(auth.id, payload.userName)) {
+            throw new functions.https.HttpsError(
+                'already-exists',
+                `There's a user with that user name already.`,
+            );
+        }
+
+        await db.doc(`users/${auth.id}`).set({
+            fullName: payload.fullName,
+            userName: payload.userName,
+            email: auth.email,
+            walletPublicKey: payload.walletPublicKey,
+        });
+
+        return payload;
+    }
+}
+
+export const controller = new UserController();

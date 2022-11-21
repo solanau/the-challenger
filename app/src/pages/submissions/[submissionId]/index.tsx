@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { FormEvent, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
-import { SubmissionStatus } from 'types/api';
+import { SubmissionStatus } from 'types/submission';
 import { cn } from 'utils';
 
 const ALLOWED_REVIEWERS = process.env.NEXT_PUBLIC_ALLOWED_REVIEWERS.split(',');
@@ -135,14 +135,14 @@ const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
                                                     Invalid
                                                 </option>
                                                 <option
-                                                    value="complete"
+                                                    value="completed"
                                                     className="bg-black bg-opacity-60"
                                                     disabled={
-                                                        'complete' ===
+                                                        'completed' ===
                                                         submission.status
                                                     }
                                                 >
-                                                    Complete
+                                                    Completed
                                                 </option>
                                             </select>
                                         </label>

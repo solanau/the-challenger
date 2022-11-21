@@ -1,5 +1,41 @@
 export type SubmissionStatus = 'pending' | 'invalid' | 'complete';
 
+export interface BaseFieldConfig {
+    field: string;
+    label: string;
+    key: string;
+    placeholder: string;
+    maxLength?: number;
+}
+
+export type TextFieldConfig = BaseFieldConfig & {
+    type: 'text';
+};
+
+export type TextAreaFieldConfig = BaseFieldConfig & {
+    type: 'textArea';
+    rows?: number;
+};
+
+export type NumberFieldConfig = BaseFieldConfig & {
+    type: 'number';
+};
+
+export type EmailFieldConfig = BaseFieldConfig & {
+    type: 'email';
+};
+
+export type FieldConfig =
+    | TextFieldConfig
+    | TextAreaFieldConfig
+    | NumberFieldConfig
+    | EmailFieldConfig;
+
+export interface SubmissionAnswer {
+    field: FieldConfig;
+    value: string;
+}
+
 export type EventPayload = {
     pubkey: string;
     authority: string;
@@ -57,15 +93,11 @@ export type PrizePayload = {
     quantity: number;
 };
 
-export type SubmissionPayload = {
+export type CreateSubmissionPayload = {
     id: string;
     eventId: string;
     challengeId: string;
-    challengePubkey: string;
-    challenge: ChallengePayload;
-    username: string;
     answers: any[];
-    status: SubmissionStatus;
 };
 
 export type PrizeMintMetadataPayload = {
@@ -97,3 +129,14 @@ export type ProfilePayload = {
     pubkey: string;
     username: string;
 };
+
+export interface Auth {
+    id: string;
+    email: string;
+}
+
+export interface SetUserPayload {
+    fullName: string;
+    userName: string;
+    walletPublicKey: string;
+}

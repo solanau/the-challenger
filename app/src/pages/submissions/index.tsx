@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
-import { SubmissionStatus } from 'types/api';
+import { SubmissionStatus } from 'types/submission';
 
 const ALLOWED_REVIEWERS = process.env.NEXT_PUBLIC_ALLOWED_REVIEWERS.split(',');
 

@@ -15,6 +15,7 @@ interface UserType {
 
 export interface AuthContextState {
     user: UserType;
+    isLoggedIn: boolean;
     signUp(email: string, password: string): Promise<UserCredential>;
     logIn(email: string, password: string): Promise<UserCredential>;
     logOut(): Promise<void>;
@@ -30,6 +31,7 @@ export const AuthContextProvider = ({
     children: React.ReactNode;
 }) => {
     const [user, setUser] = useState<UserType>({ email: null, uid: null });
+    const [isLoggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -39,8 +41,10 @@ export const AuthContextProvider = ({
                     email: user.email,
                     uid: user.uid,
                 });
+                setLoggedIn(true);
             } else {
                 setUser({ email: null, uid: null });
+                setLoggedIn(false);
             }
         });
         setLoading(false);
@@ -60,7 +64,9 @@ export const AuthContextProvider = ({
     };
 
     return (
-        <AuthContext.Provider value={{ user, signUp, logIn, logOut }}>
+        <AuthContext.Provider
+            value={{ user, isLoggedIn, signUp, logIn, logOut }}
+        >
             {loading ? null : children}
         </AuthContext.Provider>
     );
