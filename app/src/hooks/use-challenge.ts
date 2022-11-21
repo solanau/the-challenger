@@ -29,7 +29,7 @@ export const useChallenge = (challengeId: string | null) => {
                     setChallenge(
                         toChallengeFirebase(submissions, {
                             uid: snapshot.id,
-                            ...snapshot.data(),
+                            ...data,
                         } as ChallengePayload),
                     );
                 }

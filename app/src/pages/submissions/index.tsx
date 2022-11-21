@@ -1,6 +1,7 @@
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Text from 'components/common/text';
+import { useEvent } from 'hooks/use-event';
 import { useSubmissions } from 'hooks/use-submissions';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
@@ -10,13 +11,14 @@ import { useMemo, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { SubmissionStatus } from 'types/submission';
 
-const ALLOWED_REVIEWERS = process.env.NEXT_PUBLIC_ALLOWED_REVIEWERS.split(',');
-
 const SubmissionsPage: NextPage = () => {
     const [status, setStatus] = useState('pending');
     const { user } = useAuth();
+    const event = useEvent(
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+    );
     const submissions = useSubmissions({
-        eventId: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
+        eventId: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
     });
     const filteredSubmissions = useMemo(
         () => submissions.filter(submission => submission.status === status),
@@ -31,7 +33,7 @@ const SubmissionsPage: NextPage = () => {
             ></NextSeo>
 
             {user ? (
-                ALLOWED_REVIEWERS.includes(user.uid) ? (
+                event?.reviewers.includes(user.uid) ? (
                     <div>
                         <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                             <Text variant="big-heading">Submissions List</Text>
@@ -65,10 +67,10 @@ const SubmissionsPage: NextPage = () => {
                                         Invalid
                                     </option>
                                     <option
-                                        value="complete"
+                                        value="completed"
                                         className="bg-black bg-opacity-60"
                                     >
-                                        Complete
+                                        Completed
                                     </option>
                                 </select>
                             </div>

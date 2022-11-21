@@ -17,10 +17,9 @@ export const useChallenges = () => {
                 query(
                     collection(firestore, 'challenges'),
                     where(
-                        'eventPubkey',
+                        'eventId',
                         '==',
-                        process.env
-                            .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
+                        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
                     ),
                 ),
                 querySnapshot => {

@@ -46,8 +46,7 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
                 id: uuid(),
                 challengeId,
                 answers,
-                eventId:
-                    process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
+                eventId: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
             })
                 .then(() => alert('Submission Sent!'))
                 .catch(error => alert(error))

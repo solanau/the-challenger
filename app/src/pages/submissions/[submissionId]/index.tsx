@@ -2,6 +2,7 @@ import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
+import { useEvent } from 'hooks/use-event';
 import { useSubmission } from 'hooks/use-submission';
 import { updateSubmissionStatus } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
@@ -11,18 +12,18 @@ import { useAuth } from 'providers/AuthProvider';
 import { FormEvent, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { SubmissionStatus } from 'types/submission';
-import { cn } from 'utils';
-
-const ALLOWED_REVIEWERS = process.env.NEXT_PUBLIC_ALLOWED_REVIEWERS.split(',');
 
 type SubmissionPageProps = {
     submissionId: string;
 };
 
 const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
-    const [validBountyName] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const { user } = useAuth();
     const submission = useSubmission(submissionId);
+    const event = useEvent(
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+    );
     const [status, setStatus] = useState<SubmissionStatus | ''>('');
 
     const handleFormSubmit = (event: FormEvent) => {
@@ -32,9 +33,15 @@ const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
             return;
         }
 
-        updateSubmissionStatus(submission.id, status).then(() => {
-            alert('Submission status changed');
-        });
+        setIsLoading(true);
+
+        updateSubmissionStatus({
+            id: submissionId,
+            status,
+        })
+            .then(() => alert('Submission status changed!'))
+            .catch(error => alert(error))
+            .finally(() => setIsLoading(false));
     };
 
     return (
@@ -44,17 +51,10 @@ const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
                     <NextSeo title="Submission"></NextSeo>
 
                     {user ? (
-                        ALLOWED_REVIEWERS.includes(user.uid) ? (
+                        event?.reviewers.includes(user.uid) ? (
                             <div className="flex flex-col">
                                 <section className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                                    <div
-                                        className={cn(
-                                            'tooltip-bottom tooltip-error',
-                                            !validBountyName &&
-                                                'tooltip-open tooltip',
-                                        )}
-                                        data-tip="Submission name"
-                                    >
+                                    <div>
                                         <div className="flex h-12 flex-col justify-between md:h-20">
                                             <h1 className="peer border-none bg-transparent text-4xl font-medium placeholder-white/90 outline-none md:text-6xl">
                                                 {submission.challenge.title ??
@@ -150,7 +150,8 @@ const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
                                             type="submit"
                                             variant="orange"
                                             disabled={
-                                                submission.status === status
+                                                submission.status === status ||
+                                                isLoading
                                             }
                                         >
                                             Save

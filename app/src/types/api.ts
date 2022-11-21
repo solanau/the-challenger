@@ -1,6 +1,6 @@
 import { ChallengeType } from './challenge';
 import { FieldConfig } from './form';
-import { SubmissionAnswer } from './submission';
+import { SubmissionAnswer, SubmissionStatus } from './submission';
 
 export interface EventPayload {
     pubkey: string;
@@ -101,3 +101,8 @@ export interface SetUserPayload {
     userName: string;
     walletPublicKey: string;
 }
+
+export type UpdateSubmissionStatusPayload = {
+    id: string;
+    status: SubmissionStatus;
+};

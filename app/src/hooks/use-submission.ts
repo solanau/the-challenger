@@ -24,7 +24,7 @@ export const useSubmission = (
                 } else {
                     setSubmission({
                         id: snapshot.id,
-                        ...snapshot.data(),
+                        ...data,
                     } as Submission);
                 }
             },

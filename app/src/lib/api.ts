@@ -11,8 +11,8 @@ import {
     PrizePayload,
     ProfilePayload,
     SetUserPayload,
+    UpdateSubmissionStatusPayload,
 } from 'types/api';
-import { SubmissionStatus } from 'types/submission';
 import { functions } from 'utils/firebase';
 
 export async function fetchProfileForPubkey(
@@ -92,40 +92,6 @@ export async function updateEvent(
                 eventId +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
-        )
-        .then(res => res.data);
-}
-
-export async function fetchChallengesForEvent(): Promise<ChallengePayload[]> {
-    return await axios
-        .get(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenges/' +
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
-        )
-        .then(res => res.data);
-}
-
-export async function fetchChallengeById(
-    id: string,
-): Promise<ChallengePayload> {
-    return await axios
-        .get(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenge/id/' +
-                id,
-        )
-        .then(res => res.data);
-}
-
-export async function fetchChallengeByKey(
-    key: number,
-): Promise<ChallengePayload> {
-    return await axios
-        .get(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenge/key/' +
-                key,
         )
         .then(res => res.data);
 }
@@ -223,19 +189,20 @@ export async function setUser(payload: SetUserPayload) {
 }
 
 export async function updateSubmissionStatus(
-    submissionId: string,
-    status: SubmissionStatus,
-): Promise<string> {
-    return await axios
-        .patch(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/submission/' +
-                submissionId +
-                '/' +
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
-            { status },
-        )
-        .then(res => res.data);
+    payload: UpdateSubmissionStatusPayload,
+) {
+    const instance = httpsCallable<UpdateSubmissionStatusPayload, unknown>(
+        functions,
+        'updateSubmissionStatus',
+    );
+
+    try {
+        const result = await instance(payload);
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
 }
 
 export async function issueAllRewardsForChallenge(

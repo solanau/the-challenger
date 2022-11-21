@@ -1,10 +1,11 @@
 import * as functions from 'firebase-functions';
 import { db } from '..';
-import { MASTER_API_KEY } from '../util/const';
-import { Auth, CreateSubmissionPayload } from '../util/types';
-import { DatabaseError, MasterApiKeyError, NotFoundError } from '../util/util';
+import {
+    Auth,
+    CreateSubmissionPayload,
+    UpdateSubmissionStatusPayload,
+} from '../util/types';
 
-const objectType = 'Submission';
 const submissionCollection = 'submissions';
 
 export const isDuplicateSubmission = async (
@@ -14,12 +15,21 @@ export const isDuplicateSubmission = async (
 ) => {
     const pastSubmissions = await db
         .collection(submissionCollection)
-        .where('eventId', '==', eventId)
         .where('userId', '==', userId)
-        .where('challengeId', '==', challengeId)
+        .where('eventId', '==', eventId)
+        .where('challenge.id', '==', challengeId)
         .get();
 
     return !pastSubmissions.empty;
+};
+
+export const isReviewer = async (submissionId: string, userId: string) => {
+    const submission = await db.doc(`submissions/${submissionId}`).get();
+    const submissionData = submission.data();
+    const event = await db.doc(`events/${submissionData.eventId}`).get();
+    const eventData = event.data();
+
+    return eventData.reviewers.includes(userId);
 };
 
 class SubmissionController {
@@ -40,46 +50,39 @@ class SubmissionController {
         const challenge = await db
             .doc(`challenges/${payload.challengeId}`)
             .get();
+        const challengeData = challenge.data();
 
         await db.doc(`submissions/${payload.id}`).set({
-            ...payload,
             status: 'pending',
             userId: auth.id,
             challenge: {
-                uid: challenge.id,
-                ...challenge.data(),
+                id: challenge.id,
+                ...challengeData,
             },
+            eventId: payload.eventId,
+            answers: payload.answers,
+        });
+
+        return payload;
+    }
+
+    async updateSubmissionStatus(
+        auth: Auth,
+        payload: UpdateSubmissionStatusPayload,
+    ) {
+        if (!(await isReviewer(payload.id, auth.id))) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to change a submission's status, you have to be a reviewer.`,
+            );
+        }
+
+        await db.doc(`submissions/${payload.id}`).update({
+            status: payload.status,
         });
 
         return payload;
     }
 }
-
-exports.updateSubmissionStatus = async function (req, res) {
-    if (req.params.masterApiKey != MASTER_API_KEY) {
-        console.error(MasterApiKeyError());
-        return res.status(400).send(MasterApiKeyError());
-    } else {
-        const submission = await db
-            .doc(`${submissionCollection}/${req.params.id}`)
-            .get();
-
-        if (!submission) {
-            return res.status(404).send(NotFoundError());
-        }
-
-        try {
-            await db.doc(`${submissionCollection}/${req.params.id}`).update({
-                status: req.body.status,
-            });
-            return res.status(201).send({
-                submissionId: req.params.id,
-            });
-        } catch (error) {
-            console.log(error);
-            return res.status(500).send(DatabaseError(objectType));
-        }
-    }
-};
 
 export const controller = new SubmissionController();

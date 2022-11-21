@@ -10,7 +10,6 @@ const profileRoute = require('./controllers/profile');
 const eventRoute = require('./controllers/event');
 const challengeRoute = require('./controllers/challenge');
 const prizeRoute = require('./controllers/prize');
-const submissionRoute = require('./controllers/submission');
 const rewardRoute = require('./controllers/reward');
 const mintRoute = require('./controllers/mint');
 
@@ -81,10 +80,6 @@ app.put(
     '/prize/:id/:masterApiKey',
     async (req, res) => await prizeRoute.updatePrize(req, res),
 );
-app.patch(
-    '/submission/:id/:masterApiKey',
-    async (req, res) => await submissionRoute.updateSubmissionStatus(req, res),
-);
 app.post(
     '/reward/:masterApiKey',
     async (req, res) => await rewardRoute.issueAllRewardsForChallenge(req, res),
@@ -113,6 +108,17 @@ export const setUser = functions.https.onCall(async (data, context) => {
 export const createSubmission = functions.https.onCall(
     async (data, context) => {
         const submission = await submissionController.createSubmission(
+            { id: context.auth.token.uid, email: context.auth.token.email },
+            data,
+        );
+
+        return submission;
+    },
+);
+
+export const updateSubmissionStatus = functions.https.onCall(
+    async (data, context) => {
+        const submission = await submissionController.updateSubmissionStatus(
             { id: context.auth.token.uid, email: context.auth.token.email },
             data,
         );
