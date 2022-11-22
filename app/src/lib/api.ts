@@ -157,13 +157,36 @@ export async function updatePrize(payload: PrizePayload): Promise<string> {
 }
 
 export async function createSubmission(payload: CreateSubmissionPayload) {
-    const instance = httpsCallable<CreateSubmissionPayload, unknown>(
-        functions,
-        'createSubmission',
-    );
+    const publishEvent = httpsCallable<
+        { type: string; payload: CreateSubmissionPayload },
+        unknown
+    >(functions, 'publishEvent');
 
     try {
-        const result = await instance(payload);
+        const result = await publishEvent({
+            type: 'createSubmission',
+            payload,
+        });
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
+
+export async function updateSubmissionStatus(
+    payload: UpdateSubmissionStatusPayload,
+) {
+    const publishEvent = httpsCallable<
+        { type: string; payload: UpdateSubmissionStatusPayload },
+        unknown
+    >(functions, 'publishEvent');
+
+    try {
+        const result = await publishEvent({
+            type: 'updateSubmissionStatus',
+            payload,
+        });
 
         return result.data;
     } catch (error) {
@@ -175,23 +198,6 @@ export async function setUser(payload: SetUserPayload) {
     const instance = httpsCallable<SetUserPayload, unknown>(
         functions,
         'setUser',
-    );
-
-    try {
-        const result = await instance(payload);
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
-}
-
-export async function updateSubmissionStatus(
-    payload: UpdateSubmissionStatusPayload,
-) {
-    const instance = httpsCallable<UpdateSubmissionStatusPayload, unknown>(
-        functions,
-        'updateSubmissionStatus',
     );
 
     try {

@@ -3,7 +3,8 @@ import { db } from '..';
 import {
     Auth,
     CreateSubmissionPayload,
-    UpdateSubmissionStatusPayload
+    SubmissionStatus,
+    UpdateSubmissionStatusPayload,
 } from '../util/types';
 
 const submissionCollection = 'submissions';
@@ -51,8 +52,7 @@ class SubmissionController {
             .doc(`challenges/${payload.challengeId}`)
             .get();
         const challengeData = challenge.data();
-
-        await db.doc(`submissions/${payload.id}`).set({
+        const submission = {
             status: 'pending',
             userId: auth.id,
             challenge: {
@@ -62,9 +62,11 @@ class SubmissionController {
             challengeId: payload.challengeId,
             eventId: payload.eventId,
             answers: payload.answers,
-        });
+        };
 
-        return payload;
+        await db.doc(`submissions/${payload.id}`).set(submission);
+
+        return { id: payload.id, ...submission };
     }
 
     async updateSubmissionStatus(
@@ -78,11 +80,26 @@ class SubmissionController {
             );
         }
 
-        await db.doc(`submissions/${payload.id}`).update({
-            status: payload.status,
+        const result = await db.runTransaction(async transaction => {
+            const submissionRef = db.doc(`submissions/${payload.id}`);
+            const currentSubmission = await submissionRef.get();
+            const currentSubmissionData = currentSubmission.data();
+
+            transaction.update(submissionRef, {
+                status: payload.status,
+            });
+
+            return {
+                id: payload.id,
+                eventId: currentSubmissionData.eventId,
+                oldStatus: currentSubmissionData.status as SubmissionStatus,
+                newStatus: payload.status,
+                rewardValue: currentSubmissionData.challenge
+                    .rewardValue as number,
+            };
         });
 
-        return payload;
+        return result;
     }
 }
 
