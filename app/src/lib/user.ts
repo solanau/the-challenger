@@ -1,7 +1,7 @@
+import { getUser as getGithubUser } from 'lib/github';
 import { User } from 'types/user';
 import { bountiesToLevel } from 'utils';
 import { getBountiesByAssignee } from './bounties';
-import { getUser as getGithubUser } from 'lib/github';
 
 const getUser = async (
     username: string,
@@ -27,7 +27,7 @@ const getUser = async (
         closedBountiesCount,
         fullName,
         level,
-        username,
+        userName: username,
     };
 };
 

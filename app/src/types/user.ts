@@ -1,7 +1,10 @@
 export type User = {
-    id: string;
+    id?: string;
     fullName: string;
     userName: string;
-    email: string;
-    walletPublicKey: string;
+    email?: string;
+    walletPublicKey?: string;
+    avatarUrl?: string;
+    closedBountiesCount?: number;
+    level?: number
 };

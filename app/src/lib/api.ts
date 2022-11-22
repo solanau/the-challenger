@@ -156,6 +156,8 @@ export async function updatePrize(payload: PrizePayload): Promise<string> {
         .then(res => res.data);
 }
 
+// start here
+
 export async function createSubmission(payload: CreateSubmissionPayload) {
     const instance = httpsCallable<CreateSubmissionPayload, unknown>(
         functions,
@@ -202,6 +204,8 @@ export async function updateSubmissionStatus(
         throw new Error(`${error.code}: ${error.message}`);
     }
 }
+
+// end here
 
 export async function issueAllRewardsForChallenge(
     payload: IssueRewardsPayload,

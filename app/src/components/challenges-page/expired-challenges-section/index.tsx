@@ -28,7 +28,7 @@ const ExpiredChallengesSection = ({ challenges }: ChallengeListProps) => (
                             Challenge {challenge.key}
                         </Text>
                         <Text variant="sub-heading">
-                            Reward: {challenge.reward}
+                            Reward: {challenge.rewardValue}
                         </Text>
                     </div>
 

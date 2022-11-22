@@ -1,4 +1,4 @@
-import { ChallengePayload, SubmissionPayload } from 'types/api';
+import { ChallengePayload, CreateSubmissionPayload } from 'types/api';
 import {
     ActiveChallenge,
     BaseChallenge,
@@ -6,7 +6,7 @@ import {
     ChallengeTimeStatus,
     ChallengeView,
     ExpiredChallenge,
-    PendingChallenge,
+    PendingChallenge
 } from 'types/challenge';
 import { Issue } from 'types/github';
 import { getRelativeTime } from './time';
@@ -58,7 +58,7 @@ export const getChallengeAlreadySubmitted = async (
 };
 
 export const getChallengeAlreadySubmittedFirebase = (
-    userSubmissions: SubmissionPayload[],
+    userSubmissions: CreateSubmissionPayload[],
     challenge: ChallengePayload,
 ): boolean => {
     for (const sub of userSubmissions) {
@@ -154,7 +154,7 @@ export const toChallenge = async (
 });
 
 export const toChallengeFirebase = (
-    userSubmissions: SubmissionPayload[],
+    userSubmissions: CreateSubmissionPayload[],
     challenge: ChallengePayload,
 ): ChallengeView => ({
     ...challenge,

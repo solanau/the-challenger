@@ -29,7 +29,7 @@ export interface BaseChallenge {
     shortDescription: string;
     githubUrl: string;
     difficulty: string;
-    uid: string;
+    uid?: string;
     id: string;
     pubkey: string;
     key: number;
