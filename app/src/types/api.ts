@@ -13,7 +13,8 @@ export interface EventPayload {
 }
 
 export interface ChallengePayload {
-    uid: string;
+    uid?: string;
+    eventId?: string;
     id: string;
     pubkey: string;
     eventPubkey: string;

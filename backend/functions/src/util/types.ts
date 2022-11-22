@@ -48,6 +48,7 @@ export type EventPayload = {
 
 export type ChallengePayload = {
     uid: string;
+    eventId?: string;
     id: string;
     pubkey: string;
     eventPubkey: string;

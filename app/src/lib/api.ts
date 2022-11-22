@@ -2,16 +2,14 @@ import { PublicKey } from '@solana/web3.js';
 import axios from 'axios';
 import { httpsCallable } from 'firebase/functions';
 import {
-    ChallengePayload,
-    CreateSubmissionPayload,
-    EventPayload,
+    ChallengePayload, CreateSubmissionPayload, EventPayload,
     IssueRewardsPayload,
     MintPayload,
     PrizeMintMetadataPayload,
     PrizePayload,
     ProfilePayload,
     SetUserPayload,
-    UpdateSubmissionStatusPayload,
+    UpdateSubmissionStatusPayload
 } from 'types/api';
 import { functions } from 'utils/firebase';
 
@@ -67,10 +65,10 @@ export async function fetchEventsForAuthority(): Promise<EventPayload[]> {
         )
         .then(res => res.data);
 }
-
+export interface EventData {pubKey: string, firebaseEventId: string}
 export async function createNewEvent(
     payload: Omit<EventPayload, 'pubkey'>,
-): Promise<string> {
+): Promise<EventData> {
     return await axios
         .post(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
@@ -78,7 +76,7 @@ export async function createNewEvent(
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
-        .then(res => res.data.pubkey);
+        .then(res => ({pubKey: res.data.pubkey,firebaseEventId: res.data.firebaseEventId }));
 }
 
 export async function updateEvent(

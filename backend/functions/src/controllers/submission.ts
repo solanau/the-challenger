@@ -3,7 +3,7 @@ import { db } from '..';
 import {
     Auth,
     CreateSubmissionPayload,
-    UpdateSubmissionStatusPayload,
+    UpdateSubmissionStatusPayload
 } from '../util/types';
 
 const submissionCollection = 'submissions';
@@ -59,6 +59,7 @@ class SubmissionController {
                 id: challenge.id,
                 ...challengeData,
             },
+            challengeId: payload.challengeId,
             eventId: payload.eventId,
             answers: payload.answers,
         });

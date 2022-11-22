@@ -5,14 +5,14 @@ import {
     connection,
     MASTER_API_KEY,
     PRESTIGE_PROGRAM_ID,
-    WALLET,
+    WALLET
 } from '../util/const';
 import { EventPayload } from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
     PayloadError,
-    PrestigeError,
+    PrestigeError
 } from '../util/util';
 
 interface EventDto {
@@ -85,6 +85,7 @@ exports.createNewEvent = async (req, res) => {
             const newDoc = await db.collection(eventCollection).add(event);
             res.status(201).send({
                 pubkey: eventPubkey.toBase58(),
+                firebaseEventId: newDoc.id
             });
         } catch (error) {
             console.log(error);
