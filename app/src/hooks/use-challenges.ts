@@ -1,4 +1,4 @@
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, onSnapshot, query } from 'firebase/firestore';
 import { useAuth } from 'providers/AuthProvider';
 import { useEffect, useState } from 'react';
 import { ChallengePayload } from 'types/api';
@@ -14,14 +14,7 @@ export const useChallenges = () => {
     useEffect(
         () =>
             onSnapshot(
-                query(
-                    collection(firestore, 'challenges'),
-                    where(
-                        'eventId',
-                        '==',
-                        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-                    ),
-                ),
+                query(collection(firestore, 'challenges')),
                 querySnapshot => {
                     if (querySnapshot.empty) {
                         setChallenges([]);

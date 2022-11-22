@@ -135,6 +135,16 @@ const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
                                                     Invalid
                                                 </option>
                                                 <option
+                                                    value="incorrect"
+                                                    className="bg-black bg-opacity-60"
+                                                    disabled={
+                                                        'incorrect' ===
+                                                        submission.status
+                                                    }
+                                                >
+                                                    Incorrect
+                                                </option>
+                                                <option
                                                     value="completed"
                                                     className="bg-black bg-opacity-60"
                                                     disabled={
