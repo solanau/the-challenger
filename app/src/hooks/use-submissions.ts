@@ -10,11 +10,16 @@ export type SubmissionFilters = Partial<{
 
 export const useSubmissions = (
     eventId: string,
-    filters: SubmissionFilters = {},
+    filters: SubmissionFilters | null,
 ): SubmissionDto[] => {
     const [submissions, setSubmissions] = useState<SubmissionDto[]>([]);
 
     useEffect(() => {
+        if (filters === null)  {
+            setSubmissions([]);
+            return;
+        }
+        
         const whereFilters = [];
 
         if (filters.challengeId) {
@@ -48,7 +53,7 @@ export const useSubmissions = (
         );
 
         return () => unsubscribe();
-    }, [eventId, filters.challengeId, filters.userId]);
+    }, [eventId, filters?.challengeId, filters?.userId]);
 
     return submissions;
 };

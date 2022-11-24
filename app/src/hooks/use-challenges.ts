@@ -10,11 +10,11 @@ import { useSubmissions } from './use-submissions';
 export const useChallenges = (eventId: string): ChallengeDto[] => {
     const [challenges, setChallenges] = useState<ChallengeDto[]>([]);
     const { user } = useAuth();
-    const submissions = useSubmissions(eventId, { userId: user.uid });
+    const submissions = useSubmissions(eventId, user.uid === null ? null :  { userId: user.uid });
 
     useEffect(
-        () =>
-            onSnapshot(
+        () => {            
+            const unsubscribe = onSnapshot(
                 query(collection(firestore, 'challenges')),
                 querySnapshot => {
                     if (querySnapshot.empty) {
@@ -32,7 +32,10 @@ export const useChallenges = (eventId: string): ChallengeDto[] => {
                         );
                     }
                 },
-            ),
+            );
+
+            return () => unsubscribe()
+        },
         [submissions],
     );
 
