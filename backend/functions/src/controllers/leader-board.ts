@@ -1,3 +1,4 @@
+import * as functions from 'firebase-functions';
 import { db } from '..';
 import {
     Auth,
@@ -121,8 +122,22 @@ function updateLeaderBoard(
     };
 }
 
+const isManager = async (eventId: string, userId: string) => {
+    const event = await db.doc(`events/${eventId}`).get();
+    const eventData = event.data();
+
+    return eventData.reviewers.includes(userId);
+};
+
 class LeaderBoardController {
     async updateLeaderBoard(auth: Auth, payload: UpdateLeaderBoardPayload) {
+        if (!(await isManager(payload.eventId, auth.id))) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to update a leader board, you have to be a manager.`,
+            );
+        }
+
         const unProcessedSubmissions = await db
             .collection(`events/${payload.eventId}/submissions`)
             .where('isProcessed', '==', false)

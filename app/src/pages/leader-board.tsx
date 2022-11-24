@@ -1,12 +1,14 @@
 import Button from 'components/common/button';
 import Text from 'components/common/text';
 import LeaderboardList from 'components/leader-board-page/leader-board-list';
+import { useCurrentUser } from 'hooks/use-current-user';
 import { useEvent } from 'hooks/use-event';
 import { useLeaderBoard } from 'hooks/use-leader-board';
 import { updateLeaderBoard } from 'lib/api';
 import { NextSeo } from 'next-seo';
 
 const LeaderboardPage = () => {
+    const user = useCurrentUser();
     const event = useEvent(
         process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
     );
@@ -30,9 +32,11 @@ const LeaderboardPage = () => {
                 description="Explore and contribute to bounties that interest you and get paid for your work"
             ></NextSeo>
 
-            <Button variant="orange" onClick={handleUpdateLeaderBoard}>
-                Update Leader Board
-            </Button>
+            {user && event && event.managers.includes(user.id) && (
+                <Button variant="orange" onClick={handleUpdateLeaderBoard}>
+                    Update Leader Board
+                </Button>
+            )}
 
             <div className="flex flex-col gap-12 pt-14">
                 <div className="flex flex-col gap-0">
