@@ -1,14 +1,14 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useAuth } from 'providers/AuthProvider';
 import { useEffect, useState } from 'react';
-import { Event } from 'types/event';
+import { EventDto } from 'types/event';
 import { firestore } from 'utils/firebase';
 import { useSubmissions } from './use-submissions';
 
-export const useEvent = (eventId: string | null) => {
+export const useEvent = (eventId: string | null): EventDto | null => {
     const { user } = useAuth();
-    const submissions = useSubmissions({ userId: user.uid });
-    const [event, setEvent] = useState<Event>(null);
+    const submissions = useSubmissions(eventId, { userId: user.uid });
+    const [event, setEvent] = useState<EventDto>(null);
 
     useEffect(() => {
         if (eventId === null) {
@@ -29,7 +29,7 @@ export const useEvent = (eventId: string | null) => {
                     setEvent({
                         id: snapshot.id,
                         ...data,
-                    } as Event);
+                    } as EventDto);
                 }
             },
         );

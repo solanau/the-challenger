@@ -1,6 +1,6 @@
 import { ChallengeType } from './challenge';
 import { FieldConfig } from './form';
-import { SubmissionAnswer, SubmissionStatus } from './submission';
+import { SubmissionAnswerDto, SubmissionStatus } from './submission';
 
 export interface EventPayload {
     pubkey: string;
@@ -63,7 +63,7 @@ export interface PrizePayload {
 export interface CreateSubmissionPayload {
     id: string;
     challengeId: string;
-    answers: SubmissionAnswer[];
+    answers: SubmissionAnswerDto[];
     eventId: string;
 }
 
@@ -104,6 +104,11 @@ export interface SetUserPayload {
 }
 
 export type UpdateSubmissionStatusPayload = {
+    eventId: string;
     id: string;
     status: SubmissionStatus;
+};
+
+export type UpdateLeaderBoardPayload = {
+    eventId: string;
 };

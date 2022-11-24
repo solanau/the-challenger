@@ -104,6 +104,7 @@ export type CreateSubmissionPayload = {
 export type UpdateSubmissionStatusPayload = {
     id: string;
     status: SubmissionStatus;
+    eventId: string;
 };
 
 export type PrizeMintMetadataPayload = {
@@ -145,4 +146,27 @@ export interface SetUserPayload {
     fullName: string;
     userName: string;
     walletPublicKey: string;
+}
+
+export interface Submission {
+    id: string;
+    eventId: string;
+    challengeId: string;
+    challenge: ChallengePayload;
+    userId: string;
+    createdAt: number;
+}
+
+export interface UpdateLeaderBoardPayload {
+    eventId: string;
+}
+
+export interface Participant {
+    userId: string;
+    points: number;
+}
+
+export interface LeaderBoard {
+    totalPoints: number;
+    participants: Participant[];
 }

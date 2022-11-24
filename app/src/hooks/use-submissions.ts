@@ -1,16 +1,18 @@
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Submission } from 'types/submission';
+import { SubmissionDto } from 'types/submission';
 import { firestore } from 'utils/firebase';
 
 export type SubmissionFilters = Partial<{
-    eventId: string;
     userId: string;
     challengeId: string;
 }>;
 
-export const useSubmissions = (filters: SubmissionFilters = {}) => {
-    const [submissions, setSubmissions] = useState<Submission[]>([]);
+export const useSubmissions = (
+    eventId: string,
+    filters: SubmissionFilters = {},
+): SubmissionDto[] => {
+    const [submissions, setSubmissions] = useState<SubmissionDto[]>([]);
 
     useEffect(() => {
         const whereFilters = [];
@@ -19,16 +21,15 @@ export const useSubmissions = (filters: SubmissionFilters = {}) => {
             whereFilters.push(where('challengeId', '==', filters.challengeId));
         }
 
-        if (filters.eventId) {
-            whereFilters.push(where('eventId', '==', filters.eventId));
-        }
-
         if (filters.userId) {
             whereFilters.push(where('userId', '==', filters.userId));
         }
 
         const unsubscribe = onSnapshot(
-            query(collection(firestore, 'submissions'), ...whereFilters),
+            query(
+                collection(firestore, `events/${eventId}/submissions`),
+                ...whereFilters,
+            ),
             querySnapshot => {
                 if (querySnapshot.empty) {
                     setSubmissions([]);
@@ -39,7 +40,7 @@ export const useSubmissions = (filters: SubmissionFilters = {}) => {
                                 ({
                                     id: doc.id,
                                     ...doc.data(),
-                                } as Submission),
+                                } as SubmissionDto),
                         ),
                     );
                 }
@@ -47,7 +48,7 @@ export const useSubmissions = (filters: SubmissionFilters = {}) => {
         );
 
         return () => unsubscribe();
-    }, [filters.challengeId, filters.eventId, filters.userId]);
+    }, [eventId, filters.challengeId, filters.userId]);
 
     return submissions;
 };

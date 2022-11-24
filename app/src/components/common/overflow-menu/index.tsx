@@ -1,7 +1,8 @@
 import { useCurrentUser } from 'hooks/use-current-user';
+import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
     MdLogin,
     MdLogout,
@@ -20,6 +21,32 @@ const OverflowMenu = () => {
         logOut,
     } = useAuth();
     const user = useCurrentUser();
+    const leaderBoard = useLeaderBoard(
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+        'individual',
+    );
+    const rank = useMemo(() => {
+        const participantIndex = leaderBoard?.participants.findIndex(
+            participant => participant.userId === user?.id,
+        );
+
+        if (participantIndex === -1) {
+            return null;
+        }
+
+        return participantIndex + 1;
+    }, [user?.id, leaderBoard?.participants]);
+    const totalPoints = useMemo(() => {
+        const participantIndex = leaderBoard?.participants.findIndex(
+            participant => participant.userId === user?.id,
+        );
+
+        if (participantIndex === -1) {
+            return null;
+        }
+
+        return leaderBoard?.participants[participantIndex].points;
+    }, [user?.id, leaderBoard?.participants]);
 
     return (
         <>
@@ -58,6 +85,11 @@ const OverflowMenu = () => {
                                                     {`@${user.userName}`}
                                                 </Link>
                                             </Text>
+                                            {rank && totalPoints && (
+                                                <div>
+                                                    <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
+                                                </div>
+                                            )}
                                             <Link
                                                 href="/users/profile-settings"
                                                 passHref

@@ -2,14 +2,17 @@ import { PublicKey } from '@solana/web3.js';
 import axios from 'axios';
 import { httpsCallable } from 'firebase/functions';
 import {
-    ChallengePayload, CreateSubmissionPayload, EventPayload,
+    ChallengePayload,
+    CreateSubmissionPayload,
+    EventPayload,
     IssueRewardsPayload,
     MintPayload,
     PrizeMintMetadataPayload,
     PrizePayload,
     ProfilePayload,
     SetUserPayload,
-    UpdateSubmissionStatusPayload
+    UpdateLeaderBoardPayload,
+    UpdateSubmissionStatusPayload,
 } from 'types/api';
 import { functions } from 'utils/firebase';
 
@@ -65,7 +68,10 @@ export async function fetchEventsForAuthority(): Promise<EventPayload[]> {
         )
         .then(res => res.data);
 }
-export interface EventData {pubKey: string, firebaseEventId: string}
+export interface EventData {
+    pubKey: string;
+    firebaseEventId: string;
+}
 export async function createNewEvent(
     payload: Omit<EventPayload, 'pubkey'>,
 ): Promise<EventData> {
@@ -76,7 +82,10 @@ export async function createNewEvent(
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
-        .then(res => ({pubKey: res.data.pubkey,firebaseEventId: res.data.firebaseEventId }));
+        .then(res => ({
+            pubKey: res.data.pubkey,
+            firebaseEventId: res.data.firebaseEventId,
+        }));
 }
 
 export async function updateEvent(
@@ -211,7 +220,23 @@ export async function setUser(payload: SetUserPayload) {
     }
 }
 
-// end here
+export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
+    const publishEvent = httpsCallable<
+        { type: string; payload: UpdateLeaderBoardPayload },
+        unknown
+    >(functions, 'publishEvent');
+
+    try {
+        const result = await publishEvent({
+            type: 'updateLeaderBoard',
+            payload,
+        });
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
 
 export async function issueAllRewardsForChallenge(
     payload: IssueRewardsPayload,

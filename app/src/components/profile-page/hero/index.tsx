@@ -2,9 +2,9 @@ import Image from 'components/common/image';
 /* eslint-disable @next/next/no-img-element */
 import Text from 'components/common/text';
 import { MdInfoOutline } from 'react-icons/md';
-import { User } from 'types/user';
+import { UserDto } from 'types/user';
 
-type HeroProps = User & { isCurrentUser: boolean };
+type HeroProps = UserDto & { isCurrentUser: boolean };
 
 const Hero = ({ avatarUrl, fullName, isCurrentUser, userName }: any) => (
     <div className="flex flex-col">

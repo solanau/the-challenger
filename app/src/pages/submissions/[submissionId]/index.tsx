@@ -20,7 +20,10 @@ type SubmissionPageProps = {
 const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
     const [isLoading, setIsLoading] = useState(false);
     const { user } = useAuth();
-    const submission = useSubmission(submissionId);
+    const submission = useSubmission(
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+        submissionId,
+    );
     const event = useEvent(
         process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
     );
@@ -38,6 +41,7 @@ const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
         updateSubmissionStatus({
             id: submissionId,
             status,
+            eventId: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
         })
             .then(() => alert('Submission status changed!'))
             .catch(error => alert(error))
