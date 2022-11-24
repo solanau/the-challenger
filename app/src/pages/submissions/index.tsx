@@ -19,6 +19,7 @@ const SubmissionsPage: NextPage = () => {
     );
     const submissions = useSubmissions(
         process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+        {}
     );
     const filteredSubmissions = useMemo(
         () => submissions.filter(submission => submission.status === status),
