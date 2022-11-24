@@ -4,6 +4,7 @@ import { Submission } from 'types/submission';
 import { firestore } from 'utils/firebase';
 
 export const useSubmission = (
+    eventId: string,
     submissionId: string | null,
 ): Submission | null => {
     const [submission, setSubmission] = useState<Submission | null>(null);
@@ -15,7 +16,7 @@ export const useSubmission = (
         }
 
         const unsubscribe = onSnapshot(
-            doc(firestore, `submissions/${submissionId}`),
+            doc(firestore, `events/${eventId}/submissions/${submissionId}`),
             snapshot => {
                 const data = snapshot.data();
 
@@ -31,7 +32,7 @@ export const useSubmission = (
         );
 
         return () => unsubscribe();
-    }, [submissionId]);
+    }, [eventId, submissionId]);
 
     return submission;
 };

@@ -23,7 +23,10 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const { isLoggedIn } = useAuth();
-    const challenge = useChallenge(challengeId);
+    const challenge = useChallenge(
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+        challengeId,
+    );
     const user = useCurrentUser();
 
     const formik = useFormik({

@@ -104,6 +104,11 @@ export interface SetUserPayload {
 }
 
 export type UpdateSubmissionStatusPayload = {
+    eventId: string;
     id: string;
     status: SubmissionStatus;
+};
+
+export type UpdateLeaderBoardPayload = {
+    eventId: string;
 };

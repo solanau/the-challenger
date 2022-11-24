@@ -6,10 +6,10 @@ import { toChallengeFirebase } from 'utils/challenge';
 import { firestore } from 'utils/firebase';
 import { useSubmissions } from './use-submissions';
 
-export const useChallenges = () => {
+export const useChallenges = (eventId: string) => {
     const [challenges, setChallenges] = useState([]);
     const { user } = useAuth();
-    const submissions = useSubmissions({ userId: user.uid });
+    const submissions = useSubmissions(eventId, { userId: user.uid });
 
     useEffect(
         () =>

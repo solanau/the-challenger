@@ -7,9 +7,9 @@ import { toChallengeFirebase } from 'utils/challenge';
 import { firestore } from 'utils/firebase';
 import { useSubmissions } from './use-submissions';
 
-export const useChallenge = (challengeId: string | null) => {
+export const useChallenge = (eventId: string, challengeId: string | null) => {
     const { user } = useAuth();
-    const submissions = useSubmissions({ userId: user.uid });
+    const submissions = useSubmissions(eventId, { userId: user.uid });
     const [challenge, setChallenge] = useState<ChallengeView>(null);
 
     useEffect(() => {

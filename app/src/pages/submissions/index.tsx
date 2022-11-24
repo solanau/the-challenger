@@ -17,9 +17,9 @@ const SubmissionsPage: NextPage = () => {
     const event = useEvent(
         process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
     );
-    const submissions = useSubmissions({
-        eventId: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-    });
+    const submissions = useSubmissions(
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+    );
     const filteredSubmissions = useMemo(
         () => submissions.filter(submission => submission.status === status),
         [submissions, status],

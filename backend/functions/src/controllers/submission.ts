@@ -24,10 +24,8 @@ export const isDuplicateSubmission = async (
     return !pastSubmissions.empty;
 };
 
-export const isReviewer = async (submissionId: string, userId: string) => {
-    const submission = await db.doc(`submissions/${submissionId}`).get();
-    const submissionData = submission.data();
-    const event = await db.doc(`events/${submissionData.eventId}`).get();
+export const isReviewer = async (eventId: string, userId: string) => {
+    const event = await db.doc(`events/${eventId}`).get();
     const eventData = event.data();
 
     return eventData.reviewers.includes(userId);
@@ -62,9 +60,13 @@ class SubmissionController {
             challengeId: payload.challengeId,
             eventId: payload.eventId,
             answers: payload.answers,
+            isProcessed: false,
+            createdAt: Date.now(),
         };
 
-        await db.doc(`submissions/${payload.id}`).set(submission);
+        await db
+            .doc(`events/${payload.eventId}/submissions/${payload.id}`)
+            .set(submission);
 
         return { id: payload.id, ...submission };
     }
@@ -73,7 +75,7 @@ class SubmissionController {
         auth: Auth,
         payload: UpdateSubmissionStatusPayload,
     ) {
-        if (!(await isReviewer(payload.id, auth.id))) {
+        if (!(await isReviewer(payload.eventId, auth.id))) {
             throw new functions.https.HttpsError(
                 'permission-denied',
                 `In order to change a submission's status, you have to be a reviewer.`,
@@ -81,7 +83,9 @@ class SubmissionController {
         }
 
         const result = await db.runTransaction(async transaction => {
-            const submissionRef = db.doc(`submissions/${payload.id}`);
+            const submissionRef = db.doc(
+                `events/${payload.eventId}/submissions/${payload.id}`,
+            );
             const currentSubmission = await submissionRef.get();
             const currentSubmissionData = currentSubmission.data();
 

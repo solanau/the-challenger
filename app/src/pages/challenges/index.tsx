@@ -11,7 +11,9 @@ import {
 } from 'utils/challenge';
 
 const ChallengesPage: NextPage = () => {
-    const challenges = useChallenges();
+    const challenges = useChallenges(
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+    );
 
     return (
         <>

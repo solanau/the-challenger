@@ -7,7 +7,7 @@ import { useSubmissions } from './use-submissions';
 
 export const useEvent = (eventId: string | null) => {
     const { user } = useAuth();
-    const submissions = useSubmissions({ userId: user.uid });
+    const submissions = useSubmissions(eventId, { userId: user.uid });
     const [event, setEvent] = useState<Event>(null);
 
     useEffect(() => {
