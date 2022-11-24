@@ -1,12 +1,12 @@
-import BountyCard from 'components/explorer-leaderboard-page/bounty-card';
-import { UsersLeaderboardEntry } from 'types/challenge';
-import Text from '../text';
+import { LeaderBoardDto } from 'types/leader-board';
+import Text from '../../common/text';
+import LeaderBoardListItem from '../leader-board-list-item';
 
-type BountyLeaderboardListProps = { bounties: UsersLeaderboardEntry[] };
+interface LeaderboardListProps {
+    leaderBoard: LeaderBoardDto;
+}
 
-const BountyLeaderboardList = ({
-    bounties: initialBounties,
-}: BountyLeaderboardListProps) => (
+const LeaderboardList = ({ leaderBoard }: LeaderboardListProps) => (
     <div className="flex flex-col gap-4">
         <div className="top-36 z-30 hidden flex-row justify-between gap-5 bg-neutral bg-opacity-40 px-6 py-3 text-base-content backdrop-blur-xl 2lg:flex">
             <div className="flex w-full justify-start text-amber-400">
@@ -20,9 +20,13 @@ const BountyLeaderboardList = ({
             </div>
         </div>
         <div className="flex w-full flex-col gap-6">
-            {initialBounties.length ? (
-                initialBounties.map((bounty, index) => (
-                    <BountyCard key={index} rank={index + 1} bounty={bounty} />
+            {leaderBoard?.participants.length ? (
+                leaderBoard.participants.map((participant, index) => (
+                    <LeaderBoardListItem
+                        key={index}
+                        position={index + 1}
+                        participant={participant}
+                    />
                 ))
             ) : (
                 <div className="flex h-20 items-center justify-center">
@@ -33,4 +37,4 @@ const BountyLeaderboardList = ({
     </div>
 );
 
-export default BountyLeaderboardList;
+export default LeaderboardList;

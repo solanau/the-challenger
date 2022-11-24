@@ -1,6 +1,6 @@
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Submission } from 'types/submission';
+import { SubmissionDto } from 'types/submission';
 import { firestore } from 'utils/firebase';
 
 export type SubmissionFilters = Partial<{
@@ -11,8 +11,8 @@ export type SubmissionFilters = Partial<{
 export const useSubmissions = (
     eventId: string,
     filters: SubmissionFilters = {},
-) => {
-    const [submissions, setSubmissions] = useState<Submission[]>([]);
+): SubmissionDto[] => {
+    const [submissions, setSubmissions] = useState<SubmissionDto[]>([]);
 
     useEffect(() => {
         const whereFilters = [];
@@ -40,7 +40,7 @@ export const useSubmissions = (
                                 ({
                                     id: doc.id,
                                     ...doc.data(),
-                                } as Submission),
+                                } as SubmissionDto),
                         ),
                     );
                 }

@@ -1,10 +1,10 @@
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { User } from 'types/user';
+import { UserDto } from 'types/user';
 import { firestore } from 'utils/firebase';
 
-export const useUserByUserName = (userName: string | null) => {
-    const [user, setUser] = useState<User>(null);
+export const useUserByUserName = (userName: string | null): UserDto | null => {
+    const [user, setUser] = useState<UserDto>(null);
 
     useEffect(() => {
         if (userName === null) {
@@ -24,7 +24,7 @@ export const useUserByUserName = (userName: string | null) => {
                     setUser({
                         id: querySnapshot.docs[0].id,
                         ...querySnapshot.docs[0].data(),
-                    } as User);
+                    } as UserDto);
                 }
             },
         );

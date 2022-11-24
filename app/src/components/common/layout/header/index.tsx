@@ -77,7 +77,7 @@ const Header = () => {
                             {/* <NavElement label="Explorer" href="/explorer" /> */}
                             <NavElement
                                 label="Leader Board"
-                                href="/leaderboard"
+                                href="/leader-board"
                                 navigationStarts={() => setIsNavOpen(false)}
                             />
                             <div className="mb-5 h-0.5 w-20 gap-10 bg-zinc-500" />
@@ -99,7 +99,7 @@ const Header = () => {
                     {/* <NavElement label="Explorer" href="/explorer" /> */}
                     <NavElement
                         label="Leader Board"
-                        href="/leaderboard"
+                        href="/leader-board"
                         navigationStarts={() => setIsNavOpen(false)}
                     />
 

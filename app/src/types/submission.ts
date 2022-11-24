@@ -6,23 +6,23 @@ export type SubmissionStatus =
     | 'incorrect'
     | 'completed';
 
-export interface SubmissionChallenge {
+export interface SubmissionChallengeDto {
     title: string;
     description: string;
     rewardValue: number;
 }
 
-export interface SubmissionAnswer {
+export interface SubmissionAnswerDto {
     field: FieldConfig;
     value: string;
 }
 
-export interface Submission {
+export interface SubmissionDto {
     id: string;
     challengeId: string;
-    answers: SubmissionAnswer[];
+    answers: SubmissionAnswerDto[];
     eventId: string;
     userId: string;
     status: SubmissionStatus;
-    challenge: SubmissionChallenge;
+    challenge: SubmissionChallengeDto;
 }

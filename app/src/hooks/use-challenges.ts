@@ -2,12 +2,13 @@ import { collection, onSnapshot, query } from 'firebase/firestore';
 import { useAuth } from 'providers/AuthProvider';
 import { useEffect, useState } from 'react';
 import { ChallengePayload } from 'types/api';
+import { ChallengeDto } from 'types/challenge';
 import { toChallengeFirebase } from 'utils/challenge';
 import { firestore } from 'utils/firebase';
 import { useSubmissions } from './use-submissions';
 
-export const useChallenges = (eventId: string) => {
-    const [challenges, setChallenges] = useState([]);
+export const useChallenges = (eventId: string): ChallengeDto[] => {
+    const [challenges, setChallenges] = useState<ChallengeDto[]>([]);
     const { user } = useAuth();
     const submissions = useSubmissions(eventId, { userId: user.uid });
 
