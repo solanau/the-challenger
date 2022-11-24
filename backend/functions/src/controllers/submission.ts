@@ -6,6 +6,7 @@ import {
     SubmissionStatus,
     UpdateSubmissionStatusPayload,
 } from '../util/types';
+import { getTimeBonusPoints } from '../util/util';
 
 const submissionCollection = 'submissions';
 
@@ -50,6 +51,13 @@ class SubmissionController {
             .doc(`challenges/${payload.challengeId}`)
             .get();
         const challengeData = challenge.data();
+        const submittedAt = Date.now();
+        const submissionTimeBonusPoints = getTimeBonusPoints(
+            challengeData.rewardValue,
+            challengeData.startDate,
+            challengeData.endDate,
+            submittedAt,
+        );
         const submission = {
             status: 'pending',
             userId: auth.id,
@@ -61,7 +69,10 @@ class SubmissionController {
             eventId: payload.eventId,
             answers: payload.answers,
             isProcessed: false,
-            createdAt: Date.now(),
+            createdAt: submittedAt,
+            basePoints: challengeData.rewardValue,
+            timeBonusPoints: submissionTimeBonusPoints,
+            totalPoints: challengeData.rewardValue + submissionTimeBonusPoints,
         };
 
         await db

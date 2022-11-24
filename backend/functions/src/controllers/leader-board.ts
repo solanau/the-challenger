@@ -1,42 +1,12 @@
 import { db } from '..';
 import {
     Auth,
-    ChallengePayload,
     LeaderBoard,
     Participant,
     Submission,
     UpdateLeaderBoardPayload,
 } from '../util/types';
-
-function getProgress(min: number, max: number, value: number) {
-    if (value < min) {
-        return 0;
-    } else if (value < max) {
-        const total = max - min;
-        const elapsed = value - min;
-
-        return Math.floor((elapsed / total) * 100);
-    } else {
-        return 100;
-    }
-}
-
-function getTimeBonusPoints(
-    challenge: ChallengePayload,
-    submissionDate: number,
-) {
-    const timeRewardPercentage = 20;
-    const maxBonus = challenge.rewardValue * (timeRewardPercentage / 100);
-    const progressLeft =
-        100 -
-        getProgress(
-            new Date(challenge.startDate).getTime(),
-            new Date(challenge.endDate).getTime(),
-            new Date(submissionDate).getTime(),
-        );
-
-    return Math.floor(maxBonus * (progressLeft / 100));
-}
+import { getTimeBonusPoints } from '../util/util';
 
 function groupParticipants(
     dictionaries: {
@@ -103,7 +73,12 @@ function updateLeaderBoard(
         const { userId, challenge } = submission;
         const totalPoints =
             challenge.rewardValue +
-            getTimeBonusPoints(challenge, submission.createdAt);
+            getTimeBonusPoints(
+                challenge.rewardValue,
+                challenge.startDate,
+                challenge.endDate,
+                submission.createdAt,
+            );
 
         if (!participantsLookUp[userId]) {
             participantsLookUp[userId] = totalPoints;

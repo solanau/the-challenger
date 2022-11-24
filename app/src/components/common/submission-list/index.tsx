@@ -1,7 +1,7 @@
-import { Submission } from 'types/submission';
+import { SubmissionDto } from 'types/submission';
 import SubmissionCard from './submission-card';
 
-type SubmissionListProps = { submissions: Submission[] };
+type SubmissionListProps = { submissions: SubmissionDto[] };
 
 const SubmissionList = ({ submissions: submissions }: SubmissionListProps) => (
     <div className="flex flex-col gap-4">

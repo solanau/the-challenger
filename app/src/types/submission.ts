@@ -1,3 +1,4 @@
+import { ChallengeDto } from './challenge';
 import { FieldConfig } from './form';
 
 export type SubmissionStatus =
@@ -5,12 +6,6 @@ export type SubmissionStatus =
     | 'invalid'
     | 'incorrect'
     | 'completed';
-
-export interface SubmissionChallengeDto {
-    title: string;
-    description: string;
-    rewardValue: number;
-}
 
 export interface SubmissionAnswerDto {
     field: FieldConfig;
@@ -24,5 +19,9 @@ export interface SubmissionDto {
     eventId: string;
     userId: string;
     status: SubmissionStatus;
-    challenge: SubmissionChallengeDto;
+    challenge: ChallengeDto;
+    createdAt: number;
+    basePoints: number;
+    timeBonusPoints: number;
+    totalPoints: number;
 }
