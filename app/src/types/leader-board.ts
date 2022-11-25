@@ -1,9 +1,9 @@
-export interface ParticipantDto {
+export interface ParticipantPayload {
     userId: string;
     points: number;
 }
 
-export interface LeaderBoardDto {
+export interface LeaderBoardPayload {
     totalPoints: number;
-    participants: ParticipantDto[];
+    participants: ParticipantPayload[];
 }

@@ -1,4 +1,4 @@
-export type UserDto = {
+export type UserPayload = {
     id: string;
     fullName: string;
     userName: string;

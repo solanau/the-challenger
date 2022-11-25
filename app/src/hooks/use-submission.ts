@@ -1,13 +1,15 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { SubmissionDto } from 'types/submission';
+import { SubmissionPayload } from 'types/submission';
 import { firestore } from 'utils/firebase';
 
 export const useSubmission = (
     eventId: string,
     submissionId: string | null,
-): SubmissionDto | null => {
-    const [submission, setSubmission] = useState<SubmissionDto | null>(null);
+): SubmissionPayload | null => {
+    const [submission, setSubmission] = useState<SubmissionPayload | null>(
+        null,
+    );
 
     useEffect(() => {
         if (submissionId === null) {
@@ -26,7 +28,7 @@ export const useSubmission = (
                     setSubmission({
                         id: snapshot.id,
                         ...data,
-                    } as SubmissionDto);
+                    } as SubmissionPayload);
                 }
             },
         );

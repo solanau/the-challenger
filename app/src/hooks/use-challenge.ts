@@ -1,7 +1,7 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useAuth } from 'providers/AuthProvider';
 import { useEffect, useState } from 'react';
-import { Challenge, ChallengeDto } from 'types/challenge';
+import { Challenge, ChallengePayload } from 'types/challenge';
 import { toChallenge } from 'utils/challenge';
 import { firestore } from 'utils/firebase';
 import { useSubmissions } from './use-submissions';
@@ -32,7 +32,7 @@ export const useChallenge = (
                         toChallenge(submissions, {
                             uid: snapshot.id,
                             ...data,
-                        } as ChallengeDto),
+                        } as ChallengePayload),
                     );
                 }
             },

@@ -1,6 +1,6 @@
 import Card from 'components/common/card';
 import Text from 'components/common/text';
-import { SubmissionDto, SubmissionStatus } from 'types/submission';
+import { SubmissionPayload, SubmissionStatus } from 'types/submission';
 
 function getStatusBgClass(status: SubmissionStatus) {
     switch (status) {
@@ -18,7 +18,7 @@ function getStatusBgClass(status: SubmissionStatus) {
 }
 
 interface SubmissionCardProps {
-    submission: SubmissionDto;
+    submission: SubmissionPayload;
 }
 
 const SubmissionCard = ({ submission }: SubmissionCardProps) => (

@@ -1,13 +1,15 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { LeaderBoardDto } from 'types/leader-board';
+import { LeaderBoardPayload } from 'types/leader-board';
 import { firestore } from 'utils/firebase';
 
 export const useLeaderBoard = (
     eventId: string,
     leaderBoardId: string,
-): LeaderBoardDto | null => {
-    const [leaderBoard, setLeaderBoard] = useState<LeaderBoardDto | null>(null);
+): LeaderBoardPayload | null => {
+    const [leaderBoard, setLeaderBoard] = useState<LeaderBoardPayload | null>(
+        null,
+    );
 
     useEffect(() => {
         if (leaderBoardId === null) {
@@ -23,7 +25,7 @@ export const useLeaderBoard = (
                 if (!data) {
                     setLeaderBoard(null);
                 } else {
-                    setLeaderBoard(data as LeaderBoardDto);
+                    setLeaderBoard(data as LeaderBoardPayload);
                 }
             },
         );

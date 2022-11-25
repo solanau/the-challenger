@@ -3,12 +3,12 @@ import Chip from 'components/common/chip';
 import Text from 'components/common/text';
 import { useUser } from 'hooks/use-user';
 import Link from 'next/link';
-import { ParticipantDto } from 'types/leader-board';
+import { ParticipantPayload } from 'types/leader-board';
 import { cn } from 'utils';
 
 interface LeaderboardListItemProps {
     position: number;
-    participant: ParticipantDto;
+    participant: ParticipantPayload;
 }
 
 const LeaderBoardListItem = ({
