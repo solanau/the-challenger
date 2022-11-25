@@ -1,9 +1,9 @@
-import { LeaderBoardDto } from 'types/leader-board';
+import { LeaderBoardPayload } from 'types/leader-board';
 import Text from '../../common/text';
 import LeaderBoardListItem from '../leader-board-list-item';
 
 interface LeaderboardListProps {
-    leaderBoard: LeaderBoardDto;
+    leaderBoard: LeaderBoardPayload;
 }
 
 const LeaderboardList = ({ leaderBoard }: LeaderboardListProps) => (

@@ -23,8 +23,6 @@ const LeaderboardPage = () => {
         });
     };
 
-    console.log(leaderBoard);
-
     return (
         <>
             <NextSeo

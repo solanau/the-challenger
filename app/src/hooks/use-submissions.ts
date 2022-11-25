@@ -1,6 +1,6 @@
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { SubmissionDto } from 'types/submission';
+import { SubmissionPayload } from 'types/submission';
 import { firestore } from 'utils/firebase';
 
 export type SubmissionFilters = Partial<{
@@ -11,15 +11,15 @@ export type SubmissionFilters = Partial<{
 export const useSubmissions = (
     eventId: string,
     filters: SubmissionFilters | null,
-): SubmissionDto[] => {
-    const [submissions, setSubmissions] = useState<SubmissionDto[]>([]);
+): SubmissionPayload[] => {
+    const [submissions, setSubmissions] = useState<SubmissionPayload[]>([]);
 
     useEffect(() => {
-        if (filters === null)  {
+        if (filters === null) {
             setSubmissions([]);
             return;
         }
-        
+
         const whereFilters = [];
 
         if (filters.challengeId) {
@@ -45,7 +45,7 @@ export const useSubmissions = (
                                 ({
                                     id: doc.id,
                                     ...doc.data(),
-                                } as SubmissionDto),
+                                } as SubmissionPayload),
                         ),
                     );
                 }

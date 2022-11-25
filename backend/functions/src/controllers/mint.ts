@@ -10,7 +10,7 @@ import {
 import { MintPayload } from '../util/types';
 import { DatabaseError, PayloadError, PrestigeError } from '../util/util';
 
-interface CustomMintDto {
+interface CustomMintPayload {
     pubkey: string;
 }
 
@@ -76,7 +76,7 @@ exports.createNewCustomMint = async function (req, res) {
             res.status(400).send(PrestigeError(objectType));
         }
         try {
-            const customMint: CustomMintDto = {
+            const customMint: CustomMintPayload = {
                 pubkey: customMintPubkey.toBase58(),
                 ...rawCustomMint,
             };

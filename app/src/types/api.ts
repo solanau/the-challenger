@@ -1,6 +1,6 @@
 import { ChallengeType } from './challenge';
 import { FieldConfig } from './form';
-import { SubmissionAnswerDto, SubmissionStatus } from './submission';
+import { SubmissionAnswerPayload, SubmissionStatus } from './submission';
 
 export interface EventPayload {
     pubkey: string;
@@ -63,7 +63,7 @@ export interface PrizePayload {
 export interface CreateSubmissionPayload {
     id: string;
     challengeId: string;
-    answers: SubmissionAnswerDto[];
+    answers: SubmissionAnswerPayload[];
     eventId: string;
 }
 

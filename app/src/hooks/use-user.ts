@@ -1,10 +1,10 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { UserDto } from 'types/user';
+import { UserPayload } from 'types/user';
 import { firestore } from 'utils/firebase';
 
-export const useUser = (userId: string | null): UserDto | null => {
-    const [user, setUser] = useState<UserDto>(null);
+export const useUser = (userId: string | null): UserPayload | null => {
+    const [user, setUser] = useState<UserPayload>(null);
 
     useEffect(() => {
         if (userId === null) {
@@ -23,7 +23,7 @@ export const useUser = (userId: string | null): UserDto | null => {
                     setUser({
                         id: snapshot.id,
                         ...data,
-                    } as UserDto);
+                    } as UserPayload);
                 }
             },
         );

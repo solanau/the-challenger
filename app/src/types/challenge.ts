@@ -68,7 +68,7 @@ export type ExpiredChallenge = BaseChallenge & {
 
 export type Challenge = ActiveChallenge | PendingChallenge | ExpiredChallenge;
 
-export interface ChallengeDto {
+export interface ChallengePayload {
     uid?: string;
     eventId?: string;
     id: string;

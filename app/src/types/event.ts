@@ -1,4 +1,4 @@
-export interface EventDto {
+export interface EventPayload {
     id: string;
     title: string;
     reviewers: string[];
