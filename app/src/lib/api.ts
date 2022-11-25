@@ -168,16 +168,13 @@ export async function updatePrize(payload: PrizePayload): Promise<string> {
 // start here
 
 export async function createSubmission(payload: CreateSubmissionPayload) {
-    const publishEvent = httpsCallable<
-        { type: string; payload: CreateSubmissionPayload },
-        unknown
-    >(functions, 'publishEvent');
+    const instance = httpsCallable<CreateSubmissionPayload, unknown>(
+        functions,
+        'createSubmission',
+    );
 
     try {
-        const result = await publishEvent({
-            type: 'createSubmission',
-            payload,
-        });
+        const result = await instance(payload);
 
         return result.data;
     } catch (error) {
@@ -188,16 +185,13 @@ export async function createSubmission(payload: CreateSubmissionPayload) {
 export async function updateSubmissionStatus(
     payload: UpdateSubmissionStatusPayload,
 ) {
-    const publishEvent = httpsCallable<
-        { type: string; payload: UpdateSubmissionStatusPayload },
-        unknown
-    >(functions, 'publishEvent');
+    const instance = httpsCallable<UpdateSubmissionStatusPayload, unknown>(
+        functions,
+        'updateSubmissionStatus',
+    );
 
     try {
-        const result = await publishEvent({
-            type: 'updateSubmissionStatus',
-            payload,
-        });
+        const result = await instance(payload);
 
         return result.data;
     } catch (error) {
@@ -221,16 +215,13 @@ export async function setUser(payload: SetUserPayload) {
 }
 
 export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
-    const publishEvent = httpsCallable<
-        { type: string; payload: UpdateLeaderBoardPayload },
-        unknown
-    >(functions, 'publishEvent');
+    const instance = httpsCallable<UpdateLeaderBoardPayload, unknown>(
+        functions,
+        'updateLeaderBoard',
+    );
 
     try {
-        const result = await publishEvent({
-            type: 'updateLeaderBoard',
-            payload,
-        });
+        const result = await instance(payload);
 
         return result.data;
     } catch (error) {

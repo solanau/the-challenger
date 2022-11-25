@@ -4,7 +4,6 @@ import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { v4 as uuid } from 'uuid';
 import { controller as leaderBoardController } from './controllers/leader-board';
 import { controller as submissionController } from './controllers/submission';
 import { controller as userController } from './controllers/user';
@@ -100,129 +99,47 @@ app.post(
 export const db = admin.firestore();
 export const webApi = functions.https.onRequest(app);
 
-export const publishEvent = functions.https.onCall(async (data, context) => {
-    functions.logger.info('data', data);
-
-    pubsub.topic('events').publishJSON(
-        {
-            id: uuid(),
-            data,
-            auth: {
+export const createSubmission = functions.https.onCall(
+    async (data, context) => {
+        const submission = await submissionController.createSubmission(
+            {
                 id: context.auth.token.uid,
                 email: context.auth.token.email,
             },
-        },
-        { type: data.type },
-        error => {
-            functions.logger.error(error);
-        },
-    );
-
-    return {
-        message: 'yoo',
-    };
-});
-
-export const createSubmission = functions.pubsub
-    .topic('events')
-    .onPublish(async (message, context) => {
-        if (
-            process.env.FUNCTIONS_EMULATOR === 'true' &&
-            message.attributes.type !== 'createSubmission'
-        ) {
-            functions.logger.warn('createSubmission', 'Event ignored');
-            return false;
-        }
-
-        const messageBody = message.data
-            ? JSON.parse(Buffer.from(message.data, 'base64').toString())
-            : null;
-
-        const submission = await submissionController.createSubmission(
-            messageBody.auth,
-            messageBody.data.payload,
+            data,
         );
 
-        pubsub.topic('events').publishJSON(
+        return submission;
+    },
+);
+
+export const updateSubmissionStatus = functions.https.onCall(
+    async (data, context) => {
+        await submissionController.updateSubmissionStatus(
             {
-                id: context.eventId,
-                data: {
-                    payload: submission,
-                    type: 'createSubmissionSuccess',
-                    correlationId: messageBody.id,
-                },
-                auth: messageBody.auth,
+                id: context.auth.token.uid,
+                email: context.auth.token.email,
             },
-            { type: 'createSubmissionSuccess' },
-            error => {
-                functions.logger.error(error);
-            },
-        );
-
-        return { message: 'Submission created.' };
-    });
-
-export const updateSubmissionStatus = functions.pubsub
-    .topic('events')
-    .onPublish(async (message, context) => {
-        if (
-            process.env.FUNCTIONS_EMULATOR === 'true' &&
-            message.attributes.type !== 'updateSubmissionStatus'
-        ) {
-            functions.logger.warn('updateSubmissionStatus', 'Event ignored');
-            return false;
-        }
-
-        const messageBody = message.data
-            ? JSON.parse(Buffer.from(message.data, 'base64').toString())
-            : null;
-
-        const result = await submissionController.updateSubmissionStatus(
-            messageBody.auth,
-            messageBody.data.payload,
-        );
-
-        pubsub.topic('events').publishJSON(
-            {
-                id: context.eventId,
-                data: {
-                    payload: result,
-                    type: 'updateSubmissionStatusSuccess',
-                    correlationId: messageBody.id,
-                },
-                auth: messageBody.auth,
-            },
-            { type: 'updateSubmissionStatusSuccess' },
-            error => {
-                functions.logger.error(error);
-            },
+            data,
         );
 
         return { message: 'Submission status updated.' };
-    });
+    },
+);
 
-export const updateLeaderBoard = functions.pubsub
-    .topic('events')
-    .onPublish(async message => {
-        if (
-            process.env.FUNCTIONS_EMULATOR === 'true' &&
-            message.attributes.type !== 'updateLeaderBoard'
-        ) {
-            functions.logger.warn('updateLeaderBoard', 'Event ignored');
-            return false;
-        }
-
-        const messageBody = message.data
-            ? JSON.parse(Buffer.from(message.data, 'base64').toString())
-            : null;
-
+export const updateLeaderBoard = functions.https.onCall(
+    async (data, context) => {
         await leaderBoardController.updateLeaderBoard(
-            messageBody.auth,
-            messageBody.data.payload,
+            {
+                id: context.auth.token.uid,
+                email: context.auth.token.email,
+            },
+            data,
         );
 
         return { message: 'Leader Board Updated.' };
-    });
+    },
+);
 
 export const setUser = functions.https.onCall(async (data, context) => {
     const user = await userController.setUser(
