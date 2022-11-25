@@ -38,13 +38,13 @@ const ChallengesPage: NextPage = () => {
             ></NextSeo>
 
             {challenges.length > 0 ? (
-                <>
+                <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                     <div>
                         <select
                             name="category-list"
                             id="category-list"
                             onChange={handleCategoryChange}
-                            className="rounded-md border-2 border-white bg-transparent px-4 py-2 text-white"
+                            className="rounded-md border-2 border-white bg-transparent px-4 py-2 text-black"
                         >
                             <option value="">All</option>
                             <option value="Social">Social</option>
@@ -59,26 +59,24 @@ const ChallengesPage: NextPage = () => {
                             <option value="NFT">NFT</option>
                         </select>
                     </div>
-                    <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                        <ActiveChallengesSection
-                            challenges={filteredChallenges.filter(
-                                isActiveChallenge,
-                            )}
-                        />
+                    <ActiveChallengesSection
+                        challenges={filteredChallenges.filter(
+                            isActiveChallenge,
+                        )}
+                    />
 
-                        <PendingChallengesSection
-                            challenges={filteredChallenges.filter(
-                                isPendingChallenge,
-                            )}
-                        />
+                    <PendingChallengesSection
+                        challenges={filteredChallenges.filter(
+                            isPendingChallenge,
+                        )}
+                    />
 
-                        <ExpiredChallengesSection
-                            challenges={filteredChallenges.filter(
-                                isExpiredChallenge,
-                            )}
-                        />
-                    </div>
-                </>
+                    <ExpiredChallengesSection
+                        challenges={filteredChallenges.filter(
+                            isExpiredChallenge,
+                        )}
+                    />
+                </div>
             ) : (
                 <div className="flex h-20 items-center justify-center">
                     <p className="text-secondary">No challenges found.</p>
