@@ -1,23 +1,31 @@
+import { PubSub } from '@google-cloud/pubsub';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { controller as leaderBoardController } from './controllers/leader-board';
+import { controller as submissionController } from './controllers/submission';
+import { controller as userController } from './controllers/user';
 
 const profileRoute = require('./controllers/profile');
 const eventRoute = require('./controllers/event');
 const challengeRoute = require('./controllers/challenge');
 const prizeRoute = require('./controllers/prize');
-const submissionRoute = require('./controllers/submission');
 const rewardRoute = require('./controllers/reward');
 const mintRoute = require('./controllers/mint');
 
 admin.initializeApp(functions.config().firebase);
+const pubsub = new PubSub();
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({ origin: ['http://localhost:3000', "https://germany.heavyduty.builders"] }));
+app.use(
+    cors({
+        origin: ['http://localhost:3000', 'https://germany.heavyduty.builders'],
+    }),
+);
 
 app.get(
     '/profile/:pubkey',
@@ -75,22 +83,6 @@ app.put(
     '/prize/:id/:masterApiKey',
     async (req, res) => await prizeRoute.updatePrize(req, res),
 );
-app.get(
-    '/submissions',
-    async (req, res) => await submissionRoute.fetchSubmissions(req, res),
-);
-app.get(
-    '/submissions/:id',
-    async (req, res) => await submissionRoute.fetchSubmissionById(req, res),
-);
-app.post(
-    '/submission/:masterApiKey',
-    async (req, res) => await submissionRoute.createNewSubmission(req, res),
-);
-app.patch(
-    '/submission/:id/:masterApiKey',
-    async (req, res) => await submissionRoute.updateSubmissionStatus(req, res),
-);
 app.post(
     '/reward/:masterApiKey',
     async (req, res) => await rewardRoute.issueAllRewardsForChallenge(req, res),
@@ -106,3 +98,54 @@ app.post(
 
 export const db = admin.firestore();
 export const webApi = functions.https.onRequest(app);
+
+export const createSubmission = functions.https.onCall(
+    async (data, context) => {
+        const submission = await submissionController.createSubmission(
+            {
+                id: context.auth.token.uid,
+                email: context.auth.token.email,
+            },
+            data,
+        );
+
+        return submission;
+    },
+);
+
+export const updateSubmissionStatus = functions.https.onCall(
+    async (data, context) => {
+        await submissionController.updateSubmissionStatus(
+            {
+                id: context.auth.token.uid,
+                email: context.auth.token.email,
+            },
+            data,
+        );
+
+        return { message: 'Submission status updated.' };
+    },
+);
+
+export const updateLeaderBoard = functions.https.onCall(
+    async (data, context) => {
+        await leaderBoardController.updateLeaderBoard(
+            {
+                id: context.auth.token.uid,
+                email: context.auth.token.email,
+            },
+            data,
+        );
+
+        return { message: 'Leader Board Updated.' };
+    },
+);
+
+export const setUser = functions.https.onCall(async (data, context) => {
+    const user = await userController.setUser(
+        { id: context.auth.token.uid, email: context.auth.token.email },
+        data,
+    );
+
+    return user;
+});

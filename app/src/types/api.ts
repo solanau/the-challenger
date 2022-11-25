@@ -1,8 +1,8 @@
 import { ChallengeType } from './challenge';
+import { FieldConfig } from './form';
+import { SubmissionAnswerDto, SubmissionStatus } from './submission';
 
-export type SubmissionStatus = 'pending' | 'invalid' | 'incorrect' | 'complete';
-
-export type EventPayload = {
+export interface EventPayload {
     pubkey: string;
     authority: string;
     title: string;
@@ -10,9 +10,11 @@ export type EventPayload = {
     location: string;
     host: string;
     date: string;
-};
+}
 
-export type ChallengePayload = {
+export interface ChallengePayload {
+    uid?: string;
+    eventId?: string;
     id: string;
     pubkey: string;
     eventPubkey: string;
@@ -43,33 +45,29 @@ export type ChallengePayload = {
     state?: 'open' | 'closed';
     tags?: { value: string }[];
     rank?: number;
-    formComponents: any[];
+    formComponents: FieldConfig[];
     createdAt: string;
     startDate: string;
     endDate: string;
-};
+}
 
-export type PrizePayload = {
+export interface PrizePayload {
     pubkey: string;
     challengePubkey: string;
     mintPubkey: string;
     mintControl: number;
     escrowOrMintAuthority: string;
     quantity: number;
-};
+}
 
-export type SubmissionPayload = {
+export interface CreateSubmissionPayload {
     id: string;
     challengeId: string;
-    challengePubkey: string;
-    // userPubkey: string,
-    username: string;
-    answers: any[];
+    answers: SubmissionAnswerDto[];
     eventId: string;
-    status: SubmissionStatus;
-};
+}
 
-export type PrizeMintMetadataPayload = {
+export interface PrizeMintMetadataPayload {
     pubkey: string;
     challengePubkey: string;
     mintPubkey: string;
@@ -79,22 +77,38 @@ export type PrizeMintMetadataPayload = {
     decimals: number;
     escrowOrMintAuthority: string;
     quantity: number;
-};
+}
 
-export type MintPayload = {
+export interface MintPayload {
     pubkey: string;
     mintTitle: string;
     mintSymbol: string;
     mintUri: string;
     decimals: number;
-};
+}
 
-export type IssueRewardsPayload = {
+export interface IssueRewardsPayload {
     challengePubkey: string;
     userPubkey: string;
-};
+}
 
-export type ProfilePayload = {
+export interface ProfilePayload {
     pubkey: string;
     username: string;
+}
+
+export interface SetUserPayload {
+    fullName: string;
+    userName: string;
+    walletPublicKey: string;
+}
+
+export type UpdateSubmissionStatusPayload = {
+    eventId: string;
+    id: string;
+    status: SubmissionStatus;
+};
+
+export type UpdateLeaderBoardPayload = {
+    eventId: string;
 };

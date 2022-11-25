@@ -28,7 +28,7 @@ const ActiveChallengesSection = ({ challenges }: ChallengeListProps) => (
                             Challenge {challenge.key}
                         </Text>
                         <Text variant="sub-heading">
-                            Reward: {challenge.reward} (BONUS: +
+                            Reward: {challenge.rewardValue} (BONUS: +
                             {challenge.bonus})
                         </Text>
                     </div>
@@ -85,7 +85,7 @@ const ActiveChallengesSection = ({ challenges }: ChallengeListProps) => (
                             </Link>
                         </div>
 
-                        <Link href={`challenges/${challenge.id}`} passHref>
+                        <Link href={`challenges/${challenge.uid}`} passHref>
                             <a>
                                 {challenge.submittedStatus ? (
                                     <Button
@@ -103,11 +103,9 @@ const ActiveChallengesSection = ({ challenges }: ChallengeListProps) => (
                                     >
                                         <MdPlayArrow size={40} />
                                     </Button>
-
                                 )}
                             </a>
                         </Link>
-
                     </div>
                 </div>
             </Card>

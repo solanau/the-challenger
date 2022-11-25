@@ -2,7 +2,7 @@ import {
     createNewChallenge,
     createNewCustomMint,
     createNewEvent,
-    createNewPrize,
+    createNewPrize
 } from '../src/lib/api';
 import { mockChallenges } from '../src/mocks/challenges';
 
@@ -77,7 +77,7 @@ async function main() {
 
     console.log('Creating event...');
 
-    const eventPubkey = await createNewEvent({
+    const event = await createNewEvent({
         authority:
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
         title: 'Solana Hacker House Lisbon',
@@ -86,16 +86,25 @@ async function main() {
         host: 'Solana Foundation',
         date: '11-09-22',
     });
+    const eventPubkey = event.pubKey;
+    const firebaseEventId = event.firebaseEventId;
     console.log(`   eventPubkey: ${eventPubkey}`);
+    console.log(`   firebaseEvent: ${firebaseEventId}`);
 
     const envConfigs: string = require('fs').readFileSync('./.env', 'utf-8');
-    const newEnvConfigs = envConfigs.replace(
+    const newEventPKEnvConfigs = envConfigs.replace(
         RegExp('HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=.*\\s'),
         `HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=${eventPubkey}\n`,
     );
-    require('fs').writeFileSync('./.env', newEnvConfigs);
 
-    console.log('Event created.');
+    const newEventIdEnvConfigs = envConfigs.replace(
+        RegExp('HEAVY_DUTY_BOUNTY_API_EVENT_ID=.*\\s'),
+        `HEAVY_DUTY_BOUNTY_API_EVENT_ID=${firebaseEventId}\n`,
+    );
+    require('fs').writeFileSync('./.env', newEventPKEnvConfigs);
+    require('fs').writeFileSync('./.env', newEventIdEnvConfigs);
+
+    console.log('Event created successfully.');
 
     /**
      * Import all mock challenges into the database.
@@ -108,9 +117,9 @@ async function main() {
     for (const chal of mockChallenges) {
         const challengePubkey = await createNewChallenge({
             eventPubkey: eventPubkey,
+            eventId: firebaseEventId,
             ...chal,
         });
-
         let mintPubkey = xpTokenPubkey;
         let quantity = chal.rewardValue;
 

@@ -1,35 +1,36 @@
-import { doc, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { UserDto } from 'types/user';
 import { firestore } from 'utils/firebase';
 
-export const useUser = (userId: string | null): UserDto | null => {
+export const useUserByUserName = (userName: string | null): UserDto | null => {
     const [user, setUser] = useState<UserDto>(null);
 
     useEffect(() => {
-        if (userId === null) {
+        if (userName === null) {
             setUser(null);
             return;
         }
 
         const unsubscribe = onSnapshot(
-            doc(firestore, `users/${userId}`),
-            snapshot => {
-                const data = snapshot.data();
-
-                if (!data) {
+            query(
+                collection(firestore, 'users'),
+                where('userName', '==', userName),
+            ),
+            querySnapshot => {
+                if (querySnapshot.empty) {
                     setUser(null);
                 } else {
                     setUser({
-                        id: snapshot.id,
-                        ...data,
+                        id: querySnapshot.docs[0].id,
+                        ...querySnapshot.docs[0].data(),
                     } as UserDto);
                 }
             },
         );
 
         return () => unsubscribe();
-    }, [userId]);
+    }, [userName]);
 
     return user;
 };

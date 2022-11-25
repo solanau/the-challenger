@@ -5,14 +5,14 @@ import {
     connection,
     MASTER_API_KEY,
     PRESTIGE_PROGRAM_ID,
-    WALLET,
+    WALLET
 } from '../util/const';
 import { ChallengePayload } from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
     PayloadError,
-    PrestigeError,
+    PrestigeError
 } from '../util/util';
 
 const objectType = 'Challenge';

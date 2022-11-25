@@ -2,7 +2,11 @@ import { FieldConfig } from './form';
 
 export type ChallengeTimeStatus = 'active' | 'pending' | 'expired';
 
-export type ChallengeReviewStatus = 'accepted' | 'incorrect' | 'invalid' | 'pending';
+export type ChallengeReviewStatus =
+    | 'accepted'
+    | 'incorrect'
+    | 'invalid'
+    | 'pending';
 
 export type ChallengeType =
     | 'Social'
@@ -25,11 +29,14 @@ export interface BaseChallenge {
     shortDescription: string;
     githubUrl: string;
     difficulty: string;
+    uid?: string;
     id: string;
+    pubkey: string;
     key: number;
     type: ChallengeType;
     title: string;
-    reward: number;
+    rewardValue: number;
+    rewardType: string;
     startDate: string;
     endDate: string;
     timeStatus: ChallengeTimeStatus;
@@ -41,6 +48,7 @@ export interface BaseChallenge {
     formComponents: FieldConfig[];
     authorTwitter?: string;
     authorGithub?: string;
+    eventPubkey: string;
 }
 
 export type ActiveChallenge = BaseChallenge & {
@@ -58,14 +66,15 @@ export type ExpiredChallenge = BaseChallenge & {
     expiredAgo: string;
 };
 
-export type ChallengeView =
-    | ActiveChallenge
-    | PendingChallenge
-    | ExpiredChallenge;
+export type Challenge = ActiveChallenge | PendingChallenge | ExpiredChallenge;
 
-export interface ChallengeDto2 {
-    key: number;
+export interface ChallengeDto {
+    uid?: string;
+    eventId?: string;
     id: string;
+    pubkey: string;
+    eventPubkey: string;
+    key: number;
     iconKey: number;
     iconSize: number;
     title: string;
@@ -79,6 +88,7 @@ export interface ChallengeDto2 {
     authorTwitter?: string;
     rewardValue: number;
     rewardType: string;
+    nftBadge?: boolean;
     authorWebsite?: string;
     authorLogo?: string;
     sponsorALink?: string;
@@ -95,19 +105,4 @@ export interface ChallengeDto2 {
     createdAt: string;
     startDate: string;
     endDate: string;
-}
-
-export interface LeaderboardsEntry {
-    users: UsersLeaderboardEntry;
-    teams: TeamsLeaderboardEntry;
-}
-
-export interface UsersLeaderboardEntry {
-    user: string;
-    points: number;
-}
-
-export interface TeamsLeaderboardEntry {
-    team: string;
-    points: number;
 }
