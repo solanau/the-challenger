@@ -1,5 +1,6 @@
 import {
     createUserWithEmailAndPassword,
+    GithubAuthProvider,
     onAuthStateChanged,
     signInWithEmailAndPassword,
     signOut,
@@ -11,6 +12,7 @@ import { auth } from '../utils/firebase';
 interface UserType {
     email: string | null;
     uid: string | null;
+    githubUserName: string | null;
 }
 
 export interface AuthContextState {
@@ -30,20 +32,32 @@ export const AuthContextProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [user, setUser] = useState<UserType>({ email: null, uid: null });
+    const [user, setUser] = useState<UserType>({
+        email: null,
+        uid: null,
+        githubUserName: null,
+    });
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
             if (user) {
+                const githubUserInfo = (
+                    user as any
+                ).reloadUserInfo.providerUserInfo.find(
+                    userInfo =>
+                        userInfo.providerId === GithubAuthProvider.PROVIDER_ID,
+                );
+
                 setUser({
                     email: user.email,
                     uid: user.uid,
+                    githubUserName: githubUserInfo?.screenName ?? null,
                 });
                 setLoggedIn(true);
             } else {
-                setUser({ email: null, uid: null });
+                setUser({ email: null, uid: null, githubUserName: null });
                 setLoggedIn(false);
             }
         });
@@ -59,7 +73,7 @@ export const AuthContextProvider = ({
         signInWithEmailAndPassword(auth, email, password);
 
     const logOut = async () => {
-        setUser({ email: null, uid: null });
+        setUser({ email: null, uid: null, githubUserName: null });
         await signOut(auth);
     };
 

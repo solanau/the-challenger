@@ -1,5 +1,10 @@
 import { initializeApp } from 'firebase/app';
-import { connectAuthEmulator, getAuth } from 'firebase/auth';
+import {
+    connectAuthEmulator,
+    EmailAuthProvider,
+    getAuth,
+    GithubAuthProvider,
+} from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 
@@ -25,4 +30,7 @@ if (process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') {
     connectFunctionsEmulator(functions, 'localhost', 4001);
 }
 
-export { firestore, auth, functions };
+const githubAuthProvider = new GithubAuthProvider();
+const emailAuthProvider = new EmailAuthProvider();
+
+export { firestore, auth, functions, githubAuthProvider, emailAuthProvider };

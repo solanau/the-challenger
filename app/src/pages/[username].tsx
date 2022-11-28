@@ -6,8 +6,10 @@ import { useSubmissions } from 'hooks/use-submissions';
 import { useUserByUserName } from 'hooks/use-user-by-user-name';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo } from 'react';
+import { TbBrandGithub } from 'react-icons/tb';
 
 type ProfilePageProps = {
     userName: string;
@@ -63,6 +65,20 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
                                 <div>
                                     <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
                                 </div>
+                            )}
+
+                            {currentUser.githubUserName && (
+                                <Link
+                                    href={`https://github.com/${currentUser.githubUserName}`}
+                                    passHref
+                                >
+                                    <a
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <TbBrandGithub size={35} />
+                                    </a>
+                                </Link>
                             )}
 
                             {user.id === currentUser.uid && (
