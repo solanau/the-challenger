@@ -1,12 +1,12 @@
+require('dotenv').config();
+
 import {
     createNewChallenge,
     createNewCustomMint,
     createNewEvent,
-    createNewPrize
+    createNewPrize,
 } from '../src/lib/api';
 import { mockChallenges } from '../src/mocks/challenges';
-
-require('dotenv').config();
 
 /**
  * This script will initialize everything for us in the DB.
