@@ -10,6 +10,8 @@ export type SubmissionStatus =
 export interface SubmissionAnswerPayload {
     field: FieldConfig;
     value: string;
+    status: string;
+    review: string;
 }
 
 export interface SubmissionPayload {
@@ -24,4 +26,5 @@ export interface SubmissionPayload {
     basePoints: number;
     timeBonusPoints: number;
     totalPoints: number;
+    review: string;
 }

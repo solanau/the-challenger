@@ -4,6 +4,7 @@ import {
     Auth,
     ChallengePayload2,
     CreateSubmissionPayload,
+    SubmissionAnswer,
     SubmissionPayload,
     SubmissionStatus,
     UpdateSubmissionStatusPayload,
@@ -77,6 +78,7 @@ class SubmissionController {
             basePoints: challengeData.points,
             timeBonusPoints: submissionTimeBonusPoints,
             totalPoints: challengeData.points + submissionTimeBonusPoints,
+            review: '',
         };
 
         await db
@@ -103,9 +105,20 @@ class SubmissionController {
             );
             const currentSubmission = await submissionRef.get();
             const currentSubmissionData = currentSubmission.data();
+            const updatedAnswers = currentSubmissionData.answers.map(
+                (answer: SubmissionAnswer, index: number) => {
+                    return {
+                        ...answer,
+                        status: payload.reviewedAnswers[index].status,
+                        review: payload.reviewedAnswers[index].review,
+                    };
+                },
+            );
 
             transaction.update(submissionRef, {
+                answers: updatedAnswers,
                 status: payload.status,
+                review: payload.review,
             });
 
             return {

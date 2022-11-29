@@ -56,6 +56,13 @@ export type UpdateSubmissionStatusPayload = {
     eventId: string;
     id: string;
     status: SubmissionStatus;
+    review: string;
+    reviewedAnswers: ReviewedAnswers[];
+};
+
+export type ReviewedAnswers = {
+    review: string;
+    status: SubmissionStatus
 };
 
 export type UpdateLeaderBoardPayload = {

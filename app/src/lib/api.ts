@@ -10,7 +10,7 @@ import {
     ProfilePayload,
     SetUserPayload,
     UpdateLeaderBoardPayload,
-    UpdateSubmissionStatusPayload,
+    UpdateSubmissionStatusPayload
 } from 'types/api';
 import {
     ChallengePayload,
@@ -166,6 +166,12 @@ export async function createSubmission(payload: CreateSubmissionPayload) {
 export async function updateSubmissionStatus(
     payload: UpdateSubmissionStatusPayload,
 ) {
+    if(payload.status == 'completed' || payload.status == 'invalid'){
+        for (const answers of payload.reviewedAnswers) {
+            answers.status = payload.status
+        }
+    }  
+    
     const instance = httpsCallable<UpdateSubmissionStatusPayload, unknown>(
         functions,
         'updateSubmissionStatus',

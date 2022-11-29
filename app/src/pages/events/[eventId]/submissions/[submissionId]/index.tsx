@@ -26,12 +26,16 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
     const { user } = useAuth();
     const submission = useSubmission(eventId, submissionId);
     const event = useEvent(eventId);
+    const [reviewedAnswers, setReviews] = useState(
+        Array(100).fill({ review: '', status: '' }),
+    );
     const [status, setStatus] = useState<SubmissionStatus | ''>('');
+    const [review, setReview] = useState('');
 
     const handleFormSubmit = (event: FormEvent) => {
         event.preventDefault();
 
-        if (status === '') {
+        if (status === '' || review === '') {
             return;
         }
 
@@ -41,10 +45,22 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
             id: submissionId,
             status,
             eventId,
+            review,
+            reviewedAnswers,
         })
-            .then(() => alert('Submission status changed!'))
+            .then(() => alert('Submission status changed and review sent!'))
             .catch(error => alert(error))
             .finally(() => setIsLoading(false));
+    };
+    const updateReview = (review: string, index: number) => {
+        const reviews = reviewedAnswers;
+        reviews[index].review = review;
+        setReviews(reviews);
+    };
+    const setReviewsStatus = (value: string, index: number) => {
+        const reviews = reviewedAnswers;
+        reviews[index].status = value;
+        setReviews(reviews);
     };
 
     return (
@@ -80,22 +96,76 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                         Status: {submission.status}
                                     </Text>
 
-                                    {submission.answers.map((answer, index) => (
-                                        <Card key={index} className="p-4">
-                                            <Text variant="paragraph">
-                                                {index + 1}:{' '}
-                                                {answer.field.label}
-                                            </Text>
-                                            <Text
-                                                className="pl-4"
-                                                variant="sub-paragraph"
-                                            >
-                                                {answer.value}
-                                            </Text>
-                                        </Card>
-                                    ))}
-
+                                    <Text variant="label">
+                                        Review: {submission.review}
+                                    </Text>
                                     <form onSubmit={handleFormSubmit}>
+                                        {submission.answers.map(
+                                            (answer, index) => (
+                                                <div key={index}>
+                                                    <Card className="p-4">
+                                                        <Text variant="paragraph">
+                                                            {index + 1}:{' '}
+                                                            {answer.field.label}
+                                                        </Text>
+                                                        <Text
+                                                            className="pl-4"
+                                                            variant="sub-paragraph"
+                                                        >
+                                                            {answer.value}
+                                                        </Text>
+                                                    </Card>
+                                                    <Text variant="paragraph">
+                                                        Include a review:
+                                                        Completed{' '}
+                                                        <input
+                                                            type="checkbox"
+                                                            id="checkbox"
+                                                            name="checkbox"
+                                                            onChange={() =>
+                                                                setReviewsStatus(
+                                                                    'completed',
+                                                                    index,
+                                                                )
+                                                            }
+                                                        />
+                                                        Invalid{' '}
+                                                        <input
+                                                            type="checkbox"
+                                                            id="checkbox"
+                                                            name="checkbox"
+                                                            onChange={() =>
+                                                                setReviewsStatus(
+                                                                    'invalid',
+                                                                    index,
+                                                                )
+                                                            }
+                                                        />
+                                                    </Text>
+                                                    <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                                        <textarea
+                                                            id={answer.value}
+                                                            name={answer.value}
+                                                            className="fieldConfigs-center w-full bg-transparent outline-none"
+                                                            rows={1}
+                                                            onChange={event =>
+                                                                updateReview(
+                                                                    event.target
+                                                                        .value,
+                                                                    index,
+                                                                )
+                                                            }
+                                                            defaultValue={
+                                                                submission
+                                                                    .answers[
+                                                                    index
+                                                                ].review
+                                                            }
+                                                        />
+                                                    </Card>
+                                                </div>
+                                            ),
+                                        )}
                                         <label>
                                             Status:
                                             <select
@@ -158,6 +228,26 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                                     Completed
                                                 </option>
                                             </select>
+                                            <Text variant="paragraph">
+                                                Include a review:
+                                            </Text>
+                                            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                                <textarea
+                                                    id={review}
+                                                    name={review}
+                                                    className="fieldConfigs-center w-full bg-transparent outline-none"
+                                                    rows={2}
+                                                    onChange={event =>
+                                                        setReview(
+                                                            event.target
+                                                                .value as string,
+                                                        )
+                                                    }
+                                                    defaultValue={
+                                                        submission.review
+                                                    }
+                                                />
+                                            </Card>
                                         </label>
                                         <Button
                                             type="submit"

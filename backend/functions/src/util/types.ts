@@ -51,6 +51,8 @@ export type FieldConfig =
 export interface SubmissionAnswer {
     field: FieldConfig;
     value: string;
+    status: SubmissionStatus;
+    review: string;
 }
 
 export interface EventPayload {
@@ -182,7 +184,14 @@ export interface UpdateSubmissionStatusPayload {
     id: string;
     status: SubmissionStatus;
     eventId: string;
+    review: string;
+    reviewedAnswers: ReviewedAnswers[];
 }
+
+export type ReviewedAnswers = {
+    review: string;
+    status: SubmissionStatus;
+};
 
 export interface PrizeMintMetadataPayload {
     pubkey: string;
