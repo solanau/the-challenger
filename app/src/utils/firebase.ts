@@ -4,6 +4,7 @@ import {
     EmailAuthProvider,
     getAuth,
     GithubAuthProvider,
+    TwitterAuthProvider,
 } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
@@ -31,6 +32,14 @@ if (process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') {
 }
 
 const githubAuthProvider = new GithubAuthProvider();
+const twitterAuthProvider = new TwitterAuthProvider();
 const emailAuthProvider = new EmailAuthProvider();
 
-export { firestore, auth, functions, githubAuthProvider, emailAuthProvider };
+export {
+    firestore,
+    auth,
+    functions,
+    twitterAuthProvider,
+    githubAuthProvider,
+    emailAuthProvider,
+};
