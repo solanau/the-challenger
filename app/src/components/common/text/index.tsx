@@ -17,7 +17,9 @@ type TextProps = {
         | 'paragraph'
         | 'sub-paragraph'
         | 'input'
-        | 'label';
+        | 'label'
+        | 'dialog-heading'
+        | 'dialog-paragraph';
     className?: string;
     href?: string;
     children?: React.ReactNode;
@@ -39,6 +41,8 @@ const variants = {
     'sub-paragraph': 'text-base font-medium text-inherit',
     input: 'text-sm uppercase tracking-wide',
     label: 'text-xs uppercase tracking-wide',
+    'dialog-heading': 'text-xl font-medium',
+    'dialog-paragraph': 'text-sm text-inherit',
 };
 
 /**
