@@ -263,14 +263,83 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                 </section>
                             </div>
                         ) : (
-                            <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                                <TbBrandGithub size={35} />
-                                <Text variant="sub-heading">
+                            submission.userId === user.uid ? (
+                                <div className="flex flex-col">
+                                    <section className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                                        <div>
+                                            <div className="flex h-12 flex-col justify-between md:h-20">
+                                                <h1 className="peer border-none bg-transparent text-4xl font-medium placeholder-white/90 outline-none md:text-6xl">
+                                                    {submission.challenge.title ??
+                                                        'Challenge not found'}
+                                                </h1>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-6 xl:px-48 xl:py-8">
+                                        <Markdown>
+                                            {submission.challenge.description}
+                                        </Markdown>
+
+                                        <Text variant="paragraph">
+                                            Submission: {submission.id}
+                                        </Text>
+
+                                        <Text variant="label">
+                                            Status: {submission.status}
+                                        </Text>
+
+                                        <Text variant="label">
+                                            Review: {submission.review}
+                                        </Text>
+                                        {submission.answers.map((answer, index) => (
+                                            <div key={index}>                                               
+                                                <Card className="p-4">
+                                                    <Text variant="paragraph">
+                                                        {index + 1}:{' '}
+                                                        {answer.field.label}
+                                                    </Text>
+                                                    <Text
+                                                        className="pl-4"
+                                                        variant="sub-paragraph"
+                                                    >
+                                                        {answer.value}
+                                                    </Text>
+                                                    <Text variant="paragraph">
+                                                        Answer status: {submission.answers[index].status}
+                                                    </Text>
+                                                </Card>
+                                                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                                    <Text variant="paragraph">
+                                                        Review: {submission.answers[index].review}
+                                                    </Text>
+                                                </Card>
+                                            </div>
+                                        ))}
+                                        <label>
+                                            Status: {submission.status}
+                                            <Text variant="paragraph">
+                                                Review:
+                                            </Text>
+                                            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                                <Text
+                                                    id={review}
+                                                    variant="paragraph"
+                                                    className="fieldConfigs-center w-full bg-transparent outline-none"
+                                                >${submission.review}</Text>
+                                            </Card>
+                                        </label>
+                                    </section>
+                                </div>
+                            ) : ( 
+                                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                                    <TbBrandGithub size={35} />
+                                    <Text variant="sub-heading">
                                     You&apos;re not authorized to access this
                                     page.
-                                </Text>
-                            </div>
-                        )
+                                    </Text>
+                                </div>
+                            ))
                     ) : (
                         <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                             <TbBrandGithub size={35} />

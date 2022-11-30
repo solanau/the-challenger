@@ -1,5 +1,6 @@
 import Card from 'components/common/card';
 import Text from 'components/common/text';
+import Link from 'next/link';
 import { SubmissionPayload, SubmissionStatus } from 'types/submission';
 
 function getStatusBgClass(status: SubmissionStatus) {
@@ -27,7 +28,12 @@ const SubmissionCard = ({ submission }: SubmissionCardProps) => (
             variant="heading"
             className="mb-4 w-full overflow-hidden text-ellipsis whitespace-nowrap"
         >
-            {submission.challenge.title}
+            <Link
+                href={`/submissions/${submission.id}`}
+                passHref
+            >
+                {submission.challenge.title}
+            </Link>
         </Text>
         <div className="flex w-full justify-between">
             <p
