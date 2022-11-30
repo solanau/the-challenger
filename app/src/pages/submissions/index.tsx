@@ -1,38 +1,29 @@
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Text from 'components/common/text';
-import { fetchChallengesForEvent, fetchSubmissions } from 'lib/api';
-import { getCurrentUser } from 'lib/github';
+import { useEvent } from 'hooks/use-event';
+import { useSubmissions } from 'hooks/use-submissions';
 import { NextPage } from 'next';
-import { unstable_getServerSession } from 'next-auth';
-import { signIn } from 'next-auth/react';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
-import { authOptions } from 'pages/api/auth/[...nextauth]';
-import { useState } from 'react';
+import { useAuth } from 'providers/AuthProvider';
+import { useMemo, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
-import {
-    ChallengePayload,
-    SubmissionPayload,
-    SubmissionStatus,
-} from 'types/api';
-import { User } from 'types/github';
+import { SubmissionStatus } from 'types/submission';
 
-const ALLOWED_REVIEWERS = process.env.NEXT_PUBLIC_ALLOWED_REVIEWERS.split(',');
-
-type SubmissionsPageProps = {
-    user: User;
-    submissions: (SubmissionPayload & { challenge: ChallengePayload })[];
-};
-
-const SubmissionsPage: NextPage<SubmissionsPageProps> = ({
-    submissions,
-    user,
-}) => {
+const SubmissionsPage: NextPage = () => {
     const [status, setStatus] = useState('pending');
-
-    const filteredSubmissions = submissions.filter(
-        submission => submission.status === status,
+    const { user } = useAuth();
+    const event = useEvent(
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+    );
+    const submissions = useSubmissions(
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+        {}
+    );
+    const filteredSubmissions = useMemo(
+        () => submissions.filter(submission => submission.status === status),
+        [submissions, status],
     );
 
     return (
@@ -43,7 +34,7 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({
             ></NextSeo>
 
             {user ? (
-                ALLOWED_REVIEWERS.includes(user.login) ? (
+                event?.reviewers.includes(user.uid) ? (
                     <div>
                         <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                             <Text variant="big-heading">Submissions List</Text>
@@ -77,10 +68,10 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({
                                         Invalid
                                     </option>
                                     <option
-                                        value="complete"
+                                        value="completed"
                                         className="bg-black bg-opacity-60"
                                     >
-                                        Complete
+                                        Completed
                                     </option>
                                 </select>
                             </div>
@@ -136,11 +127,12 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({
                                 <Button variant="transparent" text="Go back" />
                             </a>
                         </Link>
-                        <Button
-                            variant="orange"
-                            text="Sign in"
-                            onClick={async () => signIn('github')}
-                        />
+
+                        <Link href="/login" passHref>
+                            <a>
+                                <Button variant="orange" text="Sign in" />
+                            </a>
+                        </Link>
                     </div>
                 </div>
             )}
@@ -149,34 +141,3 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({
 };
 
 export default SubmissionsPage;
-
-export const getServerSideProps = async context => {
-    const submissions = await fetchSubmissions({
-        eventId: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY,
-    });
-    const challenges = await fetchChallengesForEvent();
-
-    const session = await unstable_getServerSession(
-        context.req,
-        context.res,
-        authOptions,
-    );
-    const accessToken = session?.accessToken as string;
-    const user = await getCurrentUser(accessToken);
-
-    return {
-        props: {
-            user,
-            submissions: submissions.map(submission => {
-                const challengeIndex = challenges.findIndex(
-                    challenge => challenge.id === submission.challengeId,
-                );
-
-                return {
-                    ...submission,
-                    challenge: challenges[challengeIndex] ?? null,
-                };
-            }),
-        },
-    };
-};

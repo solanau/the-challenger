@@ -1,128 +1,121 @@
+import * as functions from 'firebase-functions';
 import { db } from '..';
-import { MASTER_API_KEY } from '../util/const';
-import { SubmissionPayload } from '../util/types';
 import {
-    DatabaseError,
-    DuplicateSubmissionError,
-    MasterApiKeyError,
-    NotFoundError,
-    PayloadError,
-} from '../util/util';
+    Auth,
+    CreateSubmissionPayload,
+    SubmissionStatus,
+    UpdateSubmissionStatusPayload,
+} from '../util/types';
+import { getTimeBonusPoints } from '../util/util';
 
-const objectType = 'Submission';
 const submissionCollection = 'submissions';
 
-exports.fetchSubmissions = async (req, res) => {
-    try {
-        let query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>;
+export const isDuplicateSubmission = async (
+    eventId: string,
+    userId: string,
+    challengeId: string,
+) => {
+    const pastSubmissions = await db
+        .collection(submissionCollection)
+        .where('userId', '==', userId)
+        .where('eventId', '==', eventId)
+        .where('challenge.id', '==', challengeId)
+        .get();
 
-        Object.keys(req.query).forEach(key => {
-            if (!query) {
-                query = db.collection(submissionCollection);
-            }
+    return !pastSubmissions.empty;
+};
 
-            query = query.where(key, '==', req.query[key]);
-        });
+export const isReviewer = async (eventId: string, userId: string) => {
+    const event = await db.doc(`events/${eventId}`).get();
+    const eventData = event.data();
 
-        const submissionQuerySnapshot = await query.get();
-        const submissions: SubmissionPayload[] = [];
-        submissionQuerySnapshot.forEach(doc => {
-            const data: any = doc.data();
-            submissions.push({
-                id: doc.id,
-                ...data,
+    return eventData.reviewers.includes(userId);
+};
+
+class SubmissionController {
+    async createSubmission(auth: Auth, payload: CreateSubmissionPayload) {
+        if (
+            await isDuplicateSubmission(
+                payload.eventId,
+                auth.id,
+                payload.challengeId,
+            )
+        ) {
+            throw new functions.https.HttpsError(
+                'already-exists',
+                `There's another submission exactly like this one.`,
+            );
+        }
+
+        const challenge = await db
+            .doc(`challenges/${payload.challengeId}`)
+            .get();
+        const challengeData = challenge.data();
+        const submittedAt = Date.now();
+        const submissionTimeBonusPoints = getTimeBonusPoints(
+            challengeData.rewardValue,
+            challengeData.startDate,
+            challengeData.endDate,
+            submittedAt,
+        );
+        const submission = {
+            status: 'pending',
+            userId: auth.id,
+            challenge: {
+                id: challenge.id,
+                ...challengeData,
+            },
+            challengeId: payload.challengeId,
+            eventId: payload.eventId,
+            answers: payload.answers,
+            isProcessed: false,
+            createdAt: submittedAt,
+            basePoints: challengeData.rewardValue,
+            timeBonusPoints: submissionTimeBonusPoints,
+            totalPoints: challengeData.rewardValue + submissionTimeBonusPoints,
+        };
+
+        await db
+            .doc(`events/${payload.eventId}/submissions/${payload.id}`)
+            .set(submission);
+
+        return { id: payload.id, ...submission };
+    }
+
+    async updateSubmissionStatus(
+        auth: Auth,
+        payload: UpdateSubmissionStatusPayload,
+    ) {
+        if (!(await isReviewer(payload.eventId, auth.id))) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to change a submission's status, you have to be a reviewer.`,
+            );
+        }
+
+        const result = await db.runTransaction(async transaction => {
+            const submissionRef = db.doc(
+                `events/${payload.eventId}/submissions/${payload.id}`,
+            );
+            const currentSubmission = await submissionRef.get();
+            const currentSubmissionData = currentSubmission.data();
+
+            transaction.update(submissionRef, {
+                status: payload.status,
             });
-        });
 
-        res.status(200).json(submissions);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
-};
-
-exports.fetchSubmissionById = async (req, res) => {
-    try {
-        const submission = await db
-            .doc(`${submissionCollection}/${req.params.id}`)
-            .get();
-
-        res.status(200).json({
-            id: submission.id,
-            ...submission.data(),
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
-};
-
-exports.createNewSubmission = async function (req, res) {
-    if (req.params.masterApiKey != MASTER_API_KEY) {
-        console.error(MasterApiKeyError());
-        return res.status(400).send(MasterApiKeyError());
-    } else {
-        let rawSubmission: SubmissionPayload;
-        try {
-            rawSubmission = req.body;
-        } catch (error) {
-            console.log(error);
-            return res.status(500).send(PayloadError());
-        }
-
-        const pastSubmissions = await db
-            .collection(submissionCollection)
-            .where('eventId', '==', rawSubmission.eventId)
-            .where('username', '==', rawSubmission.username)
-            .where('challengeId', '==', rawSubmission.challengeId)
-            .get();
-
-        if (pastSubmissions.size > 0) {
-            return res.status(400).send(DuplicateSubmissionError());
-        }
-
-        try {
-            const submission: SubmissionPayload = {
-                ...rawSubmission,
-                status: 'pending',
+            return {
+                id: payload.id,
+                eventId: currentSubmissionData.eventId,
+                oldStatus: currentSubmissionData.status as SubmissionStatus,
+                newStatus: payload.status,
+                rewardValue: currentSubmissionData.challenge
+                    .rewardValue as number,
             };
-            await db
-                .doc(`${submissionCollection}/${submission.id}`)
-                .set(submission);
+        });
 
-            return res.status(201).send({
-                submissionId: submission.id,
-            });
-        } catch (error) {
-            console.log(error);
-            return res.status(500).send(DatabaseError(objectType));
-        }
+        return result;
     }
-};
+}
 
-exports.updateSubmissionStatus = async function (req, res) {
-    if (req.params.masterApiKey != MASTER_API_KEY) {
-        console.error(MasterApiKeyError());
-        return res.status(400).send(MasterApiKeyError());
-    } else {
-        const submission = await db
-            .doc(`${submissionCollection}/${req.params.id}`)
-            .get();
-
-        if (!submission) {
-            return res.status(404).send(NotFoundError());
-        }
-
-        try {
-            await db.doc(`${submissionCollection}/${req.params.id}`).update({
-                status: req.body.status,
-            });
-            return res.status(201).send({
-                submissionId: req.params.id,
-            });
-        } catch (error) {
-            console.log(error);
-            return res.status(500).send(DatabaseError(objectType));
-        }
-    }
-};
+export const controller = new SubmissionController();

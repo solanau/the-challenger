@@ -1,123 +1,210 @@
-/* eslint-disable indent */
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { useRef, useState } from 'react';
-import { MdLogout, MdOutlineManageAccounts } from 'react-icons/md';
-
-import { useUser } from 'hooks/use-user';
+import { useCurrentUser } from 'hooks/use-current-user';
+import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
-import { TbBrandGithub } from 'react-icons/tb';
+import { useAuth } from 'providers/AuthProvider';
+import { useMemo, useRef, useState } from 'react';
+import {
+    MdLogin,
+    MdLogout,
+    MdOutlineManageAccounts,
+    MdSettings,
+} from 'react-icons/md';
 import Button from '../button';
 import Card from '../card';
-import Chip from '../chip';
-import Image from '../image';
 import Text from '../text';
 
 const OverflowMenu = () => {
     const buttonRef = useRef();
-    const { data: session } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
-    const { user } = useUser(session?.login as string);
+    const {
+        user: { uid },
+        logOut,
+    } = useAuth();
+    const user = useCurrentUser();
+    const leaderBoard = useLeaderBoard(
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+        'individual',
+    );
+    const rank = useMemo(() => {
+        const participantIndex = leaderBoard?.participants.findIndex(
+            participant => participant.userId === user?.id,
+        );
 
-    const closedBountiesCount = user?.closedBountiesCount.toString() ?? '-';
-    const level = `${user?.level ?? '-'}`;
-
-    const onProfileClick = async () => {
-        if (session) {
-            await signOut();
-        } else {
-            await signIn('github');
+        if (participantIndex === -1) {
+            return null;
         }
-    };
+
+        return participantIndex + 1;
+    }, [user?.id, leaderBoard?.participants]);
+    const totalPoints = useMemo(() => {
+        const participantIndex = leaderBoard?.participants.findIndex(
+            participant => participant.userId === user?.id,
+        );
+
+        if (participantIndex === -1) {
+            return null;
+        }
+
+        return leaderBoard?.participants[participantIndex].points;
+    }, [user?.id, leaderBoard?.participants]);
 
     return (
         <>
-            <div className="dropdown dropdown-end">
-                <label tabIndex={0}>
-                    <div className="flex flex-row items-center gap-3">
-                        <Button
-                            variant="orange"
-                            icon={MdOutlineManageAccounts}
-                            onClick={() => setMenuOpen(!menuOpen)}
-                            buttonRef={buttonRef}
-                        />
-                    </div>
-                </label>
-                <Card
-                    tabIndex={0}
-                    className="bg-opacity-85 dropdown-content mt-3 block w-[calc(100vw-3rem)] !bg-[#232225] sm:w-80" // TODO: Background is temporarily solid color due to blur issue.
-                >
-                    <div className="flex flex-col gap-3 p-5">
-                        <div className="flex items-center justify-between">
-                            <div className="flex w-full flex-col gap-1">
-                                <Text
-                                    variant="label"
-                                    className="text-secondary"
-                                >
-                                    Profile
-                                </Text>
-                                <Text
-                                    variant="nav-heading"
-                                    className={session && 'text-primary'}
-                                >
-                                    {session ? (
-                                        <Link
-                                            href={`/${session.login}`}
-                                            onClick={() => setMenuOpen(false)}
-                                            passHref
-                                        >
-                                            {session.login}
-                                        </Link>
-                                    ) : (
-                                        'Sign in with GitHub'
-                                    )}
-                                </Text>
-                                {!session ? (
-                                    <Text
-                                        variant="label"
-                                        className="!normal-case text-secondary"
-                                    >
-                                        Connect your GitHub account for an
-                                        enhanced user experience, including the
-                                        ability to create new and claim
-                                        completed bounties.
-                                    </Text>
-                                ) : (
-                                    <div className="flex flex-row items-center gap-1">
-                                        <Chip
-                                            highlightValue={closedBountiesCount}
-                                            value="Bounties"
-                                        />
-                                        <Chip
-                                            value="Lv."
-                                            highlightValue={level}
-                                            reversed={true}
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                            {session && (
-                                <Image
-                                    alt="Avatar"
-                                    src={session.user.image}
-                                    height={40}
-                                    className="aspect-square"
-                                    style={{ borderRadius: '50%' }}
-                                />
-                            )}
-                        </div>
-                        <Button
-                            text={'Sign ' + (session ? 'out' : 'in')}
-                            icon={session ? MdLogout : TbBrandGithub}
-                            variant={session ? 'danger' : 'orange'}
-                            className="!w-full"
-                            onClick={onProfileClick}
-                        />
-                    </div>
-                    <div className="h-px w-full bg-line" />
-                </Card>
-            </div>
+            <div className="dropdown-end dropdown">
+                <Button
+                    variant="orange"
+                    icon={MdOutlineManageAccounts}
+                    onClick={() => setMenuOpen(true)}
+                    buttonRef={buttonRef}
+                />
 
-            <input type="checkbox" id="wallet-modal" className="modal-toggle" />
+                {menuOpen && (
+                    <Card className="bg-opacity-85 dropdown-content mt-3 block w-[calc(100vw-3rem)] !bg-[#232225] sm:w-80">
+                        <div className="flex flex-col gap-3 p-5">
+                            <div className="flex items-center justify-between">
+                                <div className="flex w-full flex-col gap-1">
+                                    {user && (
+                                        <>
+                                            <Text
+                                                variant="nav-heading"
+                                                className="capitalize text-secondary"
+                                            >
+                                                {user.fullName}
+                                            </Text>
+                                            <Text
+                                                variant="label"
+                                                className="lowercase text-primary underline"
+                                            >
+                                                <Link
+                                                    onClick={() =>
+                                                        setMenuOpen(false)
+                                                    }
+                                                    href={`/${user.userName}`}
+                                                    passHref
+                                                >
+                                                    {`@${user.userName}`}
+                                                </Link>
+                                            </Text>
+                                            {rank && totalPoints && (
+                                                <div>
+                                                    <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
+                                                </div>
+                                            )}
+                                            <Link
+                                                href="/users/profile-settings"
+                                                passHref
+                                            >
+                                                <a className="flex flex-row justify-end">
+                                                    <Button
+                                                        text="Edit Profile"
+                                                        icon={MdSettings}
+                                                        variant="orange"
+                                                        className="mt-2 !w-full"
+                                                        onClick={() =>
+                                                            setMenuOpen(false)
+                                                        }
+                                                    />
+                                                </a>
+                                            </Link>
+                                            <Button
+                                                text="Log out"
+                                                icon={MdLogout}
+                                                variant="danger"
+                                                className="mt-2 !w-full"
+                                                onClick={logOut}
+                                            />
+                                        </>
+                                    )}
+
+                                    {!uid && (
+                                        <div>
+                                            <Text
+                                                variant="nav-heading"
+                                                className="text-secondary"
+                                            >
+                                                Sign in with GitHub
+                                            </Text>
+                                            <Text
+                                                variant="label"
+                                                className="!normal-case text-secondary"
+                                            >
+                                                Connect your GitHub account for
+                                                an enhanced user experience,
+                                                including the ability to create
+                                                new and claim completed
+                                                bounties.
+                                            </Text>
+                                            <Text
+                                                variant="paragraph"
+                                                className="mt-2"
+                                            >
+                                                <Link href="/login" passHref>
+                                                    <a>
+                                                        <Button
+                                                            text="Sign in"
+                                                            icon={MdLogin}
+                                                            variant="orange"
+                                                            className="!w-full"
+                                                            onClick={() =>
+                                                                setMenuOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        />
+                                                    </a>
+                                                </Link>
+                                            </Text>
+                                        </div>
+                                    )}
+
+                                    {uid && !user && (
+                                        <div>
+                                            <Text
+                                                variant="nav-heading"
+                                                className="text-secondary"
+                                            >
+                                                Set up your profile.
+                                            </Text>
+                                            <Text
+                                                variant="label"
+                                                className="!normal-case text-secondary"
+                                            >
+                                                You will need to set up your
+                                                profile in order to start doing
+                                                challenges.
+                                            </Text>
+                                            <Link
+                                                href="/users/profile-settings"
+                                                passHref
+                                            >
+                                                <a className="flex flex-row justify-end">
+                                                    <Button
+                                                        text="Set up profile"
+                                                        icon={MdSettings}
+                                                        variant="orange"
+                                                        className="mt-2 !w-full"
+                                                        onClick={() =>
+                                                            setMenuOpen(false)
+                                                        }
+                                                    />
+                                                </a>
+                                            </Link>
+                                            <Button
+                                                text="Log out"
+                                                icon={MdLogout}
+                                                variant="danger"
+                                                className="mt-2 !w-full"
+                                                onClick={logOut}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="h-px w-full bg-line" />
+                    </Card>
+                )}
+            </div>
         </>
     );
 };

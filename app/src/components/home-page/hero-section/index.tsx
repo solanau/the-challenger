@@ -51,9 +51,9 @@ const HeroSection = () => {
                     <Text className="max-w-[650px]" variant="paragraph">
                         Welcome
                         <a className="mx-1 font-bold text-primary">
-                            hackers
+                            hackers!! - Feature request -
                         </a>{' '}
-                        to the first ever
+                        To the first ever
                         <a className="mx-1 font-bold text-primary">HackaTUM </a>
                         bounty challenge competition! We are excited to be
                         hosting another challenge event where hackers from all

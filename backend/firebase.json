@@ -8,7 +8,14 @@
     },
     "ui": {
       "enabled": true
-    }
+    },
+    "auth": {
+      "port": 9099
+    },
+    "pubsub": {
+      "port": 8085
+    },
+    "singleProjectMode": true
   },
   "functions": [
     {
@@ -20,9 +27,7 @@
         "firebase-debug.log",
         "firebase-debug.*.log"
       ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run build"
-      ]
+      "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run build"]
     }
   ]
 }
