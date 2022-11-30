@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import {
     connectAuthEmulator,
     EmailAuthProvider,
+    FacebookAuthProvider,
     getAuth,
     GithubAuthProvider,
     TwitterAuthProvider,
@@ -33,6 +34,7 @@ if (process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') {
 
 const githubAuthProvider = new GithubAuthProvider();
 const twitterAuthProvider = new TwitterAuthProvider();
+const facebookAuthProvider = new FacebookAuthProvider();
 const emailAuthProvider = new EmailAuthProvider();
 
 export {
@@ -41,5 +43,6 @@ export {
     functions,
     twitterAuthProvider,
     githubAuthProvider,
+    facebookAuthProvider,
     emailAuthProvider,
 };
