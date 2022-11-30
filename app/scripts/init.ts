@@ -16,7 +16,7 @@ dotenv.config();
  *
  * REQUIREMENTS (.env):
  *  - DESIGNATED MINT (SAY, USDC)
- *  - DEASIGNATED ESCROW FOR THAT MINT
+ *  - DESIGNATED ESCROW FOR THAT MINT
  */
 
 async function main() {
@@ -86,7 +86,6 @@ async function main() {
         host: 'Solana Foundation',
         date: '11-18-22',
     });
-    console.log(`   eventPubkey: ${eventPubkey}`);
 
     console.log('Event created.');
 

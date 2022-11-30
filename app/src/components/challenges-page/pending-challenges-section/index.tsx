@@ -26,7 +26,7 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
                             Challenge {challenge.key}
                         </Text>
                         <Text variant="sub-heading">
-                            Reward: {challenge.reward} (BONUS: +{challenge.bonus})
+                            Reward: {challenge.rewardValue} (BONUS: +{challenge.bonus})
                         </Text>
                     </div>
 

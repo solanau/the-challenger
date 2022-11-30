@@ -14,11 +14,6 @@ import {
     PrestigeError,
 } from '../util/util';
 
-interface PrizeDto {
-    pubkey: string;
-    mintPubkey: string;
-}
-
 const objectType = 'Prize';
 const prizeCollection = 'prizes';
 
@@ -88,7 +83,7 @@ exports.createNewPrize = async (req, res) => {
             res.status(500).send(PrestigeError(objectType));
         }
         try {
-            const prize: PrizeDto = {
+            const prize: PrizePayload = {
                 pubkey: prizePubkey.toBase58(),
                 ...rawPrize,
             };
@@ -138,7 +133,7 @@ exports.updatePrize = async (req, res) => {
             res.status(500).send(PrestigeError(objectType));
         }
         try {
-            const prize: PrizeDto = { ...rawPrize };
+            const prize: PrizePayload = { ...rawPrize };
             const newDoc = await db
                 .collection(prizeCollection)
                 .doc(req.params.id)

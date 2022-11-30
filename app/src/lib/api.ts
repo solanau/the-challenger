@@ -1,7 +1,9 @@
 import axios from 'axios';
+import { httpsCallable } from 'firebase/functions';
 import {
     ChallengePayload,
     ConfigPayload,
+    CreateSubmissionPayload,
     EventPayload,
     IssuePayoutPayload,
     IssueRewardsBatchPayload,
@@ -11,9 +13,12 @@ import {
     PrizeMintMetadataPayload,
     PrizePayload,
     ProfilePayload,
-    SubmissionPayload,
-    SubmissionStatus,
+    SetUserPayload,
+    UpdateLeaderBoardPayload,
+    UpdateSubmissionStatusPayload,
 } from 'types/api';
+import { SubmissionPayload } from 'types/submission';
+import { functions } from 'utils/firebase';
 
 export async function fetchConfig(): Promise<ConfigPayload> {
     return await axios
@@ -86,10 +91,13 @@ export async function fetchEventsForAuthority(): Promise<EventPayload[]> {
         )
         .then(res => res.data);
 }
-
+export interface EventData {
+    pubKey: string;
+    firebaseEventId: string;
+}
 export async function createNewEvent(
     payload: Omit<EventPayload, 'pubkey'>,
-): Promise<string> {
+): Promise<EventData> {
     return await axios
         .post(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
@@ -97,7 +105,10 @@ export async function createNewEvent(
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
-        .then(res => res.data.pubkey);
+        .then(res => ({
+            pubKey: res.data.pubkey,
+            firebaseEventId: res.data.firebaseEventId,
+        }));
 }
 
 export async function updateEvent(
@@ -239,42 +250,66 @@ export async function fetchSubmissions(
         .then(res => res.data);
 }
 
-export async function fetchSubmissionById(
-    submissionId: string,
-): Promise<SubmissionPayload> {
-    return await axios
-        .get(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                `/submissions/${submissionId}`,
-        )
-        .then(res => res.data);
-}
+export async function createSubmission(payload: CreateSubmissionPayload) {
+    const instance = httpsCallable<CreateSubmissionPayload, unknown>(
+        functions,
+        'createSubmission',
+    );
 
-export async function createNewSubmission(
-    payload: SubmissionPayload,
-): Promise<string> {
-    return await axios
-        .post(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/submission/' +
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
-            payload,
-        )
-        .then(res => res.data);
+    try {
+        const result = await instance(payload);
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
 }
 
 export async function updateSubmissionStatus(
-    submissionId: string,
-    status: SubmissionStatus,
-): Promise<string> {
-    return await axios
-        .patch(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                `/submission/${submissionId}/` +
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
-            { status },
-        )
-        .then(res => res.data);
+    payload: UpdateSubmissionStatusPayload,
+) {
+    const instance = httpsCallable<UpdateSubmissionStatusPayload, unknown>(
+        functions,
+        'updateSubmissionStatus',
+    );
+
+    try {
+        const result = await instance(payload);
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
+
+export async function setUser(payload: SetUserPayload) {
+    const instance = httpsCallable<SetUserPayload, unknown>(
+        functions,
+        'setUser',
+    );
+
+    try {
+        const result = await instance(payload);
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
+
+export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
+    const instance = httpsCallable<UpdateLeaderBoardPayload, unknown>(
+        functions,
+        'updateLeaderBoard',
+    );
+
+    try {
+        const result = await instance(payload);
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
 }
 
 export async function issueAllRewardsBatchForUser(

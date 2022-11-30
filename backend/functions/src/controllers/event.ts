@@ -10,11 +10,6 @@ import {
     PrestigeError,
 } from '../util/util';
 
-interface EventDto {
-    pubkey: string;
-    authority: string;
-}
-
 const objectType = 'Event';
 const eventCollection = 'events';
 
@@ -72,13 +67,14 @@ exports.createNewEvent = async (req, res) => {
             res.status(500).send(PrestigeError(objectType));
         }
         try {
-            const event: EventDto = {
+            const event: EventPayload = {
                 pubkey: eventPubkey.toBase58(),
                 ...rawEvent,
             };
             const newDoc = await db.collection(eventCollection).add(event);
             res.status(201).send({
                 pubkey: eventPubkey.toBase58(),
+                firebaseEventId: newDoc.id,
             });
         } catch (error) {
             console.log(error);
@@ -123,7 +119,7 @@ exports.updateEvent = async (req, res) => {
             res.status(500).send(PrestigeError(objectType));
         }
         try {
-            const event: EventDto = { ...rawEvent };
+            const event: EventPayload = { ...rawEvent };
             const newDoc = await db
                 .collection(eventCollection)
                 .doc(req.params.id)

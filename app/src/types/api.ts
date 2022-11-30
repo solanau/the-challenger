@@ -1,8 +1,8 @@
 import { ChallengeType } from './challenge';
+import { FieldConfig } from './form';
+import { SubmissionAnswerPayload, SubmissionStatus } from './submission';
 
-export type SubmissionStatus = 'pending' | 'invalid' | 'incorrect' | 'complete';
-
-export type ConfigPayload = {
+export interface ConfigPayload {
     id: number;
     masterWalletPubkey: string;
     eventPubkey: string;
@@ -12,9 +12,9 @@ export type ConfigPayload = {
     nftBadgePubkeyEasy: string;
     nftBadgePubkeyMedium: string;
     nftBadgePubkeyHard: string;
-};
+}
 
-export type EventPayload = {
+export interface EventPayload {
     pubkey: string;
     authority: string;
     title: string;
@@ -22,18 +22,18 @@ export type EventPayload = {
     location: string;
     host: string;
     date: string;
-};
+}
 
-export type PotPayload = {
+export interface PotPayload {
     pubkey: string;
     eventPubkey: string;
     mint: string;
     escrowOrMintAuthority: string;
     mintControl: number;
     pot: number;
-};
+}
 
-export type ChallengePayload = {
+export interface ChallengePayload {
     id: string;
     pubkey: string;
     eventPubkey: string;
@@ -64,33 +64,29 @@ export type ChallengePayload = {
     state?: 'open' | 'closed';
     tags?: { value: string }[];
     rank?: number;
-    formComponents: any[];
+    formComponents: FieldConfig[];
     createdAt: string;
     startDate: string;
     endDate: string;
-};
+}
 
-export type PrizePayload = {
+export interface PrizePayload {
     pubkey: string;
     challengePubkey: string;
     mintPubkey: string;
     mintControl: number;
     escrowOrMintAuthority: string;
     quantity: number;
-};
+}
 
-export type SubmissionPayload = {
+export interface CreateSubmissionPayload {
     id: string;
     challengeId: string;
-    challengePubkey: string;
-    userPubkey: string;
-    username: string;
-    answers: any[];
+    answers: SubmissionAnswerPayload[];
     eventId: string;
-    status: SubmissionStatus;
-};
+}
 
-export type PrizeMintMetadataPayload = {
+export interface PrizeMintMetadataPayload {
     pubkey: string;
     challengePubkey: string;
     mintPubkey: string;
@@ -100,33 +96,49 @@ export type PrizeMintMetadataPayload = {
     decimals: number;
     escrowOrMintAuthority: string;
     quantity: number;
-};
+}
 
-export type MintPayload = {
+export interface MintPayload {
     pubkey: string;
     mintTitle: string;
     mintSymbol: string;
     mintUri: string;
     decimals: number;
-};
+}
 
-export type IssueRewardsPayload = {
+export interface IssueRewardsPayload {
     challengePubkey: string;
     userPubkey: string;
-};
+}
 
-export type IssueRewardsBatchPayload = {
+export interface IssueRewardsBatchPayload {
     userPubkey: string;
     challengePubkeys: string[];
-};
+}
 
-export type IssuePayoutPayload = {
+export interface IssuePayoutPayload {
     potPubkey: string;
     userPubkey: string;
     amount: number;
-};
+}
 
-export type ProfilePayload = {
+export interface ProfilePayload {
     pubkey: string;
     username: string;
+}
+
+export interface SetUserPayload {
+    fullName: string;
+    userName: string;
+    walletPublicKey: string;
+}
+
+export type UpdateSubmissionStatusPayload = {
+    eventId: string;
+    id: string;
+    status: SubmissionStatus;
+};
+
+export type UpdateLeaderBoardPayload = {
+    eventId: string;
 };
