@@ -1,8 +1,8 @@
 import { PublicKey } from '@solana/web3.js';
 import { createChallenge } from 'prestige-protocol';
 import { db } from '..';
+import { ChallengePayload } from '../../../../app/src/types/api';
 import { connection, MASTER_API_KEY, WALLET } from '../util/const';
-import { ChallengePayload } from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
@@ -83,14 +83,22 @@ exports.createNewChallenge = async function (req, res) {
             res.status(500).send(PayloadError());
         }
         try {
+            function mapFromTags(tags: { value: string }[]) {
+                let combined = '';
+                tags.forEach(t => (combined += t.value));
+                return combined;
+            }
+            const challengeTagsCombined = rawChallenge.tags
+                ? mapFromTags(rawChallenge.tags)
+                : '';
             challengePubkey = (
                 await createChallenge(
                     connection,
                     WALLET,
-                    new PublicKey(rawChallenge.eventPubkey),
                     rawChallenge.title,
                     rawChallenge.shortDescription,
                     rawChallenge.authorName,
+                    challengeTagsCombined,
                 )
             )[0];
         } catch (error) {
