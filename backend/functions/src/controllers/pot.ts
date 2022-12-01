@@ -1,8 +1,8 @@
 import { PublicKey } from '@solana/web3.js';
 import { createPot } from 'prestige-protocol';
 import { db } from '..';
+import { PotPayload } from '../../../../app/src/types/api';
 import { connection, MASTER_API_KEY, WALLET } from '../util/const';
-import { PotPayload } from '../util/types';
 import { DatabaseError, PayloadError, PrestigeError } from '../util/util';
 
 const objectType = 'Pot';

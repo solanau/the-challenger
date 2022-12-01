@@ -1,11 +1,10 @@
 import * as functions from 'firebase-functions';
 import { db } from '..';
 import {
-    Auth,
     CreateSubmissionPayload,
-    SubmissionStatus,
     UpdateSubmissionStatusPayload,
-} from '../util/types';
+} from '../../../../app/src/types/api';
+import { Auth, SubmissionStatus } from '../util/types';
 import { getTimeBonusPoints } from '../util/util';
 
 const submissionCollection = 'submissions';

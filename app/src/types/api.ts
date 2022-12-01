@@ -72,6 +72,7 @@ export interface ChallengePayload {
 
 export interface PrizePayload {
     pubkey: string;
+    eventPubkey: string;
     challengePubkey: string;
     mintPubkey: string;
     mintControl: number;
@@ -83,6 +84,12 @@ export interface CreateSubmissionPayload {
     id: string;
     challengeId: string;
     answers: SubmissionAnswerPayload[];
+    eventId: string;
+}
+
+export interface UpdateSubmissionStatusPayload {
+    id: string;
+    status: SubmissionStatus;
     eventId: string;
 }
 
@@ -107,12 +114,13 @@ export interface MintPayload {
 }
 
 export interface IssueRewardsPayload {
+    eventPubkey: string;
     challengePubkey: string;
     userPubkey: string;
 }
 
 export interface IssueRewardsBatchPayload {
-    userPubkey: string;
+    earnerPubkey: string;
     challengePubkeys: string[];
 }
 
@@ -133,12 +141,6 @@ export interface SetUserPayload {
     walletPublicKey: string;
 }
 
-export type UpdateSubmissionStatusPayload = {
+export interface UpdateLeaderBoardPayload {
     eventId: string;
-    id: string;
-    status: SubmissionStatus;
-};
-
-export type UpdateLeaderBoardPayload = {
-    eventId: string;
-};
+}

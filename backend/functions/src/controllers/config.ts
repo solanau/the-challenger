@@ -1,6 +1,6 @@
 import { db } from '..';
+import { ConfigPayload } from '../../../../app/src/types/api';
 import { MASTER_API_KEY } from '../util/const';
-import { ConfigPayload } from '../util/types';
 import { DatabaseError, MasterApiKeyError, PayloadError } from '../util/util';
 
 const objectType = 'Config';

@@ -1,8 +1,8 @@
 import { PublicKey } from '@solana/web3.js';
 import { createCustomMint } from 'prestige-protocol';
 import { db } from '..';
+import { MintPayload } from '../../../../app/src/types/api';
 import { connection, MASTER_API_KEY, WALLET } from '../util/const';
-import { MintPayload } from '../util/types';
 import { DatabaseError, PayloadError, PrestigeError } from '../util/util';
 
 interface CustomMintPayload {

@@ -1,6 +1,6 @@
 import { db } from '..';
+import { ProfilePayload } from '../../../../app/src/types/api';
 import { MASTER_API_KEY } from '../util/const';
-import { ProfilePayload } from '../util/types';
 import { DatabaseError, MasterApiKeyError } from '../util/util';
 
 const objectType = 'Profile';

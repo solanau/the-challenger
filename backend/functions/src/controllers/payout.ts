@@ -1,7 +1,7 @@
 import { PublicKey } from '@solana/web3.js';
 import { issuePayout } from 'prestige-protocol';
+import { IssuePayoutPayload } from '../../../../app/src/types/api';
 import { connection, MASTER_API_KEY, WALLET } from '../util/const';
-import { IssuePayoutPayload } from '../util/types';
 import { MasterApiKeyError, PrestigeError } from '../util/util';
 
 const objectType = 'Payout';

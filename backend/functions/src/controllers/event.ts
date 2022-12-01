@@ -1,8 +1,8 @@
 import { PublicKey } from '@solana/web3.js';
 import { createEvent, updateEvent } from 'prestige-protocol';
 import { db } from '..';
+import { EventPayload } from '../../../../app/src/types/api';
 import { connection, MASTER_API_KEY, WALLET } from '../util/const';
-import { EventPayload } from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
