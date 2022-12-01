@@ -6,7 +6,7 @@ import {
     issueAllRewardsBatchForUser,
     issuePayout,
 } from '../src/lib/api';
-import { ChallengeView } from '../src/types/challenge';
+import { ChallengePayload } from '../src/types/challenge';
 
 dotenv.config();
 
@@ -19,14 +19,6 @@ dotenv.config();
 
 const EARNERS_BRACKET = 10;
 
-function sum(vals: number[]): number {
-    let x = 0;
-    for (const v of vals) {
-        x += v;
-    }
-    return x;
-}
-
 async function main() {
     const potPubkey = process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_POT_PUBKEY;
     assert(potPubkey);
@@ -37,7 +29,7 @@ async function main() {
         })
     ).filter(sub => sub.status === 'correct');
 
-    const challengesMap = new Map<string, ChallengeView>();
+    const challengesMap = new Map<string, ChallengePayload>();
     const submissionsMap = new Map<string, string[]>();
     const submissionsPointsTotalsMap = new Map<string, number>();
 
@@ -64,10 +56,13 @@ async function main() {
             assert(currentPoints);
             submissionsPointsTotalsMap.set(
                 sub.userPubkey,
-                currentPoints + challenge.reward,
+                currentPoints + challenge.rewardValue,
             );
         } else {
-            submissionsPointsTotalsMap.set(sub.userPubkey, challenge.reward);
+            submissionsPointsTotalsMap.set(
+                sub.userPubkey,
+                challenge.rewardValue,
+            );
         }
     }
 
