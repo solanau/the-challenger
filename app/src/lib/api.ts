@@ -7,8 +7,7 @@ import {
     MintPayload,
     PrizeMintMetadataPayload,
     PrizePayload,
-    ProfilePayload,
-    SetUserPayload,
+    ProfilePayload, SetUserPayload,
     UpdateLeaderBoardPayload,
     UpdateSubmissionStatusPayload
 } from 'types/api';
@@ -166,12 +165,6 @@ export async function createSubmission(payload: CreateSubmissionPayload) {
 export async function updateSubmissionStatus(
     payload: UpdateSubmissionStatusPayload,
 ) {
-    if(payload.status == 'completed' || payload.status == 'invalid'){
-        for (const answers of payload.reviewedAnswers) {
-            answers.status = payload.status
-        }
-    }  
-    
     const instance = httpsCallable<UpdateSubmissionStatusPayload, unknown>(
         functions,
         'updateSubmissionStatus',

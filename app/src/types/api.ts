@@ -62,7 +62,7 @@ export type UpdateSubmissionStatusPayload = {
 
 export type ReviewedAnswers = {
     review: string;
-    status: SubmissionStatus
+    status: SubmissionStatus;
 };
 
 export type UpdateLeaderBoardPayload = {
