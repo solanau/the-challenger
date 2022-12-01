@@ -5,12 +5,17 @@ import Link from 'next/link';
 import { useState } from 'react';
 import NavElement from './nav-element';
 
-const Header = () => {
+interface HeaderProps {
+    eventId: string;
+    location: string;
+}
+
+const Header = ({ eventId, location }: HeaderProps) => {
     const [isNavOpen, setIsNavOpen] = useState(false);
     return (
         <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between  bg-transparent bg-opacity-40 px-6  backdrop-blur-xl">
-            <Link href="/" passHref>
-                <div className="flex w-fit cursor-pointer flex-row items-center gap-3 md:gap-6">
+            <Link href={`/events/${eventId}`} passHref>
+                <a className="flex w-fit cursor-pointer flex-row items-center gap-3 md:gap-6">
                     <Image
                         src="/logo-icon.svg"
                         alt="solana icon"
@@ -29,11 +34,10 @@ const Header = () => {
                             variant="label"
                             className="font-thin !tracking-widest sm:inline"
                         >
-                            {' '}
-                            Munich!{' '}
+                            {location}
                         </Text>
                     </div>
-                </div>
+                </a>
             </Link>
             <div>
                 <section className="flex flex-row items-center justify-end gap-5 self-end sm:hidden sm:gap-7 lg:hidden">
@@ -47,7 +51,7 @@ const Header = () => {
                     </div>
                     <div className="flex h-full flex-row items-center gap-2 md:gap-10">
                         <div className="h-8 w-0.5 bg-zinc-900" />
-                        <OverflowMenu />
+                        <OverflowMenu eventId={eventId} />
                     </div>
                     <div className={isNavOpen ? 'showMenuNav' : 'hideMenuNav'}>
                         <div
@@ -93,24 +97,24 @@ const Header = () => {
                 <div className="hidden flex-row items-center gap-5 self-end sm:flex sm:gap-7">
                     <NavElement
                         label="Home"
-                        href="/"
+                        href={`/events/${eventId}`}
                         navigationStarts={() => setIsNavOpen(false)}
                     />
                     {/* <NavElement label="Explorer" href="/explorer" /> */}
                     <NavElement
                         label="Leader Board"
-                        href="/leader-board"
+                        href={`/events/${eventId}/leaderboard`}
                         navigationStarts={() => setIsNavOpen(false)}
                     />
 
                     <NavElement
                         label="Challenges"
-                        href="/challenges"
+                        href={`/events/${eventId}/challenges`}
                         navigationStarts={() => setIsNavOpen(false)}
                     />
                     <div className="flex h-full flex-row gap-3 md:gap-5">
                         <div className="h-15 w-px bg-line" />
-                        <OverflowMenu />
+                        <OverflowMenu eventId={eventId} />
                     </div>
                     {/* <WalletMultiButton></WalletMultiButton> */}
                 </div>

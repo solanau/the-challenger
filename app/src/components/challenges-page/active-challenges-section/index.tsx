@@ -6,9 +6,15 @@ import { MdPlayArrow } from 'react-icons/md';
 import { ActiveChallenge } from 'types/challenge';
 import { getIcon } from '../challenge-icon';
 
-type ChallengeListProps = { challenges: ActiveChallenge[] };
+type ChallengeListProps = {
+    eventId: string;
+    challenges: ActiveChallenge[];
+};
 
-const ActiveChallengesSection = ({ challenges }: ChallengeListProps) => (
+const ActiveChallengesSection = ({
+    eventId,
+    challenges,
+}: ChallengeListProps) => (
     <section className="flex w-full flex-row flex-wrap gap-5">
         {challenges.map(challenge => (
             <Card
@@ -85,7 +91,10 @@ const ActiveChallengesSection = ({ challenges }: ChallengeListProps) => (
                             </Link>
                         </div>
 
-                        <Link href={`challenges/${challenge.uid}`} passHref>
+                        <Link
+                            href={`/events/${eventId}/challenges/${challenge.uid}`}
+                            passHref
+                        >
                             <a>
                                 {challenge.submittedStatus ? (
                                     <Button
