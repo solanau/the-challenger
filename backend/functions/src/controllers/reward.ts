@@ -3,8 +3,11 @@ import {
     issueAllRewardsForChallenge,
     issueRewardsBatch,
 } from 'prestige-protocol';
+import {
+    IssueRewardsBatchPayload,
+    IssueRewardsPayload,
+} from '../../../../app/src/types/api';
 import { connection, MASTER_API_KEY, WALLET } from '../util/const';
-import { IssueRewardsBatchPayload, IssueRewardsPayload } from '../util/types';
 import { MasterApiKeyError, PrestigeError } from '../util/util';
 
 const objectType = 'Reward';
@@ -19,6 +22,7 @@ exports.issueAllRewardsForChallenge = async function (req, res) {
             await issueAllRewardsForChallenge(
                 connection,
                 WALLET,
+                new PublicKey(rewardCommand.eventPubkey),
                 new PublicKey(rewardCommand.challengePubkey),
                 new PublicKey(rewardCommand.userPubkey),
             );

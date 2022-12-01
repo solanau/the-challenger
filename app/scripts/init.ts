@@ -15,7 +15,7 @@ dotenv.config();
  * Run it once, then our App & API are good to go.
  *
  * REQUIREMENTS (.env):
- *  - DESIGNATED MINT (SAY, USDC)
+ *  - DESIGNATED MINT (say, USDC)
  *  - DESIGNATED ESCROW FOR THAT MINT
  */
 
@@ -78,7 +78,7 @@ async function main() {
 
     console.log('Creating event...');
 
-    const eventPubkey = await createNewEvent({
+    const eventData = await createNewEvent({
         authority: masterWalletPubkey,
         title: 'HackaTUM Munich',
         description: 'HackaTUM Hackathon in Munich, Germany',
@@ -96,7 +96,7 @@ async function main() {
     console.log('Creating prize pot...');
 
     const potPubkey = await createNewPot({
-        eventPubkey: eventPubkey,
+        eventPubkey: eventData.pubKey,
         mint: potMint,
         escrowOrMintAuthority: potEscrowPubkey,
         mintControl: 2,
@@ -115,7 +115,7 @@ async function main() {
     await updateConfig({
         id: 0,
         masterWalletPubkey: masterWalletPubkey,
-        eventPubkey: eventPubkey,
+        eventPubkey: eventData.pubKey,
         potPubkey: potPubkey,
         potEscrowPubkey: potEscrowPubkey,
         xpTokenPubkey: xpTokenPubkey,

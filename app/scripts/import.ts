@@ -35,6 +35,7 @@ async function main() {
         let quantity = chal.rewardValue;
 
         await createNewPrize({
+            eventPubkey: configs.eventPubkey,
             challengePubkey: challengePubkey,
             mintPubkey,
             mintControl: 0,
@@ -52,6 +53,7 @@ async function main() {
             }
             quantity = 1;
             await createNewPrize({
+                eventPubkey: configs.eventPubkey,
                 challengePubkey: challengePubkey,
                 mintPubkey,
                 mintControl: 0,
