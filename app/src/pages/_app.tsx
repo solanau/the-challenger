@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import CommandPalette from 'components/common/command-palette';
-import Layout from 'components/common/layout';
 import { SessionProvider } from 'next-auth/react';
 import { AppProps } from 'next/app';
 import { AuthContextProvider } from 'providers/AuthProvider';
@@ -21,9 +20,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
             <SessionProvider session={session}>
                 <AuthContextProvider>
                     <CommandPalette>
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
+                        <Component {...pageProps} />
                     </CommandPalette>
                 </AuthContextProvider>
             </SessionProvider>

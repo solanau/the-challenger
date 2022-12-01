@@ -13,7 +13,11 @@ import Button from '../button';
 import Card from '../card';
 import Text from '../text';
 
-const OverflowMenu = () => {
+interface OverflowMenuProps {
+    eventId: string;
+}
+
+const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
     const {
@@ -21,10 +25,7 @@ const OverflowMenu = () => {
         logOut,
     } = useAuth();
     const user = useCurrentUser();
-    const leaderBoard = useLeaderBoard(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-        'individual',
-    );
+    const leaderBoard = useLeaderBoard(eventId, 'individual');
     const rank = useMemo(() => {
         const participantIndex = leaderBoard?.participants.findIndex(
             participant => participant.userId === user?.id,
