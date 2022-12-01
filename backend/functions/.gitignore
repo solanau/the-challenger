@@ -12,3 +12,8 @@ yarn.lock
 .emulators
 lib/
 test-ledger/
+
+*-export-*
+
+.env.local
+.env

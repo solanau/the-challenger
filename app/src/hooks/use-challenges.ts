@@ -25,7 +25,7 @@ export const useChallenges = (eventId: string): ChallengePayload[] => {
                         querySnapshot.docs
                             .map(doc =>
                                 toChallenge(submissions, {
-                                    uid: doc.id,
+                                    id: doc.id,
                                     ...doc.data(),
                                 } as ChallengePayload),
                             )

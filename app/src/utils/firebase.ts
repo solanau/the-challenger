@@ -3,6 +3,9 @@ import { connectAuthEmulator, getAuth } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 
+// import dotenv from 'dotenv';
+// dotenv.config();
+
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
@@ -16,13 +19,14 @@ const firebaseConfig = {
 // Initialize Firebase and Firestore
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
-const auth = getAuth(app);
 const functions = getFunctions(app);
+const auth = getAuth(app);
 
 if (process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') {
     connectAuthEmulator(auth, 'http://localhost:9099');
     connectFirestoreEmulator(firestore, 'localhost', 8080);
-    connectFunctionsEmulator(functions, 'localhost', 4001);
-}
+    connectFunctionsEmulator(functions, 'localhost', 4002);
+} 
 
 export { firestore, auth, functions };
+// export default app;

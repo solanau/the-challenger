@@ -1,7 +1,7 @@
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 import { fetchChallengesForEvent, updateChallenge } from '../src/lib/api';
 
-dotenv.config();
+// dotenv.config();
 
 /**
  * This script will disable all challenge submissions by sending a "poison pill"
