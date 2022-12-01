@@ -24,6 +24,11 @@ export interface EventPayload {
     date: string;
 }
 
+export interface EventData {
+    pubKey: string;
+    firebaseEventId: string;
+}
+
 export interface PotPayload {
     pubkey: string;
     eventPubkey: string;
@@ -36,7 +41,6 @@ export interface PotPayload {
 export interface ChallengePayload {
     id: string;
     pubkey: string;
-    eventPubkey: string;
     key: number;
     iconKey: number;
     iconSize: number;

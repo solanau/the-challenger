@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { httpsCallable } from 'firebase/functions';
 import {
     ChallengePayload,
     ConfigPayload,
-    CreateSubmissionPayload,
+    EventData,
     EventPayload,
     IssuePayoutPayload,
     IssueRewardsBatchPayload,
@@ -13,12 +12,8 @@ import {
     PrizeMintMetadataPayload,
     PrizePayload,
     ProfilePayload,
-    SetUserPayload,
-    UpdateLeaderBoardPayload,
-    UpdateSubmissionStatusPayload,
 } from 'types/api';
 import { SubmissionPayload } from 'types/submission';
-import { functions } from 'utils/firebase';
 
 export async function fetchConfig(): Promise<ConfigPayload> {
     return await axios
@@ -91,10 +86,7 @@ export async function fetchEventsForAuthority(): Promise<EventPayload[]> {
         )
         .then(res => res.data);
 }
-export interface EventData {
-    pubKey: string;
-    firebaseEventId: string;
-}
+
 export async function createNewEvent(
     payload: Omit<EventPayload, 'pubkey'>,
 ): Promise<EventData> {
@@ -248,68 +240,6 @@ export async function fetchSubmissions(
             },
         )
         .then(res => res.data);
-}
-
-export async function createSubmission(payload: CreateSubmissionPayload) {
-    const instance = httpsCallable<CreateSubmissionPayload, unknown>(
-        functions,
-        'createSubmission',
-    );
-
-    try {
-        const result = await instance(payload);
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
-}
-
-export async function updateSubmissionStatus(
-    payload: UpdateSubmissionStatusPayload,
-) {
-    const instance = httpsCallable<UpdateSubmissionStatusPayload, unknown>(
-        functions,
-        'updateSubmissionStatus',
-    );
-
-    try {
-        const result = await instance(payload);
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
-}
-
-export async function setUser(payload: SetUserPayload) {
-    const instance = httpsCallable<SetUserPayload, unknown>(
-        functions,
-        'setUser',
-    );
-
-    try {
-        const result = await instance(payload);
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
-}
-
-export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
-    const instance = httpsCallable<UpdateLeaderBoardPayload, unknown>(
-        functions,
-        'updateLeaderBoard',
-    );
-
-    try {
-        const result = await instance(payload);
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
 }
 
 export async function issueAllRewardsBatchForUser(

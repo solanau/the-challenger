@@ -26,7 +26,6 @@ async function main() {
     const t = mockChallenges.length;
     for (const chal of mockChallenges) {
         const challengePubkey = await createNewChallenge({
-            eventPubkey: configs.eventPubkey,
             state: 'open',
             ...chal,
         });

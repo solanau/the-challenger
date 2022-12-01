@@ -1,5 +1,5 @@
 import assert from 'assert';
-// import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import {
     fetchChallengeById,
     fetchSubmissions,
@@ -8,7 +8,7 @@ import {
 } from '../src/lib/api';
 import { ChallengePayload } from '../src/types/challenge';
 
-// dotenv.config();
+dotenv.config();
 
 /**
  * This script will issue the proper on-chain rewards to every challenge submitter.
