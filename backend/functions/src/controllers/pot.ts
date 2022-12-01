@@ -63,7 +63,7 @@ exports.createNewPot = async function (req, res) {
             )[0];
         } catch (error) {
             console.log(error);
-            res.status(400).send(PrestigeError(objectType));
+            res.status(500).send(PrestigeError(objectType));
         }
         try {
             const pot: PotPayload = {

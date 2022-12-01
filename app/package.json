@@ -5,6 +5,7 @@
     "main": "function.js",
     "private": false,
     "scripts": {
+        "t": "ts-node scripts/test.ts",
         "init": "ts-node scripts/init.ts",
         "import": "ts-node scripts/import.ts",
         "freeze": "ts-node scripts/freeze.ts",

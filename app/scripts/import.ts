@@ -13,6 +13,10 @@ dotenv.config();
  *
  */
 
+async function sleep(s: number) {
+    return new Promise(resolve => setTimeout(resolve, s * 1000));
+}
+
 async function main() {
     const configs = await fetchConfig();
 
@@ -63,6 +67,7 @@ async function main() {
 
         console.log(`   Challenge ${x}/${t} imported.`);
         x++;
+        await sleep(1);
     }
 
     console.log('All challenges imported.');

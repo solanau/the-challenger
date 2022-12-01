@@ -1,8 +1,8 @@
-import { PublicKey } from '@solana/web3.js';
+import { Keypair, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { createChallenge } from 'prestige-protocol';
 import { db } from '..';
 import { ChallengePayload } from '../../../../app/src/types/api';
-import { connection, MASTER_API_KEY, WALLET } from '../util/const';
+import { connection, MASTER_API_KEY } from '../util/const';
 import {
     DatabaseError,
     MasterApiKeyError,
@@ -90,20 +90,30 @@ exports.createNewChallenge = async function (req, res) {
             }
             const challengeTagsCombined = rawChallenge.tags
                 ? mapFromTags(rawChallenge.tags)
-                : '';
+                : 'none';
+            const keypair = Keypair.generate();
+            await connection.requestAirdrop(
+                keypair.publicKey,
+                2 * LAMPORTS_PER_SOL,
+            );
             challengePubkey = (
                 await createChallenge(
                     connection,
-                    WALLET,
-                    rawChallenge.title,
-                    rawChallenge.shortDescription,
-                    rawChallenge.authorName,
-                    challengeTagsCombined,
+                    keypair,
+                    'test',
+                    'test',
+                    'test',
+                    'test',
+                    // WALLET,
+                    // rawChallenge.title,
+                    // rawChallenge.shortDescription,
+                    // rawChallenge.authorName,
+                    // challengeTagsCombined,
                 )
             )[0];
         } catch (error) {
             console.log(error);
-            res.status(400).send(PrestigeError(objectType));
+            res.status(500).send(PrestigeError(objectType));
         }
         try {
             const challenge: ChallengePayload = {

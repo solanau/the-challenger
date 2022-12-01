@@ -22,7 +22,7 @@ exports.issuePayout = async function (req, res) {
             );
         } catch (error) {
             console.log(error);
-            res.status(400).send(PrestigeError(objectType));
+            res.status(500).send(PrestigeError(objectType));
         }
     }
 };

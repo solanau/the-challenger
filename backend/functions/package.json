@@ -23,7 +23,7 @@
         "express": "^4.18.2",
         "firebase-admin": "^10.0.2",
         "firebase-functions": "^4.1.0",
-        "prestige-protocol": "^0.0.11",
+        "prestige-protocol": "^0.0.12",
         "uuid": "^9.0.0"
     },
     "devDependencies": {

@@ -3,7 +3,10 @@ import { ChallengePayload } from 'types/api';
 let i = 100;
 
 // TODO: refactor for types, collection, interfaces etc
-export const mockChallenges: Omit<ChallengePayload, 'pubkey'>[] = [
+export const mockChallenges: Omit<
+    ChallengePayload,
+    'pubkey' | 'eventPubkey' | 'eventId'
+>[] = [
     // Heavy Duty Social
     {
         key: ++i,
