@@ -29,9 +29,10 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
     const [reviewedAnswers, setReviews] = useState(
         Array(100).fill({ review: '', status: '' }),
     );
-    const [reviewedAnswers, setReviews] = useState(Array(submission?.answers?.length).fill({review: '', status: ''}));
     const [status, setStatus] = useState<SubmissionStatus | ''>('');
     const [review, setReview] = useState('');
+    const [answersReview, setAnswerReviews] = useState<string[]>(submission?.answers?.map(answer => answer.review) ?? []);
+    const [answersStatus, setAnswersStatus] = useState<string[]>(submission?.answers?.map(answer => answer.status) ?? []);
 
     const handleFormSubmit = (event: FormEvent) => {
         event.preventDefault();
@@ -47,30 +48,25 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
             status,
             eventId,
             review,
-            reviewedAnswers,
+            answersReview,
+            answersStatus,
+            eventId,
         })
             .then(() => alert('Submission status changed and review sent!'))
             .catch(error => alert(error))
             .finally(() => setIsLoading(false));
     };
-    const updateReview = (review: string, index: number) => {
-        const reviews = reviewedAnswers;
-        reviews[index].review = review;
-        setReviews(reviews);
+    const updateReviews = (review: string, index: number) => {
+        const reviews = answersReview;
+        reviews[index] = review;
+        setAnswerReviews(reviews);
+        console.log(answersReview, answersStatus, review, status);
     };
-    const setReviewsStatus = (value: string, index: number) => {
-        const reviews = reviewedAnswers;
-        reviews[index].status = value;
-        setReviews(reviews);
-    };
-    const setGlobalStatus = (status: SubmissionStatus) => {
-        let check = false
-        for (const answer of reviewedAnswers) {
-            if (answer.status !== 'pending') check = true
-        }
-        if (check) reviewedAnswers.map(answers => answers.status = status)
-        
-        setStatus(status)
+    const updateAnswersStatus = (value: string, index: number) => {
+        const reviews = answersStatus;
+        reviews[index] = value;
+        setAnswersStatus(reviews);
+        console.log(answersStatus);
     };
     
     return (
@@ -165,8 +161,8 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                                 <select
                                                     name="answerStatus"
                                                     id="answerStatus"
-                                                    value={reviewedAnswers[index].status}
-                                                    onChange={event => setReviewsStatus(event.target.value, index)}
+                                                    value={answersStatus[index]}
+                                                    onChange={event => updateAnswersStatus(event.target.value, index)}
                                                     className="bg-white bg-opacity-10 px-2 py-1"
                                                 >
                                                     <option
@@ -177,21 +173,41 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                                     Select status
                                                     </option>
                                                     <option
+                                                        value={'pending'}
+                                                        className="bg-black bg-opacity-60"
+                                                        disabled={
+                                                            'pending' ===
+                                                            answersStatus[index]
+                                                        }
+                                                    >
+                                                    Pending
+                                                    </option>
+                                                    <option
+                                                        value="invalid"
+                                                        className="bg-black bg-opacity-60"
+                                                        disabled={
+                                                            'invalid' ===
+                                                            answersStatus[index]
+                                                        }
+                                                    >
+                                                    Invalid
+                                                    </option>
+                                                    <option
                                                         value="incorrect"
                                                         className="bg-black bg-opacity-60"
                                                         disabled={
-                                                            'incorrect' ===
-                                                            reviewedAnswers[index].status
+                                                            'pending' ===
+                                                            answersStatus[index]
                                                         }
                                                     >
                                                     Incorrect
                                                     </option>
                                                     <option
                                                         value="completed"
-                                                        className="bg-black bg-opacity-60"
+                                                        className="bg-black bg-opacity-60" 
                                                         disabled={
-                                                            'completed' ===
-                                                            reviewedAnswers[index].status
+                                                            'pending' ===
+                                                            answersStatus[index]
                                                         }
                                                     >
                                                     Completed
@@ -203,7 +219,7 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                                         name={answer.value}
                                                         className="fieldConfigs-center w-full bg-transparent outline-none"
                                                         rows={1}
-                                                        onChange={event => updateReview(event.target.value, index)}
+                                                        onChange={event => updateReviews(event.target.value, index)}
                                                         defaultValue={submission.answers[index].review}                                       
                                                     />
                                                 </Card>
@@ -216,7 +232,7 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                                 id="status"
                                                 value={status}
                                                 onChange={event =>
-                                                    setGlobalStatus(
+                                                    setStatus(
                                                         event.target
                                                             .value as SubmissionStatus,
                                                     )

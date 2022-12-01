@@ -57,12 +57,8 @@ export type UpdateSubmissionStatusPayload = {
     id: string;
     status: SubmissionStatus;
     review: string;
-    reviewedAnswers: ReviewedAnswers[];
-};
-
-export type ReviewedAnswers = {
-    review: string;
-    status: SubmissionStatus;
+    answersReview: string[];
+    answersStatus: string[];
 };
 
 export type UpdateLeaderBoardPayload = {

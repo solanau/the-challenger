@@ -185,13 +185,9 @@ export interface UpdateSubmissionStatusPayload {
     status: SubmissionStatus;
     eventId: string;
     review: string;
-    reviewedAnswers: ReviewedAnswers[];
+    answersReview: string[];
+    answersStatus: string[];
 }
-
-export type ReviewedAnswers = {
-    review: string;
-    status: SubmissionStatus;
-};
 
 export interface PrizeMintMetadataPayload {
     pubkey: string;

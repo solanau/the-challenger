@@ -109,8 +109,8 @@ class SubmissionController {
                 (answer: SubmissionAnswer, index: number) => {
                     return {
                         ...answer,
-                        status: payload.reviewedAnswers[index].status,
-                        review: payload.reviewedAnswers[index].review,
+                        status: payload.answersStatus[index],
+                        review: payload.answersReview[index],
                     };
                 },
             );
