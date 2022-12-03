@@ -1,8 +1,7 @@
 import { useCurrentUser } from 'hooks/use-current-user';
-import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
     MdLogin,
     MdLogout,
@@ -13,11 +12,7 @@ import Button from '../button';
 import Card from '../card';
 import Text from '../text';
 
-interface OverflowMenuProps {
-    eventId: string;
-}
-
-const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
+const OverflowMenu = () => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
     const {
@@ -25,29 +20,6 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
         logOut,
     } = useAuth();
     const user = useCurrentUser();
-    const leaderBoard = useLeaderBoard(eventId, 'individual');
-    const rank = useMemo(() => {
-        const participantIndex = leaderBoard?.participants.findIndex(
-            participant => participant.userId === user?.id,
-        );
-
-        if (participantIndex === -1) {
-            return null;
-        }
-
-        return participantIndex + 1;
-    }, [user?.id, leaderBoard?.participants]);
-    const totalPoints = useMemo(() => {
-        const participantIndex = leaderBoard?.participants.findIndex(
-            participant => participant.userId === user?.id,
-        );
-
-        if (participantIndex === -1) {
-            return null;
-        }
-
-        return leaderBoard?.participants[participantIndex].points;
-    }, [user?.id, leaderBoard?.participants]);
 
     return (
         <>
@@ -86,11 +58,6 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                     {`@${user.userName}`}
                                                 </Link>
                                             </Text>
-                                            {rank && totalPoints && (
-                                                <div>
-                                                    <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
-                                                </div>
-                                            )}
                                             <Link
                                                 href="/users/profile-settings"
                                                 passHref
@@ -123,17 +90,15 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                 variant="nav-heading"
                                                 className="text-secondary"
                                             >
-                                                Sign in with GitHub
+                                                Sign in
                                             </Text>
                                             <Text
                                                 variant="label"
                                                 className="!normal-case text-secondary"
                                             >
-                                                Connect your GitHub account for
-                                                an enhanced user experience,
-                                                including the ability to create
-                                                new and claim completed
-                                                bounties.
+                                                Connect and earn your spot in
+                                                the leaderboard by solving
+                                                challenges.
                                             </Text>
                                             <Text
                                                 variant="paragraph"

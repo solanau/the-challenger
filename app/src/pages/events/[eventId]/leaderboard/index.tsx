@@ -1,5 +1,4 @@
 import Button from 'components/common/button';
-import Layout from 'components/common/layout';
 import Text from 'components/common/text';
 import LeaderboardList from 'components/leader-board-page/leader-board-list';
 import { useCurrentUser } from 'hooks/use-current-user';
@@ -31,43 +30,39 @@ const LeaderboardPage: NextPage<LeaderboardPageProps> = ({ eventId }) => {
                 description="Explore and contribute to bounties that interest you and get paid for your work"
             ></NextSeo>
 
-            <Layout eventId={eventId} location={event?.location ?? ''}>
-                <div className="flex flex-col gap-12 pt-14">
-                    <div className="flex flex-col gap-0">
-                        <Text variant="sub-heading" className="text-center">
-                            {event?.title}
-                        </Text>
-                        <div className="flex w-full flex-col gap-2 px-5 sm:px-8 md:px-16 lg:px-32 xl:px-48">
-                            <div className="flex w-full flex-col items-center">
-                                <Text
-                                    variant="big-heading"
-                                    className="bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a] bg-clip-text text-center text-8xl text-transparent"
+            <div className="flex flex-col gap-12 pt-14">
+                <div className="flex flex-col gap-0">
+                    <Text variant="sub-heading" className="text-center">
+                        {event?.title}
+                    </Text>
+                    <div className="flex w-full flex-col gap-2 px-5 sm:px-8 md:px-16 lg:px-32 xl:px-48">
+                        <div className="flex w-full flex-col items-center">
+                            <Text
+                                variant="big-heading"
+                                className="bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a] bg-clip-text text-center text-8xl text-transparent"
+                            >
+                                Leaderboard
+                            </Text>
+                            {user && event && event.managers.includes(user.id) && (
+                                <Button
+                                    className="flex h-8 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]"
+                                    variant="orange"
+                                    onClick={handleUpdateLeaderBoard}
                                 >
-                                    Leaderboard
-                                </Text>
-                                {user &&
-                                    event &&
-                                    event.managers.includes(user.id) && (
-                                        <Button
-                                            className="flex h-8 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]"
-                                            variant="orange"
-                                            onClick={handleUpdateLeaderBoard}
-                                        >
-                                            Refresh
-                                        </Button>
-                                    )}
-                            </div>
+                                    Refresh
+                                </Button>
+                            )}
+                        </div>
 
-                            <div className="mt-6">
-                                <LeaderboardList
-                                    leaderBoard={leaderBoard}
-                                    key="open-bounties"
-                                />
-                            </div>
+                        <div className="mt-6">
+                            <LeaderboardList
+                                leaderBoard={leaderBoard}
+                                key="open-bounties"
+                            />
                         </div>
                     </div>
                 </div>
-            </Layout>
+            </div>
         </>
     );
 };

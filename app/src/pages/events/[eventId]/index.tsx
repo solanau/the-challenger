@@ -1,4 +1,3 @@
-import Layout from 'components/common/layout';
 import HeroSection from 'components/event-page/hero-section';
 import { useEvent } from 'hooks/use-event';
 import { GetServerSideProps, NextPage } from 'next';
@@ -11,12 +10,12 @@ const EventPage: NextPage<EventPageProps> = ({ eventId }) => {
     const event = useEvent(eventId);
 
     return (
-        <Layout eventId={eventId} location={event?.location ?? ''}>
+        <>
             <HeroSection
                 title={event?.title ?? ''}
                 description={event?.description ?? ''}
             />
-        </Layout>
+        </>
     );
 };
 
