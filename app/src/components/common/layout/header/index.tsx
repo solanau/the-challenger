@@ -1,20 +1,19 @@
 import Image from 'components/common/image';
 import OverflowMenu from 'components/common/overflow-menu';
-import Text from 'components/common/text';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import NavElement from './nav-element';
 
-interface HeaderProps {
-    eventId: string;
-    location: string;
-}
-
-const Header = ({ eventId, location }: HeaderProps) => {
+const Header = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
+    const router = useRouter();
+    const isEventPage = router.pathname.startsWith('/events/[eventId]');
+    const eventId = router.query.eventId;
+
     return (
         <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between  bg-transparent bg-opacity-40 px-6  backdrop-blur-xl">
-            <Link href={`/events/${eventId}`} passHref>
+            <Link href={isEventPage ? `/events/${eventId}` : '/'} passHref>
                 <a className="flex w-fit cursor-pointer flex-row items-center gap-3 md:gap-6">
                     <Image
                         src="/logo-icon.svg"
@@ -30,15 +29,10 @@ const Header = ({ eventId, location }: HeaderProps) => {
                             width={134.46}
                             height={20.1}
                         />
-                        <Text
-                            variant="label"
-                            className="font-thin !tracking-widest sm:inline"
-                        >
-                            {location}
-                        </Text>
                     </div>
                 </a>
             </Link>
+
             <div>
                 <section className="flex flex-row items-center justify-end gap-5 self-end sm:hidden sm:gap-7 lg:hidden">
                     <div
@@ -51,7 +45,7 @@ const Header = ({ eventId, location }: HeaderProps) => {
                     </div>
                     <div className="flex h-full flex-row items-center gap-2 md:gap-10">
                         <div className="h-8 w-0.5 bg-zinc-900" />
-                        <OverflowMenu eventId={eventId} />
+                        <OverflowMenu />
                     </div>
                     <div className={isNavOpen ? 'showMenuNav' : 'hideMenuNav'}>
                         <div
@@ -74,16 +68,24 @@ const Header = ({ eventId, location }: HeaderProps) => {
                         <ul className="flex min-h-[200px] flex-col items-center justify-between">
                             <NavElement
                                 label="Home"
-                                href="/"
+                                href={isEventPage ? `/events/${eventId}` : '/'}
                                 navigationStarts={() => setIsNavOpen(false)}
                             />
                             <div className="mb-5 h-0.5 w-20 gap-10 bg-zinc-500" />
-                            {/* <NavElement label="Explorer" href="/explorer" /> */}
-                            <NavElement
-                                label="Leader Board"
-                                href="/leader-board"
-                                navigationStarts={() => setIsNavOpen(false)}
-                            />
+                            {isEventPage && (
+                                <NavElement
+                                    label="Leader Board"
+                                    href={`/events/${eventId}/leaderboard`}
+                                    navigationStarts={() => setIsNavOpen(false)}
+                                />
+                            )}
+                            {!isEventPage && (
+                                <NavElement
+                                    label="Events"
+                                    href={`/events`}
+                                    navigationStarts={() => setIsNavOpen(false)}
+                                />
+                            )}
                             <div className="mb-5 h-0.5 w-20 gap-10 bg-zinc-500" />
                             <NavElement
                                 label="Challenges"
@@ -97,26 +99,40 @@ const Header = ({ eventId, location }: HeaderProps) => {
                 <div className="hidden flex-row items-center gap-5 self-end sm:flex sm:gap-7">
                     <NavElement
                         label="Home"
-                        href={`/events/${eventId}`}
-                        navigationStarts={() => setIsNavOpen(false)}
-                    />
-                    {/* <NavElement label="Explorer" href="/explorer" /> */}
-                    <NavElement
-                        label="Leader Board"
-                        href={`/events/${eventId}/leaderboard`}
+                        href={isEventPage ? `/events/${eventId}` : '/'}
                         navigationStarts={() => setIsNavOpen(false)}
                     />
 
+                    {isEventPage && (
+                        <NavElement
+                            label="Leader Board"
+                            href={`/events/${eventId}/leaderboard`}
+                            navigationStarts={() => setIsNavOpen(false)}
+                        />
+                    )}
+
+                    {!isEventPage && (
+                        <NavElement
+                            label="Events"
+                            href={`/events`}
+                            navigationStarts={() => setIsNavOpen(false)}
+                        />
+                    )}
+
                     <NavElement
                         label="Challenges"
-                        href={`/events/${eventId}/challenges`}
+                        href={
+                            isEventPage
+                                ? `/events/${eventId}/challenges`
+                                : '/challenges'
+                        }
                         navigationStarts={() => setIsNavOpen(false)}
                     />
+
                     <div className="flex h-full flex-row gap-3 md:gap-5">
                         <div className="h-15 w-px bg-line" />
-                        <OverflowMenu eventId={eventId} />
+                        <OverflowMenu />
                     </div>
-                    {/* <WalletMultiButton></WalletMultiButton> */}
                 </div>
             </div>
             <style>
