@@ -6,3 +6,8 @@ export interface EventPayload {
     reviewers: string[];
     managers: string[];
 }
+
+export interface CreateEventPayload {
+    title: string;
+    description: string;
+}

@@ -1,4 +1,5 @@
 import { PublicKey } from '@solana/web3.js';
+import * as functions from 'firebase-functions';
 import { createEvent, updateEvent } from 'prestige-protocol';
 import { db } from '..';
 import {
@@ -7,7 +8,7 @@ import {
     PRESTIGE_PROGRAM_ID,
     WALLET,
 } from '../util/const';
-import { EventPayload } from '../util/types';
+import { Auth, CreateEventPayload, EventPayload } from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
@@ -138,3 +139,25 @@ exports.updateEvent = async (req, res) => {
         }
     }
 };
+
+class EventController {
+    async createEvent(payload: CreateEventPayload, auth?: Auth) {
+        if (!auth) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to create an event, you have to log in.`,
+            );
+        }
+
+        const event = await db.doc(`events/${payload.id}`).set({
+            title: payload.title,
+            description: payload.description,
+            userId: auth.id,
+            version: 1,
+        });
+
+        return event;
+    }
+}
+
+export const controller = new EventController();

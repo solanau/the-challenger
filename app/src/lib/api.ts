@@ -14,7 +14,9 @@ import {
     UpdateLeaderBoardPayload,
     UpdateSubmissionStatusPayload,
 } from 'types/api';
+import { CreateEventPayload } from 'types/event';
 import { functions } from 'utils/firebase';
+import { v4 as uuid } from 'uuid';
 
 export async function fetchProfileForPubkey(
     pubkey: string,
@@ -222,6 +224,18 @@ export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
 
     try {
         const result = await instance(payload);
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
+
+export async function createEvent(payload: CreateEventPayload) {
+    const instance = httpsCallable(functions, 'createEvent');
+
+    try {
+        const result = await instance({ id: uuid(), ...payload });
 
         return result.data;
     } catch (error) {

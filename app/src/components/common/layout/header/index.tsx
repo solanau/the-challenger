@@ -8,7 +8,9 @@ import NavElement from './nav-element';
 const Header = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const router = useRouter();
-    const isEventPage = router.pathname.startsWith('/events/[eventId]');
+    const isEventPage =
+        router.pathname.startsWith('/events/[eventId]') &&
+        router.pathname !== '/events/[eventId]/settings';
     const eventId = router.query.eventId;
 
     return (
