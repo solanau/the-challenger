@@ -13,21 +13,24 @@ export const useSubmissions = (
     filters: SubmissionFilters | null,
 ): SubmissionPayload[] => {
     const [submissions, setSubmissions] = useState<SubmissionPayload[]>([]);
+    const hasFilters = filters !== null;
+    const challengeId = filters?.challengeId;
+    const userId = filters?.userId;
 
     useEffect(() => {
-        if (filters === null) {
+        if (hasFilters) {
             setSubmissions([]);
             return;
         }
 
         const whereFilters = [];
 
-        if (filters.challengeId) {
-            whereFilters.push(where('challengeId', '==', filters.challengeId));
+        if (challengeId) {
+            whereFilters.push(where('challengeId', '==', challengeId));
         }
 
-        if (filters.userId) {
-            whereFilters.push(where('userId', '==', filters.userId));
+        if (userId) {
+            whereFilters.push(where('userId', '==', userId));
         }
 
         const unsubscribe = onSnapshot(
@@ -53,7 +56,7 @@ export const useSubmissions = (
         );
 
         return () => unsubscribe();
-    }, [eventId, filters?.challengeId, filters?.userId]);
+    }, [eventId, hasFilters, challengeId, userId]);
 
     return submissions;
 };

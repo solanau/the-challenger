@@ -4,6 +4,7 @@ import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { controller as eventController } from './controllers/event';
 import { controller as leaderBoardController } from './controllers/leader-board';
 import { controller as submissionController } from './controllers/submission';
 import { controller as userController } from './controllers/user';
@@ -148,4 +149,16 @@ export const setUser = functions.https.onCall(async (data, context) => {
     );
 
     return user;
+});
+
+export const createEvent = functions.https.onCall(async (data, context) => {
+    const event = await eventController.createEvent(
+        data,
+        context.auth && {
+            id: context.auth.token.uid,
+            email: context.auth.token.email,
+        },
+    );
+
+    return event;
 });

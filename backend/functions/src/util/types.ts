@@ -94,6 +94,12 @@ export type PrizePayload = {
     quantity: number;
 };
 
+export type CreateEventPayload = {
+    id: string;
+    title: string;
+    description: string;
+};
+
 export type CreateSubmissionPayload = {
     id: string;
     eventId: string;
