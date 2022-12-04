@@ -1,18 +1,19 @@
 import { PublicKey } from '@solana/web3.js';
+import * as functions from 'firebase-functions';
 import { createChallenge, updateChallenge } from 'prestige-protocol';
 import { db } from '..';
 import {
     connection,
     MASTER_API_KEY,
     PRESTIGE_PROGRAM_ID,
-    WALLET
+    WALLET,
 } from '../util/const';
-import { ChallengePayload } from '../util/types';
+import { Auth, ChallengePayload, CreateChallengePayload } from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
     PayloadError,
-    PrestigeError
+    PrestigeError,
 } from '../util/util';
 
 const objectType = 'Challenge';
@@ -163,3 +164,25 @@ exports.updateChallenge = async function (req, res) {
         }
     }
 };
+
+class ChallengeController {
+    async createChallenge(payload: CreateChallengePayload, auth?: Auth) {
+        if (!auth) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to create an challenge, you have to log in.`,
+            );
+        }
+
+        const challenge = await db.doc(`challenges/${payload.id}`).set({
+            title: payload.title,
+            description: payload.description,
+            userId: auth.id,
+            version: 1,
+        });
+
+        return challenge;
+    }
+}
+
+export const controller = new ChallengeController();

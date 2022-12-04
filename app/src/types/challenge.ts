@@ -106,3 +106,8 @@ export interface ChallengePayload {
     startDate: string;
     endDate: string;
 }
+
+export interface CreateChallengePayload {
+    title: string;
+    description: string;
+}
