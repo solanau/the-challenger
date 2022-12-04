@@ -1,8 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import Button from 'components/common/button';
 import Card from 'components/common/card';
+import Modal from 'components/common/modal';
 import Text from 'components/common/text';
-import CreateEventModal from 'components/events-page/create-event-modal';
+import CreateEventForm from 'components/events-page/create-event-form';
 import { useEvents } from 'hooks/use-events';
 import { createEvent } from 'lib/api';
 import { NextPage } from 'next';
@@ -45,10 +46,17 @@ const EventsPage: NextPage = () => {
                         }
                     ></Button>
 
-                    <CreateEventModal
+                    <Modal
+                        title="New Event"
+                        subTitle="Create a new event and add challenges
+                                        for participants to compete."
                         isOpen={isCreateEventModalOpen}
-                        onClose={handleCreateEvent}
-                    ></CreateEventModal>
+                        onClose={() => setIsCreateEventModalOpen(false)}
+                    >
+                        <CreateEventForm
+                            onSubmit={handleCreateEvent}
+                        ></CreateEventForm>
+                    </Modal>
                 </div>
             </div>
 
