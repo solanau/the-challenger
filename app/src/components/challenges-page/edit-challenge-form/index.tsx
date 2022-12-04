@@ -1,15 +1,21 @@
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import { useFormik } from 'formik';
-import { CreateChallengePayload } from 'types/challenge';
+import { EditChallengePayload } from 'types/challenge';
 
-interface CreateChallengeFormProps {
-    onSubmit(data?: CreateChallengePayload): void;
+interface ChallengeFormData {
+    title: string;
+    description: string;
 }
 
-const CreateChallengeForm = ({ onSubmit }: CreateChallengeFormProps) => {
+interface EditChallengeFormProps {
+    data?: ChallengeFormData;
+    onSubmit(data?: EditChallengePayload): void;
+}
+
+const EditChallengeForm = ({ data, onSubmit }: EditChallengeFormProps) => {
     const formik = useFormik({
-        initialValues: {
+        initialValues: data ?? {
             title: '',
             description: '',
         },
@@ -73,4 +79,4 @@ const CreateChallengeForm = ({ onSubmit }: CreateChallengeFormProps) => {
     );
 };
 
-export default CreateChallengeForm;
+export default EditChallengeForm;

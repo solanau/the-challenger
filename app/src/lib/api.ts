@@ -248,7 +248,7 @@ export async function createChallenge(payload: CreateChallengePayload) {
     const instance = httpsCallable(functions, 'createChallenge');
 
     try {
-        const result = await instance({ id: uuid(), ...payload });
+        const result = await instance(payload);
 
         return result.data;
     } catch (error) {

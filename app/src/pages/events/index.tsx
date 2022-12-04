@@ -3,24 +3,25 @@ import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
-import CreateEventForm from 'components/events-page/create-event-form';
+import EditEventForm from 'components/events-page/edit-event-form';
 import { useEvents } from 'hooks/use-events';
 import { createEvent } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
-import { CreateEventPayload } from 'types/event';
+import { EditEventPayload } from 'types/event';
+import { v4 as uuid } from 'uuid';
 
 const EventsPage: NextPage = () => {
     const [isCreateEventModalOpen, setIsCreateEventModalOpen] = useState(false);
     const events = useEvents();
 
-    const handleCreateEvent = (createEventPayload?: CreateEventPayload) => {
+    const handleEditEvent = (editEventPayload?: EditEventPayload) => {
         setIsCreateEventModalOpen(false);
 
-        if (createEventPayload) {
-            createEvent(createEventPayload)
+        if (editEventPayload) {
+            createEvent({ id: uuid(), ...editEventPayload })
                 .then(() => alert('Event created!'))
                 .catch(error => alert(error));
         }
@@ -53,9 +54,9 @@ const EventsPage: NextPage = () => {
                         isOpen={isCreateEventModalOpen}
                         onClose={() => setIsCreateEventModalOpen(false)}
                     >
-                        <CreateEventForm
-                            onSubmit={handleCreateEvent}
-                        ></CreateEventForm>
+                        <EditEventForm
+                            onSubmit={handleEditEvent}
+                        ></EditEventForm>
                     </Modal>
                 </div>
             </div>

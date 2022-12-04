@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import CreateChallengeForm from 'components/challenges-page/create-challenge-form';
+import EditChallengeForm from 'components/challenges-page/edit-challenge-form';
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Modal from 'components/common/modal';
@@ -10,7 +10,8 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
-import { CreateChallengePayload } from 'types/challenge';
+import { EditChallengePayload } from 'types/challenge';
+import { v4 as uuid } from 'uuid';
 
 const ChallengesPage: NextPage = () => {
     const [isCreateChallengeModalOpen, setIsCreateChallengeModalOpen] =
@@ -18,12 +19,12 @@ const ChallengesPage: NextPage = () => {
     const challenges = useChallenges();
 
     const handleCreateChallenge = (
-        createChallengePayload?: CreateChallengePayload,
+        editChallengePayload?: EditChallengePayload,
     ) => {
         setIsCreateChallengeModalOpen(false);
 
-        if (createChallengePayload) {
-            createChallenge(createChallengePayload)
+        if (editChallengePayload) {
+            createChallenge({ id: uuid(), ...editChallengePayload })
                 .then(() => alert('Challenge created!'))
                 .catch(error => alert(error));
         }
@@ -58,9 +59,9 @@ const ChallengesPage: NextPage = () => {
                         isOpen={isCreateChallengeModalOpen}
                         onClose={() => setIsCreateChallengeModalOpen(false)}
                     >
-                        <CreateChallengeForm
+                        <EditChallengeForm
                             onSubmit={handleCreateChallenge}
-                        ></CreateChallengeForm>
+                        ></EditChallengeForm>
                     </Modal>
                 </div>
             </div>

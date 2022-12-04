@@ -8,6 +8,12 @@ export interface EventPayload {
 }
 
 export interface CreateEventPayload {
+    id: string;
+    title: string;
+    description: string;
+}
+
+export interface EditEventPayload {
     title: string;
     description: string;
 }
