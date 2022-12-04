@@ -1,15 +1,21 @@
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import { useFormik } from 'formik';
-import { CreateEventPayload } from 'types/event';
+import { EditEventPayload } from 'types/event';
 
-interface CreateEventFormProps {
-    onSubmit(data?: CreateEventPayload): void;
+interface EventFormData {
+    title: string;
+    description: string;
 }
 
-const CreateEventForm = ({ onSubmit }: CreateEventFormProps) => {
+interface EditEventFormProps {
+    data?: EventFormData;
+    onSubmit(data?: EditEventPayload): void;
+}
+
+const EditEventForm = ({ data, onSubmit }: EditEventFormProps) => {
     const formik = useFormik({
-        initialValues: {
+        initialValues: data ?? {
             title: '',
             description: '',
         },
@@ -73,4 +79,4 @@ const CreateEventForm = ({ onSubmit }: CreateEventFormProps) => {
     );
 };
 
-export default CreateEventForm;
+export default EditEventForm;
