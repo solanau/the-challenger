@@ -1,6 +1,7 @@
 import Button from 'components/common/button';
 import Card from 'components/common/card';
-import { useFormik } from 'formik';
+import { Field, Form, useFormikContext } from 'formik';
+import { useEffect } from 'react';
 import { EditEventPayload } from 'types/event';
 
 interface EventFormData {
@@ -9,23 +10,22 @@ interface EventFormData {
 }
 
 interface EditEventFormProps {
-    data?: EventFormData;
-    onSubmit(data?: EditEventPayload): void;
+    canSubmit?: boolean;
+    onChange?(data?: EditEventPayload): void;
 }
 
-const EditEventForm = ({ data, onSubmit }: EditEventFormProps) => {
-    const formik = useFormik({
-        initialValues: data ?? {
-            title: '',
-            description: '',
-        },
-        onSubmit: value => {
-            onSubmit(value);
-        },
-    });
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const EditEventForm = ({ canSubmit, onChange }: EditEventFormProps) => {
+    const { values } = useFormikContext<EventFormData>();
+
+    useEffect(() => {
+        if (onChange) {
+            onChange(values);
+        }
+    }, [values, onChange]);
 
     return (
-        <form onSubmit={formik.handleSubmit}>
+        <Form>
             <div className="pt-4">
                 <label
                     htmlFor="event-title"
@@ -35,12 +35,11 @@ const EditEventForm = ({ data, onSubmit }: EditEventFormProps) => {
                 </label>
 
                 <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                    <input
+                    <Field
                         id="event-title"
                         name="title"
                         maxLength={32}
                         className="w-full bg-transparent outline-none"
-                        onChange={formik.handleChange}
                         placeholder="Enter a title for the event"
                     />
                 </Card>
@@ -55,27 +54,29 @@ const EditEventForm = ({ data, onSubmit }: EditEventFormProps) => {
                 </label>
 
                 <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                    <textarea
+                    <Field
+                        as="textarea"
                         id="event-description"
                         name="description"
                         className="w-full bg-transparent outline-none"
                         maxLength={500}
                         rows={4}
-                        onChange={formik.handleChange}
                         placeholder="Enter a description for the event"
                     />
                 </Card>
             </div>
 
-            <div className="width-full flex flex-row justify-end gap-2 pt-4">
-                <Button
-                    className="w-40"
-                    type="submit"
-                    variant="orange"
-                    text="Submit"
-                />
-            </div>
-        </form>
+            {canSubmit && (
+                <div className="width-full flex flex-row justify-end gap-2 pt-4">
+                    <Button
+                        className="w-40"
+                        type="submit"
+                        variant="orange"
+                        text="Submit"
+                    />
+                </div>
+            )}
+        </Form>
     );
 };
 

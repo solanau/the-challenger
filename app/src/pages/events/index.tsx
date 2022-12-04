@@ -4,6 +4,7 @@ import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
 import EditEventForm from 'components/events-page/edit-event-form';
+import { Formik } from 'formik';
 import { useEvents } from 'hooks/use-events';
 import { createEvent } from 'lib/api';
 import { NextPage } from 'next';
@@ -54,9 +55,15 @@ const EventsPage: NextPage = () => {
                         isOpen={isCreateEventModalOpen}
                         onClose={() => setIsCreateEventModalOpen(false)}
                     >
-                        <EditEventForm
+                        <Formik
+                            initialValues={{
+                                title: '',
+                                description: '',
+                            }}
                             onSubmit={handleEditEvent}
-                        ></EditEventForm>
+                        >
+                            <EditEventForm canSubmit={true}></EditEventForm>
+                        </Formik>
                     </Modal>
                 </div>
             </div>
