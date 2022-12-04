@@ -14,6 +14,7 @@ import {
     UpdateLeaderBoardPayload,
     UpdateSubmissionStatusPayload,
 } from 'types/api';
+import { CreateChallengePayload } from 'types/challenge';
 import { CreateEventPayload } from 'types/event';
 import { functions } from 'utils/firebase';
 import { v4 as uuid } from 'uuid';
@@ -233,6 +234,18 @@ export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
 
 export async function createEvent(payload: CreateEventPayload) {
     const instance = httpsCallable(functions, 'createEvent');
+
+    try {
+        const result = await instance({ id: uuid(), ...payload });
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
+
+export async function createChallenge(payload: CreateChallengePayload) {
+    const instance = httpsCallable(functions, 'createChallenge');
 
     try {
         const result = await instance({ id: uuid(), ...payload });

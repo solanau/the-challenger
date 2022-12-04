@@ -100,6 +100,12 @@ export type CreateEventPayload = {
     description: string;
 };
 
+export type CreateChallengePayload = {
+    id: string;
+    title: string;
+    description: string;
+};
+
 export type CreateSubmissionPayload = {
     id: string;
     eventId: string;
