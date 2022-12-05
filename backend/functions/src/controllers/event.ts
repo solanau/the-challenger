@@ -8,7 +8,12 @@ import {
     PRESTIGE_PROGRAM_ID,
     WALLET,
 } from '../util/const';
-import { Auth, CreateEventPayload, EventPayload } from '../util/types';
+import {
+    Auth,
+    CreateEventPayload,
+    EventPayload,
+    UpdateEventPayload,
+} from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
@@ -149,12 +154,34 @@ class EventController {
             );
         }
 
+        /* 
+            We're adding all challenges by default.
+        */
+        const challenges = await db
+            .collection('challenges')
+            .where('version', '==', 1)
+            .get();
+
         const event = await db.doc(`events/${payload.id}`).set({
             title: payload.title,
             description: payload.description,
             userId: auth.id,
             version: 1,
+            challenges: challenges.docs.map(doc => doc.id),
         });
+
+        return event;
+    }
+
+    async updateEvent({ id, data }: UpdateEventPayload, auth?: Auth) {
+        if (!auth) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to update an event, you have to log in.`,
+            );
+        }
+
+        const event = await db.doc(`events/${id}`).update(data);
 
         return event;
     }

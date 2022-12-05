@@ -5,15 +5,16 @@ export interface EventPayload {
     location: string;
     reviewers: string[];
     managers: string[];
+    challenges: string[];
 }
 
 export interface CreateEventPayload {
-    id: string;
     title: string;
     description: string;
 }
 
-export interface EditEventPayload {
+export interface UpdateEventPayload {
     title: string;
     description: string;
+    challenges: string[];
 }

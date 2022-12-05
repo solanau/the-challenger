@@ -1,14 +1,11 @@
-/* eslint-disable react/no-unescaped-entities */
-import Button from 'components/common/button';
-import Card from 'components/common/card';
 import Text from 'components/common/text';
-import EditEventForm from 'components/events-page/edit-event-form';
+import EventSettingsForm from 'components/event-settings-page/event-settings-form';
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { useEvent } from 'hooks/use-event';
+import { updateEvent } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
-import { useState } from 'react';
-import { EditEventPayload } from 'types/event';
+import { UpdateEventPayload } from 'types/event';
 
 type EventSettingsPageProps = {
     eventId: string;
@@ -19,16 +16,11 @@ const EventSettingsPage: NextPage<EventSettingsPageProps> = ({
 }: EventSettingsPageProps) => {
     const event = useEvent(eventId);
     const challenges = useChallenges();
-    const [title, setTitle] = useState(event?.title ?? '');
-    const [description, setDescription] = useState(event?.description ?? '');
 
-    const handleEventChanges = (data: EditEventPayload) => {
-        setTitle(data.title);
-        setDescription(data.description);
-    };
-
-    const handleSaveChanges = () => {
-        console.log({ title, description });
+    const handleUpdateEvent = (updateEventPayload: UpdateEventPayload) => {
+        updateEvent(eventId, updateEventPayload)
+            .then(() => alert('Event updated!'))
+            .catch(error => alert(error));
     };
 
     return (
@@ -49,41 +41,15 @@ const EventSettingsPage: NextPage<EventSettingsPageProps> = ({
                         initialValues={{
                             title: event.title,
                             description: event.description,
+                            challenges: event.challenges,
                         }}
-                        onSubmit={() => null}
+                        onSubmit={handleUpdateEvent}
                     >
-                        <EditEventForm
-                            onChange={handleEventChanges}
-                        ></EditEventForm>
+                        <EventSettingsForm
+                            challenges={challenges}
+                        ></EventSettingsForm>
                     </Formik>
                 )}
-
-                <div className="flex w-full flex-row flex-wrap gap-5">
-                    {challenges.map(challenge => (
-                        <Card
-                            key={challenge.id}
-                            className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
-                        >
-                            <div className="flex flex-col gap-5">
-                                <Text
-                                    className="min-w-fit"
-                                    variant="big-heading"
-                                >
-                                    {challenge.title}
-                                </Text>
-                                <Text variant="paragraph">
-                                    {challenge.description}
-                                </Text>
-                            </div>
-                        </Card>
-                    ))}
-                </div>
-
-                <div>
-                    <Button variant="orange" onClick={handleSaveChanges}>
-                        Save changes
-                    </Button>
-                </div>
             </div>
         </>
     );

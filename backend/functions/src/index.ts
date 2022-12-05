@@ -164,6 +164,18 @@ export const createEvent = functions.https.onCall(async (data, context) => {
     return event;
 });
 
+export const updateEvent = functions.https.onCall(async (data, context) => {
+    const event = await eventController.updateEvent(
+        data,
+        context.auth && {
+            id: context.auth.token.uid,
+            email: context.auth.token.email,
+        },
+    );
+
+    return event;
+});
+
 export const createChallenge = functions.https.onCall(async (data, context) => {
     const challenge = await challengeController.createChallenge(
         data,
