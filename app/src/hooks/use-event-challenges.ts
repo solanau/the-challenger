@@ -1,42 +1,17 @@
-import { collection, onSnapshot, query } from 'firebase/firestore';
-import { useAuth } from 'providers/AuthProvider';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { ChallengePayload } from 'types/api';
-import { toChallenge } from 'utils/challenge';
-import { firestore } from 'utils/firebase';
-import { useSubmissions } from './use-submissions';
+import { useChallengesByIds } from './use-challenges-by-ids';
+import { useEvent } from './use-event';
 
 export const useEventChallenges = (eventId: string): ChallengePayload[] => {
-    const [challenges, setChallenges] = useState<ChallengePayload[]>([]);
-    const { user } = useAuth();
-    const submissions = useSubmissions(
-        eventId,
-        user.uid === null ? null : { userId: user.uid },
-    );
+    const event = useEvent(eventId);
+    const challenges = useChallengesByIds(event?.challenges ?? []);
 
-    useEffect(() => {
-        const unsubscribe = onSnapshot(
-            query(collection(firestore, 'challenges')),
-            querySnapshot => {
-                if (querySnapshot.empty) {
-                    setChallenges([]);
-                } else {
-                    setChallenges(
-                        querySnapshot.docs
-                            .map(doc =>
-                                toChallenge(submissions, {
-                                    uid: doc.id,
-                                    ...doc.data(),
-                                } as ChallengePayload),
-                            )
-                            .sort((a, b) => (a.key > b.key ? 1 : -1)),
-                    );
-                }
-            },
-        );
+    return useMemo(() => {
+        if (event === null || challenges.length === 0) {
+            return [];
+        }
 
-        return () => unsubscribe();
-    }, [submissions]);
-
-    return challenges;
+        return [];
+    }, [event, challenges]);
 };

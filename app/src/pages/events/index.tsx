@@ -3,7 +3,7 @@ import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
-import EditEventForm from 'components/events-page/edit-event-form';
+import CreateEventForm from 'components/events-page/create-event-form';
 import { Formik } from 'formik';
 import { useEvents } from 'hooks/use-events';
 import { createEvent } from 'lib/api';
@@ -11,21 +11,18 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
-import { EditEventPayload } from 'types/event';
-import { v4 as uuid } from 'uuid';
+import { CreateEventPayload } from 'types/event';
 
 const EventsPage: NextPage = () => {
     const [isCreateEventModalOpen, setIsCreateEventModalOpen] = useState(false);
     const events = useEvents();
 
-    const handleEditEvent = (editEventPayload?: EditEventPayload) => {
+    const handleCreateEvent = (createEventPayload: CreateEventPayload) => {
         setIsCreateEventModalOpen(false);
 
-        if (editEventPayload) {
-            createEvent({ id: uuid(), ...editEventPayload })
-                .then(() => alert('Event created!'))
-                .catch(error => alert(error));
-        }
+        createEvent(createEventPayload)
+            .then(() => alert('Event created!'))
+            .catch(error => alert(error));
     };
 
     return (
@@ -60,9 +57,9 @@ const EventsPage: NextPage = () => {
                                 title: '',
                                 description: '',
                             }}
-                            onSubmit={handleEditEvent}
+                            onSubmit={handleCreateEvent}
                         >
-                            <EditEventForm canSubmit={true}></EditEventForm>
+                            <CreateEventForm></CreateEventForm>
                         </Formik>
                     </Modal>
                 </div>
