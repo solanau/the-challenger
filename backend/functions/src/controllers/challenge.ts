@@ -8,7 +8,12 @@ import {
     PRESTIGE_PROGRAM_ID,
     WALLET,
 } from '../util/const';
-import { Auth, ChallengePayload, CreateChallengePayload } from '../util/types';
+import {
+    Auth,
+    ChallengePayload,
+    CreateChallengePayload,
+    UpdateChallengePayload,
+} from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
@@ -180,6 +185,21 @@ class ChallengeController {
             userId: auth.id,
             version: 1,
         });
+
+        return challenge;
+    }
+
+    async updateChallenge({ id, data }: UpdateChallengePayload, auth?: Auth) {
+        if (!auth) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to update an challenge, you have to log in.`,
+            );
+        }
+
+        console.log(id, data);
+
+        const challenge = await db.doc(`challenges/${id}`).update(data);
 
         return challenge;
     }

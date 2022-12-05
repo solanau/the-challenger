@@ -6,6 +6,7 @@ import { useEvent } from 'hooks/use-event';
 import { updateEvent } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
 import { UpdateEventPayload } from 'types/event';
+import { dateToValue } from 'utils/time';
 
 type EventSettingsPageProps = {
     eventId: string;
@@ -41,9 +42,21 @@ const EventSettingsPage: NextPage<EventSettingsPageProps> = ({
                         initialValues={{
                             title: event.title,
                             description: event.description,
+                            startDate: event.startDate
+                                ? dateToValue(event.startDate)
+                                : '',
+                            endDate: event.endDate
+                                ? dateToValue(event.endDate)
+                                : '',
                             challenges: event.challenges,
                         }}
-                        onSubmit={handleUpdateEvent}
+                        onSubmit={values =>
+                            handleUpdateEvent({
+                                ...values,
+                                startDate: new Date(values.startDate).getTime(),
+                                endDate: new Date(values.endDate).getTime(),
+                            })
+                        }
                     >
                         <EventSettingsForm
                             challenges={challenges}

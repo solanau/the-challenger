@@ -22,7 +22,7 @@ const functions = getFunctions(app);
 if (process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') {
     connectAuthEmulator(auth, 'http://localhost:9099');
     connectFirestoreEmulator(firestore, 'localhost', 8080);
-    connectFunctionsEmulator(functions, 'localhost', 4001);
+    connectFunctionsEmulator(functions, 'localhost', 4002);
 }
 
 export { firestore, auth, functions };

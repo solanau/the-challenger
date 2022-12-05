@@ -14,7 +14,10 @@ import {
     UpdateLeaderBoardPayload,
     UpdateSubmissionStatusPayload,
 } from 'types/api';
-import { CreateChallengePayload } from 'types/challenge';
+import {
+    CreateChallengePayload,
+    UpdateChallengePayload,
+} from 'types/challenge';
 import { CreateEventPayload, UpdateEventPayload } from 'types/event';
 import { functions } from 'utils/firebase';
 import { v4 as uuid } from 'uuid';
@@ -102,19 +105,6 @@ export async function createNewChallenge(
             payload,
         )
         .then(res => res.data.pubkey);
-}
-
-export async function updateChallenge(
-    payload: ChallengePayload,
-): Promise<string> {
-    return await axios
-        .put(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenge/' +
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
-            payload,
-        )
-        .then(res => res.data);
 }
 
 export async function fetchPrizesForChallenge(
@@ -249,6 +239,22 @@ export async function createChallenge(payload: CreateChallengePayload) {
 
         return result.data;
     } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
+
+export async function updateChallenge(
+    id: string,
+    payload: UpdateChallengePayload,
+) {
+    const instance = httpsCallable(functions, 'updateChallenge');
+
+    try {
+        const result = await instance({ id, data: payload });
+
+        return result.data;
+    } catch (error) {
+        console.log(`${error.code}: ${error.message}`);
         throw new Error(`${error.code}: ${error.message}`);
     }
 }

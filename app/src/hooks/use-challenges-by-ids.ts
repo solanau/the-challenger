@@ -6,7 +6,7 @@ import {
     where,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { ChallengePayload } from 'types/api';
+import { ChallengePayload } from 'types/challenge';
 import { firestore } from 'utils/firebase';
 
 export const useChallengesByIds = (ids: string[]): ChallengePayload[] => {
@@ -27,15 +27,13 @@ export const useChallengesByIds = (ids: string[]): ChallengePayload[] => {
                     setChallenges([]);
                 } else {
                     setChallenges(
-                        querySnapshot.docs
-                            .map(
-                                doc =>
-                                    ({
-                                        uid: doc.id,
-                                        ...doc.data(),
-                                    } as ChallengePayload),
-                            )
-                            .sort((a, b) => (a.key > b.key ? 1 : -1)),
+                        querySnapshot.docs.map(
+                            doc =>
+                                ({
+                                    id: doc.id,
+                                    ...doc.data(),
+                                } as ChallengePayload),
+                        ),
                     );
                 }
             },

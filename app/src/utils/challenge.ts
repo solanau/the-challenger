@@ -1,9 +1,14 @@
-import { ChallengePayload, CreateSubmissionPayload } from 'types/api';
+import { CreateSubmissionPayload } from 'types/api';
 import {
     ActiveChallenge,
-    BaseChallenge, Challenge, ChallengeTimeStatus, ExpiredChallenge,
-    PendingChallenge
+    BaseChallenge,
+    Challenge,
+    ChallengePayload,
+    ChallengeTimeStatus,
+    ExpiredChallenge,
+    PendingChallenge,
 } from 'types/challenge';
+import { EventPayload } from 'types/event';
 import { getRelativeTime } from './time';
 
 const TIME_REWARD_PERCENTAGE = 20;
@@ -21,11 +26,11 @@ export const isExpiredChallenge = (
 ): challenge is ExpiredChallenge => challenge.timeStatus === 'expired';
 
 export const getChallengeStatus = (
-    challenge: ChallengePayload,
+    event: EventPayload,
 ): ChallengeTimeStatus => {
     const now = new Date(Date.now());
-    const startDate = new Date(challenge.startDate);
-    const endDate = new Date(challenge.endDate);
+    const startDate = new Date(event.startDate);
+    const endDate = new Date(event.endDate);
 
     if (now.getTime() > endDate.getTime()) {
         return 'expired';
@@ -38,24 +43,23 @@ export const getChallengeStatus = (
     return 'pending';
 };
 
-
 export const getChallengeAlreadySubmittedFirebase = (
     userSubmissions: CreateSubmissionPayload[],
     challenge: ChallengePayload,
 ): boolean => {
     for (const sub of userSubmissions) {
-        if (sub.challengeId === challenge.uid) {
+        if (sub.challengeId === challenge.id) {
             return true;
         }
     }
     return false;
 };
 
-export const getChallengeExpiresIn = (challenge: ChallengePayload): string => {
+export const getChallengeExpiresIn = (event: EventPayload): string => {
     const now = new Date(Date.now());
-    const endDate = new Date(challenge.endDate);
+    const endDate = new Date(event.endDate);
 
-    const status = getChallengeStatus(challenge);
+    const status = getChallengeStatus(event);
 
     if (status !== 'active') {
         return null;
@@ -64,11 +68,11 @@ export const getChallengeExpiresIn = (challenge: ChallengePayload): string => {
     return getRelativeTime(endDate.getTime() - now.getTime());
 };
 
-export const getChallengeStartsIn = (challenge: ChallengePayload): string => {
+export const getChallengeStartsIn = (event: EventPayload): string => {
     const now = new Date(Date.now());
-    const startDate = new Date(challenge.startDate);
+    const startDate = new Date(event.startDate);
 
-    const status = getChallengeStatus(challenge);
+    const status = getChallengeStatus(event);
 
     if (status !== 'pending') {
         return null;
@@ -77,11 +81,11 @@ export const getChallengeStartsIn = (challenge: ChallengePayload): string => {
     return getRelativeTime(startDate.getTime() - now.getTime());
 };
 
-export const getChallengeExpiredAgo = (challenge: ChallengePayload): string => {
+export const getChallengeExpiredAgo = (event: EventPayload): string => {
     const now = new Date(Date.now());
-    const endDate = new Date(challenge.endDate);
+    const endDate = new Date(event.endDate);
 
-    const status = getChallengeStatus(challenge);
+    const status = getChallengeStatus(event);
 
     if (status !== 'expired') {
         return null;
@@ -90,10 +94,10 @@ export const getChallengeExpiredAgo = (challenge: ChallengePayload): string => {
     return getRelativeTime(endDate.getTime() - now.getTime());
 };
 
-export const getChallengeProgress = (challenge: ChallengePayload): number => {
+export const getChallengeProgress = (event: EventPayload): number => {
     const now = new Date(Date.now());
-    const startDate = new Date(challenge.startDate);
-    const endDate = new Date(challenge.endDate);
+    const startDate = new Date(event.startDate);
+    const endDate = new Date(event.endDate);
 
     if (now.getTime() < startDate.getTime()) {
         return 0;
@@ -107,9 +111,12 @@ export const getChallengeProgress = (challenge: ChallengePayload): number => {
     }
 };
 
-export const getChallengeBonus = (challenge: ChallengePayload): number => {
-    const maxBonus = challenge.rewardValue * (TIME_REWARD_PERCENTAGE / 100);
-    const progress = 100 - getChallengeProgress(challenge);
+export const getChallengeBonus = (
+    event: EventPayload,
+    challenge: ChallengePayload,
+): number => {
+    const maxBonus = challenge.points * (TIME_REWARD_PERCENTAGE / 100);
+    const progress = 100 - getChallengeProgress(event);
 
     if (progress === 0) {
         return maxBonus;
@@ -118,20 +125,19 @@ export const getChallengeBonus = (challenge: ChallengePayload): number => {
     return Math.floor(maxBonus * (progress / 100));
 };
 
-
 export const toChallenge = (
-    userSubmissions: CreateSubmissionPayload[],
+    event: EventPayload,
     challenge: ChallengePayload,
+    position: number,
 ): Challenge => ({
     ...challenge,
-    timeStatus: getChallengeStatus(challenge),
-    submittedStatus: getChallengeAlreadySubmittedFirebase(
-        userSubmissions,
-        challenge,
-    ),
-    expiresIn: getChallengeExpiresIn(challenge),
-    startsIn: getChallengeStartsIn(challenge),
-    expiredAgo: getChallengeExpiredAgo(challenge),
-    progress: getChallengeProgress(challenge),
-    bonus: getChallengeBonus(challenge),
+    position,
+    startDate: event.startDate,
+    endDate: event.endDate,
+    timeStatus: getChallengeStatus(event),
+    expiresIn: getChallengeExpiresIn(event),
+    startsIn: getChallengeStartsIn(event),
+    expiredAgo: getChallengeExpiredAgo(event),
+    progress: getChallengeProgress(event),
+    bonus: getChallengeBonus(event, challenge),
 });

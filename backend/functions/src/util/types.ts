@@ -1,5 +1,22 @@
 export type SubmissionStatus = 'pending' | 'invalid' | 'complete';
 
+export type ChallengeDifficulty = 'Easy' | 'Medium' | 'Hard';
+
+export type ChallengeCategory =
+    | 'Social'
+    | 'NFT'
+    | 'Game'
+    | 'Deploy'
+    | 'SPL Token'
+    | 'Solana'
+    | 'Video'
+    | 'Wallet'
+    | 'Concept'
+    | 'Staking'
+    | 'Client'
+    | 'SDK'
+    | 'Feedback';
+
 export interface BaseFieldConfig {
     field: string;
     label: string;
@@ -36,7 +53,7 @@ export interface SubmissionAnswer {
     value: string;
 }
 
-export type EventPayload = {
+export interface EventPayload {
     pubkey: string;
     authority: string;
     title: string;
@@ -44,9 +61,9 @@ export type EventPayload = {
     location: string;
     host: string;
     date: string;
-};
+}
 
-export type ChallengePayload = {
+export interface ChallengePayload {
     uid: string;
     eventId?: string;
     id: string;
@@ -83,52 +100,70 @@ export type ChallengePayload = {
     createdAt: string;
     startDate: string;
     endDate: string;
-};
+}
 
-export type PrizePayload = {
+export interface PrizePayload {
     pubkey: string;
     challengePubkey: string;
     mintPubkey: string;
     mintControl: number;
     escrowOrMintAuthority: string;
     quantity: number;
-};
+}
 
-export type CreateEventPayload = {
+export interface CreateEventPayload {
     id: string;
     title: string;
     description: string;
-};
+}
 
-export type UpdateEventPayload = {
+export interface UpdateEventPayload {
     id: string;
     data: {
         title: string;
         description: string;
         challenges: string[];
     };
-};
+}
 
-export type CreateChallengePayload = {
+export interface CreateChallengePayload {
     id: string;
     title: string;
     description: string;
-};
+}
 
-export type CreateSubmissionPayload = {
+export interface UpdateChallengePayload {
+    id: string;
+    data: {
+        title: string;
+        description: string;
+
+        category: ChallengeCategory;
+        difficulty: ChallengeDifficulty;
+        points: number;
+        createdAt: string;
+        startDate: string;
+        endDate: string;
+        authorName: string;
+        authorGithub: string;
+        authorTwitter: string;
+    };
+}
+
+export interface CreateSubmissionPayload {
     id: string;
     eventId: string;
     challengeId: string;
     answers: SubmissionAnswer[];
-};
+}
 
-export type UpdateSubmissionStatusPayload = {
+export interface UpdateSubmissionStatusPayload {
     id: string;
     status: SubmissionStatus;
     eventId: string;
-};
+}
 
-export type PrizeMintMetadataPayload = {
+export interface PrizeMintMetadataPayload {
     pubkey: string;
     challengePubkey: string;
     mintPubkey: string;
@@ -138,25 +173,25 @@ export type PrizeMintMetadataPayload = {
     decimals: number;
     escrowOrMintAuthority: string;
     quantity: number;
-};
+}
 
-export type MintPayload = {
+export interface MintPayload {
     pubkey: string;
     mintTitle: string;
     mintSymbol: string;
     mintUri: string;
     decimals: number;
-};
+}
 
-export type IssueRewardsPayload = {
+export interface IssueRewardsPayload {
     challengePubkey: string;
     userPubkey: string;
-};
+}
 
-export type ProfilePayload = {
+export interface ProfilePayload {
     pubkey: string;
     username: string;
-};
+}
 
 export interface Auth {
     id: string;

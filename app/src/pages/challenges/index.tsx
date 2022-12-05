@@ -10,7 +10,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
-import { EditChallengePayload } from 'types/challenge';
+import { CreateChallengePayload } from 'types/challenge';
 import { v4 as uuid } from 'uuid';
 
 const ChallengesPage: NextPage = () => {
@@ -19,15 +19,13 @@ const ChallengesPage: NextPage = () => {
     const challenges = useChallenges();
 
     const handleCreateChallenge = (
-        editChallengePayload?: EditChallengePayload,
+        createChallengePayload: CreateChallengePayload,
     ) => {
         setIsCreateChallengeModalOpen(false);
 
-        if (editChallengePayload) {
-            createChallenge({ id: uuid(), ...editChallengePayload })
-                .then(() => alert('Challenge created!'))
-                .catch(error => alert(error));
-        }
+        createChallenge({ id: uuid(), ...createChallengePayload })
+            .then(() => alert('Challenge created!'))
+            .catch(error => alert(error));
     };
 
     return (

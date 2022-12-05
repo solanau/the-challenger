@@ -8,7 +8,9 @@ export type ChallengeReviewStatus =
     | 'invalid'
     | 'pending';
 
-export type ChallengeType =
+export type ChallengeDifficulty = 'Easy' | 'Medium' | 'Hard';
+
+export type ChallengeCategory =
     | 'Social'
     | 'NFT'
     | 'Game'
@@ -24,31 +26,23 @@ export type ChallengeType =
     | 'Feedback';
 
 export interface BaseChallenge {
-    createdAt: string;
-    description: string;
-    shortDescription: string;
-    githubUrl: string;
-    difficulty: string;
-    uid?: string;
     id: string;
-    pubkey: string;
-    key: number;
-    type: ChallengeType;
     title: string;
-    rewardValue: number;
-    rewardType: string;
-    startDate: string;
-    endDate: string;
+    category: ChallengeCategory;
+    difficulty: ChallengeDifficulty;
+    description: string;
+    points: number;
+    createdAt: number;
+    startDate: number;
+    endDate: number;
+    authorName: string;
+    authorGithub: string;
+    authorTwitter: string;
     timeStatus: ChallengeTimeStatus;
-    submittedStatus: boolean;
     progress: number;
     bonus: number;
-    iconKey: number;
-    iconSize: number;
-    formComponents: FieldConfig[];
-    authorTwitter?: string;
-    authorGithub?: string;
-    eventPubkey: string;
+    position: number;
+    fieldsConfig: FieldConfig[];
 }
 
 export type ActiveChallenge = BaseChallenge & {
@@ -69,42 +63,17 @@ export type ExpiredChallenge = BaseChallenge & {
 export type Challenge = ActiveChallenge | PendingChallenge | ExpiredChallenge;
 
 export interface ChallengePayload {
-    uid?: string;
-    eventId?: string;
     id: string;
-    pubkey: string;
-    eventPubkey: string;
-    key: number;
-    iconKey: number;
-    iconSize: number;
     title: string;
-    type: ChallengeType;
-    difficulty: string;
+    category: ChallengeCategory;
+    difficulty: ChallengeDifficulty;
     description: string;
-    shortDescription: string;
-    githubUrl: string;
-    authorName?: string;
-    authorGithub?: string;
-    authorTwitter?: string;
-    rewardValue: number;
-    rewardType: string;
-    nftBadge?: boolean;
-    authorWebsite?: string;
-    authorLogo?: string;
-    sponsorALink?: string;
-    sponsorALogo?: string;
-    sponsorBLink?: string;
-    sponsorBLogo?: string;
-    mint?: string;
-    name?: string;
-    owner?: string;
-    state?: 'open' | 'closed';
-    tags?: { value: string }[];
-    rank?: number;
-    formComponents: FieldConfig[];
-    createdAt: string;
-    startDate: string;
-    endDate: string;
+    points: number;
+    createdAt: number;
+    authorName: string;
+    authorGithub: string;
+    authorTwitter: string;
+    fieldsConfig: FieldConfig[];
 }
 
 export interface CreateChallengePayload {
@@ -113,7 +82,7 @@ export interface CreateChallengePayload {
     description: string;
 }
 
-export interface EditChallengePayload {
+export interface UpdateChallengePayload {
     title: string;
     description: string;
 }

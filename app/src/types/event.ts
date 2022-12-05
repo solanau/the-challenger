@@ -3,6 +3,8 @@ export interface EventPayload {
     title: string;
     description: string;
     location: string;
+    startDate: number;
+    endDate: number;
     reviewers: string[];
     managers: string[];
     challenges: string[];
@@ -16,5 +18,7 @@ export interface CreateEventPayload {
 export interface UpdateEventPayload {
     title: string;
     description: string;
+    startDate: number;
+    endDate: number;
     challenges: string[];
 }

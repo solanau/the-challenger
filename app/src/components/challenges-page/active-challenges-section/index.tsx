@@ -2,9 +2,10 @@ import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Text from 'components/common/text';
 import Link from 'next/link';
+import { FaGithub, FaTwitter } from 'react-icons/fa';
 import { MdPlayArrow } from 'react-icons/md';
 import { ActiveChallenge } from 'types/challenge';
-import { getIcon } from '../challenge-icon';
+import { getIconByCategory } from '../challenge-icon';
 
 type ChallengeListProps = {
     eventId: string;
@@ -19,35 +20,30 @@ const ActiveChallengesSection = ({
         {challenges.map(challenge => (
             <Card
                 key={challenge.id}
-                baseChallenge={challenge}
                 className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
             >
                 <div className="flex flex-col gap-5">
-                    {getIcon(challenge.iconKey, challenge.iconSize)}
+                    {getIconByCategory(challenge.category, 35)}
 
                     <div className="flex flex-col gap-1">
                         <Text variant="label" className="text-secondary">
-                            {' '}
-                            {challenge.type} challenge
+                            {challenge.category} challenge
                         </Text>
                         <Text className="min-w-fit" variant="big-heading">
-                            Challenge {challenge.key}
+                            Challenge #{challenge.position}
                         </Text>
                         <Text variant="sub-heading">
-                            Reward: {challenge.rewardValue} (BONUS: +
+                            Reward: {challenge.points} (BONUS: +
                             {challenge.bonus})
                         </Text>
                     </div>
-                    <Text variant="paragraph">
-                        {challenge.shortDescription}
-                    </Text>
+                    <Text variant="paragraph">{challenge.description}</Text>
 
                     <Text
                         variant="paragraph"
                         className="font text-xl text-primary"
                     >
-                        {' '}
-                        Difficulty: {challenge.difficulty}{' '}
+                        Difficulty: {challenge.difficulty}
                     </Text>
 
                     <Text variant="paragraph">
@@ -61,8 +57,7 @@ const ActiveChallengesSection = ({
                     <div className="flex items-end justify-between">
                         <div className="flex flex-row gap-4">
                             <Text variant="paragraph" className="text-white">
-                                {' '}
-                                Author:{' '}
+                                Author:
                             </Text>
                             <Link
                                 href={`https://twitter.com/${challenge.authorTwitter}`}
@@ -73,7 +68,7 @@ const ActiveChallengesSection = ({
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    {getIcon(1, 24)}
+                                    <FaTwitter size={24} />
                                 </a>
                             </Link>
 
@@ -86,33 +81,22 @@ const ActiveChallengesSection = ({
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    {getIcon(2, 24)}
+                                    <FaGithub size={24} />
                                 </a>
                             </Link>
                         </div>
 
                         <Link
-                            href={`/events/${eventId}/challenges/${challenge.uid}`}
+                            href={`/events/${eventId}/challenges/${challenge.id}`}
                             passHref
                         >
                             <a>
-                                {challenge.submittedStatus ? (
-                                    <Button
-                                        className="h-auto w-auto rounded-md border-2"
-                                        variant="transparent"
-                                    >
-                                        <p className="text-center text-green-400">
-                                            Submission Entered!
-                                        </p>
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        className="h-24 w-24 rounded-full border-2"
-                                        variant="transparent"
-                                    >
-                                        <MdPlayArrow size={40} />
-                                    </Button>
-                                )}
+                                <Button
+                                    className="h-24 w-24 rounded-full border-2"
+                                    variant="transparent"
+                                >
+                                    <MdPlayArrow size={40} />
+                                </Button>
                             </a>
                         </Link>
                     </div>

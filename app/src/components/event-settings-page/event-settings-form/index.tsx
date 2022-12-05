@@ -3,8 +3,15 @@ import Card from 'components/common/card';
 import Text from 'components/common/text';
 import { Field, Form } from 'formik';
 
+interface Challenge {
+    id: string;
+    title: string;
+    description: string;
+    points: number;
+}
+
 interface EventSettingsFormProps {
-    challenges: { id: string; title: string; description: string }[];
+    challenges: Challenge[];
 }
 
 const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
@@ -49,6 +56,44 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
             </Card>
         </div>
 
+        <div className="pt-4">
+            <label
+                htmlFor="event-start-date"
+                className="block w-full border-none bg-transparent py-2 outline-none"
+            >
+                Start Date
+            </label>
+
+            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Field
+                    id="event-start-date"
+                    name="startDate"
+                    type="datetime-local"
+                    className="w-full bg-transparent outline-none"
+                    placeholder="Enter a start date for the event"
+                />
+            </Card>
+        </div>
+
+        <div className="pt-4">
+            <label
+                htmlFor="event-end-date"
+                className="block w-full border-none bg-transparent py-2 outline-none"
+            >
+                End Date
+            </label>
+
+            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Field
+                    id="event-end-date"
+                    name="endDate"
+                    type="datetime-local"
+                    className="w-full bg-transparent outline-none"
+                    placeholder="Enter a end date for the event"
+                />
+            </Card>
+        </div>
+
         <div role="group" aria-labelledby="checkbox-group" className="pt-4">
             <Text variant="sub-heading" className="mb-4">
                 Challenges
@@ -56,17 +101,30 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
 
             <div className="flex flex-col gap-5">
                 {challenges.map(challenge => (
-                    <Card key={challenge.id} className="p-8">
-                        <label key={challenge.id}>
+                    <label key={challenge.id}>
+                        <Card className="flex gap-8 p-8">
                             <Field
                                 type="checkbox"
                                 name="challenges"
                                 value={challenge.id}
                             />
-                            Title: {challenge.title}
-                            Description: {challenge.description}
-                        </label>
-                    </Card>
+
+                            <div className="flex grow items-center justify-between">
+                                <div>
+                                    <Text variant="sub-heading">
+                                        Title: {challenge.title}
+                                    </Text>
+                                    <Text variant="paragraph">
+                                        Description: {challenge.description}
+                                    </Text>
+                                </div>
+
+                                <Text variant="sub-heading">
+                                    Points: {challenge.points}
+                                </Text>
+                            </div>
+                        </Card>
+                    </label>
                 ))}
             </div>
         </div>
