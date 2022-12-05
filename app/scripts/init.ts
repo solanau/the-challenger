@@ -1,22 +1,34 @@
-require('dotenv').config();
-
+import assert from 'assert';
+import dotenv from 'dotenv';
 import {
-    createNewChallenge,
     createNewCustomMint,
     createNewEvent,
-    createNewPrize,
+    createNewPot,
+    updateConfig,
 } from '../src/lib/api';
-import { mockChallenges } from '../src/mocks/challenges';
+
+dotenv.config();
 
 /**
  * This script will initialize everything for us in the DB.
  *
  * Run it once, then our App & API are good to go.
  *
- * We can change these values when we want to launch a new event.
+ * REQUIREMENTS (.env):
+ *  - DESIGNATED MINT (say, USDC)
+ *  - DESIGNATED ESCROW FOR THAT MINT
  */
 
 async function main() {
+    const masterWalletPubkey =
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY;
+    const potMint = process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_POT_MINT;
+    const potEscrowPubkey =
+        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_POT_ESCROW_PUBKEY;
+    assert(masterWalletPubkey);
+    assert(potMint);
+    assert(potEscrowPubkey);
+
     /**
      * Create the token assets for the bounties.
      */
@@ -30,15 +42,6 @@ async function main() {
         decimals: 9,
     });
     console.log(`   xpTokenPubkey: ${xpTokenPubkey}`);
-
-    const nftBadgePubkeyLedger = await createNewCustomMint({
-        mintTitle: 'Ledger Award',
-        mintSymbol: 'LEDG',
-        mintUri:
-            'https://raw.githubusercontent.com/heavy-duty/the-challenger/prestige/assets/xp-token.json?token=GHSAT0AAAAAAB3CH6AWX6QRUA43UWIBZQ6UY3UONWA',
-        decimals: 0,
-    });
-    console.log(`   nftBadgePubkeyLedger: ${nftBadgePubkeyLedger}`);
 
     const nftBadgePubkeyEasy = await createNewCustomMint({
         mintTitle: 'Heavy Duty Bounty NFT: Easy',
@@ -73,91 +76,55 @@ async function main() {
      * Create the current event.
      */
 
-    // const eventPubkey = "CBMB4EQBmryBvddACmuUvuZd9CauzjpMUaZkXeNUE1WK";
-
     console.log('Creating event...');
 
-    const event = await createNewEvent({
-        authority:
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
-        title: 'Solana Hacker House Lisbon',
-        description: 'Hacker House in Lisbon, Portugal',
-        location: 'Lisbon, Portugal',
+    const eventData = await createNewEvent({
+        authority: masterWalletPubkey,
+        title: 'HackaTUM Munich',
+        description: 'HackaTUM Hackathon in Munich, Germany',
+        location: 'Munich, Germany',
         host: 'Solana Foundation',
-        date: '11-09-22',
+        date: '11-18-22',
     });
-    const eventPubkey = event.pubKey;
-    const firebaseEventId = event.firebaseEventId;
-    console.log(`   eventPubkey: ${eventPubkey}`);
-    console.log(`   firebaseEvent: ${firebaseEventId}`);
 
-    const envConfigs: string = require('fs').readFileSync('./.env', 'utf-8');
-    const newEventPKEnvConfigs = envConfigs.replace(
-        RegExp('HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=.*\\s'),
-        `HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=${eventPubkey}\n`,
-    );
-
-    const newEventIdEnvConfigs = envConfigs.replace(
-        RegExp('HEAVY_DUTY_BOUNTY_API_EVENT_ID=.*\\s'),
-        `HEAVY_DUTY_BOUNTY_API_EVENT_ID=${firebaseEventId}\n`,
-    );
-    require('fs').writeFileSync('./.env', newEventPKEnvConfigs);
-    require('fs').writeFileSync('./.env', newEventIdEnvConfigs);
-
-    console.log('Event created successfully.');
+    console.log('Event created.');
 
     /**
-     * Import all mock challenges into the database.
+     * Create the prize pot.
      */
 
-    console.log('Importing challenges...');
+    console.log('Creating prize pot...');
 
-    let x = 1;
-    const t = mockChallenges.length;
-    for (const chal of mockChallenges) {
-        const challengePubkey = await createNewChallenge({
-            eventPubkey: eventPubkey,
-            eventId: firebaseEventId,
-            ...chal,
-        });
-        let mintPubkey = xpTokenPubkey;
-        let quantity = chal.rewardValue;
+    const potPubkey = await createNewPot({
+        eventPubkey: eventData.pubKey,
+        mint: potMint,
+        escrowOrMintAuthority: potEscrowPubkey,
+        mintControl: 2,
+        pot: 2000,
+    });
+    console.log(`   potPubkey: ${potPubkey}`);
 
-        await createNewPrize({
-            challengePubkey: challengePubkey,
-            mintPubkey,
-            mintControl: 0,
-            escrowOrMintAuthority:
-                process.env
-                    .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
-            quantity,
-        });
+    console.log('Prize pot created.');
 
-        if (chal.nftBadge) {
-            if (chal.difficulty === 'Hard') {
-                mintPubkey = nftBadgePubkeyHard;
-            } else if (chal.difficulty === 'Medium') {
-                mintPubkey = nftBadgePubkeyMedium;
-            } else {
-                mintPubkey = nftBadgePubkeyEasy;
-            }
-            quantity = 1;
-            await createNewPrize({
-                challengePubkey: challengePubkey,
-                mintPubkey,
-                mintControl: 0,
-                escrowOrMintAuthority:
-                    process.env
-                        .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
-                quantity,
-            });
-        }
+    /**
+     * Update the current event configs.
+     */
 
-        console.log(`   Challenge ${x}/${t} imported.`);
-        x++;
-    }
+    console.log('Updating configs...');
 
-    console.log('All challenges imported.');
+    await updateConfig({
+        id: 0,
+        masterWalletPubkey: masterWalletPubkey,
+        eventPubkey: eventData.pubKey,
+        potPubkey: potPubkey,
+        potEscrowPubkey: potEscrowPubkey,
+        xpTokenPubkey: xpTokenPubkey,
+        nftBadgePubkeyEasy: nftBadgePubkeyEasy,
+        nftBadgePubkeyMedium: nftBadgePubkeyMedium,
+        nftBadgePubkeyHard: nftBadgePubkeyHard,
+    });
+
+    console.log('Configs updated.');
 }
 
 main();

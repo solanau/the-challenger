@@ -1,13 +1,8 @@
 import { PublicKey } from '@solana/web3.js';
 import * as functions from 'firebase-functions';
-import { createChallenge, updateChallenge } from 'prestige-protocol';
+import { createChallenge } from 'prestige-protocol';
 import { db } from '..';
-import {
-    connection,
-    MASTER_API_KEY,
-    PRESTIGE_PROGRAM_ID,
-    WALLET,
-} from '../util/const';
+import { connection, MASTER_API_KEY, WALLET } from '../util/const';
 import { Auth, ChallengePayload, CreateChallengePayload } from '../util/types';
 import {
     DatabaseError,
@@ -89,20 +84,27 @@ exports.createNewChallenge = async function (req, res) {
             res.status(500).send(PayloadError());
         }
         try {
+            function mapFromTags(tags: { value: string }[]) {
+                let combined = '';
+                tags.forEach(t => (combined += t.value));
+                return combined;
+            }
+            const challengeTagsCombined = rawChallenge.tags
+                ? mapFromTags(rawChallenge.tags)
+                : 'none';
             challengePubkey = (
                 await createChallenge(
                     connection,
                     WALLET,
-                    PRESTIGE_PROGRAM_ID,
-                    new PublicKey(rawChallenge.eventPubkey),
                     rawChallenge.title,
                     rawChallenge.shortDescription,
                     rawChallenge.authorName,
+                    challengeTagsCombined,
                 )
             )[0];
         } catch (error) {
             console.log(error);
-            res.status(400).send(PrestigeError(objectType));
+            res.status(500).send(PrestigeError(objectType));
         }
         try {
             const challenge: ChallengePayload = {
@@ -135,21 +137,6 @@ exports.updateChallenge = async function (req, res) {
         } catch (error) {
             console.log(error);
             res.status(400).send(PayloadError());
-        }
-        try {
-            await updateChallenge(
-                connection,
-                WALLET,
-                PRESTIGE_PROGRAM_ID,
-                new PublicKey(rawChallenge.pubkey),
-                new PublicKey(rawChallenge.eventPubkey),
-                rawChallenge.title,
-                rawChallenge.description,
-                rawChallenge.authorName,
-            );
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(PrestigeError(objectType));
         }
         try {
             const challenge: ChallengePayload = { ...rawChallenge };

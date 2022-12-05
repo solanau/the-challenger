@@ -10,11 +10,14 @@ import { controller as leaderBoardController } from './controllers/leader-board'
 import { controller as submissionController } from './controllers/submission';
 import { controller as userController } from './controllers/user';
 
+const configRoute = require('./controllers/config');
 const profileRoute = require('./controllers/profile');
 const eventRoute = require('./controllers/event');
+const potRoute = require('./controllers/pot');
 const challengeRoute = require('./controllers/challenge');
 const prizeRoute = require('./controllers/prize');
 const rewardRoute = require('./controllers/reward');
+const payoutRoute = require('./controllers/payout');
 const mintRoute = require('./controllers/mint');
 
 admin.initializeApp(functions.config().firebase);
@@ -29,6 +32,11 @@ app.use(
     }),
 );
 
+app.get('/config', async (req, res) => await configRoute.fetchConfig(req, res));
+app.put(
+    '/config/:masterApiKey',
+    async (req, res) => await configRoute.updateConfig(req, res),
+);
 app.get(
     '/profile/:pubkey',
     async (req, res) => await profileRoute.fetchProfileForPubkey(req, res),
@@ -52,6 +60,10 @@ app.post(
 app.put(
     '/event/:id/:masterApiKey',
     async (req, res) => await eventRoute.updateEvent(req, res),
+);
+app.post(
+    '/pot/:masterApiKey',
+    async (req, res) => await potRoute.createNewPot(req, res),
 );
 app.get(
     '/challenges/:eventPubkey',
@@ -88,6 +100,15 @@ app.put(
 app.post(
     '/reward/:masterApiKey',
     async (req, res) => await rewardRoute.issueAllRewardsForChallenge(req, res),
+);
+app.post(
+    '/rewardsBatch/:masterApiKey',
+    async (req, res) =>
+        await rewardRoute.issueRewardsForChallengeBatch(req, res),
+);
+app.post(
+    '/payout/:masterApiKey',
+    async (req, res) => await payoutRoute.issuePayout(req, res),
 );
 app.get(
     '/customMints',

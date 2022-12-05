@@ -2,6 +2,18 @@ import { ChallengeType } from './challenge';
 import { FieldConfig } from './form';
 import { SubmissionAnswerPayload, SubmissionStatus } from './submission';
 
+export interface ConfigPayload {
+    id: number;
+    masterWalletPubkey: string;
+    eventPubkey: string;
+    potPubkey: string;
+    potEscrowPubkey: string;
+    xpTokenPubkey: string;
+    nftBadgePubkeyEasy: string;
+    nftBadgePubkeyMedium: string;
+    nftBadgePubkeyHard: string;
+}
+
 export interface EventPayload {
     pubkey: string;
     authority: string;
@@ -12,12 +24,23 @@ export interface EventPayload {
     date: string;
 }
 
-export interface ChallengePayload {
-    uid?: string;
-    eventId?: string;
-    id: string;
+export interface EventData {
+    pubKey: string;
+    firebaseEventId: string;
+}
+
+export interface PotPayload {
     pubkey: string;
     eventPubkey: string;
+    mint: string;
+    escrowOrMintAuthority: string;
+    mintControl: number;
+    pot: number;
+}
+
+export interface ChallengePayload {
+    id: string;
+    pubkey: string;
     key: number;
     iconKey: number;
     iconSize: number;
@@ -53,6 +76,7 @@ export interface ChallengePayload {
 
 export interface PrizePayload {
     pubkey: string;
+    eventPubkey: string;
     challengePubkey: string;
     mintPubkey: string;
     mintControl: number;
@@ -64,6 +88,12 @@ export interface CreateSubmissionPayload {
     id: string;
     challengeId: string;
     answers: SubmissionAnswerPayload[];
+    eventId: string;
+}
+
+export interface UpdateSubmissionStatusPayload {
+    id: string;
+    status: SubmissionStatus;
     eventId: string;
 }
 
@@ -88,8 +118,20 @@ export interface MintPayload {
 }
 
 export interface IssueRewardsPayload {
+    eventPubkey: string;
     challengePubkey: string;
     userPubkey: string;
+}
+
+export interface IssueRewardsBatchPayload {
+    earnerPubkey: string;
+    challengePubkeys: string[];
+}
+
+export interface IssuePayoutPayload {
+    potPubkey: string;
+    userPubkey: string;
+    amount: number;
 }
 
 export interface ProfilePayload {
@@ -103,12 +145,6 @@ export interface SetUserPayload {
     walletPublicKey: string;
 }
 
-export type UpdateSubmissionStatusPayload = {
+export interface UpdateLeaderBoardPayload {
     eventId: string;
-    id: string;
-    status: SubmissionStatus;
-};
-
-export type UpdateLeaderBoardPayload = {
-    eventId: string;
-};
+}

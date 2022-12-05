@@ -1,23 +1,40 @@
-import { PublicKey } from '@solana/web3.js';
 import axios from 'axios';
-import { httpsCallable } from 'firebase/functions';
 import {
     ChallengePayload,
-    CreateSubmissionPayload,
+    ConfigPayload,
+    EventData,
     EventPayload,
+    IssuePayoutPayload,
+    IssueRewardsBatchPayload,
     IssueRewardsPayload,
     MintPayload,
+    PotPayload,
     PrizeMintMetadataPayload,
     PrizePayload,
     ProfilePayload,
-    SetUserPayload,
-    UpdateLeaderBoardPayload,
-    UpdateSubmissionStatusPayload,
 } from 'types/api';
-import { CreateChallengePayload } from 'types/challenge';
-import { CreateEventPayload, UpdateEventPayload } from 'types/event';
-import { functions } from 'utils/firebase';
-import { v4 as uuid } from 'uuid';
+import { SubmissionPayload } from 'types/submission';
+
+export async function fetchConfig(): Promise<ConfigPayload> {
+    return await axios
+        .get(process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT + '/config')
+        .then(res => res.data.params);
+}
+
+export async function updateConfig(
+    params: Partial<ConfigPayload>,
+): Promise<ConfigPayload[]> {
+    return await axios
+        .put(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/config/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            {
+                params,
+            },
+        )
+        .then(res => res.data);
+}
 
 export async function fetchProfileForPubkey(
     pubkey: string,
@@ -25,8 +42,7 @@ export async function fetchProfileForPubkey(
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/profile/' +
-                pubkey +
+                `/profile/${pubkey}/` +
                 process.env
                     .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
         )
@@ -53,8 +69,7 @@ export async function updateProfile(
     return await axios
         .put(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/profile/' +
-                pubkey +
+                `/profile/${pubkey}/` +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
@@ -71,10 +86,7 @@ export async function fetchEventsForAuthority(): Promise<EventPayload[]> {
         )
         .then(res => res.data);
 }
-export interface EventData {
-    pubKey: string;
-    firebaseEventId: string;
-}
+
 export async function createNewEvent(
     payload: Omit<EventPayload, 'pubkey'>,
 ): Promise<EventData> {
@@ -91,6 +103,65 @@ export async function createNewEvent(
         }));
 }
 
+export async function updateEvent(
+    eventId: string,
+    payload: EventPayload,
+): Promise<string> {
+    return await axios
+        .put(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                `/event/${eventId}/` +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            payload,
+        )
+        .then(res => res.data);
+}
+
+export async function createNewPot(
+    payload: Omit<PotPayload, 'pubkey'>,
+): Promise<string> {
+    return await axios
+        .post(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/pot/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            payload,
+        )
+        .then(res => res.data.pubkey);
+}
+
+export async function fetchChallengesForEvent(): Promise<ChallengePayload[]> {
+    const eventPubkey = (await fetchConfig()).eventPubkey;
+    return await axios
+        .get(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                `/challenges/${eventPubkey}`,
+        )
+        .then(res => res.data);
+}
+
+export async function fetchChallengeById(
+    id: string,
+): Promise<ChallengePayload> {
+    return await axios
+        .get(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                `/challenge/id/${id}/`,
+        )
+        .then(res => res.data);
+}
+
+export async function fetchChallengeByKey(
+    key: number,
+): Promise<ChallengePayload> {
+    return await axios
+        .get(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                `/challenge/key/${key}`,
+        )
+        .then(res => res.data);
+}
+
 export async function createNewChallenge(
     payload: Omit<ChallengePayload, 'pubkey'>,
 ): Promise<string> {
@@ -105,12 +176,13 @@ export async function createNewChallenge(
 }
 
 export async function updateChallenge(
+    pubkey: string,
     payload: ChallengePayload,
 ): Promise<string> {
     return await axios
         .put(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenge/' +
+                `/challenge/${pubkey}/` +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
@@ -118,13 +190,12 @@ export async function updateChallenge(
 }
 
 export async function fetchPrizesForChallenge(
-    challengePubkey: PublicKey,
+    pubkey: string,
 ): Promise<PrizeMintMetadataPayload[]> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/prizes/' +
-                challengePubkey.toBase58(),
+                `/prizes/${pubkey}`,
         )
         .then(res => res.data);
 }
@@ -153,104 +224,35 @@ export async function updatePrize(payload: PrizePayload): Promise<string> {
         .then(res => res.data);
 }
 
-// start here
-
-export async function createSubmission(payload: CreateSubmissionPayload) {
-    const instance = httpsCallable<CreateSubmissionPayload, unknown>(
-        functions,
-        'createSubmission',
-    );
-
-    try {
-        const result = await instance(payload);
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
+export async function fetchSubmissions(
+    params: Partial<{
+        eventId: string;
+        username: string;
+        challengeId: string;
+    }>,
+): Promise<SubmissionPayload[]> {
+    return await axios
+        .get(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/submissions',
+            {
+                params,
+            },
+        )
+        .then(res => res.data);
 }
 
-export async function updateSubmissionStatus(
-    payload: UpdateSubmissionStatusPayload,
-) {
-    const instance = httpsCallable<UpdateSubmissionStatusPayload, unknown>(
-        functions,
-        'updateSubmissionStatus',
-    );
-
-    try {
-        const result = await instance(payload);
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
-}
-
-export async function setUser(payload: SetUserPayload) {
-    const instance = httpsCallable<SetUserPayload, unknown>(
-        functions,
-        'setUser',
-    );
-
-    try {
-        const result = await instance(payload);
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
-}
-
-export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
-    const instance = httpsCallable<UpdateLeaderBoardPayload, unknown>(
-        functions,
-        'updateLeaderBoard',
-    );
-
-    try {
-        const result = await instance(payload);
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
-}
-
-export async function createEvent(payload: CreateEventPayload) {
-    const instance = httpsCallable(functions, 'createEvent');
-
-    try {
-        const result = await instance({ id: uuid(), ...payload });
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
-}
-
-export async function updateEvent(id: string, payload: UpdateEventPayload) {
-    const instance = httpsCallable(functions, 'updateEvent');
-
-    try {
-        const result = await instance({ id, data: payload });
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
-}
-
-export async function createChallenge(payload: CreateChallengePayload) {
-    const instance = httpsCallable(functions, 'createChallenge');
-
-    try {
-        const result = await instance(payload);
-
-        return result.data;
-    } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
-    }
+export async function issueAllRewardsBatchForUser(
+    payload: IssueRewardsBatchPayload,
+): Promise<string> {
+    return await axios
+        .post(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/reward/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            payload,
+        )
+        .then(res => res.data);
 }
 
 export async function issueAllRewardsForChallenge(
@@ -260,6 +262,19 @@ export async function issueAllRewardsForChallenge(
         .post(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
                 '/reward/' +
+                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
+            payload,
+        )
+        .then(res => res.data);
+}
+
+export async function issuePayout(
+    payload: IssuePayoutPayload,
+): Promise<string> {
+    return await axios
+        .post(
+            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
+                '/payout/' +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )

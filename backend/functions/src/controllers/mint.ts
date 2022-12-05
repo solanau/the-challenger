@@ -1,13 +1,8 @@
 import { PublicKey } from '@solana/web3.js';
 import { createCustomMint } from 'prestige-protocol';
 import { db } from '..';
-import {
-    connection,
-    MASTER_API_KEY,
-    PRESTIGE_PROGRAM_ID,
-    WALLET,
-} from '../util/const';
-import { MintPayload } from '../util/types';
+import { MintPayload } from '../../../../app/src/types/api';
+import { connection, MASTER_API_KEY, WALLET } from '../util/const';
 import { DatabaseError, PayloadError, PrestigeError } from '../util/util';
 
 interface CustomMintPayload {
@@ -63,7 +58,6 @@ exports.createNewCustomMint = async function (req, res) {
                 await createCustomMint(
                     connection,
                     WALLET,
-                    PRESTIGE_PROGRAM_ID,
                     WALLET.publicKey,
                     rawCustomMint.mintTitle,
                     rawCustomMint.mintSymbol,
@@ -73,7 +67,7 @@ exports.createNewCustomMint = async function (req, res) {
             )[0];
         } catch (error) {
             console.log(error);
-            res.status(400).send(PrestigeError(objectType));
+            res.status(500).send(PrestigeError(objectType));
         }
         try {
             const customMint: CustomMintPayload = {

@@ -13,7 +13,7 @@
     "engines": {
         "node": "16"
     },
-    "main": "lib/index.js",
+    "main": "lib/backend/functions/src/index.js",
     "dependencies": {
         "@google-cloud/pubsub": "^3.2.1",
         "@solana/web3.js": "^1.66.2",
@@ -23,7 +23,7 @@
         "express": "^4.18.2",
         "firebase-admin": "^10.0.2",
         "firebase-functions": "^4.1.0",
-        "prestige-protocol": "^0.0.9",
+        "prestige-protocol": "^0.0.14",
         "uuid": "^9.0.0"
     },
     "devDependencies": {
