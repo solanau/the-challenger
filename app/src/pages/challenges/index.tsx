@@ -39,12 +39,19 @@ const ChallengesPage: NextPage = () => {
 
             {challenges.length > 0 ? (
                 <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                    <div>
+                    {/* <div className="flex w-full text-center rounded-lg justify-end">
+
+                        <Text variant="paragraph" className="flex items-center mr-4">
+                        Challenges:
+                        </Text>
+
                         <select
                             name="category-list"
                             id="category-list"
                             onChange={handleCategoryChange}
-                            className="rounded-md border-2 border-white bg-transparent px-4 py-2 text-black"
+                            // className="rounded-md border-2 border-white bg-transparent px-4 py-2 text-black"
+                            // className="flex bg-gradient-to-tl rounded-md border-2 border-white h-12 w-32 from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]" from-primary/75 to-secondary/75 e37542 F64B62
+                            className="flex w-48 self-end flex-row bg-white-50 border text-lg border-gray-300 text-primary rounded-lg focus:ring-orange-500 ring-orange-500 focus:border-slate-100 p-2.5 dark:bg-[#F64B62] dark:border-white dark:placeholder-orange-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-slate-100"
                         >
                             <option value="">All</option>
                             <option value="Social">Social</option>
@@ -58,7 +65,7 @@ const ChallengesPage: NextPage = () => {
                             <option value="Client">Client</option>
                             <option value="NFT">NFT</option>
                         </select>
-                    </div>
+                    </div> */}
                     <ActiveChallengesSection
                         challenges={filteredChallenges.filter(
                             isActiveChallenge,

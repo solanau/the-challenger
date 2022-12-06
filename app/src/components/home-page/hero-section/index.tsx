@@ -46,22 +46,24 @@ const HeroSection = () => {
             <div className="flex">
                 <div className="relative z-30 mt-28 flex h-full w-full flex-col items-center justify-evenly gap-16 px-4 pt-20 text-left sm:mt-20 sm:items-start sm:px-8 md:px-16 lg:mt-0 lg:px-32 xl:px-64">
                     <Text className="font-bold" variant="super-hero">
-                        MUNICH DEV CHALLENGE
+                        BERLIN DEV CHALLENGE
                     </Text>
                     <Text className="max-w-[650px]" variant="paragraph">
                         Welcome
                         <a className="mx-1 font-bold text-primary">
-                            hackers!! - Feature request -
-                        </a>{' '}
-                        To the first ever
-                        <a className="mx-1 font-bold text-primary">HackaTUM </a>
-                        bounty challenge competition! We are excited to be
-                        hosting another challenge event where hackers from all
-                        over the world compete to
+                            hackers
+                        </a>{' '}to the
+                        <a className="mx-1 font-bold text-primary">Berlin </a>
+                        bounty challenge competition!! We are excited to be
+                        hosting this special challenge event where hackers compete to
                         <a className="mx-1 font-bold text-primary">
-                            earn prizes and rewards
+                            earn prizes, rewards,
                         </a>
-                        and the title of bounty challenge champion. Learn to
+                        and the title of
+                        <a className="mx-1 font-bold text-primary">
+                        bounty challenge champion!
+                        </a>
+                         Learn to
                         <a className="mx-1 font-bold text-primary">
                             build on Solana
                         </a>
@@ -69,7 +71,7 @@ const HeroSection = () => {
                         the ecosystem. Complete challenges to
                         <a className="mx-1 font-bold text-primary">level up</a>
                         your position on the leaderboard and battle your way to
-                        even more prizes!
+                        the top ranks!
                     </Text>
                     <div className="mb-10 mt-72 flex w-full flex-row flex-wrap justify-center  gap-4  sm:mb-20 md:mt-0 md:justify-start">
                         <Link

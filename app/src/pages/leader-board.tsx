@@ -30,24 +30,25 @@ const LeaderboardPage = () => {
                 description="Explore and contribute to bounties that interest you and get paid for your work"
             ></NextSeo>
 
-            {user && event && event.managers.includes(user.id) && (
-                <Button variant="orange" onClick={handleUpdateLeaderBoard}>
-                    Update Leader Board
-                </Button>
-            )}
-
             <div className="flex flex-col gap-12 pt-14">
                 <div className="flex flex-col gap-0">
                     <Text variant="sub-heading" className="text-center">
                         {event?.title}
                     </Text>
                     <div className="flex w-full flex-col gap-2 px-5 sm:px-8 md:px-16 lg:px-32 xl:px-48">
-                        <Text
-                            variant="big-heading"
-                            className="bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a] bg-clip-text text-center text-8xl text-transparent"
-                        >
+                        <div className="flex w-full flex-col items-center">
+                            <Text
+                                variant="big-heading"
+                                className="bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a] bg-clip-text text-center text-8xl text-transparent"
+                            >
                             Leaderboard
-                        </Text>
+                            </Text>
+                            {user && event && event.managers.includes(user.id) && (
+                                <Button className="flex bg-gradient-to-tl h-8 from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]" variant="orange" onClick={handleUpdateLeaderBoard}>
+                                    Refresh
+                                </Button>
+                            )}
+                        </div>
 
                         <div className="mt-6">
                             <LeaderboardList
