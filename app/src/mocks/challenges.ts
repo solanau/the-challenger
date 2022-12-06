@@ -1,4 +1,4 @@
-import { ChallengePayload } from 'types/api';
+import { ChallengePayload } from 'types/challenge';
 
 let i = 100;
 

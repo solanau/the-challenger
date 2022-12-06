@@ -17,3 +17,9 @@ export const getRelativeTime = (ms: number) => {
         return rtf.format(Math.floor(seconds / 3600), 'hour');
     }
 };
+
+export const dateToValue = (timestamp: number) => {
+    const dt = new Date(timestamp);
+    dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
+    return dt.toISOString().slice(0, 16);
+};

@@ -15,11 +15,9 @@ const FormBuilder = ({ config, formik }) => {
                                 {++index}. {fieldConfig.label}
                             </label>
 
-                            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary"
-                                // baseChallenge={null}
-                            >
+                            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
                                 <textarea
-                                    id={fieldConfig.key}
+                                    id={fieldConfig.field}
                                     name={fieldConfig.field}
                                     className="fieldConfigs-center w-full bg-transparent outline-none"
                                     maxLength={fieldConfig.maxLength}
@@ -44,7 +42,7 @@ const FormBuilder = ({ config, formik }) => {
 
                             <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
                                 <input
-                                    id={fieldConfig.key}
+                                    id={fieldConfig.field}
                                     name={fieldConfig.field}
                                     type={fieldConfig.type}
                                     className="fieldConfigs-center w-full bg-transparent outline-none"
@@ -70,7 +68,7 @@ const FormBuilder = ({ config, formik }) => {
 
                             <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
                                 <input
-                                    id={fieldConfig.key}
+                                    id={fieldConfig.field}
                                     name={fieldConfig.field}
                                     type={fieldConfig.type}
                                     className="fieldConfigs-center w-full bg-transparent outline-none"
@@ -89,7 +87,7 @@ const FormBuilder = ({ config, formik }) => {
     return (
         <>
             {config.map((fieldConfig: FieldConfig, index: number) => (
-                <div key={fieldConfig.key}>{builder(fieldConfig, index)}</div>
+                <div key={fieldConfig.field}>{builder(fieldConfig, index)}</div>
             ))}
         </>
     );

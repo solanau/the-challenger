@@ -2,9 +2,7 @@ import { PublicKey } from '@solana/web3.js';
 import axios from 'axios';
 import { httpsCallable } from 'firebase/functions';
 import {
-    ChallengePayload,
     CreateSubmissionPayload,
-    EventPayload,
     IssueRewardsPayload,
     MintPayload,
     PrizeMintMetadataPayload,
@@ -14,7 +12,18 @@ import {
     UpdateLeaderBoardPayload,
     UpdateSubmissionStatusPayload,
 } from 'types/api';
+import {
+    ChallengePayload,
+    CreateChallengePayload,
+    UpdateChallengePayload,
+} from 'types/challenge';
+import {
+    CreateEventPayload,
+    EventPayload,
+    UpdateEventPayload,
+} from 'types/event';
 import { functions } from 'utils/firebase';
+import { v4 as uuid } from 'uuid';
 
 export async function fetchProfileForPubkey(
     pubkey: string,
@@ -88,21 +97,6 @@ export async function createNewEvent(
         }));
 }
 
-export async function updateEvent(
-    eventId: string,
-    payload: EventPayload,
-): Promise<string> {
-    return await axios
-        .put(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/event/' +
-                eventId +
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
-            payload,
-        )
-        .then(res => res.data);
-}
-
 export async function createNewChallenge(
     payload: Omit<ChallengePayload, 'pubkey'>,
 ): Promise<string> {
@@ -114,19 +108,6 @@ export async function createNewChallenge(
             payload,
         )
         .then(res => res.data.pubkey);
-}
-
-export async function updateChallenge(
-    payload: ChallengePayload,
-): Promise<string> {
-    return await axios
-        .put(
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenge/' +
-                process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
-            payload,
-        )
-        .then(res => res.data);
 }
 
 export async function fetchPrizesForChallenge(
@@ -225,6 +206,58 @@ export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
 
         return result.data;
     } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
+
+export async function createEvent(payload: CreateEventPayload) {
+    const instance = httpsCallable(functions, 'createEvent');
+
+    try {
+        const result = await instance({ id: uuid(), ...payload });
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
+
+export async function updateEvent(id: string, payload: UpdateEventPayload) {
+    const instance = httpsCallable(functions, 'updateEvent');
+
+    try {
+        const result = await instance({ id, data: payload });
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
+
+export async function createChallenge(payload: CreateChallengePayload) {
+    const instance = httpsCallable(functions, 'createChallenge');
+
+    try {
+        const result = await instance({ id: uuid(), ...payload });
+
+        return result.data;
+    } catch (error) {
+        throw new Error(`${error.code}: ${error.message}`);
+    }
+}
+
+export async function updateChallenge(
+    id: string,
+    payload: UpdateChallengePayload,
+) {
+    const instance = httpsCallable(functions, 'updateChallenge');
+
+    try {
+        const result = await instance({ id, data: payload });
+
+        return result.data;
+    } catch (error) {
+        console.log(`${error.code}: ${error.message}`);
         throw new Error(`${error.code}: ${error.message}`);
     }
 }

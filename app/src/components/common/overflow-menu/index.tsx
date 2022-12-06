@@ -1,8 +1,7 @@
 import { useCurrentUser } from 'hooks/use-current-user';
-import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
     MdLogin,
     MdLogout,
@@ -13,7 +12,11 @@ import Button from '../button';
 import Card from '../card';
 import Text from '../text';
 
-const OverflowMenu = () => {
+interface OverflowMenuProps {
+    eventId?: string;
+}
+
+const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
     const {
@@ -21,32 +24,6 @@ const OverflowMenu = () => {
         logOut,
     } = useAuth();
     const user = useCurrentUser();
-    const leaderBoard = useLeaderBoard(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-        'individual',
-    );
-    const rank = useMemo(() => {
-        const participantIndex = leaderBoard?.participants.findIndex(
-            participant => participant.userId === user?.id,
-        );
-
-        if (participantIndex === -1) {
-            return null;
-        }
-
-        return participantIndex + 1;
-    }, [user?.id, leaderBoard?.participants]);
-    const totalPoints = useMemo(() => {
-        const participantIndex = leaderBoard?.participants.findIndex(
-            participant => participant.userId === user?.id,
-        );
-
-        if (participantIndex === -1) {
-            return null;
-        }
-
-        return leaderBoard?.participants[participantIndex].points;
-    }, [user?.id, leaderBoard?.participants]);
 
     return (
         <>
@@ -71,6 +48,7 @@ const OverflowMenu = () => {
                                             >
                                                 {user.fullName}
                                             </Text>
+
                                             <Text
                                                 variant="label"
                                                 className="lowercase text-primary underline"
@@ -79,19 +57,29 @@ const OverflowMenu = () => {
                                                     onClick={() =>
                                                         setMenuOpen(false)
                                                     }
-                                                    href={`/${user.userName}`}
+                                                    href={{
+                                                        pathname: `/${user.userName}`,
+                                                        query: eventId
+                                                            ? {
+                                                                  eventId,
+                                                              }
+                                                            : {},
+                                                    }}
                                                     passHref
                                                 >
                                                     {`@${user.userName}`}
                                                 </Link>
                                             </Text>
-                                            {rank && totalPoints && (
-                                                <div>
-                                                    <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
-                                                </div>
-                                            )}
+
                                             <Link
-                                                href="/users/profile-settings"
+                                                href={{
+                                                    pathname: `/users/${uid}/settings`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
                                                 passHref
                                             >
                                                 <a className="flex flex-row justify-end">
@@ -106,6 +94,7 @@ const OverflowMenu = () => {
                                                     />
                                                 </a>
                                             </Link>
+
                                             <Button
                                                 text="Log out"
                                                 icon={MdLogout}
@@ -122,23 +111,31 @@ const OverflowMenu = () => {
                                                 variant="nav-heading"
                                                 className="text-secondary"
                                             >
-                                                Sign in with GitHub
+                                                Sign in
                                             </Text>
                                             <Text
                                                 variant="label"
                                                 className="!normal-case text-secondary"
                                             >
-                                                Connect your GitHub account for
-                                                an enhanced user experience,
-                                                including the ability to create
-                                                new and claim completed
-                                                bounties.
+                                                Connect and earn your spot in
+                                                the leaderboard by solving
+                                                challenges.
                                             </Text>
                                             <Text
                                                 variant="paragraph"
                                                 className="mt-2"
                                             >
-                                                <Link href="/login" passHref>
+                                                <Link
+                                                    href={{
+                                                        pathname: '/login',
+                                                        query: eventId
+                                                            ? {
+                                                                  eventId,
+                                                              }
+                                                            : {},
+                                                    }}
+                                                    passHref
+                                                >
                                                     <a>
                                                         <Button
                                                             text="Sign in"
@@ -173,8 +170,16 @@ const OverflowMenu = () => {
                                                 profile in order to start doing
                                                 challenges.
                                             </Text>
+
                                             <Link
-                                                href="/users/profile-settings"
+                                                href={{
+                                                    pathname: `/users/${uid}/settings`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
                                                 passHref
                                             >
                                                 <a className="flex flex-row justify-end">
