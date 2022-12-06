@@ -26,13 +26,14 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
     const { user } = useAuth();
     const submission = useSubmission(eventId, submissionId);
     const event = useEvent(eventId);
-    const [reviewedAnswers, setReviews] = useState(
-        Array(100).fill({ review: '', status: '' }),
-    );
     const [status, setStatus] = useState<SubmissionStatus | ''>('');
     const [review, setReview] = useState('');
-    const [answersReview, setAnswerReviews] = useState<string[]>(submission?.answers?.map(answer => answer.review) ?? []);
-    const [answersStatus, setAnswersStatus] = useState<string[]>(submission?.answers?.map(answer => answer.status) ?? []);
+    const [answersReview, setAnswerReviews] = useState<string[]>(
+        submission?.answers?.map(answer => answer.review) ?? [],
+    );
+    const [answersStatus, setAnswersStatus] = useState<string[]>(
+        submission?.answers?.map(answer => answer.status) ?? [],
+    );
 
     const handleFormSubmit = (event: FormEvent) => {
         event.preventDefault();
@@ -50,7 +51,6 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
             review,
             answersReview,
             answersStatus,
-            eventId,
         })
             .then(() => alert('Submission status changed and review sent!'))
             .catch(error => alert(error))
@@ -68,7 +68,7 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
         setAnswersStatus(reviews);
         console.log(answersStatus);
     };
-    
+
     return (
         <>
             {submission && (
@@ -105,6 +105,7 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                     <Text variant="label">
                                         Review: {submission.review}
                                     </Text>
+
                                     <form onSubmit={handleFormSubmit}>
                                         {submission.answers.map(
                                             (answer, index) => (
@@ -121,110 +122,110 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                                             {answer.value}
                                                         </Text>
                                                     </Card>
-                                                    <Text variant="paragraph">
-                                                        Include a review:
-                                                        Completed{' '}
-                                                        <input
-                                                            type="checkbox"
-                                                            id="checkbox"
-                                                            name="checkbox"
-                                                            onChange={() =>
-                                                                setReviewsStatus(
-                                                                    'completed',
-                                                                    index,
-                                                                )
-                                                            }
-                                                        />
-                                                        Invalid{' '}
-                                                        <input
-                                                            type="checkbox"
-                                                            id="checkbox"
-                                                            name="checkbox"
-                                                            onChange={() =>
-                                                                setReviewsStatus(
-                                                                    'invalid',
-                                                                    index,
-                                                                )
-                                                            }
-                                                        />
-                                                    </Text>
                                                     <Text
                                                         className="pl-4"
                                                         variant="sub-paragraph"
                                                     >
                                                         {answer.value}
                                                     </Text>
-                                                </Card>
-                                                <Text variant="paragraph">
-                                                    Include a review:
-                                                </Text>
-                                                <select
-                                                    name="answerStatus"
-                                                    id="answerStatus"
-                                                    value={answersStatus[index]}
-                                                    onChange={event => updateAnswersStatus(event.target.value, index)}
-                                                    className="bg-white bg-opacity-10 px-2 py-1"
-                                                >
-                                                    <option
-                                                        value={''}
-                                                        className="bg-black bg-opacity-60"
-                                                        disabled
-                                                    >
-                                                    Select status
-                                                    </option>
-                                                    <option
-                                                        value={'pending'}
-                                                        className="bg-black bg-opacity-60"
-                                                        disabled={
-                                                            'pending' ===
+                                                    <Text variant="paragraph">
+                                                        Include a review:
+                                                    </Text>
+                                                    <select
+                                                        name="answerStatus"
+                                                        id="answerStatus"
+                                                        value={
                                                             answersStatus[index]
                                                         }
-                                                    >
-                                                    Pending
-                                                    </option>
-                                                    <option
-                                                        value="invalid"
-                                                        className="bg-black bg-opacity-60"
-                                                        disabled={
-                                                            'invalid' ===
-                                                            answersStatus[index]
+                                                        onChange={event =>
+                                                            updateAnswersStatus(
+                                                                event.target
+                                                                    .value,
+                                                                index,
+                                                            )
                                                         }
+                                                        className="bg-white bg-opacity-10 px-2 py-1"
                                                     >
-                                                    Invalid
-                                                    </option>
-                                                    <option
-                                                        value="incorrect"
-                                                        className="bg-black bg-opacity-60"
-                                                        disabled={
-                                                            'pending' ===
-                                                            answersStatus[index]
-                                                        }
-                                                    >
-                                                    Incorrect
-                                                    </option>
-                                                    <option
-                                                        value="completed"
-                                                        className="bg-black bg-opacity-60" 
-                                                        disabled={
-                                                            'pending' ===
-                                                            answersStatus[index]
-                                                        }
-                                                    >
-                                                    Completed
-                                                    </option>
-                                                </select>
-                                                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                                                    <textarea
-                                                        id={answer.value}
-                                                        name={answer.value}
-                                                        className="fieldConfigs-center w-full bg-transparent outline-none"
-                                                        rows={1}
-                                                        onChange={event => updateReviews(event.target.value, index)}
-                                                        defaultValue={submission.answers[index].review}                                       
-                                                    />
-                                                </Card>
-                                            </div>
-                                        ))}
+                                                        <option
+                                                            value={''}
+                                                            className="bg-black bg-opacity-60"
+                                                            disabled
+                                                        >
+                                                            Select status
+                                                        </option>
+                                                        <option
+                                                            value={'pending'}
+                                                            className="bg-black bg-opacity-60"
+                                                            disabled={
+                                                                'pending' ===
+                                                                answersStatus[
+                                                                    index
+                                                                ]
+                                                            }
+                                                        >
+                                                            Pending
+                                                        </option>
+                                                        <option
+                                                            value="invalid"
+                                                            className="bg-black bg-opacity-60"
+                                                            disabled={
+                                                                'invalid' ===
+                                                                answersStatus[
+                                                                    index
+                                                                ]
+                                                            }
+                                                        >
+                                                            Invalid
+                                                        </option>
+                                                        <option
+                                                            value="incorrect"
+                                                            className="bg-black bg-opacity-60"
+                                                            disabled={
+                                                                'pending' ===
+                                                                answersStatus[
+                                                                    index
+                                                                ]
+                                                            }
+                                                        >
+                                                            Incorrect
+                                                        </option>
+                                                        <option
+                                                            value="completed"
+                                                            className="bg-black bg-opacity-60"
+                                                            disabled={
+                                                                'pending' ===
+                                                                answersStatus[
+                                                                    index
+                                                                ]
+                                                            }
+                                                        >
+                                                            Completed
+                                                        </option>
+                                                    </select>
+                                                    <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                                        <textarea
+                                                            id={answer.value}
+                                                            name={answer.value}
+                                                            className="fieldConfigs-center w-full bg-transparent outline-none"
+                                                            rows={1}
+                                                            onChange={event =>
+                                                                updateReviews(
+                                                                    event.target
+                                                                        .value,
+                                                                    index,
+                                                                )
+                                                            }
+                                                            defaultValue={
+                                                                submission
+                                                                    .answers[
+                                                                    index
+                                                                ].review
+                                                            }
+                                                        />
+                                                    </Card>
+                                                </div>
+                                            ),
+                                        )}
                                         <label>
                                             Status:
                                             <select
@@ -296,8 +297,14 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                                     name={review}
                                                     className="fieldConfigs-center w-full bg-transparent outline-none"
                                                     rows={2}
-                                                    onChange={event => setReview(event.target.value)}
-                                                    defaultValue={submission.review}                                       
+                                                    onChange={event =>
+                                                        setReview(
+                                                            event.target.value,
+                                                        )
+                                                    }
+                                                    defaultValue={
+                                                        submission.review
+                                                    }
                                                 />
                                             </Card>
                                         </label>
@@ -314,86 +321,96 @@ const SubmissionPage: NextPage<SubmissionPageProps> = ({
                                     </form>
                                 </section>
                             </div>
-                        ) : (
-                            submission.userId === user.uid ? (
-                                <div className="flex flex-col">
-                                    <section className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                                        <div>
-                                            <div className="flex h-12 flex-col justify-between md:h-20">
-                                                <h1 className="peer border-none bg-transparent text-4xl font-medium placeholder-white/90 outline-none md:text-6xl">
-                                                    {submission.challenge.title ??
-                                                        'Challenge not found'}
-                                                </h1>
-                                            </div>
+                        ) : submission.userId === user.uid ? (
+                            <div className="flex flex-col">
+                                <section className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                                    <div>
+                                        <div className="flex h-12 flex-col justify-between md:h-20">
+                                            <h1 className="peer border-none bg-transparent text-4xl font-medium placeholder-white/90 outline-none md:text-6xl">
+                                                {submission.challenge.title ??
+                                                    'Challenge not found'}
+                                            </h1>
                                         </div>
-                                    </section>
+                                    </div>
+                                </section>
 
-                                    <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-6 xl:px-48 xl:py-8">
-                                        <Markdown>
-                                            {submission.challenge.description}
-                                        </Markdown>
+                                <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-6 xl:px-48 xl:py-8">
+                                    <Markdown>
+                                        {submission.challenge.description}
+                                    </Markdown>
 
-                                        <Text variant="paragraph">
-                                            Submission: {submission.id}
-                                        </Text>
+                                    <Text variant="paragraph">
+                                        Submission: {submission.id}
+                                    </Text>
 
-                                        <Text variant="label">
-                                            Status: {submission.status}
-                                        </Text>
+                                    <Text variant="label">
+                                        Status: {submission.status}
+                                    </Text>
 
-                                        <Text variant="label">
-                                            Review: {submission.review}
-                                        </Text>
-                                        {submission.answers.map((answer, index) => (
-                                            <div key={index}>                                               
-                                                <Card className="p-4">
+                                    <Text variant="label">
+                                        Review: {submission.review}
+                                    </Text>
+                                    {submission.answers.map((answer, index) => (
+                                        <div key={index}>
+                                            <Card className="p-4">
+                                                <Text variant="paragraph">
+                                                    {index + 1}:{' '}
+                                                    {answer.field.label}
+                                                </Text>
+                                                <Text
+                                                    className="pl-4"
+                                                    variant="sub-paragraph"
+                                                >
+                                                    {answer.value}
+                                                </Text>
+                                                <Text variant="paragraph">
+                                                    Status:{' '}
+                                                    {
+                                                        submission.answers[
+                                                            index
+                                                        ].status
+                                                    }
+                                                </Text>
+                                            </Card>
+                                            {submission.answers[index]
+                                                .review !== '' && (
+                                                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
                                                     <Text variant="paragraph">
-                                                        {index + 1}:{' '}
-                                                        {answer.field.label}
-                                                    </Text>
-                                                    <Text
-                                                        className="pl-4"
-                                                        variant="sub-paragraph"
-                                                    >
-                                                        {answer.value}
-                                                    </Text>
-                                                    <Text variant="paragraph">
-                                                        Status: {submission.answers[index].status}
+                                                        Review:{' '}
+                                                        {
+                                                            submission.answers[
+                                                                index
+                                                            ].review
+                                                        }
                                                     </Text>
                                                 </Card>
-                                                {submission.answers[index].review !== '' &&
-                                                    <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                                                        <Text variant="paragraph">
-                                                            Review: {submission.answers[index].review}
-                                                        </Text>
-                                                    </Card>
-                                                }
-                                            </div>
-                                        ))}
-                                        <label>
-                                            Status: {submission.status}
-                                            <Text variant="paragraph">
-                                                Review:
+                                            )}
+                                        </div>
+                                    ))}
+                                    <label>
+                                        Status: {submission.status}
+                                        <Text variant="paragraph">Review:</Text>
+                                        <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                            <Text
+                                                id={review}
+                                                variant="paragraph"
+                                                className="fieldConfigs-center w-full bg-transparent outline-none"
+                                            >
+                                                {submission.review}
                                             </Text>
-                                            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                                                <Text
-                                                    id={review}
-                                                    variant="paragraph"
-                                                    className="fieldConfigs-center w-full bg-transparent outline-none"
-                                                >{submission.review}</Text>
-                                            </Card>
-                                        </label>
-                                    </section>
-                                </div>
-                            ) : ( 
-                                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                                    <TbBrandGithub size={35} />
-                                    <Text variant="sub-heading">
+                                        </Card>
+                                    </label>
+                                </section>
+                            </div>
+                        ) : (
+                            <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                                <TbBrandGithub size={35} />
+                                <Text variant="sub-heading">
                                     You&apos;re not authorized to access this
                                     page.
-                                    </Text>
-                                </div>
-                            ))
+                                </Text>
+                            </div>
+                        )
                     ) : (
                         <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                             <TbBrandGithub size={35} />
