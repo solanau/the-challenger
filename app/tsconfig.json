@@ -17,8 +17,8 @@
         "strictNullChecks": false,
         "target": "es6"
     },
-    "exclude": ["node_modules", ".next", "scripts"],
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "scripts/main.js"],
+    "exclude": ["node_modules", ".next", "../scripts"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../scripts/main.js"],
     "ts-node": {
         "compilerOptions": {
             "module": "commonjs"
