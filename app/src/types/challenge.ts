@@ -77,7 +77,6 @@ export interface ChallengePayload {
 }
 
 export interface CreateChallengePayload {
-    id: string;
     title: string;
     description: string;
 }

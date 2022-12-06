@@ -1,9 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
-import EditChallengeForm from 'components/challenges-page/edit-challenge-form';
+import CreateChallengeForm from 'components/challenges-page/create-challenge-form';
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
+import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { createChallenge } from 'lib/api';
 import { NextPage } from 'next';
@@ -11,7 +12,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
 import { CreateChallengePayload } from 'types/challenge';
-import { v4 as uuid } from 'uuid';
 
 const ChallengesPage: NextPage = () => {
     const [isCreateChallengeModalOpen, setIsCreateChallengeModalOpen] =
@@ -23,7 +23,7 @@ const ChallengesPage: NextPage = () => {
     ) => {
         setIsCreateChallengeModalOpen(false);
 
-        createChallenge({ id: uuid(), ...createChallengePayload })
+        createChallenge(createChallengePayload)
             .then(() => alert('Challenge created!'))
             .catch(error => alert(error));
     };
@@ -57,9 +57,15 @@ const ChallengesPage: NextPage = () => {
                         isOpen={isCreateChallengeModalOpen}
                         onClose={() => setIsCreateChallengeModalOpen(false)}
                     >
-                        <EditChallengeForm
+                        <Formik
+                            initialValues={{
+                                title: '',
+                                description: '',
+                            }}
                             onSubmit={handleCreateChallenge}
-                        ></EditChallengeForm>
+                        >
+                            <CreateChallengeForm></CreateChallengeForm>
+                        </Formik>
                     </Modal>
                 </div>
             </div>

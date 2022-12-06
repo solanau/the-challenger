@@ -2,9 +2,7 @@ import { PublicKey } from '@solana/web3.js';
 import axios from 'axios';
 import { httpsCallable } from 'firebase/functions';
 import {
-    ChallengePayload,
     CreateSubmissionPayload,
-    EventPayload,
     IssueRewardsPayload,
     MintPayload,
     PrizeMintMetadataPayload,
@@ -15,10 +13,15 @@ import {
     UpdateSubmissionStatusPayload,
 } from 'types/api';
 import {
+    ChallengePayload,
     CreateChallengePayload,
     UpdateChallengePayload,
 } from 'types/challenge';
-import { CreateEventPayload, UpdateEventPayload } from 'types/event';
+import {
+    CreateEventPayload,
+    EventPayload,
+    UpdateEventPayload,
+} from 'types/event';
 import { functions } from 'utils/firebase';
 import { v4 as uuid } from 'uuid';
 
@@ -235,7 +238,7 @@ export async function createChallenge(payload: CreateChallengePayload) {
     const instance = httpsCallable(functions, 'createChallenge');
 
     try {
-        const result = await instance(payload);
+        const result = await instance({ id: uuid(), ...payload });
 
         return result.data;
     } catch (error) {
