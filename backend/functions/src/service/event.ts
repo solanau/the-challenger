@@ -68,19 +68,18 @@ const updateEvent = async function (req, res) {
             let updatePublicKey: string;
             let originalValue: any;
             const dbResponse = await loadTopLevelDoc(collection);
-            const events = dbResponse.events
-                .filter(o => {
-                    if (o.id === updateId) {
-                        updatePublicKey = o.publicKey;
-                        originalValue = o;
-                    } else {
-                        return o;
-                    }
-                })
-                .push({
-                    ...req.body,
-                    ...originalValue,
-                });
+            let events = dbResponse.events.filter(o => {
+                if (o.id === updateId) {
+                    updatePublicKey = o.publicKey;
+                    originalValue = o;
+                } else {
+                    return true;
+                }
+            });
+            events.push({
+                ...originalValue,
+                ...req.body,
+            });
             await updateTopLevelDoc(collection, { events });
             res.status(201).json({
                 id: updateId,

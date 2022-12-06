@@ -41,6 +41,7 @@ const createChallenge = async function (req, res) {
             let challenges = dbResponse.challenges;
             const publicKey = Keypair.generate().publicKey.toBase58();
             challenges.push({
+                id,
                 publicKey,
                 ...req.body,
             });
@@ -66,7 +67,7 @@ const updateChallenge = async function (req, res) {
             let updatePublicKey: string;
             let originalValue: any;
             const dbResponse = await loadTopLevelDoc(collection);
-            const challenges = dbResponse.challenges.filter(o => {
+            let challenges = dbResponse.challenges.filter(o => {
                 if (o.id === updateId) {
                     updatePublicKey = o.publicKey;
                     originalValue = o;
@@ -75,8 +76,8 @@ const updateChallenge = async function (req, res) {
                 }
             });
             challenges.push({
-                ...req.body,
                 ...originalValue,
+                ...req.body,
             });
             await updateTopLevelDoc(collection, { challenges });
             res.status(201).json({
