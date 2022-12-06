@@ -3,8 +3,8 @@ import FormBuilder from 'components/common/form-builder';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
 import { useFormik } from 'formik';
-import { useChallenge } from 'hooks/use-challenge';
 import { useCurrentUser } from 'hooks/use-current-user';
+import { useEventChallenge } from 'hooks/use-event-challenge';
 import { createSubmission } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
@@ -16,31 +16,31 @@ import { cn } from 'utils';
 import { v4 as uuid } from 'uuid';
 
 type ChallengePageProps = {
+    eventId: string;
     challengeId: string;
 };
 
-const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
+const ChallengePage: NextPage<ChallengePageProps> = ({
+    eventId,
+    challengeId,
+}) => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const { isLoggedIn } = useAuth();
-    const challenge = useChallenge(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-        challengeId,
-    );
+    const challenge = useEventChallenge(eventId, challengeId);
     const user = useCurrentUser();
-
     const formik = useFormik({
         initialValues: {},
         onSubmit: async values => {
             setIsLoading(true);
 
             const answers = Object.keys(values).map(key => {
-                const fieldIndex = challenge.formComponents.findIndex(
+                const fieldIndex = challenge.fieldsConfig.findIndex(
                     formComponent => formComponent.field === key,
                 );
 
                 return {
-                    field: challenge.formComponents[fieldIndex],
+                    field: challenge.fieldsConfig[fieldIndex],
                     value: values[key],
                 };
             });
@@ -49,7 +49,7 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
                 id: uuid(),
                 challengeId,
                 answers,
-                eventId: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+                eventId,
             })
                 .then(() => alert('Submission Sent!'))
                 .catch(error => alert(error))
@@ -63,7 +63,7 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
                 <>
                     <NextSeo
                         title={challenge.title}
-                        description={challenge.shortDescription}
+                        description={challenge.description}
                         twitter={{
                             site: '@HeavyDutyBuild',
                             cardType: 'summary_large_image',
@@ -137,79 +137,63 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
 
                             <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-6 xl:px-48 xl:py-8">
                                 <Markdown>
-                                    {`### Rewards: ${challenge.rewardValue} Points 🔥 `}
+                                    {`### Rewards: ${challenge.points} Points 🔥 `}
                                 </Markdown>
 
                                 {challenge.timeStatus !== 'pending' && (
                                     <Markdown>{challenge.description}</Markdown>
                                 )}
 
-                                {challenge.submittedStatus ? (
-                                    <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-green-400">
-                                        <Markdown>{`### How to Submit `}</Markdown>
-                                        <p className="mt-4">
-                                            You&apos;ve already submitted this
-                                            challenge!
-                                        </p>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        {challenge.timeStatus === 'active' && (
-                                            <form
-                                                onSubmit={formik.handleSubmit}
-                                            >
-                                                <Markdown>{`### How to Submit `}</Markdown>
+                                <div>
+                                    {challenge.timeStatus === 'active' && (
+                                        <form onSubmit={formik.handleSubmit}>
+                                            <Markdown>{`### How to Submit `}</Markdown>
 
-                                                <FormBuilder
-                                                    config={
-                                                        challenge.formComponents
+                                            <FormBuilder
+                                                config={challenge.fieldsConfig}
+                                                formik={formik}
+                                            />
+
+                                            <div className="flex flex-row justify-end gap-2 pt-4 text-right font-thin">
+                                                <Markdown>
+                                                    **please review your entry
+                                                    before clicking submit*
+                                                </Markdown>
+                                            </div>
+                                            <div className="width-full flex flex-row justify-end gap-2 pt-4">
+                                                <Button
+                                                    className="w-40"
+                                                    type="submit"
+                                                    variant="orange"
+                                                    text="Submit"
+                                                    disabled={
+                                                        isLoading ||
+                                                        user === null
                                                     }
-                                                    formik={formik}
                                                 />
+                                            </div>
 
-                                                <div className="flex flex-row justify-end gap-2 pt-4 text-right font-thin">
-                                                    <Markdown>
-                                                        **please review your
-                                                        entry before clicking
-                                                        submit*
-                                                    </Markdown>
-                                                </div>
-                                                <div className="width-full flex flex-row justify-end gap-2 pt-4">
-                                                    <Button
-                                                        className="w-40"
-                                                        type="submit"
-                                                        variant="orange"
-                                                        text="Submit"
-                                                        disabled={
-                                                            isLoading ||
-                                                            user === null
-                                                        }
-                                                    />
-                                                </div>
-
-                                                {user === null && (
-                                                    <Text
-                                                        variant="paragraph"
-                                                        className="mt-4 text-right italic"
+                                            {user === null && (
+                                                <Text
+                                                    variant="paragraph"
+                                                    className="mt-4 text-right italic"
+                                                >
+                                                    In order to submit a
+                                                    challenge, you have to
+                                                    &nbsp;
+                                                    <Link
+                                                        href="/users/profile-settings"
+                                                        passHref
                                                     >
-                                                        In order to submit a
-                                                        challenge, you have to
-                                                        &nbsp;
-                                                        <Link
-                                                            href="/users/profile-settings"
-                                                            passHref
-                                                        >
-                                                            <a className="text-primary underline">
-                                                                set up your
-                                                                profile.
-                                                            </a>
-                                                        </Link>
-                                                    </Text>
-                                                )}
-                                            </form>
-                                        )}
-                                    </div>
-                                )}
+                                                        <a className="text-primary underline">
+                                                            set up your profile.
+                                                        </a>
+                                                    </Link>
+                                                </Text>
+                                            )}
+                                        </form>
+                                    )}
+                                </div>
                             </section>
                         </div>
                     ) : (
@@ -220,7 +204,7 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
                             </Text>
 
                             <div className="flex flex-row gap-2">
-                                <Link href="/" passHref>
+                                <Link href={`/events/${eventId}`} passHref>
                                     <a>
                                         <Button
                                             variant="transparent"
@@ -228,7 +212,18 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
                                         />
                                     </a>
                                 </Link>
-                                <Link href="/login" passHref>
+
+                                <Link
+                                    href={{
+                                        pathname: '/login',
+                                        query: eventId
+                                            ? {
+                                                  eventId,
+                                              }
+                                            : {},
+                                    }}
+                                    passHref
+                                >
                                     <a>
                                         <Button
                                             variant="orange"
@@ -245,7 +240,7 @@ const Challenge: NextPage<ChallengePageProps> = ({ challengeId }) => {
     );
 };
 
-export default Challenge;
+export default ChallengePage;
 
 export const getServerSideProps: GetServerSideProps = async context => {
     let challengeId = context.params.challengeId;
@@ -253,8 +248,14 @@ export const getServerSideProps: GetServerSideProps = async context => {
         challengeId = challengeId[0];
     }
 
+    let eventId = context.params.eventId;
+    if (eventId instanceof Array) {
+        eventId = eventId[0];
+    }
+
     return {
         props: {
+            eventId,
             challengeId,
         },
     };

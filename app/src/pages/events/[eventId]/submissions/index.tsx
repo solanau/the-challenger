@@ -3,7 +3,7 @@ import Card from 'components/common/card';
 import Text from 'components/common/text';
 import { useEvent } from 'hooks/use-event';
 import { useSubmissions } from 'hooks/use-submissions';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
@@ -11,16 +11,15 @@ import { useMemo, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { SubmissionStatus } from 'types/submission';
 
-const SubmissionsPage: NextPage = () => {
+type SubmissionsPageProps = {
+    eventId: string;
+};
+
+const SubmissionsPage: NextPage<SubmissionsPageProps> = ({ eventId }) => {
     const [status, setStatus] = useState('pending');
     const { user } = useAuth();
-    const event = useEvent(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-    );
-    const submissions = useSubmissions(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-        {}
-    );
+    const event = useEvent(eventId);
+    const submissions = useSubmissions(eventId, {});
     const filteredSubmissions = useMemo(
         () => submissions.filter(submission => submission.status === status),
         [submissions, status],
@@ -80,9 +79,8 @@ const SubmissionsPage: NextPage = () => {
                                 filteredSubmissions.map((submission, index) => (
                                     <Card key={index} className="p-4">
                                         <Text variant="heading">
-                                            {submission.challenge
-                                                ? submission.challenge.title
-                                                : 'Challenge not found'}
+                                            {submission?.challenge.title ??
+                                                'Challenge not found'}
                                         </Text>
 
                                         <Text variant="label">
@@ -90,7 +88,7 @@ const SubmissionsPage: NextPage = () => {
                                         </Text>
 
                                         <Link
-                                            href={`/submissions/${submission.id}`}
+                                            href={`/events/${eventId}/submissions/${submission.id}`}
                                             passHref
                                         >
                                             <a className="underline">view</a>
@@ -122,13 +120,23 @@ const SubmissionsPage: NextPage = () => {
                     </Text>
 
                     <div className="flex flex-row gap-2">
-                        <Link href="/" passHref>
+                        <Link href={`/events/${eventId}`} passHref>
                             <a>
                                 <Button variant="transparent" text="Go back" />
                             </a>
                         </Link>
 
-                        <Link href="/login" passHref>
+                        <Link
+                            href={{
+                                pathname: '/login',
+                                query: eventId
+                                    ? {
+                                          eventId,
+                                      }
+                                    : {},
+                            }}
+                            passHref
+                        >
                             <a>
                                 <Button variant="orange" text="Sign in" />
                             </a>
@@ -141,3 +149,16 @@ const SubmissionsPage: NextPage = () => {
 };
 
 export default SubmissionsPage;
+
+export const getServerSideProps: GetServerSideProps = async context => {
+    let eventId = context.params.eventId;
+    if (eventId instanceof Array) {
+        eventId = eventId[0];
+    }
+
+    return {
+        props: {
+            eventId,
+        },
+    };
+};

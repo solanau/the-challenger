@@ -13,7 +13,7 @@
     },
     "plugins": ["react", "react-hooks", "@typescript-eslint"],
     "rules": {
-        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "indent": "off",
         "arrow-body-style": ["warn", "as-needed"],
         "arrow-parens": ["error", "as-needed"],
         "comma-dangle": "off",
@@ -33,6 +33,7 @@
         "react/jsx-props-no-spreading": "off",
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
-        "react/require-default-props": "off"
+        "react/require-default-props": "off",
+        "react/no-unescaped-entities": "off"
     }
 }

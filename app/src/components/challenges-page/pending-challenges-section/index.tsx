@@ -1,8 +1,9 @@
 import Card from 'components/common/card';
 import Text from 'components/common/text';
 import Link from 'next/link';
+import { FaGithub, FaTwitter } from 'react-icons/fa';
 import { PendingChallenge } from 'types/challenge';
-import { getIcon } from '../challenge-icon';
+import { getIconByCategory } from '../challenge-icon';
 
 type ChallengeListProps = { challenges: PendingChallenge[] };
 
@@ -12,34 +13,30 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
             <Card
                 key={challenge.id}
                 className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
-                baseChallenge={challenge}
             >
                 <div className="flex flex-col gap-5 ">
-                    {getIcon(challenge.iconKey, challenge.iconSize)}
+                    {getIconByCategory(challenge.category, 35)}
 
                     <div className="flex flex-col gap-1">
                         <Text variant="label" className="text-secondary">
-                            {' '}
-                            {challenge.type}{' '}challenge
+                            {challenge.category} challenge
                         </Text>
                         <Text className="min-w-fit" variant="big-heading">
-                            Challenge {challenge.key}
+                            Challenge #{challenge.position}
                         </Text>
                         <Text variant="sub-heading">
-                            Reward: {challenge.rewardValue} (BONUS: +{challenge.bonus})
+                            Reward: {challenge.points} (BONUS: +
+                            {challenge.bonus})
                         </Text>
                     </div>
 
-                    <Text variant="paragraph">
-                        {challenge.shortDescription}
-                    </Text>
+                    <Text variant="paragraph">{challenge.description}</Text>
 
                     <Text
                         variant="paragraph"
                         className="font text-xl text-primary"
                     >
-                        {' '}
-                        Difficulty: {challenge.difficulty}{' '}
+                        Difficulty: {challenge.difficulty}
                     </Text>
 
                     <Text variant="paragraph">
@@ -48,8 +45,7 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
 
                     <div className="flex flex-row items-end gap-4">
                         <Text variant="paragraph" className="text-white">
-                            {' '}
-                            Author:{' '}
+                            Author:
                         </Text>
                         <Link
                             href={`https://twitter.com/${challenge.authorTwitter}`}
@@ -60,7 +56,7 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                {getIcon(1, 24)}
+                                <FaTwitter size={24} />
                             </a>
                         </Link>
 
@@ -73,7 +69,7 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                {getIcon(2, 24)}
+                                <FaGithub size={24} />
                             </a>
                         </Link>
                     </div>

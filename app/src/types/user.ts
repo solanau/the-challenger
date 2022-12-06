@@ -8,3 +8,9 @@ export type UserPayload = {
     closedBountiesCount?: number;
     level?: number;
 };
+
+export interface UpdateUserFormData {
+    fullName: string;
+    userName: string;
+    walletPublicKey: string;
+}

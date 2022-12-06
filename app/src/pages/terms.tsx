@@ -1,10 +1,9 @@
-/* eslint-disable react/no-unescaped-entities */
 import Markdown from 'components/common/markdown';
 import { NextPage } from 'next';
 
 const TermsPage: NextPage = () => (
     <>
-        <section className="mt-36 flex justify-center px-4 sm:px-8 md:mt-0 md:px-16 lg:px-32 xl:px-48 pt-20">
+        <section className="mt-36 flex justify-center px-4 pt-20 sm:px-8 md:mt-0 md:px-16 lg:px-32 xl:px-48">
             <Markdown>
                 {`
 ### Terms and Conditions
@@ -150,8 +149,7 @@ Our Terms and Conditions were created with the help of the <a href="https://www.
 The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.
 
 As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.
-`
-                }
+`}
             </Markdown>
         </section>
     </>

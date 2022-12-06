@@ -5,21 +5,21 @@ import { useCurrentUser } from 'hooks/use-current-user';
 import { useEvent } from 'hooks/use-event';
 import { useLeaderBoard } from 'hooks/use-leader-board';
 import { updateLeaderBoard } from 'lib/api';
+import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 
-const LeaderboardPage = () => {
+type LeaderboardPageProps = {
+    eventId: string;
+};
+
+const LeaderboardPage: NextPage<LeaderboardPageProps> = ({ eventId }) => {
     const user = useCurrentUser();
-    const event = useEvent(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-    );
-    const leaderBoard = useLeaderBoard(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-        'individual',
-    );
+    const event = useEvent(eventId);
+    const leaderBoard = useLeaderBoard(eventId, 'individual');
 
     const handleUpdateLeaderBoard = () => {
         updateLeaderBoard({
-            eventId: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+            eventId,
         });
     };
 
@@ -41,10 +41,14 @@ const LeaderboardPage = () => {
                                 variant="big-heading"
                                 className="bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a] bg-clip-text text-center text-8xl text-transparent"
                             >
-                            Leaderboard
+                                Leaderboard
                             </Text>
                             {user && event && event.managers.includes(user.id) && (
-                                <Button className="flex bg-gradient-to-tl h-8 from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]" variant="orange" onClick={handleUpdateLeaderBoard}>
+                                <Button
+                                    className="flex h-8 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]"
+                                    variant="orange"
+                                    onClick={handleUpdateLeaderBoard}
+                                >
                                     Refresh
                                 </Button>
                             )}
@@ -64,3 +68,16 @@ const LeaderboardPage = () => {
 };
 
 export default LeaderboardPage;
+
+export const getServerSideProps: GetServerSideProps = async context => {
+    let eventId = context.params.eventId;
+    if (eventId instanceof Array) {
+        eventId = eventId[0];
+    }
+
+    return {
+        props: {
+            eventId,
+        },
+    };
+};

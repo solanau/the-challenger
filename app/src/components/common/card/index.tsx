@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActiveChallenge, BaseChallenge } from 'types/challenge';
+import { BaseChallenge } from 'types/challenge';
 import { cn } from 'utils';
 
 /**
@@ -9,7 +9,7 @@ type CardProps = {
     className?: string;
     children?: React.ReactNode;
     tabIndex?: number;
-    baseChallenge?: BaseChallenge
+    baseChallenge?: BaseChallenge;
     blur?: boolean;
     border?: boolean;
 };
@@ -28,123 +28,120 @@ const Card = ({
     className,
     children,
     tabIndex,
-    baseChallenge = null,
     border = true,
     blur = true,
-}: CardProps) =>
+}: CardProps) => (
+    // const renderCurrentSelection = (g: BaseChallenge) => {
+    //     console.log(`baseChallenge ggd: `, g)
+    //     if (!baseChallenge) {
+    //         return (
+    //             <div
+    //                 className={cn(
+    //                     className,
+    //                     border && 'border border-white',
+    //                     blur &&
+    //         ' bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90',
+    //                     'rounded-3xl',
+    //                 )}
+    //                 tabIndex={tabIndex}
+    //             >
+    //                 {children}
+    //             </div>
+    //         );
+    //     }
+    //     switch (baseChallenge?.type) {
+    //         case 'Game':
+    //             return (
+    //                 <div
+    //                     className={cn(
+    //                         className,
+    //                         border && 'border border-white',
+    //                         blur &&
+    //                         ' bg-[#4bb7f6] bg-opacity-100 backdrop-blur-lg firefox:bg-opacity-90',
+    //                         'rounded-3xl',
+    //                     )}
+    //                     tabIndex={tabIndex}
+    //                 >
+    //                     {children}
+    //                 </div>
+    //             );
+    //         case 'SDK':
+    //             return (
+    //                 <div
+    //                     className={cn(
+    //                         className,
+    //                         border && 'border border-white',
+    //                         blur &&
+    //                             ' bg-[#f64bbd] bg-opacity-100 backdrop-blur-lg firefox:bg-opacity-90',
+    //                         'rounded-3xl',
+    //                     )}
+    //                     tabIndex={tabIndex}
+    //                 >
+    //                     {children}
+    //                 </div>
+    //             );
+    //         default:
+    //             return (
+    //                 <div
+    //                     className={cn(
+    //                         className,
+    //                         border && 'border border-white',
+    //                         blur &&
+    //             ' bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90',
+    //                         'rounded-3xl',
+    //                     )}
+    //                     tabIndex={tabIndex}
+    //                 >
+    //                     {children}
+    //                 </div>
+    //             );
+    //     }
+    // };
 
-// const renderCurrentSelection = (g: BaseChallenge) => {
-//     console.log(`baseChallenge ggd: `, g)
-//     if (!baseChallenge) {
-//         return (
-//             <div
-//                 className={cn(
-//                     className,
-//                     border && 'border border-white',
-//                     blur &&
-//         ' bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90',
-//                     'rounded-3xl',
-//                 )}
-//                 tabIndex={tabIndex}
-//             >
-//                 {children}
-//             </div>
-//         );
-//     }
-//     switch (baseChallenge?.type) {
-//         case 'Game':
-//             return (
-//                 <div
-//                     className={cn(
-//                         className,
-//                         border && 'border border-white',
-//                         blur &&
-//                         ' bg-[#4bb7f6] bg-opacity-100 backdrop-blur-lg firefox:bg-opacity-90',
-//                         'rounded-3xl',
-//                     )}
-//                     tabIndex={tabIndex}
-//                 >
-//                     {children}
-//                 </div>
-//             );
-//         case 'SDK':
-//             return (
-//                 <div
-//                     className={cn(
-//                         className,
-//                         border && 'border border-white',
-//                         blur &&
-//                             ' bg-[#f64bbd] bg-opacity-100 backdrop-blur-lg firefox:bg-opacity-90',
-//                         'rounded-3xl',
-//                     )}
-//                     tabIndex={tabIndex}
-//                 >
-//                     {children}
-//                 </div>
-//             );
-//         default:
-//             return (
-//                 <div
-//                     className={cn(
-//                         className,
-//                         border && 'border border-white',
-//                         blur &&
-//             ' bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90',
-//                         'rounded-3xl',
-//                     )}
-//                     tabIndex={tabIndex}
-//                 >
-//                     {children}
-//                 </div>
-//             );
-//     }
-// };
+    // return (
 
-// return (
-
-//     <a className="">
+    //     <a className="">
 
     //         {renderCurrentSelection(baseChallenge)}
     //     </a>
     // );
-    (
-        <div
-            className={cn(
-                className,
-                border && 'border border-white',
-                blur &&
+    <div
+        className={cn(
+            className,
+            border && 'border border-white',
+            blur &&
                 ' bg-base bg-opacity-70 backdrop-blur-lg firefox:bg-opacity-90',
-                'rounded-3xl',
-            )}
-            tabIndex={tabIndex}
-        >
-            {children}
-        </div>
-    )
-    // <div
-    //     className={cn(
-    //         className,
-    //         border && 'border border-white',
-    //         blur &&
-    //         ' bg-[#4bb7f6] bg-opacity-100 backdrop-blur-lg firefox:bg-opacity-90',
-    //         'rounded-3xl',
-    //     )}
-    //     tabIndex={tabIndex}
-    // >
-    //     {children}
-    // </div>
-    // <div
-    //     className={cn(
-    //         className,
-    //         border && 'border border-white',
-    //         blur &&
-    //         ' bg-[#4bb7f6] bg-opacity-100 backdrop-blur-lg firefox:bg-opacity-90',
-    //         'rounded-3xl',
-    //     )}
-    //     tabIndex={tabIndex}
-    // >
-    //     {children}
-    // </div>
+            'rounded-3xl',
+        )}
+        tabIndex={tabIndex}
+    >
+        {children}
+    </div>
+);
+// <div
+//     className={cn(
+//         className,
+//         border && 'border border-white',
+//         blur &&
+//         ' bg-[#4bb7f6] bg-opacity-100 backdrop-blur-lg firefox:bg-opacity-90',
+//         'rounded-3xl',
+//     )}
+//     tabIndex={tabIndex}
+// >
+//     {children}
+// </div>
+// <div
+//     className={cn(
+//         className,
+//         border && 'border border-white',
+//         blur &&
+//         ' bg-[#4bb7f6] bg-opacity-100 backdrop-blur-lg firefox:bg-opacity-90',
+//         'rounded-3xl',
+//     )}
+//     tabIndex={tabIndex}
+// >
+//     {children}
+// </div>
 //     <div
 //     className={cn(
 //         className,
@@ -157,6 +154,4 @@ const Card = ({
 // >
 //     {children}
 // </div>
-;
-
 export default Card;

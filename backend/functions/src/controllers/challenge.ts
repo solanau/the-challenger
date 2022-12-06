@@ -1,5 +1,6 @@
-import { Keypair, PublicKey } from '@solana/web3.js';
-import { updateChallenge } from 'prestige-protocol';
+import { PublicKey } from '@solana/web3.js';
+import * as functions from 'firebase-functions';
+import { createChallenge, updateChallenge } from 'prestige-protocol';
 import { db } from '..';
 import {
     connection,
@@ -7,7 +8,12 @@ import {
     PRESTIGE_PROGRAM_ID,
     WALLET,
 } from '../util/const';
-import { ChallengePayload } from '../util/types';
+import {
+    Auth,
+    ChallengePayload,
+    CreateChallengePayload,
+    UpdateChallengePayload,
+} from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
@@ -87,23 +93,22 @@ exports.createNewChallenge = async function (req, res) {
             console.log(error);
             res.status(500).send(PayloadError());
         }
-        challengePubkey = Keypair.generate().publicKey;
-        // try {
-        // challengePubkey = (
-        //     await createChallenge(
-        //         connection,
-        //         WALLET,
-        //         PRESTIGE_PROGRAM_ID,
-        //         new PublicKey(rawChallenge.eventPubkey),
-        //         rawChallenge.title,
-        //         rawChallenge.shortDescription,
-        //         rawChallenge.authorName,
-        //     )
-        // )[0];
-        // } catch (error) {
-        //     console.log(error);
-        //     res.status(400).send(PrestigeError(objectType));
-        // }
+        try {
+            challengePubkey = (
+                await createChallenge(
+                    connection,
+                    WALLET,
+                    PRESTIGE_PROGRAM_ID,
+                    new PublicKey(rawChallenge.eventPubkey),
+                    rawChallenge.title,
+                    rawChallenge.shortDescription,
+                    rawChallenge.authorName,
+                )
+            )[0];
+        } catch (error) {
+            console.log(error);
+            res.status(400).send(PrestigeError(objectType));
+        }
         try {
             const challenge: ChallengePayload = {
                 pubkey: challengePubkey.toBase58(),
@@ -164,3 +169,40 @@ exports.updateChallenge = async function (req, res) {
         }
     }
 };
+
+class ChallengeController {
+    async createChallenge(payload: CreateChallengePayload, auth?: Auth) {
+        if (!auth) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to create an challenge, you have to log in.`,
+            );
+        }
+
+        const challenge = await db.doc(`challenges/${payload.id}`).set({
+            title: payload.title,
+            description: payload.description,
+            userId: auth.id,
+            version: 1,
+        });
+
+        return challenge;
+    }
+
+    async updateChallenge({ id, data }: UpdateChallengePayload, auth?: Auth) {
+        if (!auth) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to update an challenge, you have to log in.`,
+            );
+        }
+
+        console.log(id, data);
+
+        const challenge = await db.doc(`challenges/${id}`).update(data);
+
+        return challenge;
+    }
+}
+
+export const controller = new ChallengeController();

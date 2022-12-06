@@ -14,19 +14,18 @@ import { TbBrandGithub } from 'react-icons/tb';
 import { SubmissionStatus } from 'types/submission';
 
 type SubmissionPageProps = {
+    eventId: string;
     submissionId: string;
 };
 
-const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
+const SubmissionPage: NextPage<SubmissionPageProps> = ({
+    eventId,
+    submissionId,
+}) => {
     const [isLoading, setIsLoading] = useState(false);
     const { user } = useAuth();
-    const submission = useSubmission(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-        submissionId,
-    );
-    const event = useEvent(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-    );
+    const submission = useSubmission(eventId, submissionId);
+    const event = useEvent(eventId);
     const [status, setStatus] = useState<SubmissionStatus | ''>('');
 
     const handleFormSubmit = (event: FormEvent) => {
@@ -41,7 +40,7 @@ const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
         updateSubmissionStatus({
             id: submissionId,
             status,
-            eventId: process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
+            eventId,
         })
             .then(() => alert('Submission status changed!'))
             .catch(error => alert(error))
@@ -190,7 +189,7 @@ const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
                             </Text>
 
                             <div className="flex flex-row gap-2">
-                                <Link href="/" passHref>
+                                <Link href={`/events/${eventId}`} passHref>
                                     <a>
                                         <Button
                                             variant="transparent"
@@ -198,7 +197,18 @@ const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
                                         />
                                     </a>
                                 </Link>
-                                <Link href="/login" passHref>
+
+                                <Link
+                                    href={{
+                                        pathname: '/login',
+                                        query: eventId
+                                            ? {
+                                                  eventId,
+                                              }
+                                            : {},
+                                    }}
+                                    passHref
+                                >
                                     <a>
                                         <Button
                                             variant="orange"
@@ -215,7 +225,7 @@ const Submission: NextPage<SubmissionPageProps> = ({ submissionId }) => {
     );
 };
 
-export default Submission;
+export default SubmissionPage;
 
 export const getServerSideProps: GetServerSideProps = async context => {
     let submissionId = context.params.submissionId;
@@ -223,8 +233,14 @@ export const getServerSideProps: GetServerSideProps = async context => {
         submissionId = submissionId[0];
     }
 
+    let eventId = context.params.eventId;
+    if (eventId instanceof Array) {
+        eventId = eventId[0];
+    }
+
     return {
         props: {
+            eventId,
             submissionId,
         },
     };
