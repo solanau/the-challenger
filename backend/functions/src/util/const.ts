@@ -1,7 +1,8 @@
 import { Connection, Keypair } from '@solana/web3.js';
 import dotenv from 'dotenv';
+import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.resolve(process.cwd(), '../../app/.env') });
 
 export const MASTER_API_KEY: string | undefined =
     process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY;
