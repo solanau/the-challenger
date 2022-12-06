@@ -4,13 +4,16 @@ import { Challenge, ChallengePayload } from 'types/challenge';
 import { toChallenge } from 'utils/challenge';
 import { firestore } from 'utils/firebase';
 import { useEvent } from './use-event';
+import { useSubmissions } from './use-submissions';
 
 export const useEventChallenge = (
     eventId: string | null,
     challengeId: string | null,
+    userId: string | null,
 ): Challenge => {
     const event = useEvent(eventId);
     const [challenge, setChallenge] = useState<Challenge>(null);
+    const submissions = useSubmissions(eventId, { userId });
 
     useEffect(() => {
         if (event === null || challengeId === null) {
@@ -33,6 +36,7 @@ export const useEventChallenge = (
                                 id: snapshot.id,
                                 ...data,
                             } as ChallengePayload,
+                            submissions,
                             0,
                         ),
                     );
@@ -41,7 +45,7 @@ export const useEventChallenge = (
         );
 
         return () => unsubscribe();
-    }, [event, challengeId]);
+    }, [event, challengeId, submissions]);
 
     return challenge;
 };

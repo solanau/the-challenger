@@ -7,6 +7,7 @@ import { useUserByUserName } from 'hooks/use-user-by-user-name';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
@@ -16,18 +17,21 @@ type ProfilePageProps = {
 };
 
 const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
+    const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
     const { user: currentUser } = useAuth();
     const user = useUserByUserName(userName);
-    const submissions = useSubmissions(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-        { userId: user?.id },
-    );
-    const leaderBoard = useLeaderBoard(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-        'individual',
-    );
+    const submissions = useSubmissions(eventId, { userId: user?.id });
+    const leaderBoard = useLeaderBoard(eventId, 'individual');
     const rank = useMemo(() => {
-        const participantIndex = leaderBoard?.participants.findIndex(
+        if (leaderBoard === null) {
+            return null;
+        }
+
+        const participantIndex = leaderBoard.participants.findIndex(
             participant => participant.userId === user?.id,
         );
 
@@ -36,7 +40,7 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
         }
 
         return participantIndex + 1;
-    }, [user?.id, leaderBoard?.participants]);
+    }, [user?.id, leaderBoard]);
     const totalPoints = useMemo(
         () =>
             submissions
@@ -59,12 +63,13 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
             {user && (
                 <div>
                     <div className="flex flex-col gap-16 ">
-                        <Hero {...user} />
+                        <Hero
+                            {...user}
+                            isCurrentUser={currentUser.uid === user.id}
+                        />
                         <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                             {rank && totalPoints && (
-                                <div>
-                                    <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
-                                </div>
+                                <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
                             )}
 
                             {currentUser.githubUserName && (

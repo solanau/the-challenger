@@ -21,8 +21,8 @@ export function getProgress(min: number, max: number, value: number) {
 
 export function getTimeBonusPoints(
     basePoints: number,
-    challengeStartDate: string,
-    challengeEndDate: string,
+    eventStartDate: number,
+    eventEndDate: number,
     submissionDate: number,
 ) {
     const timeRewardPercentage = 20;
@@ -30,8 +30,8 @@ export function getTimeBonusPoints(
     const progressLeft =
         100 -
         getProgress(
-            new Date(challengeStartDate).getTime(),
-            new Date(challengeEndDate).getTime(),
+            new Date(eventStartDate).getTime(),
+            new Date(eventEndDate).getTime(),
             new Date(submissionDate).getTime(),
         );
 

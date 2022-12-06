@@ -102,6 +102,31 @@ export interface ChallengePayload {
     endDate: string;
 }
 
+export interface EventPayload2 {
+    title: string;
+    description: string;
+    startDate: number;
+    endDate: number;
+    challenges: string[];
+    reviewers: string[];
+    managers: string[];
+}
+
+export interface ChallengePayload2 {
+    title: string;
+    description: string;
+    category: ChallengeCategory;
+    difficulty: ChallengeDifficulty;
+    points: number;
+    createdAt: number;
+    updatedAt: number;
+    isNew: boolean;
+    fieldsConfig: FieldConfig[];
+    authorName: string;
+    authorGithub: string;
+    authorTwitter: string;
+}
+
 export interface PrizePayload {
     pubkey: string;
     challengePubkey: string;
@@ -137,13 +162,9 @@ export interface UpdateChallengePayload {
     data: {
         title: string;
         description: string;
-
         category: ChallengeCategory;
         difficulty: ChallengeDifficulty;
         points: number;
-        createdAt: string;
-        startDate: string;
-        endDate: string;
         authorName: string;
         authorGithub: string;
         authorTwitter: string;
@@ -204,13 +225,18 @@ export interface SetUserPayload {
     walletPublicKey: string;
 }
 
-export interface Submission {
-    id: string;
+export interface SubmissionPayload {
     eventId: string;
     challengeId: string;
-    challenge: ChallengePayload;
+    challenge: ChallengePayload2 & { id: string };
     userId: string;
     createdAt: number;
+    basePoints: number;
+    totalPoints: number;
+    timeBonusPoints: number;
+    isProcessed: boolean;
+    status: SubmissionStatus;
+    answers: SubmissionAnswer[];
 }
 
 export interface UpdateLeaderBoardPayload {

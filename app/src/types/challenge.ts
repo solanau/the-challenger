@@ -40,6 +40,7 @@ export interface BaseChallenge {
     authorGithub: string;
     authorTwitter: string;
     timeStatus: ChallengeTimeStatus;
+    isSubmitted: boolean;
     progress: number;
     bonus: number;
     position: number;

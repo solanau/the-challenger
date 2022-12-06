@@ -1,7 +1,8 @@
 import { useCurrentUser } from 'hooks/use-current-user';
+import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
     MdLogin,
     MdLogout,
@@ -24,6 +25,33 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
         logOut,
     } = useAuth();
     const user = useCurrentUser();
+    const leaderBoard = useLeaderBoard(eventId, 'individual');
+    const rank = useMemo(() => {
+        if (leaderBoard === null) {
+            return null;
+        }
+
+        const participantIndex = leaderBoard?.participants.findIndex(
+            participant => participant.userId === user?.id,
+        );
+
+        if (participantIndex === -1) {
+            return null;
+        }
+
+        return participantIndex + 1;
+    }, [user?.id, leaderBoard]);
+    const totalPoints = useMemo(() => {
+        const participantIndex = leaderBoard?.participants.findIndex(
+            participant => participant.userId === user?.id,
+        );
+
+        if (participantIndex === -1) {
+            return null;
+        }
+
+        return leaderBoard?.participants[participantIndex].points;
+    }, [user?.id, leaderBoard?.participants]);
 
     return (
         <>
@@ -70,6 +98,9 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                     {`@${user.userName}`}
                                                 </Link>
                                             </Text>
+                                            {rank && totalPoints && (
+                                                <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
+                                            )}
 
                                             <Link
                                                 href={{
