@@ -1,9 +1,8 @@
 import { PublicKey } from '@solana/web3.js';
-import * as functions from 'firebase-functions';
 import { createChallenge } from 'prestige-protocol';
 import { db } from '..';
+import { ChallengePayload } from '../../../../app/src/types/api';
 import { connection, MASTER_API_KEY, WALLET } from '../util/const';
-import { Auth, ChallengePayload, CreateChallengePayload } from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
@@ -14,12 +13,12 @@ import {
 const objectType = 'Challenge';
 const challengeCollection = 'challenges';
 
-exports.fetchChallengesForEvent = async (req, res) => {
+const fetchAllChallenges = async (req, res) => {
     try {
         const challengeQuerySnapshot = await db
             .collection(challengeCollection)
             .get();
-        const challenges: ChallengePayload[] = [];
+        const challenges: any[] = [];
         challengeQuerySnapshot.forEach(doc => {
             const data: any = doc.data();
             if (data.eventPubkey === req.params.eventPubkey)
@@ -32,13 +31,13 @@ exports.fetchChallengesForEvent = async (req, res) => {
     }
 };
 
-exports.fetchChallengeById = async (req, res) => {
+const fetchChallenge = async (req, res) => {
     try {
         const challengeQuerySnapshot = await db
             .collection(challengeCollection)
             .where('id', '==', req.params.id)
             .get();
-        const challenges: ChallengePayload[] = [];
+        const challenges: any[] = [];
         challengeQuerySnapshot.forEach(doc => {
             const data: any = doc.data();
             challenges.push(data);
@@ -50,25 +49,7 @@ exports.fetchChallengeById = async (req, res) => {
     }
 };
 
-exports.fetchChallengeByKey = async (req, res) => {
-    try {
-        const challengeQuerySnapshot = await db
-            .collection(challengeCollection)
-            .where('key', '==', req.params.key.toString())
-            .get();
-        const challenges: ChallengePayload[] = [];
-        challengeQuerySnapshot.forEach(doc => {
-            const data: any = doc.data();
-            challenges.push(data);
-        });
-        res.status(200).json(challenges[0]);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
-};
-
-exports.createNewChallenge = async function (req, res) {
+const createChallenge = async function (req, res) {
     if (req.params.masterApiKey != MASTER_API_KEY) {
         console.error(MasterApiKeyError());
         res.status(400).send(MasterApiKeyError());
@@ -124,7 +105,7 @@ exports.createNewChallenge = async function (req, res) {
     }
 };
 
-exports.updateChallenge = async function (req, res) {
+const updateChallenge = async function (req, res) {
     if (req.params.masterApiKey != MASTER_API_KEY) {
         console.error(MasterApiKeyError());
         res.status(400).send(MasterApiKeyError());
@@ -152,24 +133,9 @@ exports.updateChallenge = async function (req, res) {
     }
 };
 
-class ChallengeController {
-    async createChallenge(payload: CreateChallengePayload, auth?: Auth) {
-        if (!auth) {
-            throw new functions.https.HttpsError(
-                'permission-denied',
-                `In order to create an challenge, you have to log in.`,
-            );
-        }
-
-        const challenge = await db.doc(`challenges/${payload.id}`).set({
-            title: payload.title,
-            description: payload.description,
-            userId: auth.id,
-            version: 1,
-        });
-
-        return challenge;
-    }
-}
-
-export const controller = new ChallengeController();
+export default {
+    fetchAllChallenges,
+    fetchChallenge,
+    createChallenge,
+    updateChallenge,
+};

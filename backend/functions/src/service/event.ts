@@ -1,14 +1,8 @@
 import { PublicKey } from '@solana/web3.js';
-import * as functions from 'firebase-functions';
 import { createEvent, updateEvent } from 'prestige-protocol';
 import { db } from '..';
+import { EventPayload } from '../../../../app/src/types/api';
 import { connection, MASTER_API_KEY, WALLET } from '../util/const';
-import {
-    Auth,
-    CreateEventPayload,
-    EventPayload,
-    UpdateEventPayload,
-} from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
@@ -19,7 +13,7 @@ import {
 const objectType = 'Event';
 const eventCollection = 'events';
 
-exports.fetchEventsForAuthority = async (req, res) => {
+const fetchAllEvents = async (req, res) => {
     try {
         const eventQuerySnapshot = await db.collection(eventCollection).get();
         const events: EventPayload[] = [];
@@ -36,7 +30,24 @@ exports.fetchEventsForAuthority = async (req, res) => {
     }
 };
 
-exports.createNewEvent = async (req, res) => {
+const fetchEvent = async (req, res) => {
+    try {
+        const eventQuerySnapshot = await db.collection(eventCollection).get();
+        const events: EventPayload[] = [];
+        eventQuerySnapshot.forEach(async doc => {
+            const data: any = doc.data();
+            if (data.authority === req.params.authority) {
+                events.push(data);
+            }
+        });
+        res.status(200).json(events);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+};
+
+const createEvent = async (req, res) => {
     if (req.params.masterApiKey != MASTER_API_KEY) {
         console.error(MasterApiKeyError());
         res.status(400).send(MasterApiKeyError());
@@ -89,7 +100,7 @@ exports.createNewEvent = async (req, res) => {
     }
 };
 
-exports.updateEvent = async (req, res) => {
+const updateEvent = async (req, res) => {
     if (req.params.masterApiKey != MASTER_API_KEY) {
         console.error(MasterApiKeyError());
         res.status(400).send(MasterApiKeyError());
@@ -138,46 +149,9 @@ exports.updateEvent = async (req, res) => {
     }
 };
 
-class EventController {
-    async createEvent(payload: CreateEventPayload, auth?: Auth) {
-        if (!auth) {
-            throw new functions.https.HttpsError(
-                'permission-denied',
-                `In order to create an event, you have to log in.`,
-            );
-        }
-
-        /* 
-            We're adding all challenges by default.
-        */
-        const challenges = await db
-            .collection('challenges')
-            .where('version', '==', 1)
-            .get();
-
-        const event = await db.doc(`events/${payload.id}`).set({
-            title: payload.title,
-            description: payload.description,
-            userId: auth.id,
-            version: 1,
-            challenges: challenges.docs.map(doc => doc.id),
-        });
-
-        return event;
-    }
-
-    async updateEvent({ id, data }: UpdateEventPayload, auth?: Auth) {
-        if (!auth) {
-            throw new functions.https.HttpsError(
-                'permission-denied',
-                `In order to update an event, you have to log in.`,
-            );
-        }
-
-        const event = await db.doc(`events/${id}`).update(data);
-
-        return event;
-    }
-}
-
-export const controller = new EventController();
+export default {
+    fetchAllEvents,
+    fetchEvent,
+    createEvent,
+    updateEvent,
+};
