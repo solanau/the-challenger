@@ -85,7 +85,6 @@ const LoginPage: NextPage = () => {
     const handleLogIn = async (event: FormEvent) => {
         event.preventDefault();
         setIsLoading(true);
-        let defaultAuthMethod = '';
         if (isEmailPasswordProviderIncluded) {
             logIn(email, password)
                 .then(() => router.push('/'))
@@ -95,19 +94,7 @@ const LoginPage: NextPage = () => {
             signUp(email, password)
                 .then(() => router.push('/'))
                 .catch(error => {
-                    if (error.code === 'auth/email-already-in-use') {
-                        fetchSignInMethodsForEmail(auth, email).then(
-                            methods => {
-                                console.log('METHODS 23 -> ', methods);
-                                defaultAuthMethod = methods[0];
-                                // linkWithCredential(result.user, credential);
-
-                                console.log(
-                                    `getting ${defaultAuthMethod} credentials...`,
-                                );
-                            },
-                        );
-                    }
+                    console.log('ERROR ->', error);
                 })
                 .finally(() => setIsLoading(false));
         }
@@ -184,7 +171,6 @@ const LoginPage: NextPage = () => {
                     error.code ===
                     'auth/account-exists-with-different-credential'
                 ) {
-                    console.log('SEE THAT', auth, error.customData.email);
                     fetchSignInMethodsForEmail(
                         auth,
                         error.customData.email,
@@ -246,8 +232,6 @@ const LoginPage: NextPage = () => {
         authProviderType: AuthProviderType,
         credential: OAuthCredential,
     ) => {
-        console.log('SOCIAL CREDENTIALS ', authProviderType);
-        console.log({ credential, email });
         // EmailAuthProvider.credential(email,password);
         const authProvider = getSocialProvider(authProviderType);
         signInWithPopup(auth, authProvider)
