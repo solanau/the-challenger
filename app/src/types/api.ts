@@ -112,3 +112,12 @@ export type UpdateSubmissionStatusPayload = {
 export type UpdateLeaderBoardPayload = {
     eventId: string;
 };
+
+export enum AuthProviderType {
+    githubProvider = 'github',
+    facebookProvider = 'facebook',
+    twitterProvider = 'twitter',
+    emailProvider = 'email',
+}
+
+// export type AuthProviderType = 'github' | 'facebook' | 'twitter' | 'email';
