@@ -1,20 +1,27 @@
-export interface EventPayload {
-    id: string;
+export type CreateEventPayload = Partial<EventDoc> & {
     title: string;
     description: string;
     location: string;
-    reviewers: string[];
-    managers: string[];
-    challenges: string[];
-}
+    date: string;
+};
 
-export interface CreateEventPayload {
+export type UpdateEventPayload = Partial<EventDoc> & {
+    id: string;
+};
+
+export type CreateUpdateEventResponse = Partial<EventDoc> & {
+    id: string;
+    publicKey: string;
+};
+
+export type EventDoc = {
+    id: string;
+    publicKey: string;
     title: string;
     description: string;
-}
-
-export interface UpdateEventPayload {
-    title: string;
-    description: string;
-    challenges: string[];
-}
+    location: string;
+    date: string;
+    // reviewers: string[],
+    // managers: string[],
+    // challenges: string[],
+};

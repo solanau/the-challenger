@@ -23,66 +23,40 @@ export type ChallengeType =
     | 'SDK'
     | 'Feedback';
 
-export interface BaseChallenge {
-    createdAt: string;
+export type CreateChallengePayload = Partial<ChallengeDoc> & {
+    title: string;
+    description: string;
+    tags: string;
+};
+
+export type UpdateChallengePayload = Partial<ChallengeDoc> & {
+    id: string;
+};
+
+export type CreateUpdateChallengeResponse = Partial<ChallengeDoc> & {
+    id: string;
+    publicKey: string;
+};
+
+export type ChallengeDoc = {
+    uid?: string;
+    eventId?: string;
+    id: string;
+    publicKey: string;
+    eventPubkey: string;
+    key: number;
+    iconKey: number;
+    iconSize: number;
+    title: string;
+    type: ChallengeType;
+    difficulty: string;
     description: string;
     shortDescription: string;
     githubUrl: string;
-    difficulty: string;
-    uid?: string;
-    id: string;
-    pubkey: string;
-    key: number;
-    type: ChallengeType;
-    title: string;
-    rewardValue: number;
-    rewardType: string;
-    startDate: string;
-    endDate: string;
     timeStatus: ChallengeTimeStatus;
     submittedStatus: boolean;
     progress: number;
     bonus: number;
-    iconKey: number;
-    iconSize: number;
-    formComponents: FieldConfig[];
-    authorTwitter?: string;
-    authorGithub?: string;
-    eventPubkey: string;
-}
-
-export type ActiveChallenge = BaseChallenge & {
-    timeStatus: 'active';
-    expiresIn: string;
-};
-
-export type PendingChallenge = BaseChallenge & {
-    timeStatus: 'pending';
-    startsIn: string;
-};
-
-export type ExpiredChallenge = BaseChallenge & {
-    timeStatus: 'expired';
-    expiredAgo: string;
-};
-
-export type Challenge = ActiveChallenge | PendingChallenge | ExpiredChallenge;
-
-export interface ChallengePayload {
-    uid?: string;
-    eventId?: string;
-    id: string;
-    pubkey: string;
-    eventPubkey: string;
-    key: number;
-    iconKey: number;
-    iconSize: number;
-    title: string;
-    type: ChallengeType;
-    difficulty: string;
-    description: string;
-    shortDescription: string;
-    githubUrl: string;
     authorName?: string;
     authorGithub?: string;
     authorTwitter?: string;
@@ -99,21 +73,10 @@ export interface ChallengePayload {
     name?: string;
     owner?: string;
     state?: 'open' | 'closed';
-    tags?: { value: string }[];
+    tags?: string;
     rank?: number;
     formComponents: FieldConfig[];
     createdAt: string;
     startDate: string;
     endDate: string;
-}
-
-export interface CreateChallengePayload {
-    id: string;
-    title: string;
-    description: string;
-}
-
-export interface EditChallengePayload {
-    title: string;
-    description: string;
-}
+};
