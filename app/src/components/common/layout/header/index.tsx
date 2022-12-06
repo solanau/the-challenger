@@ -1,5 +1,5 @@
 import Image from 'components/common/image';
-import OverflowMenu from 'components/common/overflow-menu';
+import { WalletMultiButton } from 'components/common/wallet-adapter';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -44,10 +44,6 @@ const Header = () => {
                         <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
                         <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
                         <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-                    </div>
-                    <div className="flex h-full flex-row items-center gap-2 md:gap-10">
-                        <div className="h-8 w-0.5 bg-zinc-900" />
-                        <OverflowMenu />
                     </div>
                     <div className={isNavOpen ? 'showMenuNav' : 'hideMenuNav'}>
                         <div
@@ -131,9 +127,17 @@ const Header = () => {
                         navigationStarts={() => setIsNavOpen(false)}
                     />
 
+                    {!isEventPage && (
+                        <NavElement
+                            label="Leaderboards"
+                            href={`/leaderboards`}
+                            navigationStarts={() => setIsNavOpen(false)}
+                        />
+                    )}
+
                     <div className="flex h-full flex-row gap-3 md:gap-5">
                         <div className="h-15 w-px bg-line" />
-                        <OverflowMenu />
+                        <WalletMultiButton />
                     </div>
                 </div>
             </div>
