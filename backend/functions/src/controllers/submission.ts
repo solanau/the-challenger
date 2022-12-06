@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import { db } from '..';
 import {
     Auth,
-    ChallengePayload2,
+    ChallengePayload,
     CreateSubmissionPayload,
     ReviewSubmissionPayload,
     SubmissionPayload,
@@ -66,7 +66,7 @@ class SubmissionController {
             userId: auth.id,
             challenge: {
                 id: challenge.id,
-                ...(challengeData as ChallengePayload2),
+                ...(challengeData as ChallengePayload),
             },
             challengeId: payload.challengeId,
             eventId: payload.eventId,

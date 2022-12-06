@@ -164,52 +164,30 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                                     config={
                                                         challenge.fieldsConfig
                                                     }
-                                                    formik={formik}
                                                 />
+                                            </div>
 
-                                                <div className="flex flex-row justify-end gap-2 pt-4 text-right font-thin">
-                                                    <Markdown>
-                                                        **please review your
-                                                        entry before clicking
-                                                        submit*
-                                                    </Markdown>
-                                                </div>
-                                                <div className="width-full flex flex-row justify-end gap-2 pt-4">
-                                                    <Button
-                                                        className="w-40"
-                                                        type="submit"
-                                                        variant="orange"
-                                                        text="Submit"
-                                                        disabled={
-                                                            isLoading ||
-                                                            user === null
-                                                        }
-                                                    />
-                                                </div>
-
-                                                {user === null && (
-                                                    <Text
-                                                        variant="paragraph"
-                                                        className="mt-4 text-right italic"
+                                            {user === null && (
+                                                <Text
+                                                    variant="paragraph"
+                                                    className="mt-4 text-right italic"
+                                                >
+                                                    In order to submit a
+                                                    challenge, you have to
+                                                    &nbsp;
+                                                    <Link
+                                                        href="/users/profile-settings"
+                                                        passHref
                                                     >
-                                                        In order to submit a
-                                                        challenge, you have to
-                                                        &nbsp;
-                                                        <Link
-                                                            href="/users/profile-settings"
-                                                            passHref
-                                                        >
-                                                            <a className="text-primary underline">
-                                                                set up your
-                                                                profile.
-                                                            </a>
-                                                        </Link>
-                                                    </Text>
-                                                )}
-                                            </form>
-                                        )}
-                                    </div>
-                                )}
+                                                        <a className="text-primary underline">
+                                                            set up your profile.
+                                                        </a>
+                                                    </Link>
+                                                </Text>
+                                            )}
+                                        </form>
+                                    )}
+                                </div>
                             </section>
                         </div>
                     ) : (

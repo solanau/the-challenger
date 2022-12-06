@@ -56,55 +56,6 @@ export interface SubmissionAnswer {
 }
 
 export interface EventPayload {
-    pubkey: string;
-    authority: string;
-    title: string;
-    description: string;
-    location: string;
-    host: string;
-    date: string;
-}
-
-export interface ChallengePayload {
-    uid: string;
-    eventId?: string;
-    id: string;
-    pubkey: string;
-    eventPubkey: string;
-    key: number;
-    iconKey: number;
-    iconSize: number;
-    title: string;
-    type: string;
-    difficulty: string;
-    description: string;
-    shortDescription: string;
-    githubUrl: string;
-    authorName?: string;
-    authorGithub?: string;
-    authorTwitter?: string;
-    rewardValue: number;
-    rewardType: string;
-    nftBadge?: boolean;
-    authorWebsite?: string;
-    authorLogo?: string;
-    sponsorALink?: string;
-    sponsorALogo?: string;
-    sponsorBLink?: string;
-    sponsorBLogo?: string;
-    mint?: string;
-    name?: string;
-    owner?: string;
-    state?: 'open' | 'closed';
-    tags?: { value: string }[];
-    rank?: number;
-    formComponents: any[];
-    createdAt: string;
-    startDate: string;
-    endDate: string;
-}
-
-export interface EventPayload2 {
     title: string;
     description: string;
     startDate: number;
@@ -114,7 +65,7 @@ export interface EventPayload2 {
     managers: string[];
 }
 
-export interface ChallengePayload2 {
+export interface ChallengePayload {
     title: string;
     description: string;
     category: ChallengeCategory;
@@ -232,7 +183,7 @@ export interface SetUserPayload {
 export interface SubmissionPayload {
     eventId: string;
     challengeId: string;
-    challenge: ChallengePayload2 & { id: string };
+    challenge: ChallengePayload & { id: string };
     userId: string;
     createdAt: number;
     basePoints: number;

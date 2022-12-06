@@ -1,8 +1,7 @@
 import { useCurrentUser } from 'hooks/use-current-user';
-import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
     MdLogin,
     MdLogout,
