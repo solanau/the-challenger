@@ -49,6 +49,10 @@ const LoginPage: NextPage = () => {
     const [userCredential, setUserCredential] = useState<OAuthCredential>(null);
     const { logIn } = useAuth();
     const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
 
     useEffect(() => {
         if (email === '') {
@@ -92,7 +96,7 @@ const LoginPage: NextPage = () => {
         event.preventDefault();
         setIsLoading(true);
         logIn(email, password)
-            .then(() => router.push('/'))
+            .then(() => router.push(eventId ? `/events/${eventId}` : '/'))
             .catch(error => alert(error))
             .finally(() => setIsLoading(false));
     };
@@ -104,7 +108,7 @@ const LoginPage: NextPage = () => {
         setIsLoading(true);
 
         signInWithPopup(auth, authProvider)
-            .then(() => router.push('/'))
+            .then(() => router.push(eventId ? `/events/${eventId}` : '/'))
             .catch(error => {
                 if (
                     error.code ===
@@ -138,18 +142,16 @@ const LoginPage: NextPage = () => {
         password: string,
         credential: OAuthCredential,
     ) => {
-        console.log('ENTRANDO MENOR');
         console.log(socialEmail, password, credential);
         signInWithEmailAndPassword(auth, email, password)
             .then(result => {
-                console.log('THE RESULT -> ', result);
                 linkWithCredential(result.user, credential);
             })
             .then(() => {
                 setIsEnteringPassword(false);
                 setUserCredential(null);
                 setSocialEmail('');
-                router.push('/');
+                router.push(eventId ? `/events/${eventId}` : '/');
             });
     };
 
@@ -164,7 +166,7 @@ const LoginPage: NextPage = () => {
                     setIsEnteringSocial(false);
                     setUserCredential(null);
                     setEmail('');
-                    router.push('/');
+                    router.push(eventId ? `/events/${eventId}` : '/');
                 });
             })
             .finally(() => setIsLoading(false));
@@ -183,7 +185,7 @@ const LoginPage: NextPage = () => {
                     setIsEnteringSocial(false);
                     setUserCredential(null);
                     setSocialEmail('');
-                    router.push('/');
+                    router.push(eventId ? `/events/${eventId}` : '/');
                 });
             })
             .finally(() => setIsLoading(false));
