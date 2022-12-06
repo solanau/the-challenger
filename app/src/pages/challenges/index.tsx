@@ -5,7 +5,7 @@ import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
-import { useChallenges } from 'hooks/use-challenges';
+import { useChallenges } from 'hooks/challenges/use-challenges';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';

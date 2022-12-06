@@ -5,7 +5,7 @@ import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
 import CreateEventForm from 'components/events/forms/create-event-form';
-import { useEvents } from 'hooks/use-events';
+import { useEvents } from 'hooks/events/use-events';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';

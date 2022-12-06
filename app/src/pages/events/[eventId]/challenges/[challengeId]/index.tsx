@@ -1,15 +1,14 @@
+import { useWallet } from '@solana/wallet-adapter-react';
 import Button from 'components/common/button';
 import FormBuilder from 'components/common/form-builder';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
 import { useFormik } from 'formik';
 import { useChallenge } from 'hooks/challenges/use-challenge';
-import { useCurrentUser } from 'hooks/use-current-user';
-import { createSubmission } from 'lib/api';
+import { createSubmission } from 'lib/api/submission';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
-import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { cn } from 'utils';
@@ -26,9 +25,8 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
 }) => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
-    const { isLoggedIn } = useAuth();
-    const challenge = useChallenge(eventId, challengeId);
-    const user = useCurrentUser();
+    const { publicKey } = useWallet();
+    const challenge = useChallenge(challengeId);
     const formik = useFormik({
         initialValues: {},
         onSubmit: async values => {
@@ -85,7 +83,7 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                         }}
                     ></NextSeo>
 
-                    {isLoggedIn ? (
+                    {publicKey ? (
                         <div className="flex flex-col">
                             <section className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                                 <Text variant="label">

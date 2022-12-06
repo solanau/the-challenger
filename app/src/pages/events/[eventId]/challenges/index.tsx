@@ -2,7 +2,7 @@ import ActiveChallengesSection from 'components/challenges/sections/active-chall
 import ExpiredChallengesSection from 'components/challenges/sections/expired-challenges-section';
 import PendingChallengesSection from 'components/challenges/sections/pending-challenges-section';
 import { useChallengesByIds } from 'hooks/challenges/use-challenges-by-ids';
-import { useEvent } from 'hooks/use-event';
+import { useEvent } from 'hooks/events/use-event';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { ChangeEvent, useMemo, useState } from 'react';
@@ -18,7 +18,9 @@ type ChallengesPageProps = {
 
 const ChallengesPage: NextPage<ChallengesPageProps> = ({ eventId }) => {
     const event = useEvent(eventId);
-    const challenges = useChallengesByIds(event?.challenges ?? []);
+    const challenges = useChallengesByIds(
+        event?.eventChallenges.map(e => e.id) ?? [],
+    );
 
     const [selectedCategory, setSelectedCategory] = useState<string>('');
     const filteredChallenges = useMemo(() => {
