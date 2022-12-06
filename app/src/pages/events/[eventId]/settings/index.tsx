@@ -17,7 +17,7 @@ const EventSettingsPage: NextPage<EventSettingsPageProps> = ({
     eventId,
 }: EventSettingsPageProps) => {
     const event = useEvent(eventId);
-    const challenges = useChallenges();
+    const challenges = useChallenges({ version: 1, isNew: false });
 
     const handleUpdateEvent = (updateEventPayload: UpdateEventPayload) => {
         updateEvent(eventId, updateEventPayload)
