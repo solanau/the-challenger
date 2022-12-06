@@ -1,3 +1,5 @@
+import { EventChallengeData } from './challenge';
+
 export type CreateEventPayload = Partial<EventData> & {
     title: string;
     description: string;
@@ -21,4 +23,5 @@ export type EventData = {
     description: string;
     location: string;
     date: string;
+    eventChallenges: EventChallengeData[];
 };

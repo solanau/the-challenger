@@ -3,7 +3,7 @@ import FormBuilder from 'components/common/form-builder';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
 import { useFormik } from 'formik';
-import { useChallenge } from 'hooks/use-challenge';
+import { useChallenge } from 'hooks/challenges/use-challenge';
 import { useCurrentUser } from 'hooks/use-current-user';
 import { createSubmission } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
