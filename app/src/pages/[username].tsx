@@ -6,6 +6,7 @@ import { useSubmissions } from 'hooks/use-submissions';
 import { useUserByUserName } from 'hooks/use-user-by-user-name';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo } from 'react';
 
@@ -14,6 +15,11 @@ type ProfilePageProps = {
 };
 
 const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
+    const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
     const { user: currentUser } = useAuth();
     const user = useUserByUserName(userName);
     const submissions = useSubmissions(
@@ -58,26 +64,29 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
                 <div>
                     <div className="flex flex-col gap-16 ">
                         <Hero {...user} />
-                        <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
-                            {rank && totalPoints && (
-                                <div>
-                                    <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
-                                </div>
-                            )}
 
-                            {user.id === currentUser.uid && (
-                                <>
-                                    <Text variant="big-heading">
-                                        Submissions
-                                    </Text>
+                        {eventId && (
+                            <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
+                                {rank && totalPoints && (
+                                    <div>
+                                        <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
+                                    </div>
+                                )}
 
-                                    <SubmissionList
-                                        key="submissions"
-                                        submissions={submissions}
-                                    />
-                                </>
-                            )}
-                        </div>
+                                {user.id === currentUser.uid && (
+                                    <>
+                                        <Text variant="big-heading">
+                                            Submissions
+                                        </Text>
+
+                                        <SubmissionList
+                                            key="submissions"
+                                            submissions={submissions}
+                                        />
+                                    </>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

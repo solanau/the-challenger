@@ -12,12 +12,16 @@ const SignUpPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { signUp } = useAuth();
     const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
 
     const handleSignUp = async ({ email, password }: SignUpFormData) => {
         setIsLoading(true);
 
         signUp(email, password)
-            .then(() => router.push('/'))
+            .then(() => router.push(eventId ? `/events/${eventId}` : '/'))
             .catch(error => alert(error))
             .finally(() => setIsLoading(false));
     };
@@ -40,17 +44,22 @@ const SignUpPage: NextPage = () => {
                         <SignUpForm disabled={isLoading}></SignUpForm>
                     </Formik>
 
-                    <div>
-                        <Text variant="paragraph" className="text-xs">
-                            Already registered?
-                            <Link href="/login" passHref>
-                                <a className="text-primary">
-                                    {' '}
-                                    Go to login page.
-                                </a>
-                            </Link>
-                        </Text>
-                    </div>
+                    <Text variant="paragraph" className="text-xs">
+                        Already registered?
+                        <Link
+                            href={{
+                                pathname: '/login',
+                                query: eventId
+                                    ? {
+                                          eventId,
+                                      }
+                                    : {},
+                            }}
+                            passHref
+                        >
+                            <a className="text-primary"> Go to login page.</a>
+                        </Link>
+                    </Text>
                 </div>
             </section>
         </>

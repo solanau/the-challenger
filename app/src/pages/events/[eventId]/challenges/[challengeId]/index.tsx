@@ -204,7 +204,7 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                             </Text>
 
                             <div className="flex flex-row gap-2">
-                                <Link href="/" passHref>
+                                <Link href={`/events/${eventId}`} passHref>
                                     <a>
                                         <Button
                                             variant="transparent"
@@ -212,7 +212,18 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                         />
                                     </a>
                                 </Link>
-                                <Link href="/login" passHref>
+
+                                <Link
+                                    href={{
+                                        pathname: '/login',
+                                        query: eventId
+                                            ? {
+                                                  eventId,
+                                              }
+                                            : {},
+                                    }}
+                                    passHref
+                                >
                                     <a>
                                         <Button
                                             variant="orange"

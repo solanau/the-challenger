@@ -12,7 +12,11 @@ import Button from '../button';
 import Card from '../card';
 import Text from '../text';
 
-const OverflowMenu = () => {
+interface OverflowMenuProps {
+    eventId?: string;
+}
+
+const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
     const {
@@ -53,7 +57,14 @@ const OverflowMenu = () => {
                                                     onClick={() =>
                                                         setMenuOpen(false)
                                                     }
-                                                    href={`/${user.userName}`}
+                                                    href={{
+                                                        pathname: `/${user.userName}`,
+                                                        query: eventId
+                                                            ? {
+                                                                  eventId,
+                                                              }
+                                                            : {},
+                                                    }}
                                                     passHref
                                                 >
                                                     {`@${user.userName}`}
@@ -61,7 +72,14 @@ const OverflowMenu = () => {
                                             </Text>
 
                                             <Link
-                                                href={`/users/${uid}/settings`}
+                                                href={{
+                                                    pathname: `/users/${uid}/settings`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
                                                 passHref
                                             >
                                                 <a className="flex flex-row justify-end">
@@ -107,7 +125,17 @@ const OverflowMenu = () => {
                                                 variant="paragraph"
                                                 className="mt-2"
                                             >
-                                                <Link href="/login" passHref>
+                                                <Link
+                                                    href={{
+                                                        pathname: '/login',
+                                                        query: eventId
+                                                            ? {
+                                                                  eventId,
+                                                              }
+                                                            : {},
+                                                    }}
+                                                    passHref
+                                                >
                                                     <a>
                                                         <Button
                                                             text="Sign in"
@@ -144,7 +172,14 @@ const OverflowMenu = () => {
                                             </Text>
 
                                             <Link
-                                                href={`/users/${uid}/settings`}
+                                                href={{
+                                                    pathname: `/users/${uid}/settings`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
                                                 passHref
                                             >
                                                 <a className="flex flex-row justify-end">

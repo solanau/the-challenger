@@ -3,15 +3,25 @@ import OverflowMenu from 'components/common/overflow-menu';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import {
+    AUTH_PATH_NAMES,
+    EVENT_PATH_NAMES,
+    USER_PATH_NAMES,
+} from 'utils/router';
 import NavElement from './nav-element';
 
 const Header = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
     const isEventPage =
-        router.pathname.startsWith('/events/[eventId]') &&
-        router.pathname !== '/events/[eventId]/settings';
-    const eventId = router.query.eventId;
+        EVENT_PATH_NAMES.includes(router.pathname) ||
+        (eventId &&
+            (AUTH_PATH_NAMES.includes(router.pathname) ||
+                USER_PATH_NAMES.includes(router.pathname)));
 
     return (
         <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between  bg-transparent bg-opacity-40 px-6  backdrop-blur-xl">
@@ -47,7 +57,7 @@ const Header = () => {
                     </div>
                     <div className="flex h-full flex-row items-center gap-2 md:gap-10">
                         <div className="h-8 w-0.5 bg-zinc-900" />
-                        <OverflowMenu />
+                        <OverflowMenu eventId={eventId} />
                     </div>
                     <div className={isNavOpen ? 'showMenuNav' : 'hideMenuNav'}>
                         <div
@@ -133,7 +143,7 @@ const Header = () => {
 
                     <div className="flex h-full flex-row gap-3 md:gap-5">
                         <div className="h-15 w-px bg-line" />
-                        <OverflowMenu />
+                        <OverflowMenu eventId={eventId} />
                     </div>
                 </div>
             </div>

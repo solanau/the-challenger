@@ -6,6 +6,7 @@ import { useCurrentUser } from 'hooks/use-current-user';
 import { setUser } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
@@ -15,6 +16,11 @@ const UserSettingsPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { isLoggedIn } = useAuth();
     const user = useCurrentUser();
+    const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
 
     const handleUpdateUser = async (updateUserFormData: UpdateUserFormData) => {
         setIsLoading(true);
@@ -36,7 +42,10 @@ const UserSettingsPage: NextPage = () => {
                         </Text>
 
                         <div className="flex flex-row gap-2">
-                            <Link href="/" passHref>
+                            <Link
+                                href={eventId ? `/events/${eventId}` : '/'}
+                                passHref
+                            >
                                 <a>
                                     <Button
                                         variant="transparent"
@@ -44,7 +53,17 @@ const UserSettingsPage: NextPage = () => {
                                     />
                                 </a>
                             </Link>
-                            <Link href="/login" passHref>
+                            <Link
+                                href={{
+                                    pathname: '/login',
+                                    query: eventId
+                                        ? {
+                                              eventId,
+                                          }
+                                        : {},
+                                }}
+                                passHref
+                            >
                                 <a>
                                     <Button variant="orange" text="Sign in" />
                                 </a>

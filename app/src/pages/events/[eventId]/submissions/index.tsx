@@ -120,13 +120,23 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({ eventId }) => {
                     </Text>
 
                     <div className="flex flex-row gap-2">
-                        <Link href="/" passHref>
+                        <Link href={`/events/${eventId}`} passHref>
                             <a>
                                 <Button variant="transparent" text="Go back" />
                             </a>
                         </Link>
 
-                        <Link href="/login" passHref>
+                        <Link
+                            href={{
+                                pathname: '/login',
+                                query: eventId
+                                    ? {
+                                          eventId,
+                                      }
+                                    : {},
+                            }}
+                            passHref
+                        >
                             <a>
                                 <Button variant="orange" text="Sign in" />
                             </a>
