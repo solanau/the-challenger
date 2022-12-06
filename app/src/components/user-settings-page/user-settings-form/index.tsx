@@ -14,7 +14,7 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
         <div className="pt-4">
             <label
                 htmlFor="user-full-name"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Full Name
             </label>
@@ -26,6 +26,7 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                     type="text"
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter your full name"
+                    required
                 />
             </Card>
         </div>
@@ -33,7 +34,7 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
         <div className="pt-4">
             <label
                 htmlFor="user-user-name"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Username
             </label>
@@ -45,6 +46,7 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                     type="text"
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter a username"
+                    required
                 />
             </Card>
         </div>
@@ -52,7 +54,7 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
         <div className="pt-4">
             <label
                 htmlFor="user-wallet-public-key"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Wallet Public Key
             </label>
@@ -64,6 +66,7 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                     type="text"
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter your wallet public key"
+                    required
                 />
             </Card>
         </div>

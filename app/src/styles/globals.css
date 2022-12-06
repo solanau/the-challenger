@@ -32,3 +32,8 @@
         @apply text-primary;
     }
 }
+
+.required:after {
+    content: ' *';
+    @apply text-primary;
+}

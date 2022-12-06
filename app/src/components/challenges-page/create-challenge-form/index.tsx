@@ -7,7 +7,7 @@ const CreateChallengeForm = () => (
         <div className="pt-4">
             <label
                 htmlFor="challenge-title"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Title
             </label>
@@ -19,6 +19,7 @@ const CreateChallengeForm = () => (
                     maxLength={32}
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter a title for the challenge"
+                    required
                 />
             </Card>
         </div>
@@ -26,7 +27,7 @@ const CreateChallengeForm = () => (
         <div className="pt-4">
             <label
                 htmlFor="challenge-description"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Description
             </label>
@@ -40,6 +41,7 @@ const CreateChallengeForm = () => (
                     maxLength={500}
                     rows={4}
                     placeholder="Enter a description for the challenge"
+                    required
                 />
             </Card>
         </div>

@@ -7,7 +7,7 @@ const CreateEventForm = () => (
         <div className="pt-4">
             <label
                 htmlFor="event-title"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Title
             </label>
@@ -19,6 +19,7 @@ const CreateEventForm = () => (
                     maxLength={32}
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter a title for the event"
+                    required
                 />
             </Card>
         </div>
@@ -26,7 +27,7 @@ const CreateEventForm = () => (
         <div className="pt-4">
             <label
                 htmlFor="event-description"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Description
             </label>
@@ -40,6 +41,7 @@ const CreateEventForm = () => (
                     maxLength={500}
                     rows={4}
                     placeholder="Enter a description for the event"
+                    required
                 />
             </Card>
         </div>

@@ -12,7 +12,7 @@ const LoginForm: NextPage<LoginFormProps> = ({ disabled = false }) => (
         <div className="pt-4">
             <label
                 htmlFor="credential-email"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Email
             </label>
@@ -24,6 +24,7 @@ const LoginForm: NextPage<LoginFormProps> = ({ disabled = false }) => (
                     type="email"
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter an email for the credential"
+                    required
                 />
             </Card>
         </div>
@@ -31,7 +32,7 @@ const LoginForm: NextPage<LoginFormProps> = ({ disabled = false }) => (
         <div className="pt-4">
             <label
                 htmlFor="credential-password"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Password
             </label>
@@ -43,6 +44,7 @@ const LoginForm: NextPage<LoginFormProps> = ({ disabled = false }) => (
                     type="password"
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter an password for the credential"
+                    required
                 />
             </Card>
         </div>

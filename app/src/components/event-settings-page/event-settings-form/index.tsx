@@ -19,7 +19,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
         <div className="pt-4">
             <label
                 htmlFor="event-title"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Title
             </label>
@@ -31,6 +31,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
                     maxLength={32}
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter a title for the event"
+                    required
                 />
             </Card>
         </div>
@@ -38,7 +39,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
         <div className="pt-4">
             <label
                 htmlFor="event-description"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Description
             </label>
@@ -52,6 +53,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
                     maxLength={500}
                     rows={4}
                     placeholder="Enter a description for the event"
+                    required
                 />
             </Card>
         </div>
@@ -59,7 +61,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
         <div className="pt-4">
             <label
                 htmlFor="event-reviewers"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Reviewers
             </label>
@@ -70,6 +72,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
                     name="reviewers"
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter reviewers for the event"
+                    required
                 />
             </Card>
         </div>
@@ -77,7 +80,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
         <div className="pt-4">
             <label
                 htmlFor="event-managers"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Managers
             </label>
@@ -88,6 +91,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
                     name="managers"
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter managers for the event"
+                    required
                 />
             </Card>
         </div>
@@ -95,7 +99,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
         <div className="pt-4">
             <label
                 htmlFor="event-start-date"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 Start Date
             </label>
@@ -107,6 +111,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
                     type="datetime-local"
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter a start date for the event"
+                    required
                 />
             </Card>
         </div>
@@ -114,7 +119,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
         <div className="pt-4">
             <label
                 htmlFor="event-end-date"
-                className="block w-full border-none bg-transparent py-2 outline-none"
+                className="required block w-full border-none bg-transparent py-2 outline-none"
             >
                 End Date
             </label>
@@ -126,6 +131,7 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
                     type="datetime-local"
                     className="w-full bg-transparent outline-none"
                     placeholder="Enter a end date for the event"
+                    required
                 />
             </Card>
         </div>

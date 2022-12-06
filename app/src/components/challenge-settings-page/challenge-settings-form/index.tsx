@@ -12,7 +12,7 @@ const ChallengeSettingsForm = () => {
             <div className="pt-4">
                 <label
                     htmlFor="challenge-title"
-                    className="block w-full border-none bg-transparent py-2 outline-none"
+                    className="required block w-full border-none bg-transparent py-2 outline-none"
                 >
                     Title
                 </label>
@@ -24,6 +24,7 @@ const ChallengeSettingsForm = () => {
                         maxLength={32}
                         className="w-full bg-transparent outline-none"
                         placeholder="Enter a title for the challenge"
+                        required
                     />
                 </Card>
             </div>
@@ -31,7 +32,7 @@ const ChallengeSettingsForm = () => {
             <div className="pt-4">
                 <label
                     htmlFor="challenge-description"
-                    className="block w-full border-none bg-transparent py-2 outline-none"
+                    className="required block w-full border-none bg-transparent py-2 outline-none"
                 >
                     Description
                 </label>
@@ -45,6 +46,7 @@ const ChallengeSettingsForm = () => {
                         maxLength={500}
                         rows={4}
                         placeholder="Enter a description for the challenge"
+                        required
                     />
                 </Card>
             </div>
@@ -52,7 +54,7 @@ const ChallengeSettingsForm = () => {
             <div className="pt-4">
                 <label
                     htmlFor="challenge-points"
-                    className="block w-full border-none bg-transparent py-2 outline-none"
+                    className="required block w-full border-none bg-transparent py-2 outline-none"
                 >
                     Points
                 </label>
@@ -64,6 +66,7 @@ const ChallengeSettingsForm = () => {
                         className="w-full bg-transparent outline-none"
                         type="number"
                         placeholder="Enter a points for the challenge"
+                        required
                     />
                 </Card>
             </div>
@@ -71,7 +74,7 @@ const ChallengeSettingsForm = () => {
             <div className="pt-4">
                 <label
                     htmlFor="challenge-category"
-                    className="block w-full border-none bg-transparent py-2 outline-none"
+                    className="required block w-full border-none bg-transparent py-2 outline-none"
                 >
                     Category
                 </label>
@@ -82,6 +85,7 @@ const ChallengeSettingsForm = () => {
                         name="category"
                         as="select"
                         className="w-full border-none bg-transparent"
+                        required
                     >
                         <option value="" className="bg-zinc-600">
                             Select a category
@@ -123,7 +127,7 @@ const ChallengeSettingsForm = () => {
             <div className="pt-4">
                 <label
                     htmlFor="challenge-difficulty"
-                    className="block w-full border-none bg-transparent py-2 outline-none"
+                    className="required block w-full border-none bg-transparent py-2 outline-none"
                 >
                     Difficulty
                 </label>
@@ -134,6 +138,7 @@ const ChallengeSettingsForm = () => {
                         name="difficulty"
                         as="select"
                         className="w-full border-none bg-transparent"
+                        required
                     >
                         <option value="" className="bg-zinc-600">
                             Select a difficulty
@@ -252,7 +257,7 @@ const ChallengeSettingsForm = () => {
                                 <div className="pt-4">
                                     <label
                                         htmlFor={`challenge-field-configs.${index}.field`}
-                                        className="block w-full border-none bg-transparent py-2 outline-none"
+                                        className="required block w-full border-none bg-transparent py-2 outline-none"
                                     >
                                         Field
                                     </label>
@@ -264,6 +269,7 @@ const ChallengeSettingsForm = () => {
                                             maxLength={32}
                                             className="w-full bg-transparent outline-none"
                                             placeholder="Enter the field name"
+                                            required
                                         />
                                     </Card>
                                 </div>
@@ -271,7 +277,7 @@ const ChallengeSettingsForm = () => {
                                 <div className="pt-4">
                                     <label
                                         htmlFor={`challenge-field-configs.${index}.label`}
-                                        className="block w-full border-none bg-transparent py-2 outline-none"
+                                        className="required block w-full border-none bg-transparent py-2 outline-none"
                                     >
                                         Label
                                     </label>
@@ -283,6 +289,7 @@ const ChallengeSettingsForm = () => {
                                             maxLength={32}
                                             className="w-full bg-transparent outline-none"
                                             placeholder="Enter the field label"
+                                            required
                                         />
                                     </Card>
                                 </div>
@@ -309,7 +316,7 @@ const ChallengeSettingsForm = () => {
                                 <div className="pt-4">
                                     <label
                                         htmlFor={`challenge-field-configs.${index}.type`}
-                                        className="block w-full border-none bg-transparent py-2 outline-none"
+                                        className="required block w-full border-none bg-transparent py-2 outline-none"
                                     >
                                         Type
                                     </label>
@@ -320,6 +327,7 @@ const ChallengeSettingsForm = () => {
                                             name={`fieldsConfig.${index}.type`}
                                             as="select"
                                             className="w-full border-none bg-transparent"
+                                            required
                                         >
                                             <option
                                                 value=""
