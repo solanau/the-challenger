@@ -1,6 +1,7 @@
 export const EVENT_PATH_NAMES = [
     '/events/[eventId]',
     '/events/[eventId]/challenges',
+    '/events/[eventId]/challenges/[challengeId]',
     '/events/[eventId]/leaderboard',
 ];
 

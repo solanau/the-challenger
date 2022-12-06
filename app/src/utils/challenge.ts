@@ -12,6 +12,7 @@ import {
     PendingChallenge,
 } from 'types/challenge';
 import { EventPayload } from 'types/event';
+import { SubmissionPayload } from 'types/submission';
 import { getRelativeTime } from './time';
 
 const TIME_REWARD_PERCENTAGE = 20;
@@ -131,6 +132,7 @@ export const getChallengeBonus = (
 export const toChallenge = (
     event: EventPayload,
     challenge: ChallengePayload,
+    submissions: SubmissionPayload[],
     position: number,
 ): Challenge => ({
     ...challenge,
@@ -143,6 +145,9 @@ export const toChallenge = (
     expiredAgo: getChallengeExpiredAgo(event),
     progress: getChallengeProgress(event),
     bonus: getChallengeBonus(event, challenge),
+    isSubmitted: submissions.some(
+        submission => submission.challengeId === challenge.id,
+    ),
 });
 
 export const fromChallengeSettingsFormData = (
