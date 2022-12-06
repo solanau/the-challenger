@@ -1,19 +1,15 @@
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
-import { signIn, useSession } from 'next-auth/react';
-
 import Button from 'components/common/button';
 
 import Image from 'components/common/image';
 import Text from 'components/common/text';
 import Link from 'next/link';
 import React from 'react';
-import { TbBrandChrome, TbBrandGithub } from 'react-icons/tb';
+import { TbBrandChrome } from 'react-icons/tb';
 import { cn } from 'utils';
 
 const HeroSection = () => {
-    const { data: session } = useSession();
-
     const [MousePosition, setMousePosition] = React.useState({
         left: 0,
         top: 0,
@@ -52,18 +48,20 @@ const HeroSection = () => {
                         Welcome
                         <a className="mx-1 font-bold text-primary">
                             hackers
-                        </a>{' '}to the
+                        </a>{' '}
+                        to the
                         <a className="mx-1 font-bold text-primary">Berlin </a>
                         bounty challenge competition!! We are excited to be
-                        hosting this special challenge event where hackers compete to
+                        hosting this special challenge event where hackers
+                        compete to
                         <a className="mx-1 font-bold text-primary">
                             earn prizes, rewards,
                         </a>
                         and the title of
                         <a className="mx-1 font-bold text-primary">
-                        bounty challenge champion!
+                            bounty challenge champion!
                         </a>
-                         Learn to
+                        Learn to
                         <a className="mx-1 font-bold text-primary">
                             build on Solana
                         </a>
@@ -74,39 +72,6 @@ const HeroSection = () => {
                         the top ranks!
                     </Text>
                     <div className="mb-10 mt-72 flex w-full flex-row flex-wrap justify-center  gap-4  sm:mb-20 md:mt-0 md:justify-start">
-                        <Link
-                            href={session ? `/${session.login}` : '/#'}
-                            passHref
-                        >
-                            <a className="flex-1 sm:flex-none">
-                                <Button
-                                    icon={!session && TbBrandGithub}
-                                    text={
-                                        !session
-                                            ? 'Sign In with GitHub'
-                                            : 'View your profile'
-                                    }
-                                    variant="orange"
-                                    className="!w-full"
-                                    onClick={() => {
-                                        if (!session) {
-                                            signIn('github');
-                                        }
-                                    }}
-                                    reversed={session !== null}
-                                >
-                                    {session && (
-                                        <Image
-                                            alt="Avatar"
-                                            src={session.user.image}
-                                            height={23}
-                                            className="aspect-square"
-                                            style={{ borderRadius: '50%' }}
-                                        />
-                                    )}
-                                </Button>
-                            </a>
-                        </Link>
                         <Link href="https://heavyduty.builders/" passHref>
                             <a className="flex-1 sm:flex-none" target="_blank">
                                 <Button

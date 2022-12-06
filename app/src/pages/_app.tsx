@@ -1,14 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import CommandPalette from 'components/common/command-palette';
 import Layout from 'components/common/layout';
-import { SessionProvider } from 'next-auth/react';
 import { AppProps } from 'next/app';
 import { AuthContextProvider } from 'providers/AuthProvider';
 import { ContextProvider } from 'providers/ContextProvider';
 import '../styles/globals.css';
 
-const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
+const App = ({ Component, pageProps: { ...pageProps } }: AppProps) => (
     <>
         {/* <NextSeo
             title={undefined}
@@ -18,15 +16,11 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
 
         /> */}
         <ContextProvider>
-            <SessionProvider session={session}>
-                <AuthContextProvider>
-                    <CommandPalette>
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
-                    </CommandPalette>
-                </AuthContextProvider>
-            </SessionProvider>
+            <AuthContextProvider>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
+            </AuthContextProvider>
         </ContextProvider>
     </>
 );
