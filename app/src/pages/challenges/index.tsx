@@ -1,34 +1,22 @@
 /* eslint-disable react/no-unescaped-entities */
-import EditChallengeForm from 'components/challenges-page/edit-challenge-form';
+import { useWallet } from '@solana/wallet-adapter-react';
+import EditChallengeForm from 'components/challenges/forms/create-challenge-form';
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
 import { useChallenges } from 'hooks/use-challenges';
-import { createChallenge } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
-import { TbPlus } from 'react-icons/tb';
-import { EditChallengePayload } from 'types/challenge';
-import { v4 as uuid } from 'uuid';
+import { TbPlus, TbWallet } from 'react-icons/tb';
 
 const ChallengesPage: NextPage = () => {
+    const { publicKey } = useWallet();
+
     const [isCreateChallengeModalOpen, setIsCreateChallengeModalOpen] =
         useState(false);
     const challenges = useChallenges();
-
-    const handleCreateChallenge = (
-        editChallengePayload?: EditChallengePayload,
-    ) => {
-        setIsCreateChallengeModalOpen(false);
-
-        if (editChallengePayload) {
-            createChallenge({ id: uuid(), ...editChallengePayload })
-                .then(() => alert('Challenge created!'))
-                .catch(error => alert(error));
-        }
-    };
 
     return (
         <>
@@ -37,33 +25,42 @@ const ChallengesPage: NextPage = () => {
 
                 <Text variant="paragraph">
                     Explore challenges available for you to use in your next
-                    event.
+                    event
                 </Text>
 
-                <div>
-                    <Button
-                        icon={TbPlus}
-                        text={'Create a challenge'}
-                        variant="transparent"
-                        className="bg-zinc-700"
-                        onClick={() =>
-                            setIsCreateChallengeModalOpen(
-                                !isCreateChallengeModalOpen,
-                            )
-                        }
-                    ></Button>
+                {publicKey ? (
+                    <div>
+                        <Button
+                            icon={TbPlus}
+                            text={'Create a challenge'}
+                            variant="transparent"
+                            className="bg-zinc-700"
+                            onClick={() =>
+                                setIsCreateChallengeModalOpen(
+                                    !isCreateChallengeModalOpen,
+                                )
+                            }
+                        ></Button>
 
-                    <Modal
-                        title="New Challenge"
-                        subTitle="Create a new challenge that can be added to events."
-                        isOpen={isCreateChallengeModalOpen}
-                        onClose={() => setIsCreateChallengeModalOpen(false)}
-                    >
-                        <EditChallengeForm
-                            onSubmit={handleCreateChallenge}
-                        ></EditChallengeForm>
-                    </Modal>
-                </div>
+                        <Modal
+                            title="New Challenge"
+                            subTitle="Create a new challenge that can be added to events"
+                            isOpen={isCreateChallengeModalOpen}
+                            onClose={() => setIsCreateChallengeModalOpen(false)}
+                        >
+                            <EditChallengeForm />
+                        </Modal>
+                    </div>
+                ) : (
+                    <div>
+                        <Button
+                            icon={TbWallet}
+                            text={'Connect wallet to create Challenge'}
+                            variant="transparent"
+                            className="bg-zinc-700"
+                        ></Button>
+                    </div>
+                )}
             </div>
 
             <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">

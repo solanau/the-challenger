@@ -4,7 +4,6 @@ import CommandPalette from 'components/common/command-palette';
 import Layout from 'components/common/layout';
 import { SessionProvider } from 'next-auth/react';
 import { AppProps } from 'next/app';
-import { AuthContextProvider } from 'providers/AuthProvider';
 import { ContextProvider } from 'providers/ContextProvider';
 import '../styles/globals.css';
 
@@ -19,13 +18,11 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
         /> */}
         <ContextProvider>
             <SessionProvider session={session}>
-                <AuthContextProvider>
-                    <CommandPalette>
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
-                    </CommandPalette>
-                </AuthContextProvider>
+                <CommandPalette>
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
+                </CommandPalette>
             </SessionProvider>
         </ContextProvider>
     </>
