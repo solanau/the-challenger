@@ -1,150 +1,94 @@
-import { PublicKey } from '@solana/web3.js';
-import { createEvent, updateEvent } from 'prestige-protocol';
-import { db } from '..';
-import { EventPayload } from '../../../../app/src/types/api';
-import { connection, MASTER_API_KEY, WALLET } from '../util/const';
-import {
-    DatabaseError,
-    MasterApiKeyError,
-    PayloadError,
-    PrestigeError,
-} from '../util/util';
+import { Keypair } from '@solana/web3.js';
+import { v4 as uuid } from 'uuid';
+import { MasterApiKeyError, MASTER_API_KEY } from '../util/const';
+import { loadTopLevelDoc, updateTopLevelDoc } from '../util/db';
 
-const objectType = 'Event';
-const eventCollection = 'events';
+const collection = 'events';
 
 const fetchAllEvents = async (req, res) => {
     try {
-        const eventQuerySnapshot = await db.collection(eventCollection).get();
-        const events: EventPayload[] = [];
-        eventQuerySnapshot.forEach(async doc => {
-            const data: any = doc.data();
-            if (data.authority === req.params.authority) {
-                events.push(data);
-            }
-        });
-        res.status(200).json(events);
+        const dbResponse = await loadTopLevelDoc(collection);
+        if (!dbResponse) console.log(dbResponse);
+        res.status(200).json(dbResponse.events);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).send(error);
     }
 };
 
 const fetchEvent = async (req, res) => {
     try {
-        const eventQuerySnapshot = await db.collection(eventCollection).get();
-        const events: EventPayload[] = [];
-        eventQuerySnapshot.forEach(async doc => {
-            const data: any = doc.data();
-            if (data.authority === req.params.authority) {
-                events.push(data);
+        const dbResponse = await loadTopLevelDoc(collection);
+        for (const chal of dbResponse.events) {
+            if (chal.id === req.params.id) {
+                res.status(200).json(chal);
             }
-        });
-        res.status(200).json(events);
+            res.status(302).json('Event not found');
+        }
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).send(error);
     }
 };
 
-const createEvent = async (req, res) => {
+const createEvent = async function (req, res) {
     if (req.params.masterApiKey != MASTER_API_KEY) {
-        console.error(MasterApiKeyError());
-        res.status(400).send(MasterApiKeyError());
+        console.error(MasterApiKeyError);
+        res.status(401).send(MasterApiKeyError);
     } else {
-        let rawEvent: Omit<EventPayload, 'pubkey'>;
-        let eventPubkey: PublicKey;
         try {
-            rawEvent = {
-                authority: req.body['authority'],
-                title: req.body['title'],
-                description: req.body['description'],
-                location: req.body['location'],
-                host: req.body['host'],
-                date: req.body['date'],
-            };
-        } catch (error) {
-            console.log(error);
-            res.status(400).send(PayloadError());
-        }
-        try {
-            eventPubkey = (
-                await createEvent(
-                    connection,
-                    WALLET,
-                    rawEvent.title,
-                    rawEvent.description,
-                    rawEvent.location,
-                    rawEvent.host,
-                    rawEvent.date,
-                )
-            )[0];
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(PrestigeError(objectType));
-        }
-        try {
-            const event: EventPayload = {
-                pubkey: eventPubkey.toBase58(),
-                ...rawEvent,
-            };
-            const newDoc = await db.collection(eventCollection).add(event);
-            res.status(201).send({
-                pubkey: eventPubkey.toBase58(),
-                firebaseEventId: newDoc.id,
+            const id = uuid();
+            const dbResponse = await loadTopLevelDoc(collection);
+            let events = dbResponse.events;
+            const publicKey = Keypair.generate().publicKey.toBase58();
+            events.push({
+                id,
+                publicKey,
+                ...req.body,
+            });
+            await updateTopLevelDoc(collection, { events });
+            res.status(201).json({
+                id,
+                publicKey,
             });
         } catch (error) {
-            console.log(error);
-            res.status(500).send(DatabaseError(objectType));
+            console.error(error);
+            res.status(500).send(error);
         }
     }
 };
 
-const updateEvent = async (req, res) => {
+const updateEvent = async function (req, res) {
     if (req.params.masterApiKey != MASTER_API_KEY) {
-        console.error(MasterApiKeyError());
-        res.status(400).send(MasterApiKeyError());
+        console.error(MasterApiKeyError);
+        res.status(401).send(MasterApiKeyError);
     } else {
-        let rawEvent: EventPayload;
         try {
-            rawEvent = {
-                pubkey: req.body['pubkey'],
-                authority: req.body['authority'],
-                title: req.body['title'],
-                description: req.body['description'],
-                location: req.body['location'],
-                host: req.body['host'],
-                date: req.body['date'],
-            };
+            const updateId = req.params.id;
+            let updatePublicKey: string;
+            let originalValue: any;
+            const dbResponse = await loadTopLevelDoc(collection);
+            const events = dbResponse.events
+                .filter(o => {
+                    if (o.id === updateId) {
+                        updatePublicKey = o.publicKey;
+                        originalValue = o;
+                    } else {
+                        return o;
+                    }
+                })
+                .push({
+                    ...req.body,
+                    ...originalValue,
+                });
+            await updateTopLevelDoc(collection, { events });
+            res.status(201).json({
+                id: updateId,
+                publicKey: updatePublicKey,
+            });
         } catch (error) {
-            console.log(error);
-            res.status(400).send(PayloadError());
-        }
-        try {
-            await updateEvent(
-                connection,
-                WALLET,
-                new PublicKey(rawEvent.pubkey),
-                rawEvent.title,
-                rawEvent.description,
-                rawEvent.location,
-                rawEvent.host,
-                rawEvent.date,
-            );
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(PrestigeError(objectType));
-        }
-        try {
-            const event: EventPayload = { ...rawEvent };
-            const newDoc = await db
-                .collection(eventCollection)
-                .doc(req.params.id)
-                .set(event);
-            res.status(201).send(`Updated event: ${event.pubkey}`);
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(DatabaseError(objectType));
+            console.error(error);
+            res.status(500).send(error);
         }
     }
 };

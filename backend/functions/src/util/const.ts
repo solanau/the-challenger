@@ -1,9 +1,12 @@
-import { Connection } from '@solana/web3.js';
-import { createKeypairFromFile } from './util';
-require('dotenv').config();
+import { Connection, Keypair } from '@solana/web3.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const MASTER_API_KEY: string | undefined =
     process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY;
+
+export const MasterApiKeyError = 'Request blocked: Invalid Master API key.';
 
 export const connection = new Connection(
     'https://api.devnet.solana.com',
@@ -11,3 +14,9 @@ export const connection = new Connection(
 );
 // export const connection = new Connection('http://localhost:8899', 'confirmed');
 export const WALLET = createKeypairFromFile('./wallet/master.json');
+
+function createKeypairFromFile(path: string): Keypair {
+    return Keypair.fromSecretKey(
+        Buffer.from(JSON.parse(require('fs').readFileSync(path, 'utf-8'))),
+    );
+}

@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import adminService from './service/admin';
 import challengeService from './service/challenge';
 import eventService from './service/event';
 
@@ -15,6 +16,14 @@ app.use(
     cors({
         origin: ['http://localhost:3000', 'https://germany.heavyduty.builders'],
     }),
+);
+
+/**
+ * Init
+ */
+app.get(
+    '/init/:masterApiKey',
+    async (req, res) => await adminService.initDb(req, res),
 );
 
 /**

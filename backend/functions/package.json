@@ -13,7 +13,7 @@
     "engines": {
         "node": "16"
     },
-    "main": "lib/backend/functions/src/index.js",
+    "main": "lib/index.js",
     "dependencies": {
         "@google-cloud/pubsub": "^3.2.1",
         "@solana/web3.js": "^1.66.2",
