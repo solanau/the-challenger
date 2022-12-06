@@ -5,11 +5,6 @@ import { createChallenge } from 'lib/api/challenge';
 import { SetStateAction } from 'react';
 import { CreateChallengePayload } from 'types/challenge';
 
-interface ChallengeFormData {
-    title: string;
-    description: string;
-}
-
 interface CreateChallengeFormProps {
     setIsCreateChallengeModalOpen(value: SetStateAction<boolean>): void;
 }

@@ -1,5 +1,5 @@
 import Text from 'components/common/text';
-import EventSettingsForm from 'components/event-settings-page/event-settings-form';
+import EventSettingsForm from 'components/events/event-settings-form';
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { useEvent } from 'hooks/use-event';

@@ -21,7 +21,7 @@ export async function fetchEvent(id: string): Promise<EventDoc> {
         .then(res => res.data);
 }
 
-export async function createNewEvent(
+export async function createEvent(
     payload: CreateEventPayload,
 ): Promise<CreateUpdateEventResponse> {
     return await axios

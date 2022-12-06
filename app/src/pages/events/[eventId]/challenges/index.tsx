@@ -1,6 +1,6 @@
-import ActiveChallengesSection from 'components/challenges-page/active-challenges-section';
-import ExpiredChallengesSection from 'components/challenges-page/expired-challenges-section';
-import PendingChallengesSection from 'components/challenges-page/pending-challenges-section';
+import ActiveChallengesSection from 'components/challenges/sections/active-challenges-section';
+import ExpiredChallengesSection from 'components/challenges/sections/expired-challenges-section';
+import PendingChallengesSection from 'components/challenges/sections/pending-challenges-section';
 import { useChallengesByIds } from 'hooks/use-challenges-by-ids';
 import { useEvent } from 'hooks/use-event';
 import { GetServerSideProps, NextPage } from 'next';

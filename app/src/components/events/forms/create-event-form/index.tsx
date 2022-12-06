@@ -1,7 +1,7 @@
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import { useFormik } from 'formik';
-import { createNewEvent } from 'lib/api/event';
+import { createEvent } from 'lib/api/event';
 import { SetStateAction } from 'react';
 import { CreateEventPayload } from 'types/event';
 
@@ -24,7 +24,7 @@ const CreateEventForm = (props: CreateEventFormProps) => {
 
     const handleCreateEvent = (createEventPayload: CreateEventPayload) => {
         props.setIsCreateEventModalOpen(false);
-        createNewEvent(createEventPayload)
+        createEvent(createEventPayload)
             .then(() => alert('Event created!'))
             .catch(error => alert(error));
     };

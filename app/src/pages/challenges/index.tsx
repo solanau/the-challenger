@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useWallet } from '@solana/wallet-adapter-react';
-import EditChallengeForm from 'components/challenges/forms/create-challenge-form';
+import CreateChallengeForm from 'components/challenges/forms/create-challenge-form';
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Modal from 'components/common/modal';
@@ -48,7 +48,11 @@ const ChallengesPage: NextPage = () => {
                             isOpen={isCreateChallengeModalOpen}
                             onClose={() => setIsCreateChallengeModalOpen(false)}
                         >
-                            <EditChallengeForm />
+                            <CreateChallengeForm
+                                setIsCreateChallengeModalOpen={
+                                    setIsCreateChallengeModalOpen
+                                }
+                            ></CreateChallengeForm>
                         </Modal>
                     </div>
                 ) : (

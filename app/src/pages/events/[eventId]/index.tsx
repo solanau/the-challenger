@@ -1,4 +1,4 @@
-import HeroSection from 'components/event-page/hero-section';
+import HeroSection from 'components/events/event-page/hero-section';
 import { useEvent } from 'hooks/use-event';
 import { GetServerSideProps, NextPage } from 'next';
 
