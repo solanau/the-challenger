@@ -1,7 +1,7 @@
 import Card from 'components/common/card';
 import Text from 'components/common/text';
 import Link from 'next/link';
-import { PendingChallenge } from 'types/challenge';
+import { PendingChallenge } from 'types/api/challenge';
 import { getIcon } from '../challenge-icon';
 
 type ChallengeListProps = { challenges: PendingChallenge[] };
@@ -20,13 +20,14 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
                     <div className="flex flex-col gap-1">
                         <Text variant="label" className="text-secondary">
                             {' '}
-                            {challenge.type}{' '}challenge
+                            {challenge.type} challenge
                         </Text>
                         <Text className="min-w-fit" variant="big-heading">
                             Challenge {challenge.key}
                         </Text>
                         <Text variant="sub-heading">
-                            Reward: {challenge.rewardValue} (BONUS: +{challenge.bonus})
+                            Reward: {challenge.rewardValue} (BONUS: +
+                            {challenge.bonus})
                         </Text>
                     </div>
 

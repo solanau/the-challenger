@@ -3,7 +3,7 @@ import Card from 'components/common/card';
 import { useFormik } from 'formik';
 import { createChallenge } from 'lib/api/challenge';
 import { SetStateAction } from 'react';
-import { CreateChallengePayload } from 'types/challenge';
+import { CreateChallengePayload } from 'types/api/challenge';
 
 interface CreateChallengeFormProps {
     setIsCreateChallengeModalOpen(value: SetStateAction<boolean>): void;

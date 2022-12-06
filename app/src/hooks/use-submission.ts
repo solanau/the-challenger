@@ -1,6 +1,6 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { SubmissionPayload } from 'types/submission';
+import { SubmissionPayload } from 'types/api/submission';
 import { firestore } from 'utils/firebase';
 
 export const useSubmission = (

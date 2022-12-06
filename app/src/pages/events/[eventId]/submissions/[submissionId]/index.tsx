@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { FormEvent, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
-import { SubmissionStatus } from 'types/submission';
+import { SubmissionStatus } from 'types/api/submission';
 
 type SubmissionPageProps = {
     eventId: string;

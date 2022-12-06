@@ -1,6 +1,6 @@
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { ChallengePayload } from 'types/challenge';
+import { ChallengePayload } from 'types/api/challenge';
 import { firestore } from 'utils/firebase';
 
 export const useChallenges = (): ChallengePayload[] => {

@@ -5,7 +5,7 @@ import { useChallenges } from 'hooks/use-challenges';
 import { useEvent } from 'hooks/use-event';
 import { updateEvent } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
-import { UpdateEventPayload } from 'types/event';
+import { UpdateEventPayload } from 'types/api/event';
 
 type EventSettingsPageProps = {
     eventId: string;

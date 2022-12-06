@@ -1,9 +1,12 @@
 import { ChallengePayload, CreateSubmissionPayload } from 'types/api';
 import {
     ActiveChallenge,
-    BaseChallenge, Challenge, ChallengeTimeStatus, ExpiredChallenge,
-    PendingChallenge
-} from 'types/challenge';
+    BaseChallenge,
+    Challenge,
+    ChallengeTimeStatus,
+    ExpiredChallenge,
+    PendingChallenge,
+} from 'types/api/challenge';
 import { getRelativeTime } from './time';
 
 const TIME_REWARD_PERCENTAGE = 20;
@@ -37,7 +40,6 @@ export const getChallengeStatus = (
 
     return 'pending';
 };
-
 
 export const getChallengeAlreadySubmittedFirebase = (
     userSubmissions: CreateSubmissionPayload[],
@@ -117,7 +119,6 @@ export const getChallengeBonus = (challenge: ChallengePayload): number => {
 
     return Math.floor(maxBonus * (progress / 100));
 };
-
 
 export const toChallenge = (
     userSubmissions: CreateSubmissionPayload[],

@@ -1,4 +1,6 @@
-import { FieldConfig } from './form';
+import { FieldConfig } from '../form';
+import { ContractData, RewardData } from './contract';
+import { SubmissionData } from './submission';
 
 export type ChallengeTimeStatus = 'active' | 'pending' | 'expired';
 
@@ -23,7 +25,7 @@ export type ChallengeType =
     | 'SDK'
     | 'Feedback';
 
-export type CreateChallengePayload = Partial<ChallengeDoc> & {
+export type CreateChallengePayload = Partial<ChallengeData> & {
     title: string;
     description: string;
     tags: string;
@@ -33,17 +35,15 @@ export type UpdateChallengePayload = Partial<CreateChallengePayload> & {
     id: string;
 };
 
-export type CreateUpdateChallengeResponse = Partial<ChallengeDoc> & {
+export type CreateUpdateChallengeResponse = Partial<ChallengeData> & {
     id: string;
     publicKey: string;
 };
 
-export type ChallengeDoc = {
+export type ChallengeData = {
     uid?: string;
-    eventId?: string;
     id: string;
     publicKey: string;
-    eventPubkey: string;
     key: number;
     iconKey: number;
     iconSize: number;
@@ -79,4 +79,12 @@ export type ChallengeDoc = {
     createdAt: string;
     startDate: string;
     endDate: string;
+};
+
+export type EventChallengeData = ChallengeData & {
+    eventId: string;
+    eventPublicKey: string;
+    contracts: ContractData[];
+    rewards: RewardData[];
+    submissions: SubmissionData[];
 };

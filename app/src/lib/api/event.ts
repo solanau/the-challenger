@@ -2,17 +2,17 @@ import axios from 'axios';
 import {
     CreateEventPayload,
     CreateUpdateEventResponse,
-    EventDoc,
+    EventData,
     UpdateEventPayload,
-} from '../../types/event';
+} from '../../types/api/event';
 
-export async function fetchAllEvents(): Promise<EventDoc[]> {
+export async function fetchAllEvents(): Promise<EventData[]> {
     return await axios
         .get(process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT + `/events`)
         .then(res => res.data);
 }
 
-export async function fetchEvent(id: string): Promise<EventDoc> {
+export async function fetchEvent(id: string): Promise<EventData> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +

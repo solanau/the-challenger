@@ -1,6 +1,6 @@
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { EventPayload } from 'types/event';
+import { EventPayload } from 'types/api/event';
 import { firestore } from 'utils/firebase';
 
 export const useEvents = (): EventPayload[] => {

@@ -3,7 +3,7 @@ import Card from 'components/common/card';
 import { useFormik } from 'formik';
 import { createEvent } from 'lib/api/event';
 import { SetStateAction } from 'react';
-import { CreateEventPayload } from 'types/event';
+import { CreateEventPayload } from 'types/api/event';
 
 interface CreateEventFormProps {
     setIsCreateEventModalOpen(value: SetStateAction<boolean>): void;

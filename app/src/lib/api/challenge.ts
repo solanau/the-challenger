@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {
-    ChallengeDoc,
+    ChallengeData,
     CreateChallengePayload,
     UpdateChallengePayload,
-} from 'types/challenge';
+} from 'types/api/challenge';
 
-export async function fetchAllChallenges(): Promise<ChallengeDoc[]> {
+export async function fetchAllChallenges(): Promise<ChallengeData[]> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
@@ -14,7 +14,7 @@ export async function fetchAllChallenges(): Promise<ChallengeDoc[]> {
         .then(res => res.data);
 }
 
-export async function fetchChallenge(id: string): Promise<ChallengeDoc> {
+export async function fetchChallenge(id: string): Promise<ChallengeData> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +

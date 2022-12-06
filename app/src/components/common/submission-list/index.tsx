@@ -1,4 +1,4 @@
-import { SubmissionPayload } from 'types/submission';
+import { SubmissionPayload } from 'types/api/submission';
 import SubmissionCard from './submission-card';
 
 type SubmissionListProps = { submissions: SubmissionPayload[] };

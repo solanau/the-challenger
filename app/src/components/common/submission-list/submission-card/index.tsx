@@ -1,6 +1,6 @@
 import Card from 'components/common/card';
 import Text from 'components/common/text';
-import { SubmissionPayload, SubmissionStatus } from 'types/submission';
+import { SubmissionPayload, SubmissionStatus } from 'types/api/submission';
 
 function getStatusBgClass(status: SubmissionStatus) {
     switch (status) {

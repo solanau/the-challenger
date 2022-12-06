@@ -1,7 +1,7 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useAuth } from 'providers/AuthProvider';
 import { useEffect, useState } from 'react';
-import { EventPayload } from 'types/event';
+import { EventPayload } from 'types/api/event';
 import { firestore } from 'utils/firebase';
 import { useSubmissions } from './use-submissions';
 

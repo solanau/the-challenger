@@ -3,7 +3,7 @@ import Card from 'components/common/card';
 import Text from 'components/common/text';
 import Link from 'next/link';
 import { MdPlayArrow } from 'react-icons/md';
-import { ActiveChallenge } from 'types/challenge';
+import { ActiveChallenge } from 'types/api/challenge';
 import { getIcon } from '../challenge-icon';
 
 type ChallengeListProps = {

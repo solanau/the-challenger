@@ -1,5 +1,4 @@
-import { ChallengePayload } from './challenge';
-import { FieldConfig } from './form';
+import { FieldConfig } from '../form';
 
 export type SubmissionStatus =
     | 'pending'
@@ -7,19 +6,18 @@ export type SubmissionStatus =
     | 'incorrect'
     | 'completed';
 
-export interface SubmissionAnswerPayload {
+export interface SubmissionAnswerData {
     field: FieldConfig;
     value: string;
 }
 
-export interface SubmissionPayload {
+export interface SubmissionData {
     id: string;
-    challengeId: string;
-    answers: SubmissionAnswerPayload[];
+    eventChallengeId: string;
+    answers: SubmissionAnswerData[];
     eventId: string;
     userId: string;
     status: SubmissionStatus;
-    challenge: ChallengePayload;
     createdAt: number;
     basePoints: number;
     timeBonusPoints: number;

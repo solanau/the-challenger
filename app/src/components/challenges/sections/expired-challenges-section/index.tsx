@@ -3,7 +3,7 @@ import Card from 'components/common/card';
 import Text from 'components/common/text';
 import Link from 'next/link';
 import { MdPlayArrow } from 'react-icons/md';
-import { ExpiredChallenge } from 'types/challenge';
+import { ExpiredChallenge } from 'types/api/challenge';
 import { getIcon } from '../challenge-icon';
 
 type ChallengeListProps = { eventId: string; challenges: ExpiredChallenge[] };

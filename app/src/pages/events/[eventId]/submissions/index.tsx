@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
-import { SubmissionStatus } from 'types/submission';
+import { SubmissionStatus } from 'types/api/submission';
 
 type SubmissionsPageProps = {
     eventId: string;

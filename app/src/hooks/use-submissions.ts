@@ -1,6 +1,6 @@
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { SubmissionPayload } from 'types/submission';
+import { SubmissionPayload } from 'types/api/submission';
 import { firestore } from 'utils/firebase';
 
 export type SubmissionFilters = Partial<{
