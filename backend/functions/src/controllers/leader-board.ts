@@ -2,12 +2,12 @@ import * as functions from 'firebase-functions';
 import { db } from '..';
 import {
     Auth,
+    EventPayload2,
     LeaderBoard,
     Participant,
-    Submission,
+    SubmissionPayload,
     UpdateLeaderBoardPayload,
 } from '../util/types';
-import { getTimeBonusPoints } from '../util/util';
 
 function groupParticipants(
     dictionaries: {
@@ -62,7 +62,8 @@ function getParticipantsTotal(participantsLookUp: { [key: string]: number }) {
 
 function updateLeaderBoard(
     leaderBoard: LeaderBoard,
-    submissions: Submission[],
+    event: EventPayload2,
+    submissions: SubmissionPayload[],
 ): LeaderBoard {
     const { participantsGroupedByPoints, participantsLookUp } =
         leaderBoard.participants.reduce(groupParticipants, {
@@ -70,16 +71,8 @@ function updateLeaderBoard(
             participantsLookUp: {},
         });
 
-    submissions.forEach((submission, index) => {
-        const { userId, challenge } = submission;
-        const totalPoints =
-            challenge.rewardValue +
-            getTimeBonusPoints(
-                challenge.rewardValue,
-                challenge.startDate,
-                challenge.endDate,
-                submission.createdAt,
-            );
+    submissions.forEach(submission => {
+        const { userId, totalPoints } = submission;
 
         if (!participantsLookUp[userId]) {
             participantsLookUp[userId] = totalPoints;
@@ -122,16 +115,12 @@ function updateLeaderBoard(
     };
 }
 
-const isManager = async (eventId: string, userId: string) => {
-    const event = await db.doc(`events/${eventId}`).get();
-    const eventData = event.data();
-
-    return eventData.reviewers.includes(userId);
-};
-
 class LeaderBoardController {
     async updateLeaderBoard(auth: Auth, payload: UpdateLeaderBoardPayload) {
-        if (!(await isManager(payload.eventId, auth.id))) {
+        const event = await db.doc(`events/${payload.eventId}`).get();
+        const eventData = event.data() as EventPayload2;
+
+        if (!eventData.managers.includes(auth.id)) {
             throw new functions.https.HttpsError(
                 'permission-denied',
                 `In order to update a leader board, you have to be a manager.`,
@@ -144,11 +133,10 @@ class LeaderBoardController {
             .where('status', '==', 'completed')
             .get();
         const unProcessedSubmissionsData = unProcessedSubmissions.docs.map(
-            doc =>
-                ({
-                    id: doc.id,
-                    ...doc.data(),
-                } as Submission),
+            doc => ({
+                id: doc.id,
+                ...(doc.data() as SubmissionPayload),
+            }),
         );
         const leaderBoard = await db
             .doc(`events/${payload.eventId}/leader-boards/individual`)
@@ -160,7 +148,11 @@ class LeaderBoardController {
 
         // save updated leader board
         await db.doc(`events/${payload.eventId}/leader-boards/individual`).set({
-            ...updateLeaderBoard(leaderBoardData, unProcessedSubmissionsData),
+            ...updateLeaderBoard(
+                leaderBoardData,
+                eventData,
+                unProcessedSubmissionsData,
+            ),
             updatedAt: Date.now(),
         });
 
