@@ -21,6 +21,8 @@ export interface UpdateEventPayload {
     startDate: number;
     endDate: number;
     challenges: string[];
+    reviewers: string[];
+    managers: string[];
 }
 
 export interface EventSettingsFormData {
@@ -29,4 +31,6 @@ export interface EventSettingsFormData {
     startDate: string;
     endDate: string;
     challenges: string[];
+    reviewers: string;
+    managers: string;
 }

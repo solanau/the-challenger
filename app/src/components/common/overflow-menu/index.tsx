@@ -44,6 +44,7 @@ const OverflowMenu = () => {
                                             >
                                                 {user.fullName}
                                             </Text>
+
                                             <Text
                                                 variant="label"
                                                 className="lowercase text-primary underline"
@@ -58,8 +59,9 @@ const OverflowMenu = () => {
                                                     {`@${user.userName}`}
                                                 </Link>
                                             </Text>
+
                                             <Link
-                                                href="/users/profile-settings"
+                                                href={`/users/${uid}/settings`}
                                                 passHref
                                             >
                                                 <a className="flex flex-row justify-end">
@@ -74,6 +76,7 @@ const OverflowMenu = () => {
                                                     />
                                                 </a>
                                             </Link>
+
                                             <Button
                                                 text="Log out"
                                                 icon={MdLogout}
@@ -139,8 +142,9 @@ const OverflowMenu = () => {
                                                 profile in order to start doing
                                                 challenges.
                                             </Text>
+
                                             <Link
-                                                href="/users/profile-settings"
+                                                href={`/users/${uid}/settings`}
                                                 passHref
                                             >
                                                 <a className="flex flex-row justify-end">

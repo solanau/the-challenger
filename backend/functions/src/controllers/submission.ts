@@ -51,11 +51,13 @@ class SubmissionController {
             .doc(`challenges/${payload.challengeId}`)
             .get();
         const challengeData = challenge.data();
+        const event = await db.doc(`events/${payload.eventId}`).get();
+        const eventData = event.data();
         const submittedAt = Date.now();
         const submissionTimeBonusPoints = getTimeBonusPoints(
-            challengeData.rewardValue,
-            challengeData.startDate,
-            challengeData.endDate,
+            challengeData.points,
+            eventData.startDate,
+            eventData.endDate,
             submittedAt,
         );
         const submission = {
@@ -70,9 +72,9 @@ class SubmissionController {
             answers: payload.answers,
             isProcessed: false,
             createdAt: submittedAt,
-            basePoints: challengeData.rewardValue,
+            basePoints: challengeData.points,
             timeBonusPoints: submissionTimeBonusPoints,
-            totalPoints: challengeData.rewardValue + submissionTimeBonusPoints,
+            totalPoints: challengeData.points + submissionTimeBonusPoints,
         };
 
         await db

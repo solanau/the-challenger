@@ -58,6 +58,42 @@ const EventSettingsForm = ({ challenges }: EventSettingsFormProps) => (
 
         <div className="pt-4">
             <label
+                htmlFor="event-reviewers"
+                className="block w-full border-none bg-transparent py-2 outline-none"
+            >
+                Reviewers
+            </label>
+
+            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Field
+                    id="event-reviewers"
+                    name="reviewers"
+                    className="w-full bg-transparent outline-none"
+                    placeholder="Enter reviewers for the event"
+                />
+            </Card>
+        </div>
+
+        <div className="pt-4">
+            <label
+                htmlFor="event-managers"
+                className="block w-full border-none bg-transparent py-2 outline-none"
+            >
+                Managers
+            </label>
+
+            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Field
+                    id="event-managers"
+                    name="managers"
+                    className="w-full bg-transparent outline-none"
+                    placeholder="Enter managers for the event"
+                />
+            </Card>
+        </div>
+
+        <div className="pt-4">
+            <label
                 htmlFor="event-start-date"
                 className="block w-full border-none bg-transparent py-2 outline-none"
             >

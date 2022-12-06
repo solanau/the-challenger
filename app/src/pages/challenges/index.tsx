@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import CreateChallengeForm from 'components/challenges-page/create-challenge-form';
 import Button from 'components/common/button';
 import Card from 'components/common/card';
