@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "outDir": "lib",
+    "sourceMap": true,
+    "target": "es2016"
+  },
+  "compileOnSave": true,
+  "include": ["src"]
+}
