@@ -5,7 +5,7 @@ export type CreateEventPayload = Partial<EventDoc> & {
     date: string;
 };
 
-export type UpdateEventPayload = Partial<EventDoc> & {
+export type UpdateEventPayload = Partial<CreateEventPayload> & {
     id: string;
 };
 

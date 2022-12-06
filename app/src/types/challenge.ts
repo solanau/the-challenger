@@ -29,7 +29,7 @@ export type CreateChallengePayload = Partial<ChallengeDoc> & {
     tags: string;
 };
 
-export type UpdateChallengePayload = Partial<ChallengeDoc> & {
+export type UpdateChallengePayload = Partial<CreateChallengePayload> & {
     id: string;
 };
 
