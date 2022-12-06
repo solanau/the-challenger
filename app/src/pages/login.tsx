@@ -31,6 +31,7 @@ import {
 
 const LoginPage: NextPage = () => {
     const [email, setEmail] = useState('');
+    const [socialEmail, setSocialEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isUsingEmailPasswordProvider, setIsUsingEmailPasswordProvider] =
@@ -41,20 +42,12 @@ const LoginPage: NextPage = () => {
         isEmailPasswordProviderIncluded,
         setIsEmailPasswordProviderIncluded,
     ] = useState(false);
-    const [githubUserEmail, setGithubUserEmail] = useState('');
-    const [twitterUserEmail, setTwitterUserEmail] = useState('');
-    const [facebookUserEmail, setFacebookUserEmail] = useState('');
     const [isEnteringPassword, setIsEnteringPassword] = useState(false);
     const [isEnteringSocial, setIsEnteringSocial] = useState(false);
     const [userAuthMethods, setUserAuthMethods] = useState(['']);
 
-    const [githubUserCredential, setGithubUserCredential] =
-        useState<OAuthCredential>(null);
-    const [twitterUserCredential, setTwitterUserCredential] =
-        useState<OAuthCredential>(null);
-    const [facebookUserCredential, setFacebookUserCredential] =
-        useState<OAuthCredential>(null);
-    const { logIn, signUp } = useAuth();
+    const [userCredential, setUserCredential] = useState<OAuthCredential>(null);
+    const { logIn } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
@@ -82,139 +75,6 @@ const LoginPage: NextPage = () => {
         return () => clearTimeout(timeoutRef);
     }, [email]);
 
-    const handleLogIn = async (event: FormEvent) => {
-        event.preventDefault();
-        setIsLoading(true);
-        if (isEmailPasswordProviderIncluded) {
-            logIn(email, password)
-                .then(() => router.push('/'))
-                .catch(error => alert(error))
-                .finally(() => setIsLoading(false));
-        } else {
-            signUp(email, password)
-                .then(() => router.push('/'))
-                .catch(error => {
-                    console.log('ERROR ->', error);
-                })
-                .finally(() => setIsLoading(false));
-        }
-    };
-
-    const handleSignInWithGitHub = async () => {
-        setIsLoading(true);
-
-        signInWithPopup(auth, githubAuthProvider)
-            .then(() => router.push('/'))
-            .catch(error => {
-                if (
-                    error.code ===
-                    'auth/account-exists-with-different-credential'
-                ) {
-                    fetchSignInMethodsForEmail(
-                        auth,
-                        error.customData.email,
-                    ).then(methods => {
-                        setUserAuthMethods(methods);
-                        if (methods.includes('password')) {
-                            setIsEnteringPassword(true);
-                        } else {
-                            setIsEnteringSocial(true);
-                        }
-                        setGithubUserCredential(
-                            OAuthProvider.credentialFromError(error),
-                        );
-                        setGithubUserEmail(error.customData.email);
-                    });
-                }
-            })
-            .finally(() => setIsLoading(false));
-    };
-
-    const handleSignInWithTwitter = async () => {
-        setIsLoading(true);
-
-        signInWithPopup(auth, twitterAuthProvider)
-            .then(() => router.push('/'))
-            .catch(error => {
-                if (
-                    error.code ===
-                    'auth/account-exists-with-different-credential'
-                ) {
-                    fetchSignInMethodsForEmail(
-                        auth,
-                        error.customData.email,
-                    ).then(methods => {
-                        setUserAuthMethods(methods);
-                        if (methods.includes('password')) {
-                            setIsEnteringPassword(true);
-                        } else {
-                            setIsEnteringSocial(true);
-                        }
-
-                        setTwitterUserCredential(
-                            TwitterAuthProvider.credentialFromError(error),
-                        );
-                        setTwitterUserEmail(error.customData.email);
-                    });
-                }
-            })
-            .finally(() => setIsLoading(false));
-    };
-
-    const handleSignInWithFacebook = async () => {
-        setIsLoading(true);
-
-        signInWithPopup(auth, facebookAuthProvider)
-            .then(() => router.push('/'))
-            .catch(error => {
-                if (
-                    error.code ===
-                    'auth/account-exists-with-different-credential'
-                ) {
-                    fetchSignInMethodsForEmail(
-                        auth,
-                        error.customData.email,
-                    ).then(methods => {
-                        console.log('METHODS 3 -> ', methods);
-                        setUserAuthMethods(methods);
-                        if (methods.includes('password')) {
-                            setIsEnteringPassword(true);
-                        } else {
-                            setIsEnteringSocial(true);
-                        }
-                        setFacebookUserCredential(
-                            FacebookAuthProvider.credentialFromError(error),
-                        );
-                        setFacebookUserEmail(error.customData.email);
-                    });
-                }
-            })
-            .finally(() => setIsLoading(false));
-    };
-
-    const handleLinkWithEmailPassword = (
-        email: string,
-        password: string,
-        credential: OAuthCredential,
-    ) => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then(result => linkWithCredential(result.user, credential))
-            .then(() => {
-                setIsEnteringPassword(false);
-
-                setGithubUserCredential(null);
-                setGithubUserEmail(null);
-
-                setFacebookUserCredential(null);
-                setFacebookUserEmail(null);
-
-                setTwitterUserCredential(null);
-                setTwitterUserEmail(null);
-
-                router.push('/');
-            });
-    };
-
     const getSocialProvider = (
         authProviderType: AuthProviderType,
     ): TwitterAuthProvider | FacebookAuthProvider | GithubAuthProvider => {
@@ -228,31 +88,84 @@ const LoginPage: NextPage = () => {
         }
     };
 
+    const handleLogIn = async (event: FormEvent) => {
+        event.preventDefault();
+        setIsLoading(true);
+        logIn(email, password)
+            .then(() => router.push('/'))
+            .catch(error => alert(error))
+            .finally(() => setIsLoading(false));
+    };
+
+    const handleSignInWithSocial = async (
+        authProviderType: AuthProviderType,
+    ) => {
+        const authProvider = getSocialProvider(authProviderType);
+        setIsLoading(true);
+
+        signInWithPopup(auth, authProvider)
+            .then(() => router.push('/'))
+            .catch(error => {
+                if (
+                    error.code ===
+                    'auth/account-exists-with-different-credential'
+                ) {
+                    console.log('JUST TESTING ', error.customData.email);
+                    fetchSignInMethodsForEmail(
+                        auth,
+                        error.customData.email,
+                    ).then(methods => {
+                        console.log('METHODS', methods);
+                        setUserAuthMethods(methods);
+                        if (methods.includes('password')) {
+                            setIsEnteringPassword(true);
+                        } else {
+                            setIsEnteringSocial(true);
+                        }
+                        setUserCredential(
+                            OAuthProvider.credentialFromError(error),
+                        );
+                        setSocialEmail(error.customData.email);
+                        console.log('out');
+                    });
+                }
+            })
+            .finally(() => setIsLoading(false));
+    };
+
+    const handleLinkWithEmailPassword = (
+        email: string,
+        password: string,
+        credential: OAuthCredential,
+    ) => {
+        console.log('ENTRANDO MENOR');
+        console.log(socialEmail, password, credential);
+        signInWithEmailAndPassword(auth, email, password)
+            .then(result => {
+                console.log('THE RESULT -> ', result);
+                linkWithCredential(result.user, credential);
+            })
+            .then(() => {
+                setIsEnteringPassword(false);
+                setUserCredential(null);
+                setSocialEmail('');
+                router.push('/');
+            });
+    };
+
     const handleLinkWithSocial = (
         authProviderType: AuthProviderType,
         credential: OAuthCredential,
     ) => {
-        // EmailAuthProvider.credential(email,password);
         const authProvider = getSocialProvider(authProviderType);
         signInWithPopup(auth, authProvider)
             .then(result => {
                 linkWithCredential(result.user, credential).then(() => {
                     setIsEnteringSocial(false);
-
-                    setGithubUserCredential(null);
-                    setGithubUserEmail(null);
-
-                    setFacebookUserCredential(null);
-                    setFacebookUserEmail(null);
-
-                    setTwitterUserCredential(null);
-                    setTwitterUserEmail(null);
-
+                    setUserCredential(null);
+                    setEmail('');
                     router.push('/');
                 });
-            })
-            .catch(error => {
-                console.log('ERROR - CONTACT ADMIN!', error);
             })
             .finally(() => setIsLoading(false));
     };
@@ -268,21 +181,10 @@ const LoginPage: NextPage = () => {
             .then(result => {
                 linkWithCredential(result.user, credential).then(() => {
                     setIsEnteringSocial(false);
-
-                    setGithubUserCredential(null);
-                    setGithubUserEmail(null);
-
-                    setFacebookUserCredential(null);
-                    setFacebookUserEmail(null);
-
-                    setTwitterUserCredential(null);
-                    setTwitterUserEmail(null);
-
+                    setUserCredential(null);
+                    setSocialEmail('');
                     router.push('/');
                 });
-            })
-            .catch(error => {
-                console.log('ERROR - CONTACT ADMIN!', error);
             })
             .finally(() => setIsLoading(false));
     };
@@ -290,95 +192,22 @@ const LoginPage: NextPage = () => {
     return (
         <>
             <EnterPasswordDialog
-                isOpen={
-                    isEnteringPassword &&
-                    !!githubUserEmail &&
-                    !!githubUserCredential
-                }
-                email={githubUserEmail}
+                isOpen={isEnteringPassword && !!socialEmail && !!userCredential}
+                email={socialEmail}
                 onClose={(password: string) => {
                     handleLinkWithEmailPassword(
-                        githubUserEmail,
+                        socialEmail,
                         password,
-                        githubUserCredential,
-                    );
-                }}
-            ></EnterPasswordDialog>
-
-            <EnterPasswordDialog
-                isOpen={
-                    isEnteringPassword &&
-                    !!twitterUserEmail &&
-                    !!twitterUserCredential
-                }
-                email={twitterUserEmail}
-                onClose={(password: string) => {
-                    handleLinkWithEmailPassword(
-                        twitterUserEmail,
-                        password,
-                        twitterUserCredential,
-                    );
-                }}
-            ></EnterPasswordDialog>
-
-            <EnterPasswordDialog
-                isOpen={
-                    isEnteringPassword &&
-                    !!facebookUserEmail &&
-                    !!facebookUserCredential
-                }
-                email={facebookUserEmail}
-                onClose={(password: string) => {
-                    handleLinkWithEmailPassword(
-                        facebookUserEmail,
-                        password,
-                        facebookUserCredential,
+                        userCredential,
                     );
                 }}
             ></EnterPasswordDialog>
 
             <EnterSocialDialog
                 methods={userAuthMethods}
-                isOpen={
-                    isEnteringSocial &&
-                    !!twitterUserEmail &&
-                    !!twitterUserCredential
-                }
+                isOpen={isEnteringSocial && !!socialEmail && !!userCredential}
                 onClose={(authProviderType: AuthProviderType) => {
-                    handleLinkWithSocial(
-                        authProviderType,
-                        twitterUserCredential,
-                    );
-                }}
-            ></EnterSocialDialog>
-
-            <EnterSocialDialog
-                methods={userAuthMethods}
-                isOpen={
-                    isEnteringSocial &&
-                    !!facebookUserEmail &&
-                    !!facebookUserCredential
-                }
-                onClose={(authProviderType: AuthProviderType) => {
-                    handleLinkWithSocial(
-                        authProviderType,
-                        facebookUserCredential,
-                    );
-                }}
-            ></EnterSocialDialog>
-
-            <EnterSocialDialog
-                methods={userAuthMethods}
-                isOpen={
-                    isEnteringSocial &&
-                    !!githubUserEmail &&
-                    !!githubUserCredential
-                }
-                onClose={(authProviderType: AuthProviderType) => {
-                    handleLinkWithSocial(
-                        authProviderType,
-                        githubUserCredential,
-                    );
+                    handleLinkWithSocial(authProviderType, userCredential);
                 }}
             ></EnterSocialDialog>
 
@@ -402,7 +231,11 @@ const LoginPage: NextPage = () => {
                         <Button
                             variant="orange"
                             disabled={isLoading}
-                            onClick={handleSignInWithGitHub}
+                            onClick={() =>
+                                handleSignInWithSocial(
+                                    AuthProviderType.githubProvider,
+                                )
+                            }
                         >
                             Sign in with GitHub
                         </Button>
@@ -410,7 +243,11 @@ const LoginPage: NextPage = () => {
                         <Button
                             variant="orange"
                             disabled={isLoading}
-                            onClick={handleSignInWithTwitter}
+                            onClick={() =>
+                                handleSignInWithSocial(
+                                    AuthProviderType.twitterProvider,
+                                )
+                            }
                         >
                             Sign in with Twitter
                         </Button>
@@ -418,7 +255,11 @@ const LoginPage: NextPage = () => {
                         <Button
                             variant="orange"
                             disabled={isLoading}
-                            onClick={handleSignInWithFacebook}
+                            onClick={() =>
+                                handleSignInWithSocial(
+                                    AuthProviderType.facebookProvider,
+                                )
+                            }
                         >
                             Sign in with Facebook
                         </Button>
@@ -443,7 +284,10 @@ const LoginPage: NextPage = () => {
                                     type="email"
                                     className="text-black"
                                     value={email}
-                                    onChange={ev => setEmail(ev.target.value)}
+                                    onChange={ev => {
+                                        setEmail(ev.target.value);
+                                        setSocialEmail(ev.target.value);
+                                    }}
                                 />
                             </label>
 
@@ -539,7 +383,7 @@ const LoginPage: NextPage = () => {
                                                             onClick={() =>
                                                                 handleLinkWithSocialEmail(
                                                                     AuthProviderType.facebookProvider,
-                                                                    email,
+                                                                    socialEmail,
                                                                     password,
                                                                 )
                                                             }
@@ -565,7 +409,7 @@ const LoginPage: NextPage = () => {
                                                             onClick={() =>
                                                                 handleLinkWithSocialEmail(
                                                                     AuthProviderType.twitterProvider,
-                                                                    email,
+                                                                    socialEmail,
                                                                     password,
                                                                 )
                                                             }
@@ -589,7 +433,7 @@ const LoginPage: NextPage = () => {
                                                             onClick={() =>
                                                                 handleLinkWithSocialEmail(
                                                                     AuthProviderType.githubProvider,
-                                                                    email,
+                                                                    socialEmail,
                                                                     password,
                                                                 )
                                                             }
