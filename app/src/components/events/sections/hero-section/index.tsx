@@ -5,10 +5,9 @@ import Button from 'components/common/button';
 import Image from 'components/common/image';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
-import { useCurrentUser } from 'hooks/use-current-user';
 import Link from 'next/link';
 import React from 'react';
-import { TbBrandChrome, TbLogin } from 'react-icons/tb';
+import { TbBrandChrome } from 'react-icons/tb';
 import { cn } from 'utils';
 
 interface HeroSectionProps {
@@ -17,8 +16,6 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ title, description }: HeroSectionProps) => {
-    const user = useCurrentUser();
-
     const [MousePosition, setMousePosition] = React.useState({
         left: 0,
         top: 0,
@@ -59,7 +56,7 @@ const HeroSection = ({ title, description }: HeroSectionProps) => {
                     </div>
 
                     <div className="mb-10 mt-72 flex w-full flex-row flex-wrap justify-center  gap-4  sm:mb-20 md:mt-0 md:justify-start">
-                        <Link
+                        {/* <Link
                             href={user ? `/${user.userName}` : '/login'}
                             passHref
                         >
@@ -74,7 +71,7 @@ const HeroSection = ({ title, description }: HeroSectionProps) => {
                                     reversed={user !== null}
                                 ></Button>
                             </a>
-                        </Link>
+                        </Link> */}
                         <Link href="https://heavyduty.builders/" passHref>
                             <a className="flex-1 sm:flex-none" target="_blank">
                                 <Button
