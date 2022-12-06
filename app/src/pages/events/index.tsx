@@ -85,6 +85,14 @@ const EventsPage: NextPage = () => {
                                     </a>
                                 </Link>
 
+                                <Link href={`events/${event.id}/submissions`}>
+                                    <a>
+                                        <Button variant="orange">
+                                            View Submissions
+                                        </Button>
+                                    </a>
+                                </Link>
+
                                 <Link href={`events/${event.id}/settings`}>
                                     <a>
                                         <Button variant="black">

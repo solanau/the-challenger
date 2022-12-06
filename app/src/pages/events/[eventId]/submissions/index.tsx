@@ -19,7 +19,7 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({ eventId }) => {
     const [status, setStatus] = useState('pending');
     const { user } = useAuth();
     const event = useEvent(eventId);
-    const submissions = useSubmissions(eventId, {});
+    const submissions = useSubmissions(eventId, null);
     const filteredSubmissions = useMemo(
         () => submissions.filter(submission => submission.status === status),
         [submissions, status],

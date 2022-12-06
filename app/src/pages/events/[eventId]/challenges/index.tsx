@@ -4,6 +4,7 @@ import PendingChallengesSection from 'components/challenges-page/pending-challen
 import { useEventChallenges } from 'hooks/use-event-challenges';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { useAuth } from 'providers/AuthProvider';
 import { ChangeEvent, useMemo, useState } from 'react';
 import {
     isActiveChallenge,
@@ -16,8 +17,10 @@ type ChallengesPageProps = {
 };
 
 const ChallengesPage: NextPage<ChallengesPageProps> = ({ eventId }) => {
-    const challenges = useEventChallenges(eventId);
-
+    const {
+        user: { uid: userId },
+    } = useAuth();
+    const challenges = useEventChallenges(eventId, userId);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
     const filteredChallenges = useMemo(() => {
         // Avoid filter when selectedCategory is null
@@ -32,6 +35,8 @@ const ChallengesPage: NextPage<ChallengesPageProps> = ({ eventId }) => {
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedCategory(event.target.value);
     };
+
+    console.log(challenges);
 
     return (
         <>

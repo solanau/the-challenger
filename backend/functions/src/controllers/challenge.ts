@@ -183,6 +183,9 @@ class ChallengeController {
             title: payload.title,
             description: payload.description,
             userId: auth.id,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            isNew: true,
             version: 1,
         });
 
@@ -197,9 +200,9 @@ class ChallengeController {
             );
         }
 
-        console.log(id, data);
-
-        const challenge = await db.doc(`challenges/${id}`).update(data);
+        const challenge = await db
+            .doc(`challenges/${id}`)
+            .update({ ...data, updatedAt: Date.now(), isNew: false });
 
         return challenge;
     }

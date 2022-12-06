@@ -160,6 +160,7 @@ class EventController {
         const challenges = await db
             .collection('challenges')
             .where('version', '==', 1)
+            .where('isNew', '==', false)
             .get();
 
         const event = await db.doc(`events/${payload.id}`).set({
@@ -168,6 +169,9 @@ class EventController {
             userId: auth.id,
             version: 1,
             challenges: challenges.docs.map(doc => doc.id),
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            isNew: true,
         });
 
         return event;
@@ -181,7 +185,9 @@ class EventController {
             );
         }
 
-        const event = await db.doc(`events/${id}`).update(data);
+        const event = await db
+            .doc(`events/${id}`)
+            .update({ ...data, updatedAt: Date.now(), isNew: false });
 
         return event;
     }

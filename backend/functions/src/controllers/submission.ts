@@ -2,7 +2,9 @@ import * as functions from 'firebase-functions';
 import { db } from '..';
 import {
     Auth,
+    ChallengePayload2,
     CreateSubmissionPayload,
+    SubmissionPayload,
     SubmissionStatus,
     UpdateSubmissionStatusPayload,
 } from '../util/types';
@@ -60,12 +62,12 @@ class SubmissionController {
             eventData.endDate,
             submittedAt,
         );
-        const submission = {
+        const submission: SubmissionPayload = {
             status: 'pending',
             userId: auth.id,
             challenge: {
                 id: challenge.id,
-                ...challengeData,
+                ...(challengeData as ChallengePayload2),
             },
             challengeId: payload.challengeId,
             eventId: payload.eventId,

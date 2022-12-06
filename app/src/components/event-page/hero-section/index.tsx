@@ -12,11 +12,12 @@ import { TbBrandChrome, TbLogin } from 'react-icons/tb';
 import { cn } from 'utils';
 
 interface HeroSectionProps {
+    eventId: string;
     title: string;
     description: string;
 }
 
-const HeroSection = ({ title, description }: HeroSectionProps) => {
+const HeroSection = ({ eventId, title, description }: HeroSectionProps) => {
     const user = useCurrentUser();
 
     const [MousePosition, setMousePosition] = React.useState({
@@ -60,7 +61,14 @@ const HeroSection = ({ title, description }: HeroSectionProps) => {
 
                     <div className="mb-10 mt-72 flex w-full flex-row flex-wrap justify-center  gap-4  sm:mb-20 md:mt-0 md:justify-start">
                         <Link
-                            href={user ? `/${user.userName}` : '/login'}
+                            href={{
+                                pathname: user ? `/${user.userName}` : '/login',
+                                query: eventId
+                                    ? {
+                                          eventId,
+                                      }
+                                    : {},
+                            }}
                             passHref
                         >
                             <a className="flex-1 sm:flex-none">

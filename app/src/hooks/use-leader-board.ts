@@ -12,7 +12,7 @@ export const useLeaderBoard = (
     );
 
     useEffect(() => {
-        if (leaderBoardId === null) {
+        if (eventId === null || leaderBoardId === null) {
             setLeaderBoard(null);
             return;
         }

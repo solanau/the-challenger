@@ -1,12 +1,15 @@
 import Image from 'components/common/image';
-/* eslint-disable @next/next/no-img-element */
 import Text from 'components/common/text';
 import { MdInfoOutline } from 'react-icons/md';
-import { UserPayload } from 'types/user';
 
-type HeroProps = UserPayload & { isCurrentUser: boolean };
+interface HeroProps {
+    avatarUrl?: string;
+    fullName: string;
+    isCurrentUser: boolean;
+    userName: string;
+}
 
-const Hero = ({ avatarUrl, fullName, isCurrentUser, userName }: any) => (
+const Hero = ({ avatarUrl, fullName, isCurrentUser, userName }: HeroProps) => (
     <div className="flex flex-col">
         <div className="h-60 w-full bg-gradient-to-tr from-primary/75 to-secondary/75" />
         <div className="flex flex-row flex-wrap items-center justify-between gap-x-7 gap-y-4 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">

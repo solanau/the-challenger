@@ -15,7 +15,7 @@ import { CreateChallengePayload } from 'types/challenge';
 const ChallengesPage: NextPage = () => {
     const [isCreateChallengeModalOpen, setIsCreateChallengeModalOpen] =
         useState(false);
-    const challenges = useChallenges();
+    const challenges = useChallenges({ version: 1 });
 
     const handleCreateChallenge = (
         createChallengePayload: CreateChallengePayload,

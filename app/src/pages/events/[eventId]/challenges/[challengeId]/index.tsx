@@ -27,8 +27,8 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const { isLoggedIn } = useAuth();
-    const challenge = useEventChallenge(eventId, challengeId);
     const user = useCurrentUser();
+    const challenge = useEventChallenge(eventId, challengeId, user?.id);
     const formik = useFormik({
         initialValues: {},
         onSubmit: async values => {
@@ -144,56 +144,72 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                     <Markdown>{challenge.description}</Markdown>
                                 )}
 
-                                <div>
-                                    {challenge.timeStatus === 'active' && (
-                                        <form onSubmit={formik.handleSubmit}>
-                                            <Markdown>{`### How to Submit `}</Markdown>
+                                {challenge.isSubmitted ? (
+                                    <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-green-400">
+                                        <Markdown>{`### How to Submit `}</Markdown>
+                                        <p className="mt-4">
+                                            You&apos;ve already submitted this
+                                            challenge!
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        {challenge.timeStatus === 'active' && (
+                                            <form
+                                                onSubmit={formik.handleSubmit}
+                                            >
+                                                <Markdown>{`### How to Submit `}</Markdown>
 
-                                            <FormBuilder
-                                                config={challenge.fieldsConfig}
-                                                formik={formik}
-                                            />
-
-                                            <div className="flex flex-row justify-end gap-2 pt-4 text-right font-thin">
-                                                <Markdown>
-                                                    **please review your entry
-                                                    before clicking submit*
-                                                </Markdown>
-                                            </div>
-                                            <div className="width-full flex flex-row justify-end gap-2 pt-4">
-                                                <Button
-                                                    className="w-40"
-                                                    type="submit"
-                                                    variant="orange"
-                                                    text="Submit"
-                                                    disabled={
-                                                        isLoading ||
-                                                        user === null
+                                                <FormBuilder
+                                                    config={
+                                                        challenge.fieldsConfig
                                                     }
+                                                    formik={formik}
                                                 />
-                                            </div>
 
-                                            {user === null && (
-                                                <Text
-                                                    variant="paragraph"
-                                                    className="mt-4 text-right italic"
-                                                >
-                                                    In order to submit a
-                                                    challenge, you have to
-                                                    &nbsp;
-                                                    <Link
-                                                        href="/users/profile-settings"
-                                                        passHref
+                                                <div className="flex flex-row justify-end gap-2 pt-4 text-right font-thin">
+                                                    <Markdown>
+                                                        **please review your
+                                                        entry before clicking
+                                                        submit*
+                                                    </Markdown>
+                                                </div>
+                                                <div className="width-full flex flex-row justify-end gap-2 pt-4">
+                                                    <Button
+                                                        className="w-40"
+                                                        type="submit"
+                                                        variant="orange"
+                                                        text="Submit"
+                                                        disabled={
+                                                            isLoading ||
+                                                            user === null
+                                                        }
+                                                    />
+                                                </div>
+
+                                                {user === null && (
+                                                    <Text
+                                                        variant="paragraph"
+                                                        className="mt-4 text-right italic"
                                                     >
-                                                        <a className="text-primary underline">
-                                                            set up your profile.
-                                                        </a>
-                                                    </Link>
-                                                </Text>
-                                            )}
-                                        </form>
-                                    )}
-                                </div>
+                                                        In order to submit a
+                                                        challenge, you have to
+                                                        &nbsp;
+                                                        <Link
+                                                            href="/users/profile-settings"
+                                                            passHref
+                                                        >
+                                                            <a className="text-primary underline">
+                                                                set up your
+                                                                profile.
+                                                            </a>
+                                                        </Link>
+                                                    </Text>
+                                                )}
+                                            </form>
+                                        )}
+                                    </div>
+                                )}
                             </section>
                         </div>
                     ) : (

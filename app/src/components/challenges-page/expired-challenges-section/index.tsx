@@ -80,16 +80,27 @@ const ExpiredChallengesSection = ({
                         </div>
 
                         <Link
-                            href={`events/${eventId}/challenges/${challenge.id}`}
+                            href={`/events/${eventId}/challenges/${challenge.id}`}
                             passHref
                         >
                             <a>
-                                <Button
-                                    className="h-20 w-20 rounded-full border-2"
-                                    variant="transparent"
-                                >
-                                    <MdPlayArrow size={40} />
-                                </Button>
+                                {challenge.isSubmitted ? (
+                                    <Button
+                                        className="h-auto w-auto rounded-md border-2"
+                                        variant="transparent"
+                                    >
+                                        <p className="text-center text-green-400">
+                                            Submission Entered!
+                                        </p>
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        className="h-24 w-24 rounded-full border-2"
+                                        variant="transparent"
+                                    >
+                                        <MdPlayArrow size={40} />
+                                    </Button>
+                                )}
                             </a>
                         </Link>
                     </div>

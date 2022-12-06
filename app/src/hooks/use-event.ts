@@ -21,8 +21,6 @@ export const useEvent = (eventId: string | null): EventPayload | null => {
             snapshot => {
                 const data = snapshot.data();
 
-                console.log(data);
-
                 if (!data) {
                     setEvent(null);
                 } else {
