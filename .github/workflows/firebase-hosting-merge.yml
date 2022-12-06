@@ -2,7 +2,7 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge to Main
-'on':
+"on":
   push:
     branches:
       - main
@@ -13,8 +13,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_HEAVY_DUTY_BOUNTY_API_99FE3 }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHALLENGER_27b2b }}"
           channelId: live
-          projectId: heavy-duty-bounty-api-99fe3
-          entryPoint: './app'
+          projectId: challenger-27b2b
+          entryPoint: "./app"
