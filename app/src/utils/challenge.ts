@@ -3,7 +3,10 @@ import {
     ActiveChallenge,
     BaseChallenge,
     Challenge,
+    ChallengeCategory,
+    ChallengeDifficulty,
     ChallengePayload,
+    ChallengeSettingsFormData,
     ChallengeTimeStatus,
     ExpiredChallenge,
     PendingChallenge,
@@ -140,4 +143,45 @@ export const toChallenge = (
     expiredAgo: getChallengeExpiredAgo(event),
     progress: getChallengeProgress(event),
     bonus: getChallengeBonus(event, challenge),
+});
+
+export const fromChallengeSettingsFormData = (
+    values: ChallengeSettingsFormData,
+) => ({
+    ...values,
+    difficulty: values.difficulty as ChallengeDifficulty,
+    category: values.category as ChallengeCategory,
+    fieldsConfig: values.fieldsConfig.map(fieldConfig => {
+        switch (fieldConfig.type) {
+            case 'text': {
+                return {
+                    field: fieldConfig.field,
+                    label: fieldConfig.label,
+                    placeholder: fieldConfig.placeholder,
+                    type: fieldConfig.type,
+                    maxLength: fieldConfig.maxLength,
+                };
+            }
+
+            case 'textArea': {
+                return {
+                    field: fieldConfig.field,
+                    label: fieldConfig.label,
+                    placeholder: fieldConfig.placeholder,
+                    type: fieldConfig.type,
+                    maxLength: fieldConfig.maxLength,
+                    rows: fieldConfig.rows,
+                };
+            }
+
+            default: {
+                return {
+                    field: fieldConfig.field,
+                    label: fieldConfig.label,
+                    placeholder: fieldConfig.placeholder,
+                    type: fieldConfig.type,
+                };
+            }
+        }
+    }),
 });

@@ -22,3 +22,11 @@ export interface UpdateEventPayload {
     endDate: number;
     challenges: string[];
 }
+
+export interface EventSettingsFormData {
+    title: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    challenges: string[];
+}

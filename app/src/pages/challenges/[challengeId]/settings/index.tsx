@@ -5,6 +5,7 @@ import { useChallenge } from 'hooks/use-challenge';
 import { updateChallenge } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
 import { UpdateChallengePayload } from 'types/challenge';
+import { fromChallengeSettingsFormData } from 'utils/challenge';
 
 type ChallengeSettingsPageProps = {
     challengeId: string;
@@ -47,8 +48,13 @@ const ChallengeSettingsPage: NextPage<ChallengeSettingsPageProps> = ({
                             authorName: challenge?.authorName ?? '',
                             authorGithub: challenge?.authorGithub ?? '',
                             authorTwitter: challenge?.authorTwitter ?? '',
+                            fieldsConfig: challenge?.fieldsConfig ?? [],
                         }}
-                        onSubmit={handleUpdateChallenge}
+                        onSubmit={values =>
+                            handleUpdateChallenge(
+                                fromChallengeSettingsFormData(values),
+                            )
+                        }
                     >
                         <ChallengeSettingsForm></ChallengeSettingsForm>
                     </Formik>

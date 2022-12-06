@@ -85,4 +85,23 @@ export interface CreateChallengePayload {
 export interface UpdateChallengePayload {
     title: string;
     description: string;
+    points: number;
+    difficulty: ChallengeDifficulty;
+    category: ChallengeCategory;
+    authorGithub: string;
+    authorTwitter: string;
+    authorName: string;
+    fieldsConfig: FieldConfig[];
+}
+
+export interface ChallengeSettingsFormData {
+    title: string;
+    description: string;
+    points: number;
+    difficulty: string;
+    category: string;
+    authorGithub: string;
+    authorTwitter: string;
+    authorName: string;
+    fieldsConfig: FieldConfig[];
 }
