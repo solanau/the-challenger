@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{usersId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+
+    match /events/{eventsId} {
+      allow read;
+      allow write: if false;
+
+      match /submissions/{submissionsId} {
+        allow read, write;
+      }
+      match /leader-boards/individual {
+        allow read, write;
+      }
+    }
+
+    match /challenges/{challengesId} {
+      allow get: if false;
+      allow list;
+      allow create;
+      allow update;
+      allow delete: if false;
+    }
+  }
+}
