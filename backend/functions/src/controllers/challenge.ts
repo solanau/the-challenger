@@ -197,8 +197,6 @@ class ChallengeController {
             );
         }
 
-        console.log(id, data);
-
         const challenge = await db.doc(`challenges/${id}`).update(data);
 
         return challenge;
