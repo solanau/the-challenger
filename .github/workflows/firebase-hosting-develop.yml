@@ -1,0 +1,17 @@
+name: Deploy to Firebase Hosting on push to Develop
+"on":
+  push:
+    branches:
+      - develop
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_THE_CHALLENGER_TEST_8A51C }}"
+          projectId: the-challenger-test-8a51c
+          channelId: live
+          entryPoint: "./app"
