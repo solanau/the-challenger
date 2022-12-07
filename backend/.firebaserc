@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "challenger-27b2b"
+    "prod": "challenger-27b2b",
+    "dev": "the-challenger-test-8a51c"
   }
 }
