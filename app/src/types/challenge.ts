@@ -21,6 +21,7 @@ export type ChallengeType =
     | 'Staking'
     | 'Client'
     | 'SDK'
+    | 'Pay'
     | 'Feedback';
 
 export interface BaseChallenge {
