@@ -1,18 +1,18 @@
-import { PublicKey } from '@solana/web3.js';
-import { createChallenge, updateChallenge } from 'prestige-protocol';
+import { Keypair, PublicKey } from '@solana/web3.js';
+import { updateChallenge } from 'prestige-protocol';
 import { db } from '..';
 import {
     connection,
     MASTER_API_KEY,
     PRESTIGE_PROGRAM_ID,
-    WALLET
+    WALLET,
 } from '../util/const';
 import { ChallengePayload } from '../util/types';
 import {
     DatabaseError,
     MasterApiKeyError,
     PayloadError,
-    PrestigeError
+    PrestigeError,
 } from '../util/util';
 
 const objectType = 'Challenge';
@@ -87,22 +87,23 @@ exports.createNewChallenge = async function (req, res) {
             console.log(error);
             res.status(500).send(PayloadError());
         }
-        try {
-            challengePubkey = (
-                await createChallenge(
-                    connection,
-                    WALLET,
-                    PRESTIGE_PROGRAM_ID,
-                    new PublicKey(rawChallenge.eventPubkey),
-                    rawChallenge.title,
-                    rawChallenge.shortDescription,
-                    rawChallenge.authorName,
-                )
-            )[0];
-        } catch (error) {
-            console.log(error);
-            res.status(400).send(PrestigeError(objectType));
-        }
+        challengePubkey = Keypair.generate().publicKey;
+        // try {
+        // challengePubkey = (
+        //     await createChallenge(
+        //         connection,
+        //         WALLET,
+        //         PRESTIGE_PROGRAM_ID,
+        //         new PublicKey(rawChallenge.eventPubkey),
+        //         rawChallenge.title,
+        //         rawChallenge.shortDescription,
+        //         rawChallenge.authorName,
+        //     )
+        // )[0];
+        // } catch (error) {
+        //     console.log(error);
+        //     res.status(400).send(PrestigeError(objectType));
+        // }
         try {
             const challenge: ChallengePayload = {
                 pubkey: challengePubkey.toBase58(),

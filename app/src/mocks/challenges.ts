@@ -7,6 +7,215 @@ export const mockChallenges: Omit<
     ChallengePayload,
     'pubkey' | 'eventPubkey' | 'eventId'
 >[] = [
+    // Superteam Germany Twitter
+    {
+        key: ++i,
+        id: '2212061111',
+        iconKey: 1, // social
+        iconSize: 35, // default
+        title: 'Social Challenge',
+        type: 'Social',
+        difficulty: 'Easy',
+        shortDescription: 'Follow Superteam Germany on Twitter!',
+        description: `
+___
+### Description
+
+Looking to join your local German chapter for web3 learning? Join SuperteamDE!
+
+Solana developers, builders, creators, and more all from across Germany will collaborate & learn together in this space.
+
+- Follow SuperteamDE on <a href="https://twitter.com/SuperteamDE" target="_blank">Twitter</a>.
+`,
+        githubUrl: 'some githubUrl',
+        authorName: 'donnysolana',
+        authorGithub: 'donnysolana',
+        authorTwitter: 'donnysolana',
+        rewardValue: 25,
+        rewardType: 'points',
+        formComponents: [
+            {
+                type: 'text',
+                field: 'twitterHandle',
+                key: 'twitterHandle',
+                label: 'Enter your Twitter handle',
+                placeholder: `Enter your Twitter handle...`,
+            },
+            {
+                type: 'text',
+                field: 'twitterPostLink',
+                key: 'twitterPostLink',
+                label: 'Enter link to your twitter post',
+                placeholder: `Enter link to your twitter post...`,
+            },
+        ],
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-12-07T12:30:00',
+        endDate: '2022-12-07T03:30:00',
+    },
+    // Superteam Germany Discord
+    {
+        key: ++i,
+        id: '2212061112',
+        iconKey: 1, // social
+        iconSize: 35, // default
+        title: 'Social Challenge',
+        type: 'Social',
+        difficulty: 'Easy',
+        shortDescription: 'Join Superteam Germany Discord Channel!',
+        description: `
+___
+### Description
+
+Looking to join your local German chapter for web3 learning? Join SuperteamDE!
+
+Solana developers, builders, creators, and more all from across Germany will collaborate & learn together in this space.
+
+- Join SuperteamDE <a href="https://discord.gg/fkeFry26" target="_blank">Discord</a> and say and say Hallo in #intros channel!
+`,
+        githubUrl: 'some githubUrl',
+        authorName: 'donnysolana',
+        authorGithub: 'donnysolana',
+        authorTwitter: 'donnysolana',
+        rewardValue: 25,
+        rewardType: 'points',
+        formComponents: [
+            {
+                type: 'text',
+                field: 'discordName',
+                key: 'discordName',
+                label: 'Enter your discord username',
+                placeholder: `Enter your discord username...`,
+            },
+            {
+                type: 'text',
+                field: 'discord',
+                key: 'discord',
+                label: 'Enter the link to your message in Discord',
+                placeholder: `Enter your link...`,
+            },
+        ],
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-12-07T12:30:00',
+        endDate: '2022-12-07T03:30:00',
+    },
+    // ---------------------------------------------------------------------------
+    // Social SuperteamDE Buildspace Core - Website
+    {
+        key: ++i,
+        id: '2212061113',
+        iconKey: 1, // social
+        iconSize: 35, // default
+        title: 'Social Challenge',
+        type: 'Social',
+        difficulty: 'Easy',
+        shortDescription: 'Solana Developer Course by Buildspace!',
+        description: `
+___
+### Description
+
+Signup for Solana buildspace core:
+
+"Introducing the world’s most comprehensive Solana program." - buildspace
+
+- Sign up for the Solana Core free educational program at <a href="https://buildspace.so/p/solana-core" target="_blank">Solana Buildspace Core</a>!
+- Join SuperteamDE <a href="https://discord.gg/fkeFry26" target="_blank">Discord</a>
+- Take a screenshot of your screen after registration and post it in Superteam Germany discord #HTWBerlin channel!
+`,
+        githubUrl: 'some githubUrl',
+        authorName: 'donnysolana',
+        authorGithub: 'donnysolana',
+        authorTwitter: 'donnysolana',
+        rewardValue: 25,
+        rewardType: 'points',
+        createdAt: '2022-12-07T12:30:00',
+        startDate: '2022-12-07T12:30:00',
+        endDate: '2022-12-07T03:30:00',
+        formComponents: [
+            {
+                type: 'text',
+                field: 'discordName',
+                key: 'discordName',
+                label: 'Enter your discord username',
+                placeholder: `Enter your discord username...`,
+            },
+            {
+                type: 'text',
+                field: 'discord',
+                key: 'discord',
+                label: 'Enter the link to your screenshot in Discord',
+                placeholder: `Enter your link...`,
+            },
+        ],
+    },
+    // Valentin Berlin Quick Questions
+    {
+        key: ++i,
+        id: '221207111',
+        iconKey: 0, // rocket
+        iconSize: 35, // default
+        title: 'Berlin 101: Questions round',
+        type: 'Deploy',
+        difficulty: 'Easy',
+        shortDescription: 'Answer questions based on what you learned!',
+        description: `
+___
+### Description
+In this challenge your mission is to answer questions based on what you just learned!
+
+Good luck **Hunter**!
+1. What is the url or name of a solana explorer? A website where you can find data of what's happening on chain like transactions, account information, instructions, etc!
+2. What Javascript SDK is used to interact with Solana blockchain?
+3. Which function should you use to create an instruction to send SOL to an address or wallet (Public Key)?
+4. How many lamports are in 1 SOL?
+
+💡 The fastest times and correct answers wins!
+
+___
+### Resources
+<a href="https://docs.solana.com/developers" target="_blank">Solana Developer Docs</a>
+<a href="https://solanacookbook.com/" target="_blank">Solana Cookbook</a>
+`,
+        githubUrl: 'some githubUrl',
+        authorName: 'DonnySolana',
+        authorGithub: 'DonnySolana',
+        authorTwitter: 'DonnySolana',
+        rewardValue: 100,
+        rewardType: 'points',
+        createdAt: '2022-11-17T14:00:00',
+        startDate: '2022-12-07T12:30:00',
+        endDate: '2022-12-07T03:30:00',
+        formComponents: [
+            {
+                type: 'text',
+                field: 'firstAnswer',
+                key: 'firstAnswer',
+                label: 'What is the name or url of a Solana Explorer where you can view transaction and account info',
+                placeholder: `Enter the name or url of a Solana Explorer ...`,
+            },
+            {
+                type: 'text',
+                field: 'secondAnswer',
+                key: 'secondAnswer',
+                label: 'What Javascript SDK is used to interact with Solana blockchain?',
+                placeholder: `Enter the Solana Javascript SDK..`,
+            },
+            {
+                type: 'number',
+                field: 'thirdAnswer',
+                key: 'thirdAnswer',
+                label: 'Which function should you use to create an instruction to send SOL to an address or wallet (Public Key)?',
+                placeholder: `Enter function name to send SOL...`,
+            },
+            {
+                type: 'number',
+                field: 'fourthAnswer',
+                key: 'fourthAnswer',
+                label: 'How many lamports are in 1 SOL?',
+                placeholder: `Enter number of lamports in 1 SOL...`,
+            },
+        ],
+    },
     // Heavy Duty Social
     {
         key: ++i,
@@ -134,7 +343,6 @@ Solana U is one of the fastest growing student, research, and builder communitie
                 label: 'Enter the link to your message in Solana U Discord',
                 placeholder: `Enter your link...`,
             },
-
         ],
         createdAt: '2022-11-17T14:00:00',
         startDate: '2022-12-07T12:30:00',
@@ -149,8 +357,7 @@ Solana U is one of the fastest growing student, research, and builder communitie
         title: 'Social Challenge',
         type: 'Social',
         difficulty: 'Easy',
-        shortDescription:
-            'Follow Superteam Germany on Twitter!',
+        shortDescription: 'Follow Superteam Germany on Twitter!',
         description: `
 ___
 ### Description
@@ -196,8 +403,7 @@ Solana developers, builders, creators, and more all from across Germany will col
         title: 'Social Challenge',
         type: 'Social',
         difficulty: 'Easy',
-        shortDescription:
-            'Join Superteam Germany Discord Channel!',
+        shortDescription: 'Join Superteam Germany Discord Channel!',
         description: `
 ___
 ### Description
@@ -229,7 +435,6 @@ Solana developers, builders, creators, and more all from across Germany will col
                 label: 'Enter the link to your message in Discord',
                 placeholder: `Enter your link...`,
             },
-
         ],
         createdAt: '2022-11-17T14:00:00',
         startDate: '2022-12-07T12:30:00',
@@ -434,7 +639,8 @@ ___
         title: 'The Solana Ecosystem Hub',
         type: 'Social',
         difficulty: 'Easy',
-        shortDescription: 'Discover the New Solana Ecosystem Hub within Realms!',
+        shortDescription:
+            'Discover the New Solana Ecosystem Hub within Realms!',
         description: `
 ___
 ### Description
@@ -458,7 +664,7 @@ Discover and learn about the all New Solana Ecosystem Hub and the team behind it
                 type: 'textArea',
                 field: 'firstAnswer',
                 key: 'firstAnswer',
-                label: 'What pops up when clicking on the \'+ Create Hub?\' button?',
+                label: "What pops up when clicking on the '+ Create Hub?' button?",
                 placeholder: `Enter your answer...`,
                 maxLength: 200,
                 rows: 3,
@@ -1372,7 +1578,7 @@ ___
                 type: 'textArea',
                 field: 'secondAnswer',
                 key: 'secondAnswer',
-                label: "What are the 2 public keys (addresses) used for: the sender account and the recipient? ",
+                label: 'What are the 2 public keys (addresses) used for: the sender account and the recipient? ',
                 placeholder: `Enter your answer...`,
                 maxLength: 200,
                 rows: 4,
@@ -2655,7 +2861,8 @@ ___
         title: 'Solana Pay: Getting Started',
         type: 'Pay',
         difficulty: 'Easy',
-        shortDescription: 'Learn all about Solana Pay and how to get started in minutes!',
+        shortDescription:
+            'Learn all about Solana Pay and how to get started in minutes!',
         description: `
 ___
 ### Description
