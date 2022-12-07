@@ -67,6 +67,12 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({ eventId }) => {
                                         Invalid
                                     </option>
                                     <option
+                                        value="incorrect"
+                                        className="bg-black bg-opacity-60"
+                                    >
+                                        Incorrect
+                                    </option>
+                                    <option
                                         value="completed"
                                         className="bg-black bg-opacity-60"
                                     >
@@ -88,7 +94,7 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({ eventId }) => {
                                         </Text>
 
                                         <Link
-                                            href={`/events/${eventId}/submissions/${submission.id}`}
+                                            href={`/events/${eventId}/submissions/${submission.id}/review`}
                                             passHref
                                         >
                                             <a className="underline">view</a>

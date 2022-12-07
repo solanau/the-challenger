@@ -49,8 +49,10 @@ export type FieldConfig =
     | EmailFieldConfig;
 
 export interface SubmissionAnswer {
-    field: FieldConfig;
-    value: string;
+    question: string;
+    reply: string;
+    isApproved: boolean;
+    comments: string;
 }
 
 export interface EventPayload {
@@ -178,11 +180,13 @@ export interface CreateSubmissionPayload {
     answers: SubmissionAnswer[];
 }
 
-export interface UpdateSubmissionStatusPayload {
+export type ReviewSubmissionPayload = {
     id: string;
-    status: SubmissionStatus;
     eventId: string;
-}
+    answers: { isApproved: boolean; comments: string }[];
+    status: SubmissionStatus;
+    comments: string;
+};
 
 export interface PrizeMintMetadataPayload {
     pubkey: string;
@@ -237,6 +241,7 @@ export interface SubmissionPayload {
     isProcessed: boolean;
     status: SubmissionStatus;
     answers: SubmissionAnswer[];
+    comments: string;
 }
 
 export interface UpdateLeaderBoardPayload {

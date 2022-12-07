@@ -1,5 +1,4 @@
 import { ChallengePayload } from './challenge';
-import { FieldConfig } from './form';
 
 export type SubmissionStatus =
     | 'pending'
@@ -8,8 +7,10 @@ export type SubmissionStatus =
     | 'completed';
 
 export interface SubmissionAnswerPayload {
-    field: FieldConfig;
-    value: string;
+    question: string;
+    reply: string;
+    isApproved: boolean;
+    comments: string;
 }
 
 export interface SubmissionPayload {
@@ -24,4 +25,20 @@ export interface SubmissionPayload {
     basePoints: number;
     timeBonusPoints: number;
     totalPoints: number;
+    comments: string;
 }
+
+export interface SubmissionReviewFormData {
+    status: SubmissionStatus;
+    comments: string;
+    answers: { isApproved: boolean; comments: string }[];
+}
+
+export type ReviewSubmissionPayload = {
+    answers: {
+        isApproved: boolean;
+        comments: string;
+    }[];
+    status: SubmissionStatus;
+    comments: string;
+};

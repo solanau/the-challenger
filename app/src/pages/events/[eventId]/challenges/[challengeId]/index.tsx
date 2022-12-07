@@ -40,8 +40,8 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                 );
 
                 return {
-                    field: challenge.fieldsConfig[fieldIndex],
-                    value: values[key],
+                    question: challenge.fieldsConfig[fieldIndex].label,
+                    reply: values[key],
                 };
             });
 

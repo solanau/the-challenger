@@ -1,5 +1,3 @@
-import { SubmissionAnswerPayload, SubmissionStatus } from './submission';
-
 export interface PrizePayload {
     pubkey: string;
     challengePubkey: string;
@@ -9,10 +7,15 @@ export interface PrizePayload {
     quantity: number;
 }
 
+export interface CreateSubmissionAnswerPayload {
+    question: string;
+    reply: string;
+}
+
 export interface CreateSubmissionPayload {
     id: string;
     challengeId: string;
-    answers: SubmissionAnswerPayload[];
+    answers: CreateSubmissionAnswerPayload[];
     eventId: string;
 }
 
@@ -51,12 +54,6 @@ export interface SetUserPayload {
     userName: string;
     walletPublicKey: string;
 }
-
-export type UpdateSubmissionStatusPayload = {
-    eventId: string;
-    id: string;
-    status: SubmissionStatus;
-};
 
 export type UpdateLeaderBoardPayload = {
     eventId: string;

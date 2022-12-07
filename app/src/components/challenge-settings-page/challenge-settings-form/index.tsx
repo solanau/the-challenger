@@ -17,7 +17,7 @@ const ChallengeSettingsForm = () => {
                     Title
                 </label>
 
-                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Card className="h-fit w-full p-5 focus-within:border-primary">
                     <Field
                         id="challenge-title"
                         name="title"
@@ -37,7 +37,7 @@ const ChallengeSettingsForm = () => {
                     Description
                 </label>
 
-                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Card className="h-fit w-full p-5 focus-within:border-primary">
                     <Field
                         as="textarea"
                         id="challenge-description"
@@ -59,7 +59,7 @@ const ChallengeSettingsForm = () => {
                     Points
                 </label>
 
-                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Card className="h-fit w-full p-5 focus-within:border-primary">
                     <Field
                         id="challenge-points"
                         name="points"
@@ -79,45 +79,45 @@ const ChallengeSettingsForm = () => {
                     Category
                 </label>
 
-                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Card className="focus-within:border-primary">
                     <Field
                         id="challenge-category"
                         name="category"
                         as="select"
-                        className="w-full border-none bg-transparent"
+                        className="w-full border-none bg-transparent p-5"
                         required
                     >
-                        <option value="" className="bg-zinc-600">
+                        <option value="" className="bg-zinc-700">
                             Select a category
                         </option>
-                        <option value="Social" className="bg-zinc-600">
+                        <option value="Social" className="bg-zinc-700">
                             Social
                         </option>
-                        <option value="Video" className="bg-zinc-600">
+                        <option value="Video" className="bg-zinc-700">
                             Video
                         </option>
-                        <option value="Concept" className="bg-zinc-600">
+                        <option value="Concept" className="bg-zinc-700">
                             Concept
                         </option>
-                        <option value="Wallet" className="bg-zinc-600">
+                        <option value="Wallet" className="bg-zinc-700">
                             Wallet
                         </option>
-                        <option value="SDK" className="bg-zinc-600">
+                        <option value="SDK" className="bg-zinc-700">
                             SDK
                         </option>
-                        <option value="Deploy" className="bg-zinc-600">
+                        <option value="Deploy" className="bg-zinc-700">
                             Deploy
                         </option>
-                        <option value="Staking" className="bg-zinc-600">
+                        <option value="Staking" className="bg-zinc-700">
                             Staking
                         </option>
-                        <option value="Game" className="bg-zinc-600">
+                        <option value="Game" className="bg-zinc-700">
                             Game
                         </option>
-                        <option value="Client" className="bg-zinc-600">
+                        <option value="Client" className="bg-zinc-700">
                             Client
                         </option>
-                        <option value="NFT" className="bg-zinc-600">
+                        <option value="NFT" className="bg-zinc-700">
                             NFT
                         </option>
                     </Field>
@@ -132,24 +132,24 @@ const ChallengeSettingsForm = () => {
                     Difficulty
                 </label>
 
-                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Card className="focus-within:border-primary">
                     <Field
                         id="challenge-difficulty"
                         name="difficulty"
                         as="select"
-                        className="w-full border-none bg-transparent"
+                        className="w-full border-none bg-transparent p-5"
                         required
                     >
-                        <option value="" className="bg-zinc-600">
+                        <option value="" className="bg-zinc-700">
                             Select a difficulty
                         </option>
-                        <option value="Easy" className="bg-zinc-600">
+                        <option value="Easy" className="bg-zinc-700">
                             Easy
                         </option>
-                        <option value="Medium" className="bg-zinc-600">
+                        <option value="Medium" className="bg-zinc-700">
                             Medium
                         </option>
-                        <option value="Hard" className="bg-zinc-600">
+                        <option value="Hard" className="bg-zinc-700">
                             Hard
                         </option>
                     </Field>
@@ -164,7 +164,7 @@ const ChallengeSettingsForm = () => {
                     Author name
                 </label>
 
-                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Card className="h-fit w-full p-5 focus-within:border-primary">
                     <Field
                         id="challenge-author-name"
                         name="authorName"
@@ -183,7 +183,7 @@ const ChallengeSettingsForm = () => {
                     Author GitHub
                 </label>
 
-                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Card className="h-fit w-full p-5 focus-within:border-primary">
                     <Field
                         id="challenge-author-github"
                         name="authorGithub"
@@ -202,7 +202,7 @@ const ChallengeSettingsForm = () => {
                     Author Twitter
                 </label>
 
-                <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                <Card className="h-fit w-full p-5 focus-within:border-primary">
                     <Field
                         id="challenge-author-twitter"
                         name="authorTwitter"
@@ -262,7 +262,7 @@ const ChallengeSettingsForm = () => {
                                         Field
                                     </label>
 
-                                    <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                    <Card className="h-fit w-full p-5 focus-within:border-primary">
                                         <Field
                                             id={`challenge-field-configs.${index}.field`}
                                             name={`fieldsConfig.${index}.field`}
@@ -282,7 +282,7 @@ const ChallengeSettingsForm = () => {
                                         Label
                                     </label>
 
-                                    <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                    <Card className="h-fit w-full p-5 focus-within:border-primary">
                                         <Field
                                             id={`challenge-field-configs.${index}.label`}
                                             name={`fieldsConfig.${index}.label`}
@@ -302,7 +302,7 @@ const ChallengeSettingsForm = () => {
                                         Placeholder
                                     </label>
 
-                                    <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                    <Card className="h-fit w-full p-5 focus-within:border-primary">
                                         <Field
                                             id={`challenge-field-configs.${index}.placeholder`}
                                             name={`fieldsConfig.${index}.placeholder`}
@@ -321,41 +321,41 @@ const ChallengeSettingsForm = () => {
                                         Type
                                     </label>
 
-                                    <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                    <Card className="focus-within:border-primary">
                                         <Field
                                             id={`challenge-field-configs.${index}.type`}
                                             name={`fieldsConfig.${index}.type`}
                                             as="select"
-                                            className="w-full border-none bg-transparent"
+                                            className="w-full border-none bg-transparent p-5"
                                             required
                                         >
                                             <option
                                                 value=""
-                                                className="bg-zinc-600"
+                                                className="bg-zinc-700"
                                             >
                                                 Select type
                                             </option>
                                             <option
                                                 value="text"
-                                                className="bg-zinc-600"
+                                                className="bg-zinc-700"
                                             >
                                                 Text
                                             </option>
                                             <option
                                                 value="textArea"
-                                                className="bg-zinc-600"
+                                                className="bg-zinc-700"
                                             >
                                                 Text Area
                                             </option>
                                             <option
                                                 value="number"
-                                                className="bg-zinc-600"
+                                                className="bg-zinc-700"
                                             >
                                                 Number
                                             </option>
                                             <option
                                                 value="email"
-                                                className="bg-zinc-600"
+                                                className="bg-zinc-700"
                                             >
                                                 Email
                                             </option>
@@ -373,7 +373,7 @@ const ChallengeSettingsForm = () => {
                                             Max Length
                                         </label>
 
-                                        <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                        <Card className="h-fit w-full p-5 focus-within:border-primary">
                                             <Field
                                                 id={`challenge-field-configs.${index}.maxLength`}
                                                 name={`fieldsConfig.${index}.maxLength`}
@@ -394,7 +394,7 @@ const ChallengeSettingsForm = () => {
                                             Rows
                                         </label>
 
-                                        <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
+                                        <Card className="h-fit w-full p-5 focus-within:border-primary">
                                             <Field
                                                 id={`challenge-field-configs.${index}.rows`}
                                                 name={`fieldsConfig.${index}.rows`}
