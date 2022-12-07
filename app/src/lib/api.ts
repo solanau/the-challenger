@@ -7,9 +7,9 @@ import {
     MintPayload,
     PrizeMintMetadataPayload,
     PrizePayload,
-    ProfilePayload, SetUserPayload,
+    ProfilePayload,
+    SetUserPayload,
     UpdateLeaderBoardPayload,
-    UpdateSubmissionStatusPayload
 } from 'types/api';
 import {
     ChallengePayload,
@@ -21,6 +21,7 @@ import {
     EventPayload,
     UpdateEventPayload,
 } from 'types/event';
+import { ReviewSubmissionPayload } from 'types/submission';
 import { functions } from 'utils/firebase';
 import { v4 as uuid } from 'uuid';
 
@@ -162,16 +163,19 @@ export async function createSubmission(payload: CreateSubmissionPayload) {
     }
 }
 
-export async function updateSubmissionStatus(
-    payload: UpdateSubmissionStatusPayload,
+export async function reviewSubmission(
+    eventId: string,
+    submissionId: string,
+    payload: ReviewSubmissionPayload,
 ) {
-    const instance = httpsCallable<UpdateSubmissionStatusPayload, unknown>(
-        functions,
-        'updateSubmissionStatus',
-    );
+    const instance = httpsCallable(functions, 'reviewSubmission');
 
     try {
-        const result = await instance(payload);
+        const result = await instance({
+            eventId,
+            id: submissionId,
+            ...payload,
+        });
 
         return result.data;
     } catch (error) {

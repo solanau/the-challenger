@@ -4,10 +4,8 @@ import {
     Auth,
     ChallengePayload2,
     CreateSubmissionPayload,
-    SubmissionAnswer,
+    ReviewSubmissionPayload,
     SubmissionPayload,
-    SubmissionStatus,
-    UpdateSubmissionStatusPayload,
 } from '../util/types';
 import { getTimeBonusPoints } from '../util/util';
 
@@ -72,13 +70,17 @@ class SubmissionController {
             },
             challengeId: payload.challengeId,
             eventId: payload.eventId,
-            answers: payload.answers,
+            answers: payload.answers.map(answer => ({
+                ...answer,
+                isApproved: false,
+                comments: '',
+            })),
             isProcessed: false,
             createdAt: submittedAt,
             basePoints: challengeData.points,
             timeBonusPoints: submissionTimeBonusPoints,
             totalPoints: challengeData.points + submissionTimeBonusPoints,
-            review: '',
+            comments: '',
         };
 
         await db
@@ -88,50 +90,30 @@ class SubmissionController {
         return { id: payload.id, ...submission };
     }
 
-    async updateSubmissionStatus(
-        auth: Auth,
-        payload: UpdateSubmissionStatusPayload,
-    ) {
+    async reviewSubmission(auth: Auth, payload: ReviewSubmissionPayload) {
         if (!(await isReviewer(payload.eventId, auth.id))) {
             throw new functions.https.HttpsError(
                 'permission-denied',
-                `In order to change a submission's status, you have to be a reviewer.`,
+                `In order to review a submission, you have to be a reviewer.`,
             );
         }
 
-        const result = await db.runTransaction(async transaction => {
+        await db.runTransaction(async transaction => {
             const submissionRef = db.doc(
                 `events/${payload.eventId}/submissions/${payload.id}`,
             );
-            const currentSubmission = await submissionRef.get();
-            const currentSubmissionData = currentSubmission.data();
-            const updatedAnswers = currentSubmissionData.answers.map(
-                (answer: SubmissionAnswer, index: number) => {
-                    return {
-                        ...answer,
-                        status: payload.answersStatus[index],
-                        review: payload.answersReview[index],
-                    };
-                },
-            );
+            const submission = await submissionRef.get();
+            const submissionData = submission.data() as SubmissionPayload;
 
             transaction.update(submissionRef, {
-                answers: updatedAnswers,
+                comments: payload.comments,
                 status: payload.status,
-                review: payload.review,
+                answers: submissionData.answers.map((answer, index) => ({
+                    ...answer,
+                    ...payload.answers[index],
+                })),
             });
-
-            return {
-                id: payload.id,
-                eventId: currentSubmissionData.eventId,
-                oldStatus: currentSubmissionData.status as SubmissionStatus,
-                newStatus: payload.status,
-                rewardValue: currentSubmissionData.challenge
-                    .rewardValue as number,
-            };
         });
-
-        return result;
     }
 }
 

@@ -40,10 +40,8 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                 );
 
                 return {
-                    field: challenge.fieldsConfig[fieldIndex],
-                    value: values[key],
-                    status: 'pending',
-                    review: '',
+                    question: challenge.fieldsConfig[fieldIndex].label,
+                    reply: values[key],
                 };
             });
 

@@ -115,9 +115,9 @@ export const createSubmission = functions.https.onCall(
     },
 );
 
-export const updateSubmissionStatus = functions.https.onCall(
+export const reviewSubmission = functions.https.onCall(
     async (data, context) => {
-        await submissionController.updateSubmissionStatus(
+        await submissionController.reviewSubmission(
             {
                 id: context.auth.token.uid,
                 email: context.auth.token.email,
@@ -125,7 +125,7 @@ export const updateSubmissionStatus = functions.https.onCall(
             data,
         );
 
-        return { message: 'Submission status updated.' };
+        return { message: 'Submission reviewed.' };
     },
 );
 
