@@ -286,14 +286,12 @@ ___
             description: `
 ___
 ### Description
-Hey fren! Interested in accelerating your career in web3? Let's get started!
-Join <a href="https://solanau.org" target="_blank">Solana U</a> to participate in project accelerators, fellowships, ambassadorships, mentorship and more!
-Solana U is one of the fastest growing student, research, and builder communities in the Solana ecosystem!
-- Remember: For help with the app and Solana development you can head to the Solana U discord!
-- Follow Solana U on <a href="https://twitter.com/SolanaUni" target="_blank">twitter</a>.
-- Post a tweet and tag @SolanaUni
-- Join Solana U on <a href="https://discord.gg/solanau" target="_blank">Discord</a> and say hi in the 'main-chat'
-- Let us know what your interested in building and how we can help!
+
+Looking to join your local German chapter for web3 learning? Join SuperteamDE!
+
+Solana developers, builders, creators, and more all from across Germany will collaborate & learn together in this space.
+
+- Follow SuperteamDE on <a href="https://twitter.com/SuperteamDE" target="_blank">Twitter</a>.
 `,
             githubUrl: 'some githubUrl',
             authorName: 'MayhemLeagueBB',
@@ -333,7 +331,7 @@ Looking to join your local German chapter for web3 learning? Join SuperteamDE!
 
 Solana developers, builders, creators, and more all from across Germany will collaborate & learn together in this space.
 
-- Follow SuperteamDE on <a href="https://twitter.com/SuperteamDE" target="_blank">Twitter</a>.
+- Join SuperteamDE <a href="https://discord.gg/fkeFry26" target="_blank">Discord</a> and say and say Hallo in #intros channel!
 `,
             githubUrl: 'some githubUrl',
             authorName: 'donnysolana',
@@ -376,11 +374,13 @@ Solana developers, builders, creators, and more all from across Germany will col
 ___
 ### Description
 
-Looking to join your local German chapter for web3 learning? Join SuperteamDE!
+Signup for Solana buildspace core:
 
-Solana developers, builders, creators, and more all from across Germany will collaborate & learn together in this space.
+"Introducing the world’s most comprehensive Solana program." - buildspace
 
-- Join SuperteamDE <a href="https://discord.gg/fkeFry26" target="_blank">Discord</a> and say and say Hallo in #intros channel!
+- Sign up for the Solana Core free educational program at <a href="https://buildspace.so/p/solana-core" target="_blank">Solana Buildspace Core</a>!
+- Join SuperteamDE <a href="https://discord.gg/fkeFry26" target="_blank">Discord</a>
+- Take a screenshot of your screen after registration and post it in Superteam Germany discord #HTWBerlin channel!
 `,
             githubUrl: 'some githubUrl',
             authorName: 'HeavyDutyBuild',
@@ -423,13 +423,11 @@ Solana developers, builders, creators, and more all from across Germany will col
 ___
 ### Description
 
-Signup for Solana buildspace core:
+Time to meet more folks in the Solana ecosystem! Find Buffalo Joe from Solana Developer Relations and ask some questions! Snap a photo together!
 
-"Introducing the world’s most comprehensive Solana program." - buildspace
-
-- Sign up for the Solana Core free educational program at <a href="https://buildspace.so/p/solana-core" target="_blank">Solana Buildspace Core</a>!
-- Join SuperteamDE <a href="https://discord.gg/fkeFry26" target="_blank">Discord</a>
-- Take a screenshot of your screen after registration and post it in Superteam Germany discord #HTWBerlin channel!
+- Tweet a photo of you and Buffalo Joe on twitter!
+- Follow Buffalo Joe on twitter <a href="https://twitter.com/realbuffalojoe" target="_blank"> here </a> and say hi!
+- Link your tweets and stay tuned!
 `,
             githubUrl: 'some githubUrl',
             authorName: 'donnysolana',
@@ -471,6 +469,7 @@ Signup for Solana buildspace core:
             description: `
 ___
 ### Description
+
 In this challenge your mission is to deploy your first Solana program to devnet!
 💡 Record the start time so we can reference it later.
 How long do you think it will take you to deploy?
@@ -2827,142 +2826,6 @@ ___
 
     // <a href="https://www.notion.so/da63728d3c994d4fbfd5487b83d4695d" target="_blank">Friktion in the Media</a>
 
-    // `,
-            githubUrl: 'some githubUrl',
-            authorName: 'friktion_labs',
-            authorGithub: 'Friktion-Labs',
-            authorTwitter: 'friktion_labs',
-            rewardValue: 1000,
-            rewardType: 'points',
-            createdAt: '2022-11-17T14:00:00',
-            startDate: '2022-12-07T12:30:00',
-            endDate: '2022-12-07T03:30:00',
-            formComponents: [
-                {
-                    type: 'text',
-                    field: 'firstAnswer',
-                    key: 'firstAnswer',
-                    label: 'Enter the github link to your unique implementation using the Friktion SDK',
-                    placeholder: `Enter your answer...`,
-                },
-            ],
-        },
-        // ORAO VRF SDK Challenge 1
-        {
-            key: ++i,
-            id: '221004048',
-            iconKey: 0,
-            iconSize: 35,
-            title: 'ORAO VRF SDK Challenge 1',
-            type: 'SDK',
-            difficulty: 'Medium',
-            shortDescription: 'Random numbers with ORAO using VRF',
-            description: `
-     ___
-     ### Description
-
-     In this challenge you're going to learn to use the Orao Solana VRF SDK for random numbers!
-
-     Head to the SDK and Cookbook links where ORAO has outlined usage and comments on implementation.
-
-     You should be able to follow through the documentaiton and original source to produce your own random numbers!
-     Note there is a guide, rust documentation, and the SDK to reference.
-
-     You will only be able to find out some answers by running the examples yourself!
-
-     Good luck hunter!
-
-     ___
-     ### Tips
-
-     - The SDK github repo contains off-chain and on-chain (CPI) examples. Go through the code for both JS and Rust.
-
-     ___
-     ### Resources
-
-     <a href="https:github.com/orao-network/solana-vrf" target="_blank">ORAO VRF SDK</a>
-
-     <a href="https:solana-cookbook-4w4wfw5qs-solana-labs.vercel.app/integrations/orao-vrf.html" target="_blank">Cookbook integration goes through a lot of details</a>
-     `,
-            githubUrl: 'some githubUrl',
-            authorName: 'orao-network',
-            authorGithub: 'orao-network',
-            authorTwitter: 'OraoNetwork',
-            rewardValue: 500,
-            rewardType: 'points',
-            createdAt: '2022-11-17T14:00:00',
-            startDate: '2022-12-07T12:30:00',
-            endDate: '2022-12-07T03:30:00',
-            formComponents: [
-                {
-                    type: 'text',
-                    field: 'firstAnswer',
-                    key: 'firstAnswer',
-                    label: 'How much does it cost to request randomness?',
-                    placeholder: `Enter your answer...`,
-                },
-                {
-                    type: 'text',
-                    field: 'secondAnswer',
-                    key: 'secondAnswer',
-                    label: 'ORAO VRF is fast. How many transactions does it take for randomness to be fulfilled on devnet, including the request?',
-                    placeholder: `Enter your answer...`,
-                },
-                {
-                    type: 'text',
-                    field: 'thirdAnswer',
-                    key: 'thirdAnswer',
-                    label: 'What is the name of the method to verify randomness off-chain?',
-                    placeholder: `Enter your answer...`,
-                },
-                {
-                    type: 'text',
-                    field: 'fourthAnswer',
-                    key: 'fourthAnswer',
-                    label: 'Randomness is fulfilled by multiple nodes and is handled by the on-chain contract. What quorum type does the contract implement?',
-                    placeholder: `Enter your answer...`,
-                },
-            ],
-        },
-        // -----------------------------------------------------------------------------------------
-        // PAYMENTS CHALLENGES 18-11-22
-        // -----------------------------------------------------------------------------------------
-        // Solana Pay: Getting Started
-        {
-            key: ++i,
-            id: '221118221',
-            iconKey: 0, // rocket
-            iconSize: 35, // default
-            title: 'Solana Pay: Getting Started',
-            type: 'Pay',
-            difficulty: 'Easy',
-            shortDescription:
-                'Learn all about Solana Pay and how to get started in minutes!',
-            description: `
-___
-### Description
-In this challenge we are going to review the following topics on Solana Pay:
- - What is Solana Pay?
- - Why use it?
- - What are some good resources?
- - How do I get started?
-Start by visiting the <a href="https://solanapay.com/" target="_blank">Solana Pay official website</a> followed by
-the official <a href="https://docs.solanapay.com/" target="_blank">Solana Pay Documentation</a>. Answers to the most common pay questions in addition to the challenge questions
-are available from these resources. If you need additional help be sure to ask a team member onsite or using our event channels!
-Good luck hunter!
-___
-### Tips
-- In addition to the Solana Pay documentation a specification and technical API are also available in the resources section.
-- Remember you can search and post questions on the  <a href="https://solana.stackexchange.com/" target="_blank">Solana stack exchange</a> to collaborate with the entire ecosystem!
-- In addition to Solana stack exchange, the Solana U discord will be open for your event to ask questions to our community of students and educators.
-___
-### Resources
-<a href="https://solanapay.com/" target="_blank">Solana Pay Official Website</a>
-<a href="https://github.com/solana-labs/solana-pay" target="_blank">Solana Pay SDK</a>
-<a href="https://docs.solanapay.com/" target="_blank">Solana Pay Docs</a>
-<a href="https://docs.solanapay.com/spec" target="_blank">Solana Pay Specification</a>
-<a href="https://docs.solanapay.com/api/core" target="_blank">Solana Pay API</a>
-<a href="https://www.npmjs.com/package/@solana/pay" target="_blank">Solana Pay NPM: @solana/pay </a>
 `,
             githubUrl: 'some githubUrl',
             authorName: 'friktion_labs',
@@ -2996,12 +2859,15 @@ ___
             description: `
 ___
 ### Description
-In this challenge we are going to review some follow up questions to the getting started challenge
- - What types of requests are available?
- - What are some API method functions used?
- - What are some examples?
-The same resources are provided from the getting started.
-Let's see what you got!
+In this challenge we are going to review the following topics on Solana Pay:
+ - What is Solana Pay?
+ - Why use it?
+ - What are some good resources?
+ - How do I get started?
+Start by visiting the <a href="https://solanapay.com/" target="_blank">Solana Pay official website</a> followed by
+the official <a href="https://docs.solanapay.com/" target="_blank">Solana Pay Documentation</a>. Answers to the most common pay questions in addition to the challenge questions
+are available from these resources. If you need additional help be sure to ask a team member onsite or using our event channels!
+Good luck hunter!
 ___
 ### Tips
 - In addition to the Solana Pay documentation a specification and technical API are also available in the resources section.
