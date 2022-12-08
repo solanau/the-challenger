@@ -15,13 +15,18 @@ import { CreateEventPayload } from 'types/event';
 const EventsPage: NextPage = () => {
     const [isCreateEventModalOpen, setIsCreateEventModalOpen] = useState(false);
     const events = useEvents();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleCreateEvent = (createEventPayload: CreateEventPayload) => {
-        setIsCreateEventModalOpen(false);
+        setIsLoading(true);
 
         createEvent(createEventPayload)
             .then(() => alert('Event created!'))
-            .catch(error => alert(error));
+            .catch(error => alert(error))
+            .finally(() => {
+                setIsLoading(false);
+                setIsCreateEventModalOpen(false);
+            });
     };
 
     return (
@@ -58,7 +63,9 @@ const EventsPage: NextPage = () => {
                             }}
                             onSubmit={handleCreateEvent}
                         >
-                            <CreateEventForm></CreateEventForm>
+                            <CreateEventForm
+                                isLoading={isLoading}
+                            ></CreateEventForm>
                         </Formik>
                     </Modal>
                 </div>

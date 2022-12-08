@@ -21,7 +21,7 @@ const CreateChallengeForm = ({
             <Field
                 id="challenge-title"
                 name="title"
-                className="w-full rounded-2xl border border-zinc-200 bg-zinc-200 bg-opacity-5 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a title for the challenge"
                 maxLength={80}
                 required
@@ -42,7 +42,7 @@ const CreateChallengeForm = ({
                 as="textarea"
                 id="challenge-description"
                 name="description"
-                className="w-full rounded-2xl border border-zinc-200 bg-zinc-200 bg-opacity-5 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a description for the challenge"
                 required
                 disabled={isLoading}
