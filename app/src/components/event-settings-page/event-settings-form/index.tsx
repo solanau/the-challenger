@@ -146,7 +146,7 @@ const EventSettingsForm = ({
                 Challenges
             </Text>
 
-            <div className="flex flex-col gap-5">
+            <div className="flex max-h-96 flex-col gap-5 overflow-y-auto">
                 {challenges.map(challenge => (
                     <label key={challenge.id}>
                         <Card className="flex gap-8 p-8">
