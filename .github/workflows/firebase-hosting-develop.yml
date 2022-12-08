@@ -7,11 +7,33 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - id: config-repo
+        name: Pre config - 🧰 Checkout repository
+        uses: actions/checkout@v2
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_THE_CHALLENGER_TEST_8A51C }}"
-          projectId: the-challenger-test-8a51c
-          channelId: live
-          entryPoint: "./app"
+          node-version: 16
+      - id: set-firebase-config
+        name: Pre config - 🧰 Setting Firebase configurations
+        run: |
+          npm install -g firebase-tools
+          firebase experiments:enable webframeworks
+      - id: project-dependencies-installantion
+        name: Installing and building project 📦
+        run: |
+          cd app
+          yarn
+          export NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT=${{secrets.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT}}
+          export NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY=${{secrets.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY}}
+          export NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY=${{secrets.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY}}
+          export NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=${{secrets.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY}}
+          export NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID=${{secrets.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID}}
+          export NEXT_PUBLIC_USE_EMULATORS=${{secrets.NEXT_PUBLIC_USE_EMULATORS}}
+          export NEXT_PUBLIC_API_KEY=${{secrets.NEXT_PUBLIC_API_KEY}}
+          export NEXT_PUBLIC_AUTH_DOMAIN=${{secrets.NEXT_PUBLIC_AUTH_DOMAIN}}
+          export NEXT_PUBLIC_PROJECT_ID=${{secrets.NEXT_PUBLIC_PROJECT_ID}}
+          export NEXT_PUBLIC_STORAGE_BUCKET=${{secrets.NEXT_PUBLIC_STORAGE_BUCKET}}
+          export NEXT_PUBLIC_MESSAGING_SENDER_ID=${{secrets.NEXT_PUBLIC_MESSAGING_SENDER_ID}}
+          export NEXT_PUBLIC_APP_ID=${{secrets.NEXT_PUBLIC_APP_ID}}
+          export NEXT_PUBLIC_MEASUREMENT_ID=${{secrets.NEXT_PUBLIC_MEASUREMENT_ID}}
+          firebase use --token "${{secrets.FIREBASE_DEPLOYMENT_TOKEN}}" the-challenger-test-8a51c
+          firebase deploy --token "${{secrets.FIREBASE_DEPLOYMENT_TOKEN}}"
