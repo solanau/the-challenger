@@ -9,6 +9,8 @@ import {
     UpdateLeaderBoardPayload,
 } from '../util/types';
 
+const LEADER_BOARD_DOCUMENT_VERSION = 1;
+
 function groupParticipants(
     dictionaries: {
         participantsGroupedByPoints: { [key: number]: string[] };
@@ -143,6 +145,7 @@ class LeaderBoardController {
         const leaderBoardData = (leaderBoard.data() ?? {
             participants: [],
             totalPoints: 0,
+            version: LEADER_BOARD_DOCUMENT_VERSION,
         }) as LeaderBoard;
 
         // save updated leader board

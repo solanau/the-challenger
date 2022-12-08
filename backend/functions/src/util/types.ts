@@ -58,26 +58,33 @@ export interface SubmissionAnswer {
 export interface EventPayload {
     title: string;
     description: string;
-    startDate: number;
-    endDate: number;
+    userId: string;
     challenges: string[];
-    reviewers: string[];
-    managers: string[];
+    version: number;
+    isNew: boolean;
+    createdAt: number;
+    updatedAt: number;
+    startDate?: number;
+    endDate?: number;
+    reviewers?: string[];
+    managers?: string[];
 }
 
 export interface ChallengePayload {
     title: string;
     description: string;
-    category: ChallengeCategory;
-    difficulty: ChallengeDifficulty;
-    points: number;
     createdAt: number;
     updatedAt: number;
     isNew: boolean;
-    fieldsConfig: FieldConfig[];
-    authorName: string;
-    authorGithub: string;
-    authorTwitter: string;
+    version: number;
+    userId: string;
+    fieldsConfig?: FieldConfig[];
+    category?: ChallengeCategory;
+    difficulty?: ChallengeDifficulty;
+    points?: number;
+    authorName?: string;
+    authorGithub?: string;
+    authorTwitter?: string;
 }
 
 export interface PrizePayload {
@@ -187,6 +194,9 @@ export interface SubmissionPayload {
     description: string;
     userId: string;
     createdAt: number;
+    updatedAt: number;
+    isNew: boolean;
+    version: number;
     basePoints: number;
     totalPoints: number;
     timeBonusPoints: number;

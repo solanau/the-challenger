@@ -1,6 +1,13 @@
 import * as functions from 'firebase-functions';
 import { db } from '..';
-import { Auth, CreateEventPayload, UpdateEventPayload } from '../util/types';
+import {
+    Auth,
+    CreateEventPayload,
+    EventPayload,
+    UpdateEventPayload,
+} from '../util/types';
+
+const EVENT_DOCUMENT_VERSION = 1;
 
 class EventController {
     async createEvent(payload: CreateEventPayload, auth?: Auth) {
@@ -19,17 +26,18 @@ class EventController {
             .where('version', '==', 1)
             .where('isNew', '==', false)
             .get();
-
-        const event = await db.doc(`events/${payload.id}`).set({
+        const eventData: EventPayload = {
             title: payload.title,
             description: payload.description,
             userId: auth.id,
-            version: 1,
+            version: EVENT_DOCUMENT_VERSION,
             challenges: challenges.docs.map(doc => doc.id),
             createdAt: Date.now(),
             updatedAt: Date.now(),
             isNew: true,
-        });
+        };
+
+        const event = await db.doc(`events/${payload.id}`).set(eventData);
 
         return event;
     }

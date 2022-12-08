@@ -8,7 +8,7 @@ import {
 } from '../util/types';
 import { getTimeBonusPoints } from '../util/util';
 
-const submissionCollection = 'submissions';
+const SUBMISSION_DOCUMENT_VERSION = 1;
 
 export const isDuplicateSubmission = async (
     eventId: string,
@@ -16,7 +16,7 @@ export const isDuplicateSubmission = async (
     challengeId: string,
 ) => {
     const pastSubmissions = await db
-        .collection(submissionCollection)
+        .collection('submissions')
         .where('userId', '==', userId)
         .where('eventId', '==', eventId)
         .where('challenge.id', '==', challengeId)
@@ -74,6 +74,9 @@ class SubmissionController {
             })),
             isProcessed: false,
             createdAt: submittedAt,
+            updatedAt: Date.now(),
+            isNew: true,
+            version: SUBMISSION_DOCUMENT_VERSION,
             basePoints: challengeData.points,
             timeBonusPoints: submissionTimeBonusPoints,
             totalPoints: challengeData.points + submissionTimeBonusPoints,
@@ -109,6 +112,8 @@ class SubmissionController {
                     ...answer,
                     ...payload.answers[index],
                 })),
+                updatedAt: Date.now(),
+                isNew: false,
             });
         });
     }

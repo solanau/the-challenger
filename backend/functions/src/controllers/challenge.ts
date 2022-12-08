@@ -2,9 +2,12 @@ import * as functions from 'firebase-functions';
 import { db } from '..';
 import {
     Auth,
+    ChallengePayload,
     CreateChallengePayload,
     UpdateChallengePayload,
 } from '../util/types';
+
+const CHALLENGE_DOCUMENT_VERSION = 1;
 
 class ChallengeController {
     async createChallenge(payload: CreateChallengePayload, auth?: Auth) {
@@ -15,15 +18,19 @@ class ChallengeController {
             );
         }
 
-        const challenge = await db.doc(`challenges/${payload.id}`).set({
+        const challengeData: ChallengePayload = {
             title: payload.title,
             description: payload.description,
-            userId: auth.id,
             createdAt: Date.now(),
             updatedAt: Date.now(),
             isNew: true,
-            version: 1,
-        });
+            version: CHALLENGE_DOCUMENT_VERSION,
+            userId: auth.id,
+        };
+
+        const challenge = await db
+            .doc(`challenges/${payload.id}`)
+            .set(challengeData);
 
         return challenge;
     }
