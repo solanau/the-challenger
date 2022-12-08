@@ -2,8 +2,6 @@
     "name": "solana-bounty-program",
     "version": "0.1.0",
     "license": "MIT",
-    "main": "function.js",
-    "private": false,
     "scripts": {
         "init": "ts-node scripts/init.ts",
         "freeze": "ts-node scripts/freeze.ts",
@@ -14,6 +12,9 @@
         "export": "next export",
         "start": "next start",
         "lint": "next lint"
+    },
+    "engines": {
+        "node": "16"
     },
     "dependencies": {
         "@headlessui/react": "^1.7.4",
@@ -30,7 +31,6 @@
         "dotenv": "^16.0.3",
         "firebase": "^9.14.0",
         "firebase-admin": "^11.3.0",
-        "firebase-functions": "^4.1.0",
         "formik": "^2.2.9",
         "kbar": "^0.1.0-beta.36",
         "next": "^12.1.6",

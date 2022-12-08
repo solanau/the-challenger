@@ -1,6 +1,7 @@
 {
-    "projects": {
-        "prod": "challenger-27b2b",
-        "dev": "the-challenger-test-8a51c"
-    }
+  "projects": {
+    "prod": "challenger-27b2b",
+    "dev": "the-challenger-test-8a51c",
+    "default": "the-challenger-test-8a51c"
+  }
 }
