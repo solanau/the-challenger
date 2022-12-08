@@ -17,7 +17,7 @@ type SubmissionsPageProps = {
 
 const SubmissionsPage: NextPage<SubmissionsPageProps> = ({ eventId }) => {
     const [status, setStatus] = useState('pending');
-    const { user } = useAuth();
+    const { credential } = useAuth();
     const event = useEvent(eventId);
     const submissions = useSubmissions(eventId, null);
     const filteredSubmissions = useMemo(
@@ -32,8 +32,8 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({ eventId }) => {
                 description="Complete the Solana submissions to collect Solana rewards!"
             ></NextSeo>
 
-            {user ? (
-                event?.reviewers.includes(user.uid) ? (
+            {credential ? (
+                event?.reviewers.includes(credential.uid) ? (
                     <div>
                         <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                             <Text variant="big-heading">Submissions List</Text>

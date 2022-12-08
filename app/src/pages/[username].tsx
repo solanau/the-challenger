@@ -22,7 +22,7 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
         router.query.eventId instanceof Array
             ? router.query.eventId[0]
             : router.query.eventId;
-    const { user: currentUser } = useAuth();
+    const { credential } = useAuth();
     const user = useUserByUserName(userName);
     const submissions = useSubmissions(eventId, { userId: user?.id });
     const leaderBoard = useLeaderBoard(eventId, 'individual');
@@ -65,16 +65,16 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
                     <div className="flex flex-col gap-16 ">
                         <Hero
                             {...user}
-                            isCurrentUser={currentUser.uid === user.id}
+                            isCurrentUser={credential.uid === user.id}
                         />
                         <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                             {rank && totalPoints && (
                                 <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
                             )}
 
-                            {currentUser.githubUserName && (
+                            {credential.githubUserName && (
                                 <Link
-                                    href={`https://github.com/${currentUser.githubUserName}`}
+                                    href={`https://github.com/${credential.githubUserName}`}
                                     passHref
                                 >
                                     <a
@@ -86,7 +86,7 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
                                 </Link>
                             )}
 
-                            {user.id === currentUser.uid && (
+                            {user.id === credential.uid && (
                                 <>
                                     <Text variant="big-heading">
                                         Submissions

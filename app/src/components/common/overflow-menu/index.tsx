@@ -1,4 +1,3 @@
-import { useCurrentUser } from 'hooks/use-current-user';
 import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
@@ -21,10 +20,10 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
     const {
-        user: { uid },
+        credential: { uid: userId },
+        user,
         logOut,
     } = useAuth();
-    const user = useCurrentUser();
     const leaderBoard = useLeaderBoard(eventId, 'individual');
     const rank = useMemo(() => {
         if (leaderBoard === null) {
@@ -104,7 +103,7 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
 
                                             <Link
                                                 href={{
-                                                    pathname: `/users/${uid}/settings`,
+                                                    pathname: `/users/${userId}/settings`,
                                                     query: eventId
                                                         ? {
                                                               eventId,
@@ -136,7 +135,7 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                         </>
                                     )}
 
-                                    {!uid && (
+                                    {!userId && (
                                         <div>
                                             <Text
                                                 variant="nav-heading"
@@ -185,7 +184,7 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                         </div>
                                     )}
 
-                                    {uid && !user && (
+                                    {userId && !user && (
                                         <div>
                                             <Text
                                                 variant="nav-heading"
@@ -204,7 +203,7 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
 
                                             <Link
                                                 href={{
-                                                    pathname: `/users/${uid}/settings`,
+                                                    pathname: `/users/${userId}/settings`,
                                                     query: eventId
                                                         ? {
                                                               eventId,

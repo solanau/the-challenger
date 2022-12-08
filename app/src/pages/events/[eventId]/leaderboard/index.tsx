@@ -1,19 +1,19 @@
 import Button from 'components/common/button';
 import Text from 'components/common/text';
 import LeaderboardList from 'components/leader-board-page/leader-board-list';
-import { useCurrentUser } from 'hooks/use-current-user';
 import { useEvent } from 'hooks/use-event';
 import { useLeaderBoard } from 'hooks/use-leader-board';
 import { updateLeaderBoard } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { useAuth } from 'providers/AuthProvider';
 
 type LeaderboardPageProps = {
     eventId: string;
 };
 
 const LeaderboardPage: NextPage<LeaderboardPageProps> = ({ eventId }) => {
-    const user = useCurrentUser();
+    const { user } = useAuth();
     const event = useEvent(eventId);
     const leaderBoard = useLeaderBoard(eventId, 'individual');
 

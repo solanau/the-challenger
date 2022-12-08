@@ -26,7 +26,7 @@ const SubmissionReviewPage: NextPage<SubmissionReviewPageProps> = ({
     submissionId,
 }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const { user } = useAuth();
+    const { credential } = useAuth();
     const submission = useSubmission(eventId, submissionId);
     const event = useEvent(eventId);
 
@@ -65,8 +65,8 @@ const SubmissionReviewPage: NextPage<SubmissionReviewPageProps> = ({
                 <>
                     <NextSeo title="Submission"></NextSeo>
 
-                    {user ? (
-                        event?.reviewers.includes(user.uid) ? (
+                    {credential ? (
+                        event?.reviewers.includes(credential.uid) ? (
                             <div className="flex flex-col">
                                 <section className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                                     <div>

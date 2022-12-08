@@ -5,8 +5,8 @@ import Button from 'components/common/button';
 import Image from 'components/common/image';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
-import { useCurrentUser } from 'hooks/use-current-user';
 import Link from 'next/link';
+import { useAuth } from 'providers/AuthProvider';
 import React from 'react';
 import { TbBrandChrome, TbLogin } from 'react-icons/tb';
 import { cn } from 'utils';
@@ -18,7 +18,7 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ eventId, title, description }: HeroSectionProps) => {
-    const user = useCurrentUser();
+    const { user } = useAuth();
 
     const [MousePosition, setMousePosition] = React.useState({
         left: 0,

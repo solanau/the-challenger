@@ -6,17 +6,20 @@ import {
     signOut,
     UserCredential,
 } from 'firebase/auth';
+import { useUser } from 'hooks/use-user';
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { UserPayload } from 'types/user';
 import { auth } from '../utils/firebase';
 
-interface UserType {
+interface Credential {
     email: string | null;
     uid: string | null;
     githubUserName: string | null;
 }
 
 export interface AuthContextState {
-    user: UserType;
+    user: UserPayload;
+    credential: Credential;
     isLoggedIn: boolean;
     signUp(email: string, password: string): Promise<UserCredential>;
     logIn(email: string, password: string): Promise<UserCredential>;
@@ -32,32 +35,38 @@ export const AuthContextProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [user, setUser] = useState<UserType>({
+    const [credential, setCredential] = useState<Credential>({
         email: null,
         uid: null,
         githubUserName: null,
     });
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState<boolean>(true);
+    const user = useUser(credential?.uid ?? null);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, user => {
-            if (user) {
+        const unsubscribe = onAuthStateChanged(auth, credential => {
+            if (credential) {
                 const githubUserInfo = (
-                    user as any
+                    credential as any
                 ).reloadUserInfo.providerUserInfo.find(
-                    userInfo =>
-                        userInfo.providerId === GithubAuthProvider.PROVIDER_ID,
+                    credentialInfo =>
+                        credentialInfo.providerId ===
+                        GithubAuthProvider.PROVIDER_ID,
                 );
 
-                setUser({
-                    email: user.email,
-                    uid: user.uid,
+                setCredential({
+                    email: credential.email,
+                    uid: credential.uid,
                     githubUserName: githubUserInfo?.screenName ?? null,
                 });
                 setLoggedIn(true);
             } else {
-                setUser({ email: null, uid: null, githubUserName: null });
+                setCredential({
+                    email: null,
+                    uid: null,
+                    githubUserName: null,
+                });
                 setLoggedIn(false);
             }
         });
@@ -73,13 +82,13 @@ export const AuthContextProvider = ({
         signInWithEmailAndPassword(auth, email, password);
 
     const logOut = async () => {
-        setUser({ email: null, uid: null, githubUserName: null });
+        setCredential({ email: null, uid: null, githubUserName: null });
         await signOut(auth);
     };
 
     return (
         <AuthContext.Provider
-            value={{ user, isLoggedIn, signUp, logIn, logOut }}
+            value={{ credential, user, isLoggedIn, signUp, logIn, logOut }}
         >
             {loading ? null : children}
         </AuthContext.Provider>
