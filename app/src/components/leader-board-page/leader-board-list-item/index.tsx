@@ -16,6 +16,9 @@ const LeaderBoardListItem = ({
     participant,
 }: LeaderboardListItemProps) => {
     const user = useUser(participant.userId);
+    const {
+        credential: { uid: userId },
+    } = useAuth();
 
     return (
         <Card
@@ -60,7 +63,10 @@ const LeaderBoardListItem = ({
                             </Text> */}
                                     <Text
                                         variant="heading"
-                                        className="overflow-hidden text-ellipsis whitespace-nowrap"
+                                        className={`overflow-hidden text-ellipsis whitespace-nowrap ${
+                                            userId === user?.id &&
+                                            'text-primary'
+                                        }`}
                                     >
                                         <a>
                                             <span className="">
