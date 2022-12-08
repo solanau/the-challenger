@@ -27,7 +27,7 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                             as="textarea"
                             id={fieldConfig.name}
                             name={fieldConfig.name}
-                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                             placeholder={fieldConfig.placeholder}
                             maxLength={fieldConfig.maxLength}
                             rows={fieldConfig.rows}
@@ -51,7 +51,7 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                             id={fieldConfig.name}
                             name={fieldConfig.name}
                             type={fieldConfig.type}
-                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                             placeholder={fieldConfig.placeholder}
                             maxLength={fieldConfig.maxLength}
                             required
@@ -75,7 +75,7 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                             id={fieldConfig.name}
                             name={fieldConfig.name}
                             type={fieldConfig.type}
-                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                             placeholder={fieldConfig.placeholder}
                             required
                             disabled={disabled}

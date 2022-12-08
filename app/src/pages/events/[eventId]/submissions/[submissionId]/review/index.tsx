@@ -83,7 +83,7 @@ const SubmissionReviewPage: NextPage<SubmissionReviewPageProps> = ({
                                         onSubmit={handleSendReview}
                                     >
                                         <SubmissionReviewForm
-                                            disabled={isLoading}
+                                            isLoading={isLoading}
                                             answers={submission.answers}
                                         ></SubmissionReviewForm>
                                     </Formik>

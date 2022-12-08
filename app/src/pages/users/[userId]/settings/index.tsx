@@ -88,7 +88,7 @@ const UserSettingsPage: NextPage = () => {
                             enableReinitialize={true}
                         >
                             <UserSettingsForm
-                                disabled={isLoading}
+                                isLoading={isLoading}
                             ></UserSettingsForm>
                         </Formik>
                     </>

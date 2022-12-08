@@ -32,7 +32,7 @@ const EventSettingsForm = ({
             <Field
                 id="event-title"
                 name="title"
-                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a title for the event"
                 maxLength={80}
                 required
@@ -53,7 +53,7 @@ const EventSettingsForm = ({
                 as="textarea"
                 id="event-description"
                 name="description"
-                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a description for the event"
                 required
                 disabled={isLoading}
@@ -74,7 +74,7 @@ const EventSettingsForm = ({
             <Field
                 id="event-reviewers"
                 name="reviewers"
-                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a reviewers for the event"
                 maxLength={80}
                 required
@@ -94,7 +94,7 @@ const EventSettingsForm = ({
             <Field
                 id="event-managers"
                 name="managers"
-                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a managers for the event"
                 maxLength={80}
                 required
@@ -114,7 +114,7 @@ const EventSettingsForm = ({
             <Field
                 id="event-start-date"
                 name="startDate"
-                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a start date for the event"
                 type="datetime-local"
                 required
@@ -133,7 +133,7 @@ const EventSettingsForm = ({
             <Field
                 id="event-end-date"
                 name="endDate"
-                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a end date for the event"
                 type="datetime-local"
                 required

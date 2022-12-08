@@ -29,7 +29,7 @@ const ChallengeSettingsForm = ({
                 <Field
                     id="challenge-title"
                     name="title"
-                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     placeholder="Enter a title for the challenge"
                     maxLength={80}
                     required
@@ -50,7 +50,7 @@ const ChallengeSettingsForm = ({
                     as="textarea"
                     id="challenge-description"
                     name="description"
-                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     placeholder="Enter a description for the challenge"
                     required
                     disabled={isLoading}
@@ -71,7 +71,7 @@ const ChallengeSettingsForm = ({
                 <Field
                     id="challenge-points"
                     name="points"
-                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     placeholder="Enter a points for the challenge"
                     type="number"
                     required
@@ -91,7 +91,7 @@ const ChallengeSettingsForm = ({
                 <Field
                     id="challenge-category"
                     name="category"
-                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     required
                     disabled={isLoading}
                     as="select"
@@ -143,7 +143,7 @@ const ChallengeSettingsForm = ({
                 <Field
                     id="challenge-difficulty"
                     name="difficulty"
-                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     required
                     disabled={isLoading}
                     as="select"
@@ -174,7 +174,7 @@ const ChallengeSettingsForm = ({
                 <Field
                     id="challenge-author-name"
                     name="authorName"
-                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     placeholder="Enter an author name for the challenge"
                     maxLength={80}
                     disabled={isLoading}
@@ -193,7 +193,7 @@ const ChallengeSettingsForm = ({
                 <Field
                     id="challenge-author-github"
                     name="authorGithub"
-                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     placeholder="Enter an author GitHub for the challenge"
                     maxLength={80}
                     disabled={isLoading}
@@ -212,7 +212,7 @@ const ChallengeSettingsForm = ({
                 <Field
                     id="challenge-author-twitter"
                     name="authorTwitter"
-                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     placeholder="Enter an author Twitter for the challenge"
                     maxLength={80}
                     disabled={isLoading}
@@ -275,7 +275,7 @@ const ChallengeSettingsForm = ({
                                     <Field
                                         id={`challenge-field-configs.${index}.name`}
                                         name={`fieldsConfig.${index}.name`}
-                                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                                         placeholder="Enter the field name"
                                         maxLength={80}
                                         required
@@ -295,7 +295,7 @@ const ChallengeSettingsForm = ({
                                     <Field
                                         id={`challenge-field-configs.${index}.label`}
                                         name={`fieldsConfig.${index}.label`}
-                                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                                         placeholder="Enter the field label"
                                         maxLength={80}
                                         required
@@ -315,7 +315,7 @@ const ChallengeSettingsForm = ({
                                     <Field
                                         id={`challenge-field-configs.${index}.placeholder`}
                                         name={`fieldsConfig.${index}.placeholder`}
-                                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                                         placeholder="Enter the field placeholder"
                                         maxLength={80}
                                         disabled={isLoading}
@@ -334,7 +334,7 @@ const ChallengeSettingsForm = ({
                                     <Field
                                         id={`challenge-field-configs.${index}.type`}
                                         name={`fieldsConfig.${index}.type`}
-                                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                                         required
                                         disabled={isLoading}
                                         as="select"
@@ -385,7 +385,7 @@ const ChallengeSettingsForm = ({
                                         <Field
                                             id={`challenge-field-configs.${index}.maxLength`}
                                             name={`fieldsConfig.${index}.maxLength`}
-                                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                                             placeholder="Enter the field max length"
                                             type="number"
                                             required
@@ -407,7 +407,7 @@ const ChallengeSettingsForm = ({
                                         <Field
                                             id={`challenge-field-configs.${index}.rows`}
                                             name={`fieldsConfig.${index}.rows`}
-                                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                                             placeholder="Enter the field rows"
                                             type="number"
                                             required

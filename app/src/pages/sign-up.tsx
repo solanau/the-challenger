@@ -41,7 +41,7 @@ const SignUpPage: NextPage = () => {
                         }}
                         onSubmit={handleSignUp}
                     >
-                        <SignUpForm disabled={isLoading}></SignUpForm>
+                        <SignUpForm isLoading={isLoading}></SignUpForm>
                     </Formik>
 
                     <Text variant="paragraph" className="text-xs">
