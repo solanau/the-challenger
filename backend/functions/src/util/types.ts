@@ -18,7 +18,7 @@ export type ChallengeCategory =
     | 'Feedback';
 
 export interface BaseFieldConfig {
-    field: string;
+    name: string;
     label: string;
     key: string;
     placeholder: string;

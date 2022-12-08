@@ -36,7 +36,7 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
 
         const answers = Object.keys(values).map(key => {
             const fieldIndex = challenge.fieldsConfig.findIndex(
-                formComponent => formComponent.field === key,
+                formComponent => formComponent.name === key,
             );
 
             return {
@@ -162,7 +162,7 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                                 initialValues={challenge.fieldsConfig.reduce(
                                                     (initialValues, field) => ({
                                                         ...initialValues,
-                                                        [field.field]:
+                                                        [field.name]:
                                                             getFieldDefaultValueByType(
                                                                 field.type,
                                                             ),

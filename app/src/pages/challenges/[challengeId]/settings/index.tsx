@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { useChallenge } from 'hooks/use-challenge';
 import { updateChallenge } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
+import { useState } from 'react';
 import { UpdateChallengePayload } from 'types/challenge';
 import { fromChallengeSettingsFormData } from 'utils/challenge';
 
@@ -15,13 +16,19 @@ const ChallengeSettingsPage: NextPage<ChallengeSettingsPageProps> = ({
     challengeId,
 }: ChallengeSettingsPageProps) => {
     const challenge = useChallenge(challengeId);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleUpdateChallenge = (
         updateChallengePayload: UpdateChallengePayload,
     ) => {
-        updateChallenge(challengeId, updateChallengePayload)
-            .then(() => alert('Challenge updated!'))
-            .catch(error => alert(error));
+        setIsLoading(true);
+
+        setTimeout(() => {
+            updateChallenge(challengeId, updateChallengePayload)
+                .then(() => alert('Challenge updated!'))
+                .catch(error => alert(error))
+                .finally(() => setIsLoading(false));
+        }, 3000);
     };
 
     return (
@@ -56,7 +63,9 @@ const ChallengeSettingsPage: NextPage<ChallengeSettingsPageProps> = ({
                             )
                         }
                     >
-                        <ChallengeSettingsForm></ChallengeSettingsForm>
+                        <ChallengeSettingsForm
+                            isLoading={isLoading}
+                        ></ChallengeSettingsForm>
                     </Formik>
                 )}
             </div>
