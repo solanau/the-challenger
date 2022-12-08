@@ -3,6 +3,7 @@ import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
 import CreateEventForm from 'components/events-page/create-event-form';
+import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useEvents } from 'hooks/use-events';
 import { createEvent } from 'lib/api';
@@ -10,6 +11,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
+import { toast } from 'react-toastify';
 import { CreateEventPayload } from 'types/event';
 
 const EventsPage: NextPage = () => {
@@ -21,8 +23,26 @@ const EventsPage: NextPage = () => {
         setIsLoading(true);
 
         createEvent(createEventPayload)
-            .then(() => alert('Event created!'))
-            .catch(error => alert(error))
+            .then(() =>
+                toast('Event created!', {
+                    type: 'success',
+                }),
+            )
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
             .finally(() => {
                 setIsLoading(false);
                 setIsCreateEventModalOpen(false);

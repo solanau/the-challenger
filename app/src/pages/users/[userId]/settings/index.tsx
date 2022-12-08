@@ -1,6 +1,7 @@
 import Button from 'components/common/button';
 import Text from 'components/common/text';
 import UserSettingsForm from 'components/user-settings-page/user-settings-form';
+import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useCurrentUser } from 'hooks/use-current-user';
 import { setUser } from 'lib/api';
@@ -10,6 +11,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
+import { toast } from 'react-toastify';
 import { UpdateUserFormData } from 'types/user';
 
 const UserSettingsPage: NextPage = () => {
@@ -26,8 +28,26 @@ const UserSettingsPage: NextPage = () => {
         setIsLoading(true);
 
         setUser(updateUserFormData)
-            .then(() => alert('Changes successfully saved!'))
-            .catch(error => alert(error))
+            .then(() =>
+                toast('Changes saved!', {
+                    type: 'success',
+                }),
+            )
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
             .finally(() => setIsLoading(false));
     };
 

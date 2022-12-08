@@ -2,6 +2,7 @@ import CreateSubmissionForm from 'components/challenge-page/create-submission-fo
 import Button from 'components/common/button';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
+import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useCurrentUser } from 'hooks/use-current-user';
 import { useEventChallenge } from 'hooks/use-event-challenge';
@@ -12,6 +13,7 @@ import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
+import { toast } from 'react-toastify';
 import { cn } from 'utils';
 import { getFieldDefaultValueByType } from 'utils/form';
 import { v4 as uuid } from 'uuid';
@@ -51,8 +53,26 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
             answers,
             eventId,
         })
-            .then(() => alert('Submission Sent!'))
-            .catch(error => alert(error))
+            .then(() =>
+                toast('Submission Sent!', {
+                    type: 'success',
+                }),
+            )
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
             .finally(() => setIsLoading(false));
     };
 

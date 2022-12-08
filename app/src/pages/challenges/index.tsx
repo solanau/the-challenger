@@ -3,6 +3,7 @@ import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
+import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { createChallenge } from 'lib/api';
@@ -10,6 +11,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
+import { toast } from 'react-toastify';
 import { CreateChallengePayload } from 'types/challenge';
 
 const ChallengesPage: NextPage = () => {
@@ -24,8 +26,26 @@ const ChallengesPage: NextPage = () => {
         setIsLoading(true);
 
         createChallenge(createChallengePayload)
-            .then(() => alert('Challenge created!'))
-            .catch(error => alert(error))
+            .then(() =>
+                toast('Challenge created!', {
+                    type: 'success',
+                }),
+            )
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
             .finally(() => {
                 setIsLoading(false);
                 setIsCreateChallengeModalOpen(false);

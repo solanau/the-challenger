@@ -1,9 +1,9 @@
-/* eslint-disable react/no-unescaped-entities */
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import EnterPasswordDialog from 'components/common/enter-password';
 import EnterSocialDialog from 'components/common/enter-social';
 import Text from 'components/common/text';
+import { FirebaseError } from 'firebase/app';
 import {
     EmailAuthProvider,
     FacebookAuthProvider,
@@ -22,6 +22,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { FormEvent, useEffect, useState } from 'react';
 import { TbBrandFacebook, TbBrandGithub, TbBrandTwitter } from 'react-icons/tb';
+import { toast } from 'react-toastify';
 import { AuthProviderType } from 'types/api';
 import {
     auth,
@@ -98,7 +99,21 @@ const LoginPage: NextPage = () => {
         setIsLoading(true);
         logIn(email, password)
             .then(() => router.push(eventId ? `/events/${eventId}` : '/'))
-            .catch(error => alert(error))
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
             .finally(() => setIsLoading(false));
     };
 

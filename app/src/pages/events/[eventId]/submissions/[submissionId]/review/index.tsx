@@ -2,6 +2,7 @@ import Button from 'components/common/button';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
 import SubmissionReviewForm from 'components/submission-review-page/submission-review-form';
+import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useEvent } from 'hooks/use-event';
 import { useSubmission } from 'hooks/use-submission';
@@ -12,6 +13,7 @@ import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
+import { toast } from 'react-toastify';
 import { ReviewSubmissionPayload } from 'types/submission';
 
 type SubmissionReviewPageProps = {
@@ -34,8 +36,26 @@ const SubmissionReviewPage: NextPage<SubmissionReviewPageProps> = ({
         setIsLoading(true);
 
         reviewSubmission(eventId, submissionId, reviewSubmissionPayload)
-            .then(() => alert('Submission status changed and review sent!'))
-            .catch(error => alert(error))
+            .then(() =>
+                toast('Submission status changed and review sent!', {
+                    type: 'success',
+                }),
+            )
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
             .finally(() => setIsLoading(false));
     };
 

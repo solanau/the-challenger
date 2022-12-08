@@ -1,10 +1,12 @@
 import ChallengeSettingsForm from 'components/challenge-settings-page/challenge-settings-form';
 import Text from 'components/common/text';
+import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useChallenge } from 'hooks/use-challenge';
 import { updateChallenge } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { UpdateChallengePayload } from 'types/challenge';
 import { fromChallengeSettingsFormData } from 'utils/challenge';
 
@@ -24,8 +26,26 @@ const ChallengeSettingsPage: NextPage<ChallengeSettingsPageProps> = ({
         setIsLoading(true);
 
         updateChallenge(challengeId, updateChallengePayload)
-            .then(() => alert('Challenge updated!'))
-            .catch(error => alert(error))
+            .then(() =>
+                toast('Challenge updated!', {
+                    type: 'success',
+                }),
+            )
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
             .finally(() => setIsLoading(false));
     };
 

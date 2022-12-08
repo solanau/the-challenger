@@ -1,10 +1,11 @@
-/* eslint-disable react/no-unescaped-entities */
 import Text from 'components/common/text';
 import ResetPasswordForm from 'components/reset-password-page/reset-password-form';
+import { FirebaseError } from 'firebase/app';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { Formik } from 'formik';
 import { NextPage } from 'next';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { auth } from 'utils/firebase';
 
 const ResetPasswordPage: NextPage = () => {
@@ -14,9 +15,25 @@ const ResetPasswordPage: NextPage = () => {
         setIsLoading(true);
 
         sendPasswordResetEmail(auth, email)
-            .then(() => alert('Reset password email sent!'))
+            .then(() =>
+                toast('Reset password email sent!', {
+                    type: 'success',
+                }),
+            )
             .catch(error => {
-                alert(error);
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
             })
             .finally(() => setIsLoading(false));
     };
