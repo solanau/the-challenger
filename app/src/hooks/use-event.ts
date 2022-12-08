@@ -6,8 +6,10 @@ import { firestore } from 'utils/firebase';
 import { useSubmissions } from './use-submissions';
 
 export const useEvent = (eventId: string | null): EventPayload | null => {
-    const { user } = useAuth();
-    const submissions = useSubmissions(eventId, { userId: user.uid });
+    const {
+        credential: { uid: userId },
+    } = useAuth();
+    const submissions = useSubmissions(eventId, { userId: userId });
     const [event, setEvent] = useState<EventPayload>(null);
 
     useEffect(() => {
@@ -20,8 +22,6 @@ export const useEvent = (eventId: string | null): EventPayload | null => {
             doc(firestore, `events/${eventId}`),
             snapshot => {
                 const data = snapshot.data();
-
-                console.log(data);
 
                 if (!data) {
                     setEvent(null);

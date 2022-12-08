@@ -18,7 +18,7 @@ type ChallengesPageProps = {
 
 const ChallengesPage: NextPage<ChallengesPageProps> = ({ eventId }) => {
     const {
-        user: { uid: userId },
+        credential: { uid: userId },
     } = useAuth();
     const challenges = useEventChallenges(eventId, userId);
     const [selectedCategory, setSelectedCategory] = useState<string>('');

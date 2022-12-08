@@ -1,4 +1,3 @@
-import { useCurrentUser } from 'hooks/use-current-user';
 import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
@@ -21,10 +20,10 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
     const {
-        user: { uid },
+        credential: { uid: userId },
+        user,
         logOut,
     } = useAuth();
-    const user = useCurrentUser();
     const leaderBoard = useLeaderBoard(eventId, 'individual');
     const rank = useMemo(() => {
         if (leaderBoard === null) {
@@ -77,34 +76,37 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                 {user.fullName}
                                             </Text>
 
-                                            <Text
-                                                variant="label"
-                                                className="lowercase text-primary underline"
+                                            <Link
+                                                href={{
+                                                    pathname: `/${user.userName}`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
+                                                passHref
                                             >
-                                                <Link
+                                                <a
                                                     onClick={() =>
                                                         setMenuOpen(false)
                                                     }
-                                                    href={{
-                                                        pathname: `/${user.userName}`,
-                                                        query: eventId
-                                                            ? {
-                                                                  eventId,
-                                                              }
-                                                            : {},
-                                                    }}
-                                                    passHref
                                                 >
-                                                    {`@${user.userName}`}
-                                                </Link>
-                                            </Text>
+                                                    <Text
+                                                        variant="label"
+                                                        className="lowercase text-primary underline"
+                                                    >
+                                                        {`@${user.userName}`}
+                                                    </Text>
+                                                </a>
+                                            </Link>
                                             {rank && totalPoints && (
                                                 <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
                                             )}
 
                                             <Link
                                                 href={{
-                                                    pathname: `/users/${uid}/settings`,
+                                                    pathname: `/users/${userId}/settings`,
                                                     query: eventId
                                                         ? {
                                                               eventId,
@@ -136,7 +138,7 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                         </>
                                     )}
 
-                                    {!uid && (
+                                    {!userId && (
                                         <div>
                                             <Text
                                                 variant="nav-heading"
@@ -185,7 +187,7 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                         </div>
                                     )}
 
-                                    {uid && !user && (
+                                    {userId && !user && (
                                         <div>
                                             <Text
                                                 variant="nav-heading"
@@ -204,7 +206,7 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
 
                                             <Link
                                                 href={{
-                                                    pathname: `/users/${uid}/settings`,
+                                                    pathname: `/users/${userId}/settings`,
                                                     query: eventId
                                                         ? {
                                                               eventId,

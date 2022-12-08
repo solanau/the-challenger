@@ -3,10 +3,11 @@ import Chip from 'components/common/chip';
 import Text from 'components/common/text';
 import { useUser } from 'hooks/use-user';
 import Link from 'next/link';
+import { useAuth } from 'providers/AuthProvider';
 import { ParticipantPayload } from 'types/leader-board';
 import { cn } from 'utils';
 
-interface LeaderboardListItemProps {
+interface LeaderBoardListItemProps {
     position: number;
     participant: ParticipantPayload;
 }
@@ -14,8 +15,11 @@ interface LeaderboardListItemProps {
 const LeaderBoardListItem = ({
     position,
     participant,
-}: LeaderboardListItemProps) => {
+}: LeaderBoardListItemProps) => {
     const user = useUser(participant.userId);
+    const {
+        credential: { uid: userId },
+    } = useAuth();
 
     return (
         <Card
@@ -60,7 +64,10 @@ const LeaderBoardListItem = ({
                             </Text> */}
                                     <Text
                                         variant="heading"
-                                        className="overflow-hidden text-ellipsis whitespace-nowrap"
+                                        className={`overflow-hidden text-ellipsis whitespace-nowrap ${
+                                            userId === user?.id &&
+                                            'text-primary'
+                                        }`}
                                     >
                                         <a>
                                             <span className="">

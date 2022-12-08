@@ -1,19 +1,19 @@
 import Button from 'components/common/button';
 import Text from 'components/common/text';
-import LeaderboardList from 'components/leader-board-page/leader-board-list';
-import { useCurrentUser } from 'hooks/use-current-user';
+import LeaderBoardList from 'components/leader-board-page/leader-board-list';
 import { useEvent } from 'hooks/use-event';
 import { useLeaderBoard } from 'hooks/use-leader-board';
 import { updateLeaderBoard } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { useAuth } from 'providers/AuthProvider';
 
-type LeaderboardPageProps = {
+type LeaderBoardPageProps = {
     eventId: string;
 };
 
-const LeaderboardPage: NextPage<LeaderboardPageProps> = ({ eventId }) => {
-    const user = useCurrentUser();
+const LeaderBoardPage: NextPage<LeaderBoardPageProps> = ({ eventId }) => {
+    const { user } = useAuth();
     const event = useEvent(eventId);
     const leaderBoard = useLeaderBoard(eventId, 'individual');
 
@@ -26,7 +26,7 @@ const LeaderboardPage: NextPage<LeaderboardPageProps> = ({ eventId }) => {
     return (
         <>
             <NextSeo
-                title="Leaderboard"
+                title="LeaderBoard"
                 description="Explore and contribute to bounties that interest you and get paid for your work"
             ></NextSeo>
 
@@ -41,7 +41,7 @@ const LeaderboardPage: NextPage<LeaderboardPageProps> = ({ eventId }) => {
                                 variant="big-heading"
                                 className="bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a] bg-clip-text text-center text-8xl text-transparent"
                             >
-                                Leaderboard
+                                LeaderBoard
                             </Text>
                             {user && event && event.managers.includes(user.id) && (
                                 <Button
@@ -55,7 +55,7 @@ const LeaderboardPage: NextPage<LeaderboardPageProps> = ({ eventId }) => {
                         </div>
 
                         <div className="mt-6">
-                            <LeaderboardList
+                            <LeaderBoardList
                                 leaderBoard={leaderBoard}
                                 key="open-bounties"
                             />
@@ -67,7 +67,7 @@ const LeaderboardPage: NextPage<LeaderboardPageProps> = ({ eventId }) => {
     );
 };
 
-export default LeaderboardPage;
+export default LeaderBoardPage;
 
 export const getServerSideProps: GetServerSideProps = async context => {
     let eventId = context.params.eventId;

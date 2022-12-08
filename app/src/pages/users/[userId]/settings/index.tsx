@@ -3,7 +3,6 @@ import Text from 'components/common/text';
 import UserSettingsForm from 'components/user-settings-page/user-settings-form';
 import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
-import { useCurrentUser } from 'hooks/use-current-user';
 import { setUser } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
@@ -16,8 +15,7 @@ import { UpdateUserFormData } from 'types/user';
 
 const UserSettingsPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const { isLoggedIn } = useAuth();
-    const user = useCurrentUser();
+    const { isLoggedIn, user } = useAuth();
     const router = useRouter();
     const eventId =
         router.query.eventId instanceof Array

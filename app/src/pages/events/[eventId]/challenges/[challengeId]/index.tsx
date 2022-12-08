@@ -7,7 +7,6 @@ import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
 import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
-import { useCurrentUser } from 'hooks/use-current-user';
 import { useEventChallenge } from 'hooks/use-event-challenge';
 import { createSubmission } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
@@ -34,8 +33,7 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [answers, setAnswers] = useState<CreateSubmissionAnswerPayload[]>([]);
-    const { isLoggedIn } = useAuth();
-    const user = useCurrentUser();
+    const { isLoggedIn, user } = useAuth();
     const challenge = useEventChallenge(eventId, challengeId, user?.id);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
