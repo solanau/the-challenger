@@ -23,7 +23,7 @@ const ChallengeSettingsForm = ({
                     htmlFor="challenge-title"
                     className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                 >
-                    Title&nbsp;
+                    Title{' '}
                 </label>
 
                 <Field
@@ -43,7 +43,7 @@ const ChallengeSettingsForm = ({
                     htmlFor="challenge-description"
                     className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                 >
-                    Description&nbsp;
+                    Description{' '}
                 </label>
 
                 <Field
@@ -65,7 +65,7 @@ const ChallengeSettingsForm = ({
                     htmlFor="challenge-points"
                     className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                 >
-                    Points&nbsp;
+                    Points{' '}
                 </label>
 
                 <Field
@@ -85,7 +85,7 @@ const ChallengeSettingsForm = ({
                     htmlFor="challenge-category"
                     className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                 >
-                    Category&nbsp;
+                    Category{' '}
                 </label>
 
                 <Field
@@ -137,7 +137,7 @@ const ChallengeSettingsForm = ({
                     htmlFor="challenge-difficulty"
                     className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                 >
-                    Difficulty&nbsp;
+                    Difficulty{' '}
                 </label>
 
                 <Field
@@ -168,7 +168,7 @@ const ChallengeSettingsForm = ({
                     htmlFor="challenge-author-name"
                     className="block w-full border-none bg-transparent py-2 outline-none"
                 >
-                    Author Name&nbsp;
+                    Author Name{' '}
                 </label>
 
                 <Field
@@ -187,7 +187,7 @@ const ChallengeSettingsForm = ({
                     htmlFor="challenge-author-github"
                     className="block w-full border-none bg-transparent py-2 outline-none"
                 >
-                    Author Github&nbsp;
+                    Author Github{' '}
                 </label>
 
                 <Field
@@ -206,7 +206,7 @@ const ChallengeSettingsForm = ({
                     htmlFor="challenge-author-twitter"
                     className="block w-full border-none bg-transparent py-2 outline-none"
                 >
-                    Author Twitter&nbsp;
+                    Author Twitter{' '}
                 </label>
 
                 <Field
@@ -269,7 +269,7 @@ const ChallengeSettingsForm = ({
                                         htmlFor={`challenge-field-configs.${index}.name`}
                                         className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                                     >
-                                        Name&nbsp;
+                                        Name{' '}
                                     </label>
 
                                     <Field
@@ -289,7 +289,7 @@ const ChallengeSettingsForm = ({
                                         htmlFor={`challenge-field-configs.${index}.label`}
                                         className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                                     >
-                                        Label&nbsp;
+                                        Label{' '}
                                     </label>
 
                                     <Field
@@ -328,7 +328,7 @@ const ChallengeSettingsForm = ({
                                         htmlFor={`challenge-field-configs.${index}.type`}
                                         className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                                     >
-                                        Type&nbsp;
+                                        Type{' '}
                                     </label>
 
                                     <Field

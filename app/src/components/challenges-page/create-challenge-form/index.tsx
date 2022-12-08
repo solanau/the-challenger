@@ -15,7 +15,7 @@ const CreateChallengeForm = ({
                 htmlFor="challenge-title"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Title&nbsp;
+                Title{' '}
             </label>
 
             <Field
@@ -35,7 +35,7 @@ const CreateChallengeForm = ({
                 htmlFor="challenge-description"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Description&nbsp;
+                Description{' '}
             </label>
 
             <Field

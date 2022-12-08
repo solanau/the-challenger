@@ -363,7 +363,7 @@ const LoginPage: NextPage = () => {
                                                 variant="label"
                                                 className="mt-2"
                                             >
-                                                Email is not registered.&nbsp;
+                                                Email is not registered.{' '}
                                                 <Link href="/sign-up" passHref>
                                                     <a className="text-primary">
                                                         Visit sign up page.
@@ -380,7 +380,7 @@ const LoginPage: NextPage = () => {
                                                             <Text variant="sub-paragraph">
                                                                 Email registered
                                                                 to another
-                                                                provider.&nbsp;
+                                                                provider.{' '}
                                                             </Text>
                                                             <Text variant="sub-paragraph">
                                                                 Please set a new

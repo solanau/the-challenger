@@ -1,6 +1,9 @@
 import CreateSubmissionForm from 'components/challenge-page/create-submission-form';
 import Button from 'components/common/button';
+import Card from 'components/common/card';
 import Markdown from 'components/common/markdown';
+import Modal from 'components/common/modal';
+import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
 import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
@@ -14,6 +17,7 @@ import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { toast } from 'react-toastify';
+import { CreateSubmissionAnswerPayload } from 'types/api';
 import { cn } from 'utils';
 import { getFieldDefaultValueByType } from 'utils/form';
 import { v4 as uuid } from 'uuid';
@@ -29,51 +33,66 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
 }) => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [answers, setAnswers] = useState<CreateSubmissionAnswerPayload[]>([]);
     const { isLoggedIn } = useAuth();
     const user = useCurrentUser();
     const challenge = useEventChallenge(eventId, challengeId, user?.id);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-    const handleCreateSubmission = (values: unknown) => {
+    const handleConfirmSubmission = (values: { [key: string]: string }) => {
+        setIsConfirmModalOpen(true);
+        setAnswers(
+            Object.keys(values).map(key => {
+                const fieldIndex = challenge.fieldsConfig.findIndex(
+                    formComponent => formComponent.name === key,
+                );
+
+                return {
+                    question: challenge.fieldsConfig[fieldIndex].label,
+                    field: challenge.fieldsConfig[fieldIndex].name,
+                    reply: values[key],
+                };
+            }),
+        );
+    };
+
+    const handleCreateSubmission = (
+        answers: CreateSubmissionAnswerPayload[],
+    ) => {
         setIsLoading(true);
 
-        const answers = Object.keys(values).map(key => {
-            const fieldIndex = challenge.fieldsConfig.findIndex(
-                formComponent => formComponent.name === key,
-            );
-
-            return {
-                question: challenge.fieldsConfig[fieldIndex].label,
-                reply: values[key],
-            };
-        });
-
-        createSubmission({
-            id: uuid(),
-            challengeId,
-            answers,
-            eventId,
-        })
-            .then(() =>
-                toast('Submission Sent!', {
-                    type: 'success',
-                }),
-            )
-            .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+        setTimeout(() => {
+            createSubmission({
+                id: uuid(),
+                challengeId,
+                answers,
+                eventId,
             })
-            .finally(() => setIsLoading(false));
+                .then(() =>
+                    toast('Submission Sent!', {
+                        type: 'success',
+                    }),
+                )
+                .catch(error => {
+                    if (typeof error === 'string') {
+                        toast(error, {
+                            type: 'error',
+                        });
+                    } else if (error instanceof FirebaseError) {
+                        toast(error.code, {
+                            type: 'error',
+                        });
+                    } else {
+                        toast(JSON.stringify(error), {
+                            type: 'error',
+                        });
+                    }
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                    setIsConfirmModalOpen(false);
+                });
+        }, 3000);
     };
 
     return (
@@ -190,11 +209,10 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                                     {},
                                                 )}
                                                 onSubmit={
-                                                    handleCreateSubmission
+                                                    handleConfirmSubmission
                                                 }
                                             >
                                                 <CreateSubmissionForm
-                                                    isLoading={isLoading}
                                                     fieldsConfig={
                                                         challenge.fieldsConfig
                                                     }
@@ -211,7 +229,7 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                             className="mt-4 text-right italic"
                                         >
                                             In order to submit a challenge, you
-                                            have to &nbsp;
+                                            have to{' '}
                                             <Link
                                                 href="/users/profile-settings"
                                                 passHref
@@ -222,6 +240,59 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                             </Link>
                                         </Text>
                                     )}
+
+                                <Modal
+                                    title="Confirm submission"
+                                    subTitle="A submission cannot be changed after it's been sent. Make sure to double-check your answers before confirming."
+                                    isOpen={isConfirmModalOpen}
+                                    onClose={() => setIsConfirmModalOpen(false)}
+                                >
+                                    <div className="mt-4 flex flex-col gap-2">
+                                        <div className="mb-4 max-h-80 overflow-y-auto pb-2">
+                                            {answers.map((answer, index) => (
+                                                <Card
+                                                    key={index}
+                                                    className="p-4"
+                                                >
+                                                    <Text variant="sub-heading">
+                                                        #{index + 1}{' '}
+                                                        {answer.question}:
+                                                    </Text>
+                                                    <Text
+                                                        className="pl-4"
+                                                        variant="sub-paragraph"
+                                                    >
+                                                        {answer.reply}
+                                                    </Text>
+                                                </Card>
+                                            ))}
+                                        </div>
+                                        <div className="flex justify-end gap-2">
+                                            <Button
+                                                variant="orange"
+                                                onClick={() =>
+                                                    handleCreateSubmission(
+                                                        answers,
+                                                    )
+                                                }
+                                                disabled={isLoading}
+                                            >
+                                                {isLoading && (
+                                                    <Spinner variant="large"></Spinner>
+                                                )}
+                                                Yes, I want to submit.
+                                            </Button>
+                                            <Button
+                                                variant="black"
+                                                onClick={() =>
+                                                    setIsConfirmModalOpen(false)
+                                                }
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </Modal>
                             </section>
                         </div>
                     ) : (

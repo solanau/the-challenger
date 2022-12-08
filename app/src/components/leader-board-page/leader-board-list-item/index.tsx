@@ -26,7 +26,7 @@ const LeaderBoardListItem = ({
             )}
         >
             <Link href={`${user?.userName}`} passHref>
-                <div  className="flex w-full overflow-hidden cursor-pointer">
+                <div className="flex w-full cursor-pointer overflow-hidden">
                     <div className="w-full overflow-hidden">
                         <div className="flex h-16 flex-col justify-between">
                             <Chip highlightValue={'rank'} />
@@ -36,7 +36,7 @@ const LeaderBoardListItem = ({
                                     'inline w-full overflow-hidden text-ellipsis whitespace-nowrap',
                                 )}
                             >
-                        #{position}
+                                #{position}
                             </Text>
                         </div>
                     </div>
@@ -44,8 +44,11 @@ const LeaderBoardListItem = ({
                     <div className="flex w-full max-w-full flex-row justify-between">
                         <div className="flex h-16 w-full min-w-0 flex-1 flex-row gap-3">
                             <div className="flex h-full w-full flex-col justify-between gap-3">
-                                <Text variant="label" className="text-secondary">
-                            Player
+                                <Text
+                                    variant="label"
+                                    className="text-secondary"
+                                >
+                                    Player
                                 </Text>
                                 <div className="flex flex-col justify-start">
                                     {/* only show handle, not full name but link to profile */}
@@ -53,9 +56,12 @@ const LeaderBoardListItem = ({
                                 variant="heading"
                                 className="overflow-hidden text-ellipsis whitespace-nowrap"
                             >
-                                {user?.fullName} &nbsp;
+                                {user?.fullName} {' '}
                             </Text> */}
-                                    <Text variant="heading" className="overflow-hidden text-ellipsis whitespace-nowrap">
+                                    <Text
+                                        variant="heading"
+                                        className="overflow-hidden text-ellipsis whitespace-nowrap"
+                                    >
                                         <a>
                                             <span className="">
                                                 {user?.userName}
@@ -75,13 +81,15 @@ const LeaderBoardListItem = ({
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div className="flex w-full max-w-full flex-row justify-between overflow-hidden md:justify-end">
                         <div className="basis-18 flex h-16 flex-shrink-0 flex-col justify-between overflow-hidden">
-                            <Text variant="label" className="inline text-secondary">
-                        Points
+                            <Text
+                                variant="label"
+                                className="inline text-secondary"
+                            >
+                                Points
                             </Text>
                             <Text
                                 variant="heading"

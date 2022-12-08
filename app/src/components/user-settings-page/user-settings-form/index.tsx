@@ -16,7 +16,7 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                 htmlFor="user-full-name"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Full Name&nbsp;
+                Full Name{' '}
             </label>
 
             <Field
@@ -36,7 +36,7 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                 htmlFor="user-user-name"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Username&nbsp;
+                Username{' '}
             </label>
 
             <Field
@@ -56,7 +56,7 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                 htmlFor="user-wallet-public-key"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Wallet Public Key&nbsp;
+                Wallet Public Key{' '}
             </label>
 
             <Field

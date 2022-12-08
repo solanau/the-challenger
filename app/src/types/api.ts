@@ -10,6 +10,7 @@ export interface PrizePayload {
 export interface CreateSubmissionAnswerPayload {
     question: string;
     reply: string;
+    field: string;
 }
 
 export interface CreateSubmissionPayload {

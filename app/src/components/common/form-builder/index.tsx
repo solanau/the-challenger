@@ -20,7 +20,7 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                             htmlFor={fieldConfig.name}
                             className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                         >
-                            {++index}. {fieldConfig.label}&nbsp;
+                            {++index}. {fieldConfig.label}{' '}
                         </label>
 
                         <Field
@@ -44,7 +44,7 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                             htmlFor={fieldConfig.name}
                             className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                         >
-                            {++index}. {fieldConfig.label}&nbsp;
+                            {++index}. {fieldConfig.label}{' '}
                         </label>
 
                         <Field
@@ -68,7 +68,7 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                             htmlFor={fieldConfig.name}
                             className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                         >
-                            {++index}. {fieldConfig.label}&nbsp;
+                            {++index}. {fieldConfig.label}{' '}
                         </label>
 
                         <Field

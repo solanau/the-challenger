@@ -13,7 +13,7 @@ const CreateEventForm = ({ isLoading = false }: CreateEventFormProps) => (
                 htmlFor="event-title"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Title&nbsp;
+                Title{' '}
             </label>
 
             <Field
@@ -33,7 +33,7 @@ const CreateEventForm = ({ isLoading = false }: CreateEventFormProps) => (
                 htmlFor="event-description"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Description&nbsp;
+                Description{' '}
             </label>
 
             <Field

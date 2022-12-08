@@ -14,7 +14,7 @@ const LoginForm: NextPage<LoginFormProps> = ({ isLoading = false }) => (
                 htmlFor="credential-email"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Email&nbsp;
+                Email{' '}
             </label>
 
             <Field
@@ -35,7 +35,7 @@ const LoginForm: NextPage<LoginFormProps> = ({ isLoading = false }) => (
                 htmlFor="credential-password"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Password&nbsp;
+                Password{' '}
             </label>
 
             <Field

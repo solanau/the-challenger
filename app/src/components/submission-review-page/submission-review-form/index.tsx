@@ -103,7 +103,7 @@ const SubmissionReviewForm: NextPage<SubmissionReviewFormProps> = ({
                 htmlFor="review-status"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Status&nbsp;
+                Status{' '}
             </label>
 
             <Field

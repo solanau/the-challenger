@@ -16,7 +16,7 @@ const ResetPasswordForm: NextPage<ResetPasswordFormProps> = ({
                 htmlFor="credential-email"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Email&nbsp;
+                Email{' '}
             </label>
 
             <Field

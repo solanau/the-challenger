@@ -26,7 +26,7 @@ const EventSettingsForm = ({
                 htmlFor="event-title"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Title&nbsp;
+                Title{' '}
             </label>
 
             <Field
@@ -46,7 +46,7 @@ const EventSettingsForm = ({
                 htmlFor="event-description"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Description&nbsp;
+                Description{' '}
             </label>
 
             <Field
@@ -68,7 +68,7 @@ const EventSettingsForm = ({
                 htmlFor="event-reviewers"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Reviewers&nbsp;
+                Reviewers{' '}
             </label>
 
             <Field
@@ -88,7 +88,7 @@ const EventSettingsForm = ({
                 htmlFor="event-managers"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Managers&nbsp;
+                Managers{' '}
             </label>
 
             <Field
@@ -108,7 +108,7 @@ const EventSettingsForm = ({
                 htmlFor="event-start-date"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Start Date&nbsp;
+                Start Date{' '}
             </label>
 
             <Field
@@ -127,7 +127,7 @@ const EventSettingsForm = ({
                 htmlFor="event-end-date"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                End Date&nbsp;
+                End Date{' '}
             </label>
 
             <Field
