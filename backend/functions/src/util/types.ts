@@ -183,7 +183,8 @@ export interface SetUserPayload {
 export interface SubmissionPayload {
     eventId: string;
     challengeId: string;
-    challenge: ChallengePayload & { id: string };
+    title: string;
+    description: string;
     userId: string;
     createdAt: number;
     basePoints: number;

@@ -85,7 +85,7 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({ eventId }) => {
                                 filteredSubmissions.map((submission, index) => (
                                     <Card key={index} className="p-4">
                                         <Text variant="heading">
-                                            {submission?.challenge.title ??
+                                            {submission?.title ??
                                                 'Challenge not found'}
                                         </Text>
 

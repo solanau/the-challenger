@@ -2,7 +2,6 @@ import * as functions from 'firebase-functions';
 import { db } from '..';
 import {
     Auth,
-    ChallengePayload,
     CreateSubmissionPayload,
     ReviewSubmissionPayload,
     SubmissionPayload,
@@ -64,10 +63,8 @@ class SubmissionController {
         const submission: SubmissionPayload = {
             status: 'pending',
             userId: auth.id,
-            challenge: {
-                id: challenge.id,
-                ...(challengeData as ChallengePayload),
-            },
+            title: challengeData.title,
+            description: challengeData.description,
             challengeId: payload.challengeId,
             eventId: payload.eventId,
             answers: payload.answers.map(answer => ({

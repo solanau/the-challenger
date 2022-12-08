@@ -72,7 +72,7 @@ const SubmissionReviewPage: NextPage<SubmissionReviewPageProps> = ({
                                     <div>
                                         <div className="flex h-12 flex-col justify-between md:h-20">
                                             <h1 className="peer border-none bg-transparent text-4xl font-medium placeholder-white/90 outline-none md:text-6xl">
-                                                {submission.challenge.title ??
+                                                {submission.title ??
                                                     'Challenge not found'}
                                             </h1>
                                         </div>
@@ -81,7 +81,7 @@ const SubmissionReviewPage: NextPage<SubmissionReviewPageProps> = ({
 
                                 <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-6 xl:px-48 xl:py-8">
                                     <Markdown>
-                                        {submission.challenge.description}
+                                        {submission.description}
                                     </Markdown>
 
                                     <Text variant="paragraph">

@@ -28,11 +28,8 @@ const SubmissionCard = ({ submission }: SubmissionCardProps) => (
             variant="heading"
             className="mb-4 w-full overflow-hidden text-ellipsis whitespace-nowrap"
         >
-            <Link
-                href={`/submissions/${submission.id}`}
-                passHref
-            >
-                {submission.challenge.title}
+            <Link href={`/submissions/${submission.id}`} passHref>
+                {submission.title}
             </Link>
         </Text>
         <div className="flex w-full justify-between">

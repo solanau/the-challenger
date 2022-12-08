@@ -61,38 +61,36 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
     ) => {
         setIsLoading(true);
 
-        setTimeout(() => {
-            createSubmission({
-                id: uuid(),
-                challengeId,
-                answers,
-                eventId,
+        createSubmission({
+            id: uuid(),
+            challengeId,
+            answers,
+            eventId,
+        })
+            .then(() =>
+                toast('Submission Sent!', {
+                    type: 'success',
+                }),
+            )
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
             })
-                .then(() =>
-                    toast('Submission Sent!', {
-                        type: 'success',
-                    }),
-                )
-                .catch(error => {
-                    if (typeof error === 'string') {
-                        toast(error, {
-                            type: 'error',
-                        });
-                    } else if (error instanceof FirebaseError) {
-                        toast(error.code, {
-                            type: 'error',
-                        });
-                    } else {
-                        toast(JSON.stringify(error), {
-                            type: 'error',
-                        });
-                    }
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                    setIsConfirmModalOpen(false);
-                });
-        }, 3000);
+            .finally(() => {
+                setIsLoading(false);
+                setIsConfirmModalOpen(false);
+            });
     };
 
     return (
