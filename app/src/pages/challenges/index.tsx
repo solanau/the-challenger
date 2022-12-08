@@ -15,16 +15,21 @@ import { CreateChallengePayload } from 'types/challenge';
 const ChallengesPage: NextPage = () => {
     const [isCreateChallengeModalOpen, setIsCreateChallengeModalOpen] =
         useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const challenges = useChallenges({ version: 1 });
 
     const handleCreateChallenge = (
         createChallengePayload: CreateChallengePayload,
     ) => {
-        setIsCreateChallengeModalOpen(false);
+        setIsLoading(true);
 
         createChallenge(createChallengePayload)
             .then(() => alert('Challenge created!'))
-            .catch(error => alert(error));
+            .catch(error => alert(error))
+            .finally(() => {
+                setIsLoading(false);
+                setIsCreateChallengeModalOpen(false);
+            });
     };
 
     return (
@@ -63,7 +68,9 @@ const ChallengesPage: NextPage = () => {
                             }}
                             onSubmit={handleCreateChallenge}
                         >
-                            <CreateChallengeForm></CreateChallengeForm>
+                            <CreateChallengeForm
+                                isLoading={isLoading}
+                            ></CreateChallengeForm>
                         </Formik>
                     </Modal>
                 </div>

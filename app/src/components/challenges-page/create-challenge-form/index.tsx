@@ -1,58 +1,62 @@
 import Button from 'components/common/button';
-import Card from 'components/common/card';
+import Spinner from 'components/common/spinner';
 import { Field, Form } from 'formik';
 
-const CreateChallengeForm = () => (
+interface CreateChallengeFormProps {
+    isLoading?: boolean;
+}
+
+const CreateChallengeForm = ({
+    isLoading = false,
+}: CreateChallengeFormProps) => (
     <Form>
         <div className="pt-4">
             <label
                 htmlFor="challenge-title"
-                className="required block w-full border-none bg-transparent py-2 outline-none"
+                className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Title
+                Title&nbsp;
             </label>
 
-            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                <Field
-                    id="challenge-title"
-                    name="title"
-                    maxLength={32}
-                    className="w-full bg-transparent outline-none"
-                    placeholder="Enter a title for the challenge"
-                    required
-                />
-            </Card>
+            <Field
+                id="challenge-title"
+                name="title"
+                className="w-full rounded-2xl border border-zinc-200 bg-zinc-200 bg-opacity-5 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                placeholder="Enter a title for the challenge"
+                maxLength={80}
+                required
+                disabled={isLoading}
+                autoComplete="off"
+            />
         </div>
 
         <div className="pt-4">
             <label
                 htmlFor="challenge-description"
-                className="required block w-full border-none bg-transparent py-2 outline-none"
+                className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Description
+                Description&nbsp;
             </label>
 
-            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                <Field
-                    as="textarea"
-                    id="challenge-description"
-                    name="description"
-                    className="w-full bg-transparent outline-none"
-                    maxLength={500}
-                    rows={4}
-                    placeholder="Enter a description for the challenge"
-                    required
-                />
-            </Card>
+            <Field
+                as="textarea"
+                id="challenge-description"
+                name="description"
+                className="w-full rounded-2xl border border-zinc-200 bg-zinc-200 bg-opacity-5 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-10 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                placeholder="Enter a description for the challenge"
+                required
+                disabled={isLoading}
+                autoComplete="off"
+                maxLength={500}
+                rows={4}
+            />
         </div>
 
         <div className="width-full flex flex-row justify-end gap-2 pt-4">
-            <Button
-                className="w-40"
-                type="submit"
-                variant="orange"
-                text="Submit"
-            />
+            <Button type="submit" variant="orange" disabled={isLoading}>
+                {isLoading && <Spinner variant="large"></Spinner>}
+                Submit
+            </Button>
         </div>
     </Form>
 );
