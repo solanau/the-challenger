@@ -76,27 +76,30 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                 {user.fullName}
                                             </Text>
 
-                                            <Text
-                                                variant="label"
-                                                className="lowercase text-primary underline"
+                                            <Link
+                                                href={{
+                                                    pathname: `/${user.userName}`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
+                                                passHref
                                             >
-                                                <Link
+                                                <a
                                                     onClick={() =>
                                                         setMenuOpen(false)
                                                     }
-                                                    href={{
-                                                        pathname: `/${user.userName}`,
-                                                        query: eventId
-                                                            ? {
-                                                                  eventId,
-                                                              }
-                                                            : {},
-                                                    }}
-                                                    passHref
                                                 >
-                                                    {`@${user.userName}`}
-                                                </Link>
-                                            </Text>
+                                                    <Text
+                                                        variant="label"
+                                                        className="lowercase text-primary underline"
+                                                    >
+                                                        {`@${user.userName}`}
+                                                    </Text>
+                                                </a>
+                                            </Link>
                                             {rank && totalPoints && (
                                                 <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
                                             )}
