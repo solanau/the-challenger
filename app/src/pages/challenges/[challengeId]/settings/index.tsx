@@ -23,12 +23,10 @@ const ChallengeSettingsPage: NextPage<ChallengeSettingsPageProps> = ({
     ) => {
         setIsLoading(true);
 
-        setTimeout(() => {
-            updateChallenge(challengeId, updateChallengePayload)
-                .then(() => alert('Challenge updated!'))
-                .catch(error => alert(error))
-                .finally(() => setIsLoading(false));
-        }, 3000);
+        updateChallenge(challengeId, updateChallengePayload)
+            .then(() => alert('Challenge updated!'))
+            .catch(error => alert(error))
+            .finally(() => setIsLoading(false));
     };
 
     return (
