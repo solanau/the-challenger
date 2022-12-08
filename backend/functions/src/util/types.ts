@@ -18,7 +18,7 @@ export type ChallengeCategory =
     | 'Feedback';
 
 export interface BaseFieldConfig {
-    field: string;
+    name: string;
     label: string;
     key: string;
     placeholder: string;
@@ -56,77 +56,35 @@ export interface SubmissionAnswer {
 }
 
 export interface EventPayload {
-    pubkey: string;
-    authority: string;
     title: string;
     description: string;
-    location: string;
-    host: string;
-    date: string;
+    userId: string;
+    challenges: string[];
+    version: number;
+    isNew: boolean;
+    createdAt: number;
+    updatedAt: number;
+    startDate?: number;
+    endDate?: number;
+    reviewers?: string[];
+    managers?: string[];
 }
 
 export interface ChallengePayload {
-    uid: string;
-    eventId?: string;
-    id: string;
-    pubkey: string;
-    eventPubkey: string;
-    key: number;
-    iconKey: number;
-    iconSize: number;
-    title: string;
-    type: string;
-    difficulty: string;
-    description: string;
-    shortDescription: string;
-    githubUrl: string;
-    authorName?: string;
-    authorGithub?: string;
-    authorTwitter?: string;
-    rewardValue: number;
-    rewardType: string;
-    nftBadge?: boolean;
-    authorWebsite?: string;
-    authorLogo?: string;
-    sponsorALink?: string;
-    sponsorALogo?: string;
-    sponsorBLink?: string;
-    sponsorBLogo?: string;
-    mint?: string;
-    name?: string;
-    owner?: string;
-    state?: 'open' | 'closed';
-    tags?: { value: string }[];
-    rank?: number;
-    formComponents: any[];
-    createdAt: string;
-    startDate: string;
-    endDate: string;
-}
-
-export interface EventPayload2 {
     title: string;
     description: string;
-    startDate: number;
-    endDate: number;
-    challenges: string[];
-    reviewers: string[];
-    managers: string[];
-}
-
-export interface ChallengePayload2 {
-    title: string;
-    description: string;
-    category: ChallengeCategory;
-    difficulty: ChallengeDifficulty;
-    points: number;
     createdAt: number;
     updatedAt: number;
     isNew: boolean;
-    fieldsConfig: FieldConfig[];
-    authorName: string;
-    authorGithub: string;
-    authorTwitter: string;
+    version: number;
+    userId: string;
+    fieldsConfig?: FieldConfig[];
+    category?: ChallengeCategory;
+    difficulty?: ChallengeDifficulty;
+    points?: number;
+    authorName?: string;
+    authorGithub?: string;
+    authorTwitter?: string;
 }
 
 export interface PrizePayload {
@@ -232,9 +190,13 @@ export interface SetUserPayload {
 export interface SubmissionPayload {
     eventId: string;
     challengeId: string;
-    challenge: ChallengePayload2 & { id: string };
+    title: string;
+    description: string;
     userId: string;
     createdAt: number;
+    updatedAt: number;
+    isNew: boolean;
+    version: number;
     basePoints: number;
     totalPoints: number;
     timeBonusPoints: number;

@@ -1,10 +1,13 @@
 import Text from 'components/common/text';
 import EventSettingsForm from 'components/event-settings-page/event-settings-form';
+import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { useEvent } from 'hooks/use-event';
 import { updateEvent } from 'lib/api';
 import { GetServerSideProps, NextPage } from 'next';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { UpdateEventPayload } from 'types/event';
 import { fromEventSettingsFormData } from 'utils/event';
 import { dateToValue } from 'utils/time';
@@ -18,11 +21,33 @@ const EventSettingsPage: NextPage<EventSettingsPageProps> = ({
 }: EventSettingsPageProps) => {
     const event = useEvent(eventId);
     const challenges = useChallenges({ version: 1, isNew: false });
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleUpdateEvent = (updateEventPayload: UpdateEventPayload) => {
+        setIsLoading(true);
+
         updateEvent(eventId, updateEventPayload)
-            .then(() => alert('Event updated!'))
-            .catch(error => alert(error));
+            .then(() =>
+                toast('Event updated!', {
+                    type: 'success',
+                }),
+            )
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
+            .finally(() => setIsLoading(false));
     };
 
     return (
@@ -59,6 +84,7 @@ const EventSettingsPage: NextPage<EventSettingsPageProps> = ({
                     >
                         <EventSettingsForm
                             challenges={challenges}
+                            isLoading={isLoading}
                         ></EventSettingsForm>
                     </Formik>
                 )}

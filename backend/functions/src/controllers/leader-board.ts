@@ -2,12 +2,14 @@ import * as functions from 'firebase-functions';
 import { db } from '..';
 import {
     Auth,
-    EventPayload2,
+    EventPayload,
     LeaderBoard,
     Participant,
     SubmissionPayload,
     UpdateLeaderBoardPayload,
 } from '../util/types';
+
+const LEADER_BOARD_DOCUMENT_VERSION = 1;
 
 function groupParticipants(
     dictionaries: {
@@ -62,7 +64,6 @@ function getParticipantsTotal(participantsLookUp: { [key: string]: number }) {
 
 function updateLeaderBoard(
     leaderBoard: LeaderBoard,
-    event: EventPayload2,
     submissions: SubmissionPayload[],
 ): LeaderBoard {
     const { participantsGroupedByPoints, participantsLookUp } =
@@ -118,7 +119,7 @@ function updateLeaderBoard(
 class LeaderBoardController {
     async updateLeaderBoard(auth: Auth, payload: UpdateLeaderBoardPayload) {
         const event = await db.doc(`events/${payload.eventId}`).get();
-        const eventData = event.data() as EventPayload2;
+        const eventData = event.data() as EventPayload;
 
         if (!eventData.managers.includes(auth.id)) {
             throw new functions.https.HttpsError(
@@ -144,15 +145,12 @@ class LeaderBoardController {
         const leaderBoardData = (leaderBoard.data() ?? {
             participants: [],
             totalPoints: 0,
+            version: LEADER_BOARD_DOCUMENT_VERSION,
         }) as LeaderBoard;
 
         // save updated leader board
         await db.doc(`events/${payload.eventId}/leader-boards/individual`).set({
-            ...updateLeaderBoard(
-                leaderBoardData,
-                eventData,
-                unProcessedSubmissionsData,
-            ),
+            ...updateLeaderBoard(leaderBoardData, unProcessedSubmissionsData),
             updatedAt: Date.now(),
         });
 

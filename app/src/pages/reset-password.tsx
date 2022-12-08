@@ -1,24 +1,39 @@
-/* eslint-disable react/no-unescaped-entities */
-import Button from 'components/common/button';
 import Text from 'components/common/text';
+import ResetPasswordForm from 'components/reset-password-page/reset-password-form';
+import { FirebaseError } from 'firebase/app';
 import { sendPasswordResetEmail } from 'firebase/auth';
+import { Formik } from 'formik';
 import { NextPage } from 'next';
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { auth } from 'utils/firebase';
 
 const ResetPasswordPage: NextPage = () => {
-    const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleFormSubmit = async (event: FormEvent) => {
-        event.preventDefault();
-
+    const handleFormSubmit = async ({ email }: { email: string }) => {
         setIsLoading(true);
 
         sendPasswordResetEmail(auth, email)
-            .then(() => alert('Reset password email sent!'))
+            .then(() =>
+                toast('Reset password email sent!', {
+                    type: 'success',
+                }),
+            )
             .catch(error => {
-                alert(error);
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
             })
             .finally(() => setIsLoading(false));
     };
@@ -30,27 +45,16 @@ const ResetPasswordPage: NextPage = () => {
                     <Text variant="heading">Reset your password</Text>
                 </h1>
 
-                <form onSubmit={handleFormSubmit}>
-                    <label className="block">
-                        <Text variant="label">Email</Text>
-                        <input
-                            type="email"
-                            className="text-black"
-                            value={email}
-                            onChange={ev => setEmail(ev.target.value)}
-                        />
-                    </label>
-
-                    <div>
-                        <Button
-                            variant="orange"
-                            type="submit"
-                            disabled={isLoading}
-                        >
-                            Send password reset email
-                        </Button>
-                    </div>
-                </form>
+                <Formik
+                    initialValues={{
+                        email: '',
+                    }}
+                    onSubmit={handleFormSubmit}
+                >
+                    <ResetPasswordForm
+                        isLoading={isLoading}
+                    ></ResetPasswordForm>
+                </Formik>
             </section>
         </>
     );

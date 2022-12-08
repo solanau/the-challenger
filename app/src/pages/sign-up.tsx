@@ -1,11 +1,13 @@
 import Text from 'components/common/text';
 import SignUpForm from 'components/sign-up-page/sign-up-form';
+import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { SignUpFormData } from 'types/auth';
 
 const SignUpPage: NextPage = () => {
@@ -22,7 +24,21 @@ const SignUpPage: NextPage = () => {
 
         signUp(email, password)
             .then(() => router.push(eventId ? `/events/${eventId}` : '/'))
-            .catch(error => alert(error))
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
             .finally(() => setIsLoading(false));
     };
 
@@ -41,7 +57,7 @@ const SignUpPage: NextPage = () => {
                         }}
                         onSubmit={handleSignUp}
                     >
-                        <SignUpForm disabled={isLoading}></SignUpForm>
+                        <SignUpForm isLoading={isLoading}></SignUpForm>
                     </Formik>
 
                     <Text variant="paragraph" className="text-xs">

@@ -1,7 +1,7 @@
 export type FieldType = 'text' | 'textArea' | 'number' | 'email';
 
 export interface BaseFieldConfig {
-    field: string;
+    name: string;
     label: string;
     placeholder: string;
 }

@@ -1,82 +1,86 @@
-import Card from 'components/common/card';
+import { Field } from 'formik';
 import { FieldConfig } from 'types/form';
 
-const FormBuilder = ({ config, formik }) => {
-    const builder = (fieldConfig: FieldConfig, index: number) => {
+interface FormBuilderProps {
+    fieldsConfig: FieldConfig[];
+    disabled?: boolean;
+}
+
+const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
+    const builder = (
+        fieldConfig: FieldConfig,
+        index: number,
+        disabled: boolean,
+    ) => {
         switch (fieldConfig.type) {
             case 'textArea':
                 return (
                     <>
-                        <div className="pt-4">
-                            <label
-                                htmlFor={fieldConfig.field}
-                                className="block w-full border-none bg-transparent py-2 outline-none"
-                            >
-                                {++index}. {fieldConfig.label}
-                            </label>
+                        <label
+                            htmlFor={fieldConfig.name}
+                            className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                        >
+                            {++index}. {fieldConfig.label}{' '}
+                        </label>
 
-                            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                                <textarea
-                                    id={fieldConfig.field}
-                                    name={fieldConfig.field}
-                                    className="fieldConfigs-center w-full bg-transparent outline-none"
-                                    maxLength={fieldConfig.maxLength}
-                                    rows={fieldConfig.rows}
-                                    onChange={formik.handleChange}
-                                    placeholder={fieldConfig.placeholder}
-                                />
-                            </Card>
-                        </div>
+                        <Field
+                            as="textarea"
+                            id={fieldConfig.name}
+                            name={fieldConfig.name}
+                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                            placeholder={fieldConfig.placeholder}
+                            maxLength={fieldConfig.maxLength}
+                            rows={fieldConfig.rows}
+                            required
+                            disabled={disabled}
+                            autoComplete="off"
+                        />
                     </>
                 );
             case 'text':
                 return (
                     <>
-                        <div className="pt-4">
-                            <label
-                                htmlFor={fieldConfig.field}
-                                className="block w-full border-none bg-transparent py-2 outline-none"
-                            >
-                                {++index}. {fieldConfig.label}
-                            </label>
+                        <label
+                            htmlFor={fieldConfig.name}
+                            className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                        >
+                            {++index}. {fieldConfig.label}{' '}
+                        </label>
 
-                            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                                <input
-                                    id={fieldConfig.field}
-                                    name={fieldConfig.field}
-                                    type={fieldConfig.type}
-                                    className="fieldConfigs-center w-full bg-transparent outline-none"
-                                    onChange={formik.handleChange}
-                                    placeholder={fieldConfig.placeholder}
-                                    maxLength={fieldConfig.maxLength}
-                                />
-                            </Card>
-                        </div>
+                        <Field
+                            id={fieldConfig.name}
+                            name={fieldConfig.name}
+                            type={fieldConfig.type}
+                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                            placeholder={fieldConfig.placeholder}
+                            maxLength={fieldConfig.maxLength}
+                            required
+                            disabled={disabled}
+                            autoComplete="off"
+                        />
                     </>
                 );
             case 'number':
             case 'email':
                 return (
                     <>
-                        <div className="pt-4">
-                            <label
-                                htmlFor={fieldConfig.field}
-                                className="block w-full border-none bg-transparent py-2 outline-none"
-                            >
-                                {++index}. {fieldConfig.label}
-                            </label>
+                        <label
+                            htmlFor={fieldConfig.name}
+                            className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                        >
+                            {++index}. {fieldConfig.label}{' '}
+                        </label>
 
-                            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                                <input
-                                    id={fieldConfig.field}
-                                    name={fieldConfig.field}
-                                    type={fieldConfig.type}
-                                    className="fieldConfigs-center w-full bg-transparent outline-none"
-                                    onChange={formik.handleChange}
-                                    placeholder={fieldConfig.placeholder}
-                                />
-                            </Card>
-                        </div>
+                        <Field
+                            id={fieldConfig.name}
+                            name={fieldConfig.name}
+                            type={fieldConfig.type}
+                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                            placeholder={fieldConfig.placeholder}
+                            required
+                            disabled={disabled}
+                            autoComplete="off"
+                        />
                     </>
                 );
             default:
@@ -86,8 +90,10 @@ const FormBuilder = ({ config, formik }) => {
 
     return (
         <>
-            {config.map((fieldConfig: FieldConfig, index: number) => (
-                <div key={fieldConfig.field}>{builder(fieldConfig, index)}</div>
+            {fieldsConfig.map((fieldConfig: FieldConfig, index: number) => (
+                <div key={fieldConfig.name}>
+                    {builder(fieldConfig, index, disabled)}
+                </div>
             ))}
         </>
     );

@@ -1,84 +1,81 @@
 import Button from 'components/common/button';
-import Card from 'components/common/card';
+import Spinner from 'components/common/spinner';
 import { Field, Form } from 'formik';
 import { NextPage } from 'next';
 
 interface UserSettingsFormProps {
-    disabled?: boolean;
+    isLoading?: boolean;
 }
 
 const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
-    disabled = false,
+    isLoading = false,
 }) => (
     <Form>
         <div className="pt-4">
             <label
                 htmlFor="user-full-name"
-                className="required block w-full border-none bg-transparent py-2 outline-none"
+                className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Full Name
+                Full Name{' '}
             </label>
 
-            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                <Field
-                    id="user-full-name"
-                    name="fullName"
-                    type="text"
-                    className="w-full bg-transparent outline-none"
-                    placeholder="Enter your full name"
-                    required
-                />
-            </Card>
+            <Field
+                id="user-full-name"
+                name="fullName"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                placeholder="Enter your full name"
+                maxLength={80}
+                required
+                disabled={isLoading}
+                autoComplete="off"
+            />
         </div>
 
         <div className="pt-4">
             <label
                 htmlFor="user-user-name"
-                className="required block w-full border-none bg-transparent py-2 outline-none"
+                className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Username
+                Username{' '}
             </label>
 
-            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                <Field
-                    id="user-user-name"
-                    name="userName"
-                    type="text"
-                    className="w-full bg-transparent outline-none"
-                    placeholder="Enter a username"
-                    required
-                />
-            </Card>
+            <Field
+                id="user-user-name"
+                name="userName"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                placeholder="Enter your username"
+                maxLength={80}
+                required
+                disabled={isLoading}
+                autoComplete="off"
+            />
         </div>
 
         <div className="pt-4">
             <label
                 htmlFor="user-wallet-public-key"
-                className="required block w-full border-none bg-transparent py-2 outline-none"
+                className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Wallet Public Key
+                Wallet Public Key{' '}
             </label>
 
-            <Card className="h-fit w-full p-5 transition-all duration-300 focus-within:border-3 focus-within:border-primary">
-                <Field
-                    id="user-wallet-public-key"
-                    name="walletPublicKey"
-                    type="text"
-                    className="w-full bg-transparent outline-none"
-                    placeholder="Enter your wallet public key"
-                    required
-                />
-            </Card>
+            <Field
+                id="user-wallet-public-key"
+                name="walletPublicKey"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                placeholder="Enter your wallet public key"
+                maxLength={80}
+                required
+                disabled={isLoading}
+                autoComplete="off"
+            />
         </div>
 
         <div className="width-full flex flex-row justify-end gap-2 pt-4">
-            <Button
-                className="w-40"
-                type="submit"
-                variant="orange"
-                disabled={disabled}
-                text="Submit"
-            />
+            <Button type="submit" variant="orange" disabled={isLoading}>
+                {isLoading && <Spinner variant="large"></Spinner>}
+                Submit
+            </Button>
         </div>
     </Form>
 );

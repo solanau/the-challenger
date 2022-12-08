@@ -1,5 +1,3 @@
-import { ChallengePayload } from './challenge';
-
 export type SubmissionStatus =
     | 'pending'
     | 'invalid'
@@ -20,7 +18,8 @@ export interface SubmissionPayload {
     eventId: string;
     userId: string;
     status: SubmissionStatus;
-    challenge: ChallengePayload;
+    title: string;
+    description: string;
     createdAt: number;
     basePoints: number;
     timeBonusPoints: number;

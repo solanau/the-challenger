@@ -1,8 +1,12 @@
+import CreateSubmissionForm from 'components/challenge-page/create-submission-form';
 import Button from 'components/common/button';
-import FormBuilder from 'components/common/form-builder';
+import Card from 'components/common/card';
 import Markdown from 'components/common/markdown';
+import Modal from 'components/common/modal';
+import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
-import { useFormik } from 'formik';
+import { FirebaseError } from 'firebase/app';
+import { Formik } from 'formik';
 import { useCurrentUser } from 'hooks/use-current-user';
 import { useEventChallenge } from 'hooks/use-event-challenge';
 import { createSubmission } from 'lib/api';
@@ -12,7 +16,10 @@ import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
+import { toast } from 'react-toastify';
+import { CreateSubmissionAnswerPayload } from 'types/api';
 import { cn } from 'utils';
+import { getFieldDefaultValueByType } from 'utils/form';
 import { v4 as uuid } from 'uuid';
 
 type ChallengePageProps = {
@@ -26,36 +33,65 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
 }) => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [answers, setAnswers] = useState<CreateSubmissionAnswerPayload[]>([]);
     const { isLoggedIn } = useAuth();
     const user = useCurrentUser();
     const challenge = useEventChallenge(eventId, challengeId, user?.id);
-    const formik = useFormik({
-        initialValues: {},
-        onSubmit: async values => {
-            setIsLoading(true);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-            const answers = Object.keys(values).map(key => {
+    const handleConfirmSubmission = (values: { [key: string]: string }) => {
+        setIsConfirmModalOpen(true);
+        setAnswers(
+            Object.keys(values).map(key => {
                 const fieldIndex = challenge.fieldsConfig.findIndex(
-                    formComponent => formComponent.field === key,
+                    formComponent => formComponent.name === key,
                 );
 
                 return {
                     question: challenge.fieldsConfig[fieldIndex].label,
+                    field: challenge.fieldsConfig[fieldIndex].name,
                     reply: values[key],
                 };
-            });
+            }),
+        );
+    };
 
-            createSubmission({
-                id: uuid(),
-                challengeId,
-                answers,
-                eventId,
+    const handleCreateSubmission = (
+        answers: CreateSubmissionAnswerPayload[],
+    ) => {
+        setIsLoading(true);
+
+        createSubmission({
+            id: uuid(),
+            challengeId,
+            answers,
+            eventId,
+        })
+            .then(() =>
+                toast('Submission Sent!', {
+                    type: 'success',
+                }),
+            )
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
             })
-                .then(() => alert('Submission Sent!'))
-                .catch(error => alert(error))
-                .finally(() => setIsLoading(false));
-        },
-    });
+            .finally(() => {
+                setIsLoading(false);
+                setIsConfirmModalOpen(false);
+            });
+    };
 
     return (
         <>
@@ -144,72 +180,117 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                     <Markdown>{challenge.description}</Markdown>
                                 )}
 
-                                {challenge.isSubmitted ? (
+                                {challenge.isSubmitted && (
                                     <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-green-400">
-                                        <Markdown>{`### How to Submit `}</Markdown>
                                         <p className="mt-4">
                                             You&apos;ve already submitted this
                                             challenge!
                                         </p>
                                     </div>
-                                ) : (
-                                    <div>
-                                        {challenge.timeStatus === 'active' && (
-                                            <form
-                                                onSubmit={formik.handleSubmit}
-                                            >
-                                                <Markdown>{`### How to Submit `}</Markdown>
+                                )}
 
-                                                <FormBuilder
-                                                    config={
+                                {!challenge.isSubmitted &&
+                                    challenge.timeStatus === 'active' &&
+                                    user !== null && (
+                                        <div>
+                                            <Markdown>{`### How to Submit `}</Markdown>
+
+                                            <Formik
+                                                initialValues={challenge.fieldsConfig.reduce(
+                                                    (initialValues, field) => ({
+                                                        ...initialValues,
+                                                        [field.name]:
+                                                            getFieldDefaultValueByType(
+                                                                field.type,
+                                                            ),
+                                                    }),
+                                                    {},
+                                                )}
+                                                onSubmit={
+                                                    handleConfirmSubmission
+                                                }
+                                            >
+                                                <CreateSubmissionForm
+                                                    fieldsConfig={
                                                         challenge.fieldsConfig
                                                     }
-                                                    formik={formik}
-                                                />
+                                                ></CreateSubmissionForm>
+                                            </Formik>
+                                        </div>
+                                    )}
 
-                                                <div className="flex flex-row justify-end gap-2 pt-4 text-right font-thin">
-                                                    <Markdown>
-                                                        **please review your
-                                                        entry before clicking
-                                                        submit*
-                                                    </Markdown>
-                                                </div>
-                                                <div className="width-full flex flex-row justify-end gap-2 pt-4">
-                                                    <Button
-                                                        className="w-40"
-                                                        type="submit"
-                                                        variant="orange"
-                                                        text="Submit"
-                                                        disabled={
-                                                            isLoading ||
-                                                            user === null
-                                                        }
-                                                    />
-                                                </div>
+                                {!challenge.isSubmitted &&
+                                    challenge.timeStatus === 'active' &&
+                                    user === null && (
+                                        <Text
+                                            variant="paragraph"
+                                            className="mt-4 text-right italic"
+                                        >
+                                            In order to submit a challenge, you
+                                            have to{' '}
+                                            <Link
+                                                href="/users/profile-settings"
+                                                passHref
+                                            >
+                                                <a className="text-primary underline">
+                                                    set up your profile.
+                                                </a>
+                                            </Link>
+                                        </Text>
+                                    )}
 
-                                                {user === null && (
-                                                    <Text
-                                                        variant="paragraph"
-                                                        className="mt-4 text-right italic"
-                                                    >
-                                                        In order to submit a
-                                                        challenge, you have to
-                                                        &nbsp;
-                                                        <Link
-                                                            href="/users/profile-settings"
-                                                            passHref
-                                                        >
-                                                            <a className="text-primary underline">
-                                                                set up your
-                                                                profile.
-                                                            </a>
-                                                        </Link>
+                                <Modal
+                                    title="Confirm submission"
+                                    subTitle="A submission cannot be changed after it's been sent. Make sure to double-check your answers before confirming."
+                                    isOpen={isConfirmModalOpen}
+                                    onClose={() => setIsConfirmModalOpen(false)}
+                                >
+                                    <div className="mt-4 flex flex-col gap-2">
+                                        <div className="mb-4 max-h-80 overflow-y-auto pb-2">
+                                            {answers.map((answer, index) => (
+                                                <Card
+                                                    key={index}
+                                                    className="p-4"
+                                                >
+                                                    <Text variant="sub-heading">
+                                                        #{index + 1}{' '}
+                                                        {answer.question}:
                                                     </Text>
+                                                    <Text
+                                                        className="pl-4"
+                                                        variant="sub-paragraph"
+                                                    >
+                                                        {answer.reply}
+                                                    </Text>
+                                                </Card>
+                                            ))}
+                                        </div>
+                                        <div className="flex justify-end gap-2">
+                                            <Button
+                                                variant="orange"
+                                                onClick={() =>
+                                                    handleCreateSubmission(
+                                                        answers,
+                                                    )
+                                                }
+                                                disabled={isLoading}
+                                            >
+                                                {isLoading && (
+                                                    <Spinner variant="large"></Spinner>
                                                 )}
-                                            </form>
-                                        )}
+                                                Yes, I want to submit.
+                                            </Button>
+                                            <Button
+                                                variant="black"
+                                                onClick={() =>
+                                                    setIsConfirmModalOpen(false)
+                                                }
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </div>
                                     </div>
-                                )}
+                                </Modal>
                             </section>
                         </div>
                     ) : (

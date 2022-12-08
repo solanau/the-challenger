@@ -145,9 +145,9 @@ export const toChallenge = (
     expiredAgo: getChallengeExpiredAgo(event),
     progress: getChallengeProgress(event),
     bonus: getChallengeBonus(event, challenge),
-    isSubmitted: submissions.some(
-        submission => submission.challengeId === challenge.id,
-    ),
+    isSubmitted:
+        submissions.length > 0 &&
+        submissions.some(submission => submission.challengeId === challenge.id),
 });
 
 export const fromChallengeSettingsFormData = (
@@ -160,7 +160,7 @@ export const fromChallengeSettingsFormData = (
         switch (fieldConfig.type) {
             case 'text': {
                 return {
-                    field: fieldConfig.field,
+                    name: fieldConfig.name,
                     label: fieldConfig.label,
                     placeholder: fieldConfig.placeholder,
                     type: fieldConfig.type,
@@ -170,7 +170,7 @@ export const fromChallengeSettingsFormData = (
 
             case 'textArea': {
                 return {
-                    field: fieldConfig.field,
+                    name: fieldConfig.name,
                     label: fieldConfig.label,
                     placeholder: fieldConfig.placeholder,
                     type: fieldConfig.type,
@@ -181,7 +181,7 @@ export const fromChallengeSettingsFormData = (
 
             default: {
                 return {
-                    field: fieldConfig.field,
+                    name: fieldConfig.name,
                     label: fieldConfig.label,
                     placeholder: fieldConfig.placeholder,
                     type: fieldConfig.type,

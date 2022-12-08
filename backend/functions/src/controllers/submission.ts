@@ -2,14 +2,13 @@ import * as functions from 'firebase-functions';
 import { db } from '..';
 import {
     Auth,
-    ChallengePayload2,
     CreateSubmissionPayload,
     ReviewSubmissionPayload,
     SubmissionPayload,
 } from '../util/types';
 import { getTimeBonusPoints } from '../util/util';
 
-const submissionCollection = 'submissions';
+const SUBMISSION_DOCUMENT_VERSION = 1;
 
 export const isDuplicateSubmission = async (
     eventId: string,
@@ -17,7 +16,7 @@ export const isDuplicateSubmission = async (
     challengeId: string,
 ) => {
     const pastSubmissions = await db
-        .collection(submissionCollection)
+        .collection('submissions')
         .where('userId', '==', userId)
         .where('eventId', '==', eventId)
         .where('challenge.id', '==', challengeId)
@@ -64,10 +63,8 @@ class SubmissionController {
         const submission: SubmissionPayload = {
             status: 'pending',
             userId: auth.id,
-            challenge: {
-                id: challenge.id,
-                ...(challengeData as ChallengePayload2),
-            },
+            title: challengeData.title,
+            description: challengeData.description,
             challengeId: payload.challengeId,
             eventId: payload.eventId,
             answers: payload.answers.map(answer => ({
@@ -77,6 +74,9 @@ class SubmissionController {
             })),
             isProcessed: false,
             createdAt: submittedAt,
+            updatedAt: Date.now(),
+            isNew: true,
+            version: SUBMISSION_DOCUMENT_VERSION,
             basePoints: challengeData.points,
             timeBonusPoints: submissionTimeBonusPoints,
             totalPoints: challengeData.points + submissionTimeBonusPoints,
@@ -112,6 +112,8 @@ class SubmissionController {
                     ...answer,
                     ...payload.answers[index],
                 })),
+                updatedAt: Date.now(),
+                isNew: false,
             });
         });
     }
