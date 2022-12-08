@@ -87,7 +87,7 @@ const Header = () => {
                             {isEventPage && (
                                 <NavElement
                                     label="Leader Board"
-                                    href={`/events/${eventId}/leaderboard`}
+                                    href={`/events/${eventId}/leader-board`}
                                     navigationStarts={() => setIsNavOpen(false)}
                                 />
                             )}
@@ -118,7 +118,7 @@ const Header = () => {
                     {isEventPage && (
                         <NavElement
                             label="Leader Board"
-                            href={`/events/${eventId}/leaderboard`}
+                            href={`/events/${eventId}/leader-board`}
                             navigationStarts={() => setIsNavOpen(false)}
                         />
                     )}
