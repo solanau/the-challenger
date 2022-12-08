@@ -1,8 +1,8 @@
+import CreateSubmissionForm from 'components/challenge-page/create-submission-form';
 import Button from 'components/common/button';
-import FormBuilder from 'components/common/form-builder';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
-import { useFormik } from 'formik';
+import { Formik } from 'formik';
 import { useCurrentUser } from 'hooks/use-current-user';
 import { useEventChallenge } from 'hooks/use-event-challenge';
 import { createSubmission } from 'lib/api';
@@ -13,6 +13,7 @@ import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { cn } from 'utils';
+import { getFieldDefaultValueByType } from 'utils/form';
 import { v4 as uuid } from 'uuid';
 
 type ChallengePageProps = {
@@ -29,33 +30,31 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
     const { isLoggedIn } = useAuth();
     const user = useCurrentUser();
     const challenge = useEventChallenge(eventId, challengeId, user?.id);
-    const formik = useFormik({
-        initialValues: {},
-        onSubmit: async values => {
-            setIsLoading(true);
 
-            const answers = Object.keys(values).map(key => {
-                const fieldIndex = challenge.fieldsConfig.findIndex(
-                    formComponent => formComponent.field === key,
-                );
+    const handleCreateSubmission = (values: unknown) => {
+        setIsLoading(true);
 
-                return {
-                    question: challenge.fieldsConfig[fieldIndex].label,
-                    reply: values[key],
-                };
-            });
+        const answers = Object.keys(values).map(key => {
+            const fieldIndex = challenge.fieldsConfig.findIndex(
+                formComponent => formComponent.field === key,
+            );
 
-            createSubmission({
-                id: uuid(),
-                challengeId,
-                answers,
-                eventId,
-            })
-                .then(() => alert('Submission Sent!'))
-                .catch(error => alert(error))
-                .finally(() => setIsLoading(false));
-        },
-    });
+            return {
+                question: challenge.fieldsConfig[fieldIndex].label,
+                reply: values[key],
+            };
+        });
+
+        createSubmission({
+            id: uuid(),
+            challengeId,
+            answers,
+            eventId,
+        })
+            .then(() => alert('Submission Sent!'))
+            .catch(error => alert(error))
+            .finally(() => setIsLoading(false));
+    };
 
     return (
         <>
@@ -144,50 +143,65 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                     <Markdown>{challenge.description}</Markdown>
                                 )}
 
-                                {challenge.isSubmitted ? (
+                                {challenge.isSubmitted && (
                                     <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-green-400">
-                                        <Markdown>{`### How to Submit `}</Markdown>
                                         <p className="mt-4">
                                             You&apos;ve already submitted this
                                             challenge!
                                         </p>
                                     </div>
-                                ) : (
-                                    <div>
-                                        {challenge.timeStatus === 'active' && (
-                                            <form
-                                                onSubmit={formik.handleSubmit}
-                                            >
-                                                <Markdown>{`### How to Submit `}</Markdown>
+                                )}
 
-                                                <FormBuilder
-                                                    config={
+                                {!challenge.isSubmitted &&
+                                    challenge.timeStatus === 'active' &&
+                                    user !== null && (
+                                        <div>
+                                            <Markdown>{`### How to Submit `}</Markdown>
+
+                                            <Formik
+                                                initialValues={challenge.fieldsConfig.reduce(
+                                                    (initialValues, field) => ({
+                                                        ...initialValues,
+                                                        [field.field]:
+                                                            getFieldDefaultValueByType(
+                                                                field.type,
+                                                            ),
+                                                    }),
+                                                    {},
+                                                )}
+                                                onSubmit={
+                                                    handleCreateSubmission
+                                                }
+                                            >
+                                                <CreateSubmissionForm
+                                                    isLoading={isLoading}
+                                                    fieldsConfig={
                                                         challenge.fieldsConfig
                                                     }
-                                                />
-                                            </div>
-
-                                            {user === null && (
-                                                <Text
-                                                    variant="paragraph"
-                                                    className="mt-4 text-right italic"
-                                                >
-                                                    In order to submit a
-                                                    challenge, you have to
-                                                    &nbsp;
-                                                    <Link
-                                                        href="/users/profile-settings"
-                                                        passHref
-                                                    >
-                                                        <a className="text-primary underline">
-                                                            set up your profile.
-                                                        </a>
-                                                    </Link>
-                                                </Text>
-                                            )}
-                                        </form>
+                                                ></CreateSubmissionForm>
+                                            </Formik>
+                                        </div>
                                     )}
-                                </div>
+
+                                {!challenge.isSubmitted &&
+                                    challenge.timeStatus === 'active' &&
+                                    user === null && (
+                                        <Text
+                                            variant="paragraph"
+                                            className="mt-4 text-right italic"
+                                        >
+                                            In order to submit a challenge, you
+                                            have to &nbsp;
+                                            <Link
+                                                href="/users/profile-settings"
+                                                passHref
+                                            >
+                                                <a className="text-primary underline">
+                                                    set up your profile.
+                                                </a>
+                                            </Link>
+                                        </Text>
+                                    )}
                             </section>
                         </div>
                     ) : (

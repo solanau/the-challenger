@@ -145,9 +145,9 @@ export const toChallenge = (
     expiredAgo: getChallengeExpiredAgo(event),
     progress: getChallengeProgress(event),
     bonus: getChallengeBonus(event, challenge),
-    isSubmitted: submissions.some(
-        submission => submission.challengeId === challenge.id,
-    ),
+    isSubmitted:
+        submissions.length > 0 &&
+        submissions.some(submission => submission.challengeId === challenge.id),
 });
 
 export const fromChallengeSettingsFormData = (

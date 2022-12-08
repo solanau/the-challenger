@@ -36,8 +36,6 @@ const ChallengesPage: NextPage<ChallengesPageProps> = ({ eventId }) => {
         setSelectedCategory(event.target.value);
     };
 
-    console.log(challenges);
-
     return (
         <>
             <NextSeo
