@@ -23,6 +23,7 @@ jobs:
         run: |
           cd backend/functions
           yarn
+          yarn run build
           export MASTER_API_KEY=${{secrets.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY}}
           firebase use --token "${{secrets.FIREBASE_DEPLOYMENT_TOKEN}}" the-challenger-test-8a51c
           firebase deploy --token "${{secrets.FIREBASE_DEPLOYMENT_TOKEN}}" --only functions
