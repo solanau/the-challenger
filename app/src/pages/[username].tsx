@@ -4,7 +4,7 @@ import Hero from 'components/profile-page/hero';
 import { useLeaderBoard } from 'hooks/use-leader-board';
 import { useSubmissions } from 'hooks/use-submissions';
 import { useUserByUserName } from 'hooks/use-user-by-user-name';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -12,16 +12,17 @@ import { useAuth } from 'providers/AuthProvider';
 import { useMemo } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 
-type ProfilePageProps = {
-    userName: string;
-};
-
-const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
+const ProfilePage: NextPage = () => {
     const router = useRouter();
     const eventId =
         router.query.eventId instanceof Array
             ? router.query.eventId[0]
             : router.query.eventId;
+
+    const userName =
+        router.query.username instanceof Array
+            ? router.query.username[0]
+            : router.query.username;
     const { credential } = useAuth();
     const user = useUserByUserName(userName);
     const submissions = useSubmissions(eventId, { userId: user?.id });
@@ -107,16 +108,3 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ userName }) => {
 };
 
 export default ProfilePage;
-
-export const getServerSideProps: GetServerSideProps = async context => {
-    let userName = context.params.username;
-    if (userName instanceof Array) {
-        userName = userName[0];
-    }
-
-    return {
-        props: {
-            userName,
-        },
-    };
-};
