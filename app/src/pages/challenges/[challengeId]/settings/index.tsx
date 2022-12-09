@@ -4,19 +4,20 @@ import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useChallenge } from 'hooks/use-challenge';
 import { updateChallenge } from 'lib/api';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { UpdateChallengePayload } from 'types/challenge';
 import { fromChallengeSettingsFormData } from 'utils/challenge';
 
-type ChallengeSettingsPageProps = {
-    challengeId: string;
-};
+const ChallengeSettingsPage: NextPage = () => {
+    const router = useRouter();
+    const challengeId =
+        router.query.challengeId instanceof Array
+            ? router.query.challengeId[0]
+            : router.query.challengeId;
 
-const ChallengeSettingsPage: NextPage<ChallengeSettingsPageProps> = ({
-    challengeId,
-}: ChallengeSettingsPageProps) => {
     const challenge = useChallenge(challengeId);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -92,16 +93,3 @@ const ChallengeSettingsPage: NextPage<ChallengeSettingsPageProps> = ({
 };
 
 export default ChallengeSettingsPage;
-
-export const getServerSideProps: GetServerSideProps = async context => {
-    let challengeId = context.params.challengeId;
-    if (challengeId instanceof Array) {
-        challengeId = challengeId[0];
-    }
-
-    return {
-        props: {
-            challengeId,
-        },
-    };
-};

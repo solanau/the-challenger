@@ -5,20 +5,20 @@ import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { useEvent } from 'hooks/use-event';
 import { updateEvent } from 'lib/api';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { UpdateEventPayload } from 'types/event';
 import { fromEventSettingsFormData } from 'utils/event';
 import { dateToValue } from 'utils/time';
 
-type EventSettingsPageProps = {
-    eventId: string;
-};
-
-const EventSettingsPage: NextPage<EventSettingsPageProps> = ({
-    eventId,
-}: EventSettingsPageProps) => {
+const EventSettingsPage: NextPage = () => {
+    const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
     const event = useEvent(eventId);
     const challenges = useChallenges({ version: 1, isNew: false });
     const [isLoading, setIsLoading] = useState(false);
@@ -94,16 +94,3 @@ const EventSettingsPage: NextPage<EventSettingsPageProps> = ({
 };
 
 export default EventSettingsPage;
-
-export const getServerSideProps: GetServerSideProps = async context => {
-    let eventId = context.params.eventId;
-    if (eventId instanceof Array) {
-        eventId = eventId[0];
-    }
-
-    return {
-        props: {
-            eventId,
-        },
-    };
-};

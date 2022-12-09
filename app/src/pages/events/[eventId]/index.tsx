@@ -1,12 +1,14 @@
 import HeroSection from 'components/event-page/hero-section';
 import { useEvent } from 'hooks/use-event';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
-type EventPageProps = {
-    eventId: string;
-};
-
-const EventPage: NextPage<EventPageProps> = ({ eventId }) => {
+const EventPage: NextPage = () => {
+    const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
     const event = useEvent(eventId);
 
     return (
@@ -21,16 +23,3 @@ const EventPage: NextPage<EventPageProps> = ({ eventId }) => {
 };
 
 export default EventPage;
-
-export const getServerSideProps: GetServerSideProps = async context => {
-    let eventId = context.params.eventId;
-    if (eventId instanceof Array) {
-        eventId = eventId[0];
-    }
-
-    return {
-        props: {
-            eventId,
-        },
-    };
-};

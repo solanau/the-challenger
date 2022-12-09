@@ -9,9 +9,10 @@ import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useEventChallenge } from 'hooks/use-event-challenge';
 import { createSubmission } from 'lib/api';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
@@ -21,15 +22,17 @@ import { cn } from 'utils';
 import { getFieldDefaultValueByType } from 'utils/form';
 import { v4 as uuid } from 'uuid';
 
-type ChallengePageProps = {
-    eventId: string;
-    challengeId: string;
-};
+const ChallengePage: NextPage = () => {
+    const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
+    const challengeId =
+        router.query.challengeId instanceof Array
+            ? router.query.challengeId[0]
+            : router.query.challengeId;
 
-const ChallengePage: NextPage<ChallengePageProps> = ({
-    eventId,
-    challengeId,
-}) => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [answers, setAnswers] = useState<CreateSubmissionAnswerPayload[]>([]);
@@ -336,22 +339,3 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
 };
 
 export default ChallengePage;
-
-export const getServerSideProps: GetServerSideProps = async context => {
-    let challengeId = context.params.challengeId;
-    if (challengeId instanceof Array) {
-        challengeId = challengeId[0];
-    }
-
-    let eventId = context.params.eventId;
-    if (eventId instanceof Array) {
-        eventId = eventId[0];
-    }
-
-    return {
-        props: {
-            eventId,
-            challengeId,
-        },
-    };
-};

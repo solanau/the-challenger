@@ -3,19 +3,21 @@ import Card from 'components/common/card';
 import Text from 'components/common/text';
 import { useEvent } from 'hooks/use-event';
 import { useSubmissions } from 'hooks/use-submissions';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { SubmissionStatus } from 'types/submission';
 
-type SubmissionsPageProps = {
-    eventId: string;
-};
-
-const SubmissionsPage: NextPage<SubmissionsPageProps> = ({ eventId }) => {
+const SubmissionsPage: NextPage = () => {
+    const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
     const [status, setStatus] = useState('pending');
     const { credential } = useAuth();
     const event = useEvent(eventId);
@@ -155,16 +157,3 @@ const SubmissionsPage: NextPage<SubmissionsPageProps> = ({ eventId }) => {
 };
 
 export default SubmissionsPage;
-
-export const getServerSideProps: GetServerSideProps = async context => {
-    let eventId = context.params.eventId;
-    if (eventId instanceof Array) {
-        eventId = eventId[0];
-    }
-
-    return {
-        props: {
-            eventId,
-        },
-    };
-};

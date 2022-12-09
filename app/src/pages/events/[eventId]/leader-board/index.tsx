@@ -4,15 +4,17 @@ import LeaderBoardList from 'components/leader-board-page/leader-board-list';
 import { useEvent } from 'hooks/use-event';
 import { useLeaderBoard } from 'hooks/use-leader-board';
 import { updateLeaderBoard } from 'lib/api';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 
-type LeaderBoardPageProps = {
-    eventId: string;
-};
-
-const LeaderBoardPage: NextPage<LeaderBoardPageProps> = ({ eventId }) => {
+const LeaderBoardPage: NextPage = () => {
+    const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
     const { user } = useAuth();
     const event = useEvent(eventId);
     const leaderBoard = useLeaderBoard(eventId, 'individual');
@@ -43,15 +45,17 @@ const LeaderBoardPage: NextPage<LeaderBoardPageProps> = ({ eventId }) => {
                             >
                                 LeaderBoard
                             </Text>
-                            {user && event && event.managers.includes(user.id) && (
-                                <Button
-                                    className="flex h-8 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]"
-                                    variant="orange"
-                                    onClick={handleUpdateLeaderBoard}
-                                >
-                                    Refresh
-                                </Button>
-                            )}
+                            {user &&
+                                event &&
+                                event.managers.includes(user.id) && (
+                                    <Button
+                                        className="flex h-8 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]"
+                                        variant="orange"
+                                        onClick={handleUpdateLeaderBoard}
+                                    >
+                                        Refresh
+                                    </Button>
+                                )}
                         </div>
 
                         <div className="mt-6">
@@ -68,16 +72,3 @@ const LeaderBoardPage: NextPage<LeaderBoardPageProps> = ({ eventId }) => {
 };
 
 export default LeaderBoardPage;
-
-export const getServerSideProps: GetServerSideProps = async context => {
-    let eventId = context.params.eventId;
-    if (eventId instanceof Array) {
-        eventId = eventId[0];
-    }
-
-    return {
-        props: {
-            eventId,
-        },
-    };
-};

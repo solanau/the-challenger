@@ -7,24 +7,26 @@ import { Formik } from 'formik';
 import { useEvent } from 'hooks/use-event';
 import { useSubmission } from 'hooks/use-submission';
 import { reviewSubmission } from 'lib/api';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { ReviewSubmissionPayload } from 'types/submission';
 
-type SubmissionReviewPageProps = {
-    eventId: string;
-    submissionId: string;
-};
-
-const SubmissionReviewPage: NextPage<SubmissionReviewPageProps> = ({
-    eventId,
-    submissionId,
-}) => {
+const SubmissionReviewPage: NextPage = () => {
+    const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
+    const submissionId =
+        router.query.submissionId instanceof Array
+            ? router.query.submissionId[0]
+            : router.query.submissionId;
     const [isLoading, setIsLoading] = useState(false);
     const { credential } = useAuth();
     const submission = useSubmission(eventId, submissionId);
@@ -163,22 +165,3 @@ const SubmissionReviewPage: NextPage<SubmissionReviewPageProps> = ({
 };
 
 export default SubmissionReviewPage;
-
-export const getServerSideProps: GetServerSideProps = async context => {
-    let submissionId = context.params.submissionId;
-    if (submissionId instanceof Array) {
-        submissionId = submissionId[0];
-    }
-
-    let eventId = context.params.eventId;
-    if (eventId instanceof Array) {
-        eventId = eventId[0];
-    }
-
-    return {
-        props: {
-            eventId,
-            submissionId,
-        },
-    };
-};

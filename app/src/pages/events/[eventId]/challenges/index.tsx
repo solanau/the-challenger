@@ -2,8 +2,9 @@ import ActiveChallengesSection from 'components/challenges-page/active-challenge
 import ExpiredChallengesSection from 'components/challenges-page/expired-challenges-section';
 import PendingChallengesSection from 'components/challenges-page/pending-challenges-section';
 import { useEventChallenges } from 'hooks/use-event-challenges';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { ChangeEvent, useMemo, useState } from 'react';
 import {
@@ -12,11 +13,13 @@ import {
     isPendingChallenge,
 } from 'utils/challenge';
 
-type ChallengesPageProps = {
-    eventId: string;
-};
+const ChallengesPage: NextPage = () => {
+    const router = useRouter();
+    const eventId =
+        router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId;
 
-const ChallengesPage: NextPage<ChallengesPageProps> = ({ eventId }) => {
     const {
         credential: { uid: userId },
     } = useAuth();
@@ -95,16 +98,3 @@ const ChallengesPage: NextPage<ChallengesPageProps> = ({ eventId }) => {
 };
 
 export default ChallengesPage;
-
-export const getServerSideProps: GetServerSideProps = async context => {
-    let eventId = context.params.eventId;
-    if (eventId instanceof Array) {
-        eventId = eventId[0];
-    }
-
-    return {
-        props: {
-            eventId,
-        },
-    };
-};
