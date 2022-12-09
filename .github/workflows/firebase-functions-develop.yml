@@ -1,0 +1,28 @@
+# not working right now
+name: Deploy to Firebase Functions on push to Develop
+"on":
+  push:
+    branches:
+      - develop-test
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - id: config-repo
+        name: Pre config - 🧰 Checkout repository
+        uses: actions/checkout@v2
+        with:
+          node-version: 16
+      - id: set-firebase-config
+        name: Pre config - 🧰 Setting Firebase configurations
+        run: |
+          npm install -g firebase-tools
+          firebase experiments:enable webframeworks
+      - id: project-dependencies-installantion
+        name: Installing and building project 📦
+        run: |
+          cd backend/functions
+          yarn
+          export MASTER_API_KEY=${{secrets.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY}}
+          firebase use --token "${{secrets.FIREBASE_DEPLOYMENT_TOKEN}}" the-challenger-test-8a51c
+          firebase deploy --token "${{secrets.FIREBASE_DEPLOYMENT_TOKEN}}" --only functions
