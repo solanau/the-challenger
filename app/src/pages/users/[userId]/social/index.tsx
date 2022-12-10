@@ -1,12 +1,16 @@
 import Button from 'components/common/button';
 import Card from 'components/common/card';
+import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
+import { FirebaseError } from 'firebase/app';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
+import { useState } from 'react';
 import { FaFacebook, FaGithub, FaTwitter } from 'react-icons/fa';
 import { TbBrandGithub } from 'react-icons/tb';
+import { toast } from 'react-toastify';
 import {
     facebookAuthProvider,
     githubAuthProvider,
@@ -20,41 +24,173 @@ const UserSocialPage: NextPage = () => {
         router.query.eventId instanceof Array
             ? router.query.eventId[0]
             : router.query.eventId;
+    const [isLinkingGitHub, setIsLinkingGitHub] = useState(false);
+    const [isUnlinkingGitHub, setIsUnlinkingGitHub] = useState(false);
+    const [isLinkingTwitter, setIsLinkingTwitter] = useState(false);
+    const [isUnlinkingTwitter, setIsUnlinkingTwitter] = useState(false);
+    const [isLinkingFacebook, setIsLinkingFacebook] = useState(false);
+    const [isUnlinkingFacebook, setIsUnlinkingFacebook] = useState(false);
 
     const handleLinkGitHub = () => {
-        link(githubAuthProvider).then(() => {
-            console.log('linked');
-        });
+        setIsLinkingGitHub(true);
+
+        link(githubAuthProvider)
+            .then(() => {
+                toast('GitHub linked to profile!', {
+                    type: 'success',
+                });
+            })
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
+            .finally(() => setIsLinkingGitHub(false));
     };
 
     const handleUnlinkGitHub = () => {
-        unlink(githubAuthProvider.providerId).then(() => {
-            console.log('unlinked');
-        });
+        setIsUnlinkingGitHub(true);
+
+        unlink(githubAuthProvider.providerId)
+            .then(() => {
+                toast('Unlinked GitHub from profile!', {
+                    type: 'success',
+                });
+            })
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
+            .finally(() => setIsUnlinkingGitHub(false));
     };
 
     const handleLinkTwitter = () => {
-        link(twitterAuthProvider).then(() => {
-            console.log('linked');
-        });
+        setIsLinkingTwitter(true);
+
+        link(twitterAuthProvider)
+            .then(() => {
+                toast('Twitter linked to profile!', {
+                    type: 'success',
+                });
+            })
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
+            .finally(() => setIsLinkingTwitter(false));
     };
 
     const handleUnlinkTwitter = () => {
-        unlink(twitterAuthProvider.providerId).then(() => {
-            console.log('unlinked');
-        });
+        setIsUnlinkingTwitter(true);
+
+        unlink(twitterAuthProvider.providerId)
+            .then(() => {
+                toast('Unlinked Twitter from profile!', {
+                    type: 'success',
+                });
+            })
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
+            .finally(() => setIsUnlinkingTwitter(false));
     };
 
     const handleLinkFacebook = () => {
-        link(facebookAuthProvider).then(() => {
-            console.log('linked');
-        });
+        setIsLinkingFacebook(true);
+
+        link(facebookAuthProvider)
+            .then(() => {
+                toast('Facebook linked to profile!', {
+                    type: 'success',
+                });
+            })
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
+            .finally(() => setIsLinkingFacebook(false));
     };
 
     const handleUnlinkFacebook = () => {
-        unlink(facebookAuthProvider.providerId).then(() => {
-            console.log('unlinked');
-        });
+        setIsUnlinkingFacebook(true);
+
+        unlink(facebookAuthProvider.providerId)
+            .then(() => {
+                toast('Unlinked Facebook from profile!', {
+                    type: 'success',
+                });
+            })
+            .catch(error => {
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
+            })
+            .finally(() => setIsUnlinkingFacebook(false));
     };
 
     return (
@@ -128,11 +264,9 @@ const UserSocialPage: NextPage = () => {
                                         <a
                                             target="_blank"
                                             rel="noopener noreferrer"
+                                            className="text-primary"
                                         >
-                                            <Text
-                                                variant="paragraph"
-                                                className="text-primary"
-                                            >{`@${credential.githubUserName}`}</Text>
+                                            {`@${credential.githubUserName}`}
                                         </a>
                                     </Link>
                                 )}
@@ -149,7 +283,11 @@ const UserSocialPage: NextPage = () => {
                                     <Button
                                         variant="danger"
                                         onClick={handleUnlinkGitHub}
+                                        disabled={isUnlinkingGitHub}
                                     >
+                                        {isUnlinkingGitHub && (
+                                            <Spinner variant="large"></Spinner>
+                                        )}
                                         Unlink GitHub
                                     </Button>
                                 )}
@@ -158,7 +296,11 @@ const UserSocialPage: NextPage = () => {
                                     <Button
                                         variant="orange"
                                         onClick={handleLinkGitHub}
+                                        disabled={isLinkingGitHub}
                                     >
+                                        {isLinkingGitHub && (
+                                            <Spinner variant="large"></Spinner>
+                                        )}
                                         Link GitHub
                                     </Button>
                                 )}
@@ -189,11 +331,9 @@ const UserSocialPage: NextPage = () => {
                                         <a
                                             target="_blank"
                                             rel="noopener noreferrer"
+                                            className="text-primary"
                                         >
-                                            <Text
-                                                variant="paragraph"
-                                                className="text-primary"
-                                            >{`@${credential.twitterUserName}`}</Text>
+                                            {`@${credential.twitterUserName}`}
                                         </a>
                                     </Link>
                                 )}
@@ -210,7 +350,11 @@ const UserSocialPage: NextPage = () => {
                                     <Button
                                         variant="danger"
                                         onClick={handleUnlinkTwitter}
+                                        disabled={isUnlinkingTwitter}
                                     >
+                                        {isUnlinkingTwitter && (
+                                            <Spinner variant="large"></Spinner>
+                                        )}
                                         Unlink Twitter
                                     </Button>
                                 )}
@@ -219,7 +363,11 @@ const UserSocialPage: NextPage = () => {
                                     <Button
                                         variant="orange"
                                         onClick={handleLinkTwitter}
+                                        disabled={isLinkingTwitter}
                                     >
+                                        {isLinkingTwitter && (
+                                            <Spinner variant="large"></Spinner>
+                                        )}
                                         Link Twitter
                                     </Button>
                                 )}
@@ -250,11 +398,9 @@ const UserSocialPage: NextPage = () => {
                                         <a
                                             target="_blank"
                                             rel="noopener noreferrer"
+                                            className="text-primary"
                                         >
-                                            <Text
-                                                variant="paragraph"
-                                                className="text-primary"
-                                            >{`@${credential.facebookUserName}`}</Text>
+                                            {`@${credential.facebookUserName}`}
                                         </a>
                                     </Link>
                                 )}
@@ -271,7 +417,11 @@ const UserSocialPage: NextPage = () => {
                                     <Button
                                         variant="danger"
                                         onClick={handleUnlinkFacebook}
+                                        disabled={isUnlinkingFacebook}
                                     >
+                                        {isUnlinkingFacebook && (
+                                            <Spinner variant="large"></Spinner>
+                                        )}
                                         Unlink Facebook
                                     </Button>
                                 )}
@@ -280,7 +430,11 @@ const UserSocialPage: NextPage = () => {
                                     <Button
                                         variant="orange"
                                         onClick={handleLinkFacebook}
+                                        disabled={isLinkingFacebook}
                                     >
+                                        {isLinkingFacebook && (
+                                            <Spinner variant="large"></Spinner>
+                                        )}
                                         Link Facebook
                                     </Button>
                                 )}
