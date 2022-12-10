@@ -66,7 +66,7 @@ const ProfilePage: NextPage = () => {
                     <div className="flex flex-col gap-16 ">
                         <Hero
                             {...user}
-                            isCurrentUser={credential.uid === user.id}
+                            isCurrentUser={credential.id === user.id}
                         />
                         <div className="flex flex-col gap-7 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                             {rank && totalPoints && (
@@ -87,7 +87,7 @@ const ProfilePage: NextPage = () => {
                                 </Link>
                             )}
 
-                            {user.id === credential.uid && (
+                            {user.id === credential.id && (
                                 <>
                                     <Text variant="big-heading">
                                         Submissions
