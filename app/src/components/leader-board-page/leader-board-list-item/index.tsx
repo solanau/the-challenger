@@ -17,9 +17,8 @@ const LeaderBoardListItem = ({
     participant,
 }: LeaderBoardListItemProps) => {
     const user = useUser(participant.userId);
-    const {
-        credential: { uid: userId },
-    } = useAuth();
+    const { credential } = useAuth();
+    const userId = credential?.id ?? null;
 
     return (
         <Card

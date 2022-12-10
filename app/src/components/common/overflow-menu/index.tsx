@@ -2,6 +2,7 @@ import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo, useRef, useState } from 'react';
+import { FaTwitter } from 'react-icons/fa';
 import {
     MdLogin,
     MdLogout,
@@ -19,11 +20,8 @@ interface OverflowMenuProps {
 const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
-    const {
-        credential: { uid: userId },
-        user,
-        logOut,
-    } = useAuth();
+    const { credential, user, logOut } = useAuth();
+    const userId = credential?.id ?? null;
     const leaderBoard = useLeaderBoard(eventId, 'individual');
     const rank = useMemo(() => {
         if (leaderBoard === null) {
@@ -119,6 +117,30 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                     <Button
                                                         text="Edit Profile"
                                                         icon={MdSettings}
+                                                        variant="orange"
+                                                        className="mt-2 !w-full"
+                                                        onClick={() =>
+                                                            setMenuOpen(false)
+                                                        }
+                                                    />
+                                                </a>
+                                            </Link>
+
+                                            <Link
+                                                href={{
+                                                    pathname: `/users/${userId}/social`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
+                                                passHref
+                                            >
+                                                <a className="flex flex-row justify-end">
+                                                    <Button
+                                                        text="Manage Social"
+                                                        icon={FaTwitter}
                                                         variant="orange"
                                                         className="mt-2 !w-full"
                                                         onClick={() =>
@@ -227,6 +249,31 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                     />
                                                 </a>
                                             </Link>
+
+                                            <Link
+                                                href={{
+                                                    pathname: `/users/${userId}/social`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
+                                                passHref
+                                            >
+                                                <a className="flex flex-row justify-end">
+                                                    <Button
+                                                        text="Manage Social"
+                                                        icon={FaTwitter}
+                                                        variant="orange"
+                                                        className="mt-2 !w-full"
+                                                        onClick={() =>
+                                                            setMenuOpen(false)
+                                                        }
+                                                    />
+                                                </a>
+                                            </Link>
+
                                             <Button
                                                 text="Log out"
                                                 icon={MdLogout}

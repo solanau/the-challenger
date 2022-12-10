@@ -10,7 +10,7 @@ import { ChangeEvent, useMemo, useState } from 'react';
 import {
     isActiveChallenge,
     isExpiredChallenge,
-    isPendingChallenge,
+    isPendingChallenge
 } from 'utils/challenge';
 
 const ChallengesPage: NextPage = () => {
@@ -20,9 +20,9 @@ const ChallengesPage: NextPage = () => {
             ? router.query.eventId[0]
             : router.query.eventId;
 
-    const {
-        credential: { uid: userId },
-    } = useAuth();
+const ChallengesPage: NextPage<ChallengesPageProps> = ({ eventId }) => {
+    const { credential } = useAuth();
+    const userId = credential?.id ?? null;
     const challenges = useEventChallenges(eventId, userId);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
     const filteredChallenges = useMemo(() => {
