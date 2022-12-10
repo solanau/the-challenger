@@ -1,9 +1,11 @@
 import Button from 'components/common/button';
+import Card from 'components/common/card';
 import Text from 'components/common/text';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
+import { FaFacebook, FaGithub, FaTwitter } from 'react-icons/fa';
 import { TbBrandGithub } from 'react-icons/tb';
 import {
     facebookAuthProvider,
@@ -80,65 +82,159 @@ const UserSocialPage: NextPage = () => {
 
                 {isLoggedIn && (
                     <>
-                        <h1>
+                        <h1 className="mb-8">
                             <Text variant="heading">Socials</Text>
                         </h1>
 
-                        <div>
-                            {credential.githubUserName !== null && (
-                                <div>GitHub: {credential.githubUserName}</div>
-                            )}
+                        <Card className="mb-8 flex p-5">
+                            <div className="grow">
+                                <Text variant="sub-heading" className="mb-2">
+                                    <FaGithub size={24} className="inline" />{' '}
+                                    GitHub
+                                </Text>
 
-                            {credential.githubUserName === null && (
-                                <div>
+                                {credential.githubUserName === null && (
+                                    <Text
+                                        variant="paragraph"
+                                        className="text-danger"
+                                    >
+                                        Not linked
+                                    </Text>
+                                )}
+
+                                {credential.githubUserName !== null && (
+                                    <Link
+                                        href={`https://github.com/${credential.githubUserName}`}
+                                        passHref
+                                    >
+                                        <a
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <Text
+                                                variant="paragraph"
+                                                className="text-primary"
+                                            >{`@${credential.githubUserName}`}</Text>
+                                        </a>
+                                    </Link>
+                                )}
+
+                                <Text variant="paragraph">
+                                    By linking your GitHub account you'll get
+                                    access to the challenges that require GitHub
+                                    interactions.
+                                </Text>
+                            </div>
+
+                            <div>
+                                <Button
+                                    variant="orange"
+                                    onClick={handleLinkGitHub}
+                                >
                                     Link GitHub
-                                    <Button
-                                        variant="orange"
-                                        onClick={handleLinkGitHub}
+                                </Button>
+                            </div>
+                        </Card>
+
+                        <Card className="mb-8 flex p-5">
+                            <div className="grow">
+                                <Text variant="sub-heading" className="mb-2">
+                                    <FaTwitter size={24} className="inline" />{' '}
+                                    Twitter
+                                </Text>
+
+                                {credential.twitterUserName === null && (
+                                    <Text
+                                        variant="paragraph"
+                                        className="text-danger"
                                     >
-                                        Link GitHub
-                                    </Button>
-                                </div>
-                            )}
-                        </div>
+                                        Not linked
+                                    </Text>
+                                )}
 
-                        <div>
-                            {credential.twitterUserName !== null && (
-                                <div>Twitter: {credential.twitterUserName}</div>
-                            )}
+                                {credential.twitterUserName !== null && (
+                                    <Link
+                                        href={`https://twitter.com/${credential.twitterUserName}`}
+                                        passHref
+                                    >
+                                        <a
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <Text
+                                                variant="paragraph"
+                                                className="text-primary"
+                                            >{`@${credential.twitterUserName}`}</Text>
+                                        </a>
+                                    </Link>
+                                )}
 
-                            {credential.twitterUserName === null && (
-                                <div>
+                                <Text variant="paragraph">
+                                    By linking your Twitter account you'll get
+                                    access to the challenges that require
+                                    Twitter interactions.
+                                </Text>
+                            </div>
+
+                            <div>
+                                <Button
+                                    variant="orange"
+                                    onClick={handleLinkTwitter}
+                                >
                                     Link Twitter
-                                    <Button
-                                        variant="orange"
-                                        onClick={handleLinkTwitter}
+                                </Button>
+                            </div>
+                        </Card>
+
+                        <Card className="mb-8 flex p-5">
+                            <div className="grow">
+                                <Text variant="sub-heading" className="mb-2">
+                                    <FaFacebook size={24} className="inline" />{' '}
+                                    Facebook
+                                </Text>
+
+                                {credential.facebookUserName === null && (
+                                    <Text
+                                        variant="paragraph"
+                                        className="text-danger"
                                     >
-                                        Link Twitter
-                                    </Button>
-                                </div>
-                            )}
-                        </div>
+                                        Not linked
+                                    </Text>
+                                )}
 
-                        <div>
-                            {credential.facebookUserName !== null && (
-                                <div>
-                                    Facebook: {credential.facebookUserName}
-                                </div>
-                            )}
+                                {credential.facebookUserName !== null && (
+                                    <Link
+                                        href={`https://facebook.com/${credential.facebookUserName}`}
+                                        passHref
+                                    >
+                                        <a
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <Text
+                                                variant="paragraph"
+                                                className="text-primary"
+                                            >{`@${credential.facebookUserName}`}</Text>
+                                        </a>
+                                    </Link>
+                                )}
 
-                            {credential.facebookUserName === null && (
-                                <div>
+                                <Text variant="paragraph">
+                                    By linking your Facebook account you'll get
+                                    access to the challenges that require
+                                    Facebook interactions.
+                                </Text>
+                            </div>
+
+                            <div>
+                                <Button
+                                    variant="orange"
+                                    onClick={handleLinkFacebook}
+                                >
                                     Link Facebook
-                                    <Button
-                                        variant="orange"
-                                        onClick={handleLinkFacebook}
-                                    >
-                                        Link Facebook
-                                    </Button>
-                                </div>
-                            )}
-                        </div>
+                                </Button>
+                            </div>
+                        </Card>
                     </>
                 )}
             </section>
