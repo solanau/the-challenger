@@ -1,19 +1,21 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
+import { TbBrandFacebook, TbBrandGithub, TbBrandTwitter } from 'react-icons/tb';
+import { AuthProviderType } from 'types/api';
 import Button from '../button';
 import Text from '../text';
 
-interface EnterPasswordDialogProps {
-    email: string;
+interface EnterNewPasswordWithSocialDialogProps {
+    methods: string[];
     isOpen: boolean;
-    onClose(password?: string): void;
+    onClose(authProvider?: AuthProviderType, password?: string): void;
 }
 
-export default function EnterPasswordDialog({
-    email,
+export default function EnterNewPasswordWithSocialDialog({
+    methods,
     isOpen,
     onClose,
-}: EnterPasswordDialogProps) {
+}: EnterNewPasswordWithSocialDialogProps) {
     const [password, setPassword] = useState('');
 
     return (
@@ -58,23 +60,18 @@ export default function EnterPasswordDialog({
                                         variant="dialog-paragraph"
                                         className="mt-2 opacity-40"
                                     >
-                                        There is another user with the same
-                                        email, in order to continue, please
-                                        enter your password.
+                                        Email registered to another provider.{' '}
+                                    </Text>
+                                    <Text
+                                        variant="dialog-paragraph"
+                                        className="mt-2 opacity-40"
+                                    >
+                                        Please set a new password and then
+                                        verify with one of the valid social
+                                        providers
                                     </Text>
 
                                     <form>
-                                        <label className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']">
-                                            Email
-                                        </label>
-                                        <input
-                                            type="text"
-                                            readOnly
-                                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
-                                            value={email}
-                                            disabled={true}
-                                        />
-
                                         <label className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']">
                                             Password
                                         </label>
@@ -86,16 +83,48 @@ export default function EnterPasswordDialog({
                                             }
                                         />
 
-                                        <div className="mt-4">
+                                        {methods.includes('facebook.com') && (
                                             <Button
+                                                icon={TbBrandFacebook}
+                                                text={'Sign In with Facebook'}
                                                 variant="orange"
+                                                className="mt-4 !w-full"
                                                 onClick={() =>
-                                                    onClose(password)
+                                                    onClose(
+                                                        AuthProviderType.facebookProvider,
+                                                        password,
+                                                    )
                                                 }
-                                            >
-                                                Log me in!
-                                            </Button>
-                                        </div>
+                                            ></Button>
+                                        )}
+                                        {methods.includes('twitter.com') && (
+                                            <Button
+                                                icon={TbBrandTwitter}
+                                                text={'Sign In with Twitter'}
+                                                variant="orange"
+                                                className="mt-4 !w-full"
+                                                onClick={() =>
+                                                    onClose(
+                                                        AuthProviderType.twitterProvider,
+                                                        password,
+                                                    )
+                                                }
+                                            ></Button>
+                                        )}
+                                        {methods.includes('github.com') && (
+                                            <Button
+                                                icon={TbBrandGithub}
+                                                text={'Sign In with Github'}
+                                                variant="orange"
+                                                className="mt-4 !w-full"
+                                                onClick={() =>
+                                                    onClose(
+                                                        AuthProviderType.githubProvider,
+                                                        password,
+                                                    )
+                                                }
+                                            ></Button>
+                                        )}
                                     </form>
                                 </Dialog.Panel>
                             </Transition.Child>
