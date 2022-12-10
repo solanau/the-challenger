@@ -61,7 +61,7 @@ export default function EnterSocialDialog({
                                         There is another user with the same
                                         email, in order to continue, please
                                         authenticate with one of the following
-                                        providers to validate is you. {methods}
+                                        providers to validate is you.
                                     </Text>
                                     {methods.includes('facebook.com') && (
                                         <Button

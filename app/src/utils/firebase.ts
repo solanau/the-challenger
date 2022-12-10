@@ -9,6 +9,7 @@ import {
 } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { AuthProviderType } from 'types/api';
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -37,6 +38,19 @@ const twitterAuthProvider = new TwitterAuthProvider();
 const facebookAuthProvider = new FacebookAuthProvider();
 const emailAuthProvider = new EmailAuthProvider();
 
+const getSocialProvider = (
+    authProviderType: AuthProviderType,
+): TwitterAuthProvider | FacebookAuthProvider | GithubAuthProvider => {
+    switch (authProviderType) {
+        case AuthProviderType.githubProvider:
+            return githubAuthProvider;
+        case AuthProviderType.facebookProvider:
+            return facebookAuthProvider;
+        case AuthProviderType.twitterProvider:
+            return twitterAuthProvider;
+    }
+};
+
 export {
     firestore,
     auth,
@@ -45,4 +59,5 @@ export {
     githubAuthProvider,
     facebookAuthProvider,
     emailAuthProvider,
+    getSocialProvider,
 };
