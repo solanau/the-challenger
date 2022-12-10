@@ -10,7 +10,7 @@ import { ChangeEvent, useMemo, useState } from 'react';
 import {
     isActiveChallenge,
     isExpiredChallenge,
-    isPendingChallenge
+    isPendingChallenge,
 } from 'utils/challenge';
 
 const ChallengesPage: NextPage = () => {
@@ -19,8 +19,6 @@ const ChallengesPage: NextPage = () => {
         router.query.eventId instanceof Array
             ? router.query.eventId[0]
             : router.query.eventId;
-
-const ChallengesPage: NextPage<ChallengesPageProps> = ({ eventId }) => {
     const { credential } = useAuth();
     const userId = credential?.id ?? null;
     const challenges = useEventChallenges(eventId, userId);
