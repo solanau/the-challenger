@@ -14,7 +14,7 @@ import {
 } from 'utils/firebase';
 
 const UserSocialPage: NextPage = () => {
-    const { isLoggedIn, credential, link } = useAuth();
+    const { isLoggedIn, credential, link, unlink } = useAuth();
     const router = useRouter();
     const eventId =
         router.query.eventId instanceof Array
@@ -27,15 +27,33 @@ const UserSocialPage: NextPage = () => {
         });
     };
 
+    const handleUnlinkGitHub = () => {
+        unlink(githubAuthProvider.providerId).then(() => {
+            console.log('unlinked');
+        });
+    };
+
     const handleLinkTwitter = () => {
         link(twitterAuthProvider).then(() => {
             console.log('linked');
         });
     };
 
+    const handleUnlinkTwitter = () => {
+        unlink(twitterAuthProvider.providerId).then(() => {
+            console.log('unlinked');
+        });
+    };
+
     const handleLinkFacebook = () => {
         link(facebookAuthProvider).then(() => {
             console.log('linked');
+        });
+    };
+
+    const handleUnlinkFacebook = () => {
+        unlink(facebookAuthProvider.providerId).then(() => {
+            console.log('unlinked');
         });
     };
 
@@ -127,12 +145,23 @@ const UserSocialPage: NextPage = () => {
                             </div>
 
                             <div>
-                                <Button
-                                    variant="orange"
-                                    onClick={handleLinkGitHub}
-                                >
-                                    Link GitHub
-                                </Button>
+                                {credential.githubUserName !== null && (
+                                    <Button
+                                        variant="danger"
+                                        onClick={handleUnlinkGitHub}
+                                    >
+                                        Unlink GitHub
+                                    </Button>
+                                )}
+
+                                {credential.githubUserName === null && (
+                                    <Button
+                                        variant="orange"
+                                        onClick={handleLinkGitHub}
+                                    >
+                                        Link GitHub
+                                    </Button>
+                                )}
                             </div>
                         </Card>
 
@@ -177,12 +206,23 @@ const UserSocialPage: NextPage = () => {
                             </div>
 
                             <div>
-                                <Button
-                                    variant="orange"
-                                    onClick={handleLinkTwitter}
-                                >
-                                    Link Twitter
-                                </Button>
+                                {credential.twitterUserName !== null && (
+                                    <Button
+                                        variant="danger"
+                                        onClick={handleUnlinkTwitter}
+                                    >
+                                        Unlink Twitter
+                                    </Button>
+                                )}
+
+                                {credential.twitterUserName === null && (
+                                    <Button
+                                        variant="orange"
+                                        onClick={handleLinkTwitter}
+                                    >
+                                        Link Twitter
+                                    </Button>
+                                )}
                             </div>
                         </Card>
 
@@ -227,12 +267,23 @@ const UserSocialPage: NextPage = () => {
                             </div>
 
                             <div>
-                                <Button
-                                    variant="orange"
-                                    onClick={handleLinkFacebook}
-                                >
-                                    Link Facebook
-                                </Button>
+                                {credential.facebookUserName !== null && (
+                                    <Button
+                                        variant="danger"
+                                        onClick={handleUnlinkFacebook}
+                                    >
+                                        Unlink Facebook
+                                    </Button>
+                                )}
+
+                                {credential.facebookUserName === null && (
+                                    <Button
+                                        variant="orange"
+                                        onClick={handleLinkFacebook}
+                                    >
+                                        Link Facebook
+                                    </Button>
+                                )}
                             </div>
                         </Card>
                     </>

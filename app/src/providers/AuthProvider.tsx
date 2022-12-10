@@ -6,6 +6,7 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
     signOut,
+    unlink as unlinkProvider,
     User,
     UserCredential,
 } from 'firebase/auth';
@@ -35,26 +36,35 @@ interface Credential {
 
 function toCredential(user: any): Credential {
     if (!user) {
-        return {
-            email: null,
-            id: null,
-            githubUserName: null,
-            twitterUserName: null,
-            facebookUserName: null,
-        };
+        return null;
     }
 
-    const githubUserInfo = user.reloadUserInfo.providerUserInfo.find(
-        userInfo => userInfo.providerId === githubAuthProvider.providerId,
+    const githubProviderData = user.providerData.find(
+        ({ providerId }) => providerId === githubAuthProvider.providerId,
     );
+    const githubUserInfo =
+        githubProviderData &&
+        user.reloadUserInfo.providerUserInfo.find(
+            userInfo => userInfo.providerId === githubAuthProvider.providerId,
+        );
 
-    const twitterUserInfo = user.reloadUserInfo.providerUserInfo.find(
-        userInfo => userInfo.providerId === twitterAuthProvider.providerId,
+    const twitterProviderData = user.providerData.find(
+        ({ providerId }) => providerId === twitterAuthProvider.providerId,
     );
+    const twitterUserInfo =
+        twitterProviderData &&
+        user.reloadUserInfo.providerUserInfo.find(
+            userInfo => userInfo.providerId === twitterAuthProvider.providerId,
+        );
 
-    const facebookUserInfo = user.reloadUserInfo.providerUserInfo.find(
-        userInfo => userInfo.providerId === facebookAuthProvider.providerId,
+    const facebookProviderData = user.providerData.find(
+        ({ providerId }) => providerId === facebookAuthProvider.providerId,
     );
+    const facebookUserInfo =
+        facebookProviderData &&
+        user.reloadUserInfo.providerUserInfo.find(
+            userInfo => userInfo.providerId === facebookAuthProvider.providerId,
+        );
 
     return {
         email: user.email,
@@ -69,13 +79,11 @@ export interface AuthContextState {
     user: UserPayload;
     credential: Credential;
     isLoggedIn: boolean;
-    signUp(email: string, password: string): Promise<UserCredential>;
-    logIn(email: string, password: string): Promise<UserCredential>;
+    signUp(email: string, password: string): Promise<void>;
+    logIn(email: string, password: string): Promise<void>;
     logOut(): Promise<void>;
-    link(
-        provider: AuthProvider,
-        method?: 'popup' | 'redirect',
-    ): Promise<UserCredential>;
+    link(provider: AuthProvider, method?: 'popup' | 'redirect'): Promise<void>;
+    unlink(providerId: string): Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextState>({} as AuthContextState);
@@ -112,8 +120,6 @@ export const AuthContextProvider = ({
 
         setCredential(toCredential(userCredential.user));
         setFirebaseUser(userCredential.user);
-
-        return userCredential;
     };
 
     const logIn = async (email: string, password: string) => {
@@ -125,8 +131,6 @@ export const AuthContextProvider = ({
 
         setCredential(toCredential(userCredential.user));
         setFirebaseUser(userCredential.user);
-
-        return userCredential;
     };
 
     const logOut = async () => {
@@ -149,8 +153,13 @@ export const AuthContextProvider = ({
 
         setFirebaseUser(userCredential.user);
         setCredential(toCredential(userCredential.user));
+    };
 
-        return userCredential;
+    const unlink = async (providerId: string) => {
+        const user = await unlinkProvider(firebaseUser, providerId);
+
+        setFirebaseUser(user);
+        setCredential(toCredential(user));
     };
 
     return (
@@ -163,6 +172,7 @@ export const AuthContextProvider = ({
                 logIn,
                 logOut,
                 link,
+                unlink,
             }}
         >
             {loading ? null : children}
