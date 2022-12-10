@@ -1,20 +1,68 @@
 import {
+    AuthProvider,
     createUserWithEmailAndPassword,
-    GithubAuthProvider,
+    linkWithPopup,
+    linkWithRedirect,
     onAuthStateChanged,
     signInWithEmailAndPassword,
     signOut,
+    User,
     UserCredential,
 } from 'firebase/auth';
 import { useUser } from 'hooks/use-user';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from 'react';
 import { UserPayload } from 'types/user';
-import { auth } from '../utils/firebase';
+import {
+    auth,
+    facebookAuthProvider,
+    githubAuthProvider,
+    twitterAuthProvider,
+} from '../utils/firebase';
 
 interface Credential {
+    id: string | null;
     email: string | null;
-    uid: string | null;
     githubUserName: string | null;
+    twitterUserName: string | null;
+    facebookUserName: string | null;
+}
+
+function toCredential(user: any): Credential {
+    if (!user) {
+        return {
+            email: null,
+            id: null,
+            githubUserName: null,
+            twitterUserName: null,
+            facebookUserName: null,
+        };
+    }
+
+    const githubUserInfo = user.reloadUserInfo.providerUserInfo.find(
+        userInfo => userInfo.providerId === githubAuthProvider.providerId,
+    );
+
+    const twitterUserInfo = user.reloadUserInfo.providerUserInfo.find(
+        userInfo => userInfo.providerId === twitterAuthProvider.providerId,
+    );
+
+    const facebookUserInfo = user.reloadUserInfo.providerUserInfo.find(
+        userInfo => userInfo.providerId === facebookAuthProvider.providerId,
+    );
+
+    return {
+        email: user.email,
+        id: user.uid,
+        githubUserName: githubUserInfo?.screenName ?? null,
+        twitterUserName: twitterUserInfo?.screenName ?? null,
+        facebookUserName: facebookUserInfo?.screenName ?? null,
+    };
 }
 
 export interface AuthContextState {
@@ -24,6 +72,10 @@ export interface AuthContextState {
     signUp(email: string, password: string): Promise<UserCredential>;
     logIn(email: string, password: string): Promise<UserCredential>;
     logOut(): Promise<void>;
+    link(
+        provider: AuthProvider,
+        method?: 'popup' | 'redirect',
+    ): Promise<UserCredential>;
 }
 
 const AuthContext = createContext<AuthContextState>({} as AuthContextState);
@@ -35,60 +87,83 @@ export const AuthContextProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [credential, setCredential] = useState<Credential>({
-        email: null,
-        uid: null,
-        githubUserName: null,
-    });
-    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [firebaseUser, setFirebaseUser] = useState<User>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const user = useUser(credential?.uid ?? null);
+    const [credential, setCredential] = useState<Credential>(null);
+    const user = useUser(credential?.id ?? null);
+    const isLoggedIn = useMemo(() => !!credential, [credential]);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, credential => {
-            if (credential) {
-                const githubUserInfo = (
-                    credential as any
-                ).reloadUserInfo.providerUserInfo.find(
-                    credentialInfo =>
-                        credentialInfo.providerId ===
-                        GithubAuthProvider.PROVIDER_ID,
-                );
-
-                setCredential({
-                    email: credential.email,
-                    uid: credential.uid,
-                    githubUserName: githubUserInfo?.screenName ?? null,
-                });
-                setLoggedIn(true);
-            } else {
-                setCredential({
-                    email: null,
-                    uid: null,
-                    githubUserName: null,
-                });
-                setLoggedIn(false);
-            }
+        const unsubscribe = onAuthStateChanged(auth, user => {
+            setCredential(toCredential(user));
+            setFirebaseUser(user);
         });
         setLoading(false);
 
         return () => unsubscribe();
     }, []);
 
-    const signUp = (email: string, password: string) =>
-        createUserWithEmailAndPassword(auth, email, password);
+    const signUp = async (email: string, password: string) => {
+        const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password,
+        );
 
-    const logIn = (email: string, password: string) =>
-        signInWithEmailAndPassword(auth, email, password);
+        setCredential(toCredential(userCredential.user));
+        setFirebaseUser(userCredential.user);
+
+        return userCredential;
+    };
+
+    const logIn = async (email: string, password: string) => {
+        const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password,
+        );
+
+        setCredential(toCredential(userCredential.user));
+        setFirebaseUser(userCredential.user);
+
+        return userCredential;
+    };
 
     const logOut = async () => {
-        setCredential({ email: null, uid: null, githubUserName: null });
+        setFirebaseUser(null);
+        setCredential(null);
         await signOut(auth);
+    };
+
+    const link = async (
+        provider: AuthProvider,
+        method: 'popup' | 'redirect' = 'popup',
+    ) => {
+        let userCredential: UserCredential;
+
+        if (method === 'popup') {
+            userCredential = await linkWithPopup(firebaseUser, provider);
+        } else {
+            userCredential = await linkWithRedirect(firebaseUser, provider);
+        }
+
+        setFirebaseUser(userCredential.user);
+        setCredential(toCredential(userCredential.user));
+
+        return userCredential;
     };
 
     return (
         <AuthContext.Provider
-            value={{ credential, user, isLoggedIn, signUp, logIn, logOut }}
+            value={{
+                credential,
+                user,
+                isLoggedIn,
+                signUp,
+                logIn,
+                logOut,
+                link,
+            }}
         >
             {loading ? null : children}
         </AuthContext.Provider>
