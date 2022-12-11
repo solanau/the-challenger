@@ -61,7 +61,7 @@ const SubmissionReviewPage: NextPage = () => {
                             <div className="flex flex-col">
                                 <section className="flex w-full flex-col gap-7 bg-gradient-to-tr from-primary/75 to-secondary/75 p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                                     <div>
-                                        <div className="flex h-12 flex-col justify-between md:h-20">
+                                        <div className="md:min-h-20 min-h-12 flex flex-col justify-between">
                                             <h1 className="peer border-none bg-transparent text-4xl font-medium placeholder-white/90 outline-none md:text-6xl">
                                                 {submission.title ??
                                                     'Challenge not found'}

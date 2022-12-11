@@ -100,10 +100,13 @@ const ChallengesPage: NextPage = () => {
                         className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
                     >
                         <div className="flex flex-col gap-5">
-                            <Text className="min-w-fit" variant="big-heading">
+                            <Text
+                                className="break-word min-w-fit"
+                                variant="big-heading"
+                            >
                                 {challenge.title}
                             </Text>
-                            <Text variant="paragraph">
+                            <Text variant="paragraph" className="break-word">
                                 {challenge.description}
                             </Text>
 

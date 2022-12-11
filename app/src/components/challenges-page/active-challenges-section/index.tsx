@@ -37,7 +37,9 @@ const ActiveChallengesSection = ({
                             {challenge.bonus})
                         </Text>
                     </div>
-                    <Text variant="paragraph">{challenge.description}</Text>
+                    <Text variant="paragraph" className="break-word">
+                        {challenge.description}
+                    </Text>
 
                     <Text
                         variant="paragraph"
@@ -54,8 +56,8 @@ const ActiveChallengesSection = ({
                         {challenge.progress}%
                     </progress>
 
-                    <div className="flex items-end justify-between">
-                        <div className="flex flex-row gap-4">
+                    <div className="flex flex-wrap items-end justify-between">
+                        <div className="mb-5 flex flex-row gap-4 md:mb-0">
                             <Text variant="paragraph" className="text-white">
                                 Author:
                             </Text>
@@ -93,7 +95,7 @@ const ActiveChallengesSection = ({
                             <a>
                                 {challenge.isSubmitted ? (
                                     <Button
-                                        className="h-auto w-auto rounded-md border-2"
+                                        className="h-auto w-full rounded-md border-2 md:w-auto"
                                         variant="transparent"
                                     >
                                         <p className="text-center text-green-400">

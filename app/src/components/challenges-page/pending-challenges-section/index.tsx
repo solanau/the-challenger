@@ -30,7 +30,9 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
                         </Text>
                     </div>
 
-                    <Text variant="paragraph">{challenge.description}</Text>
+                    <Text variant="paragraph" className="break-word">
+                        {challenge.description}
+                    </Text>
 
                     <Text
                         variant="paragraph"

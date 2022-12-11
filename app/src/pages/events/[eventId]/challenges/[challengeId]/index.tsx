@@ -126,7 +126,7 @@ const ChallengePage: NextPage = () => {
                                     )}
                                     data-tip="Challenge name"
                                 >
-                                    <div className="flex h-12 flex-col justify-between md:h-20">
+                                    <div className="md:min-h-20 min-h-12 flex flex-col justify-between">
                                         <h1 className="peer border-none bg-transparent text-4xl font-medium placeholder-white/90 outline-none md:text-6xl">
                                             {challenge.title}
                                         </h1>

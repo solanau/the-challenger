@@ -37,3 +37,7 @@
     content: ' *';
     @apply text-primary;
 }
+
+.break-word {
+    word-break: break-word;
+}
