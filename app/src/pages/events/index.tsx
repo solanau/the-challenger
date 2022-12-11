@@ -74,7 +74,9 @@ const EventsPage: NextPage = () => {
                         subTitle="Create a new event and add challenges
                                         for participants to compete."
                         isOpen={isCreateEventModalOpen}
-                        onClose={() => setIsCreateEventModalOpen(false)}
+                        onClose={() =>
+                            !isLoading && setIsCreateEventModalOpen(false)
+                        }
                     >
                         <Formik
                             initialValues={{

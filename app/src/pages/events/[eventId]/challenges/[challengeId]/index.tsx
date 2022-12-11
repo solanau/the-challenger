@@ -244,7 +244,10 @@ const ChallengePage: NextPage = () => {
                                     title="Confirm submission"
                                     subTitle="A submission cannot be changed after it's been sent. Make sure to double-check your answers before confirming."
                                     isOpen={isConfirmModalOpen}
-                                    onClose={() => setIsConfirmModalOpen(false)}
+                                    onClose={() =>
+                                        !isLoading &&
+                                        setIsConfirmModalOpen(false)
+                                    }
                                 >
                                     <div className="mt-4 flex flex-col gap-2">
                                         <div className="mb-4 max-h-80 overflow-y-auto pb-2">
