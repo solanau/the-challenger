@@ -9,6 +9,7 @@ import { useChallenges } from 'hooks/use-challenges';
 import { createChallenge } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
 import { toast } from 'react-toastify';
@@ -19,6 +20,7 @@ const ChallengesPage: NextPage = () => {
         useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const challenges = useChallenges({ version: 1 });
+    const router = useRouter();
 
     const handleCreateChallenge = (
         createChallengePayload: CreateChallengePayload,
@@ -26,11 +28,12 @@ const ChallengesPage: NextPage = () => {
         setIsLoading(true);
 
         createChallenge(createChallengePayload)
-            .then(() =>
+            .then(data => {
                 toast('Challenge created!', {
                     type: 'success',
-                }),
-            )
+                });
+                router.push(`/challenges/${data.id}/settings`);
+            })
             .catch(error => {
                 if (typeof error === 'string') {
                     toast(error, {

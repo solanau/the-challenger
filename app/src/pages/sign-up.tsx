@@ -44,7 +44,7 @@ const SignUpPage: NextPage = () => {
 
     return (
         <>
-            <section className="mt-36 px-4 pt-20 sm:px-8 md:mt-0 md:px-16 lg:px-32 xl:px-48">
+            <section className="mt-0 px-4 pt-20 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                 <div className="flex w-full flex-col gap-6 px-5 sm:px-8 md:px-16 lg:px-32 xl:px-48">
                     <h1>
                         <Text variant="heading">Sign up</Text>
