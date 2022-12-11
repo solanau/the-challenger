@@ -2,7 +2,6 @@ import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
-import { FirebaseError } from 'firebase/app';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -41,19 +40,9 @@ const UserSocialPage: NextPage = () => {
                 });
             })
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsLinkingGitHub(false));
     };
@@ -68,19 +57,9 @@ const UserSocialPage: NextPage = () => {
                 });
             })
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsUnlinkingGitHub(false));
     };
@@ -95,19 +74,9 @@ const UserSocialPage: NextPage = () => {
                 });
             })
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsLinkingTwitter(false));
     };
@@ -122,19 +91,9 @@ const UserSocialPage: NextPage = () => {
                 });
             })
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsUnlinkingTwitter(false));
     };
@@ -149,19 +108,9 @@ const UserSocialPage: NextPage = () => {
                 });
             })
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsLinkingFacebook(false));
     };
@@ -176,19 +125,9 @@ const UserSocialPage: NextPage = () => {
                 });
             })
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsUnlinkingFacebook(false));
     };

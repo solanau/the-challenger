@@ -1,6 +1,5 @@
 import Text from 'components/common/text';
 import ResetPasswordForm from 'components/reset-password-page/reset-password-form';
-import { FirebaseError } from 'firebase/app';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { Formik } from 'formik';
 import { NextPage } from 'next';
@@ -21,19 +20,9 @@ const ResetPasswordPage: NextPage = () => {
                 }),
             )
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsLoading(false));
     };

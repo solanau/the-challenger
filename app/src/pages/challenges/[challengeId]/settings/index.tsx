@@ -1,6 +1,5 @@
 import ChallengeSettingsForm from 'components/challenge-settings-page/challenge-settings-form';
 import Text from 'components/common/text';
-import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useChallenge } from 'hooks/use-challenge';
 import { updateChallenge } from 'lib/api';
@@ -33,19 +32,9 @@ const ChallengeSettingsPage: NextPage = () => {
                 }),
             )
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsLoading(false));
     };

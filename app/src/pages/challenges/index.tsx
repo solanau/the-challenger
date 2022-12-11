@@ -3,7 +3,6 @@ import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
-import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { createChallenge } from 'lib/api';
@@ -14,6 +13,7 @@ import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { CreateChallengePayload } from 'types/challenge';
+import { v4 as uuid } from 'uuid';
 
 const ChallengesPage: NextPage = () => {
     const [isCreateChallengeModalOpen, setIsCreateChallengeModalOpen] =
@@ -27,27 +27,19 @@ const ChallengesPage: NextPage = () => {
     ) => {
         setIsLoading(true);
 
-        createChallenge(createChallengePayload)
-            .then(data => {
+        const challengeId = uuid();
+
+        createChallenge(challengeId, createChallengePayload)
+            .then(() => {
                 toast('Challenge created!', {
                     type: 'success',
                 });
-                router.push(`/challenges/${data.id}/settings`);
+                router.push(`/challenges/${challengeId}/settings`);
             })
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => {
                 setIsLoading(false);
@@ -82,7 +74,9 @@ const ChallengesPage: NextPage = () => {
                         title="New Challenge"
                         subTitle="Create a new challenge that can be added to events."
                         isOpen={isCreateChallengeModalOpen}
-                        onClose={() => setIsCreateChallengeModalOpen(false)}
+                        onClose={() =>
+                            !isLoading && setIsCreateChallengeModalOpen(false)
+                        }
                     >
                         <Formik
                             initialValues={{

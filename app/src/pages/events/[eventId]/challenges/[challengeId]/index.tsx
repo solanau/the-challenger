@@ -5,7 +5,6 @@ import Markdown from 'components/common/markdown';
 import Modal from 'components/common/modal';
 import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
-import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useEventChallenge } from 'hooks/use-event-challenge';
 import { createSubmission } from 'lib/api';
@@ -62,8 +61,9 @@ const ChallengePage: NextPage = () => {
     ) => {
         setIsLoading(true);
 
-        createSubmission({
-            id: uuid(),
+        const submissionId = uuid();
+
+        createSubmission(submissionId, {
             challengeId,
             answers,
             eventId,
@@ -74,19 +74,9 @@ const ChallengePage: NextPage = () => {
                 }),
             )
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => {
                 setIsLoading(false);
@@ -244,7 +234,10 @@ const ChallengePage: NextPage = () => {
                                     title="Confirm submission"
                                     subTitle="A submission cannot be changed after it's been sent. Make sure to double-check your answers before confirming."
                                     isOpen={isConfirmModalOpen}
-                                    onClose={() => setIsConfirmModalOpen(false)}
+                                    onClose={() =>
+                                        !isLoading &&
+                                        setIsConfirmModalOpen(false)
+                                    }
                                 >
                                     <div className="mt-4 flex flex-col gap-2">
                                         <div className="mb-4 max-h-80 overflow-y-auto pb-2">

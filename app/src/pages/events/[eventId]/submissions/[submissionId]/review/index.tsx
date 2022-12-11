@@ -2,7 +2,6 @@ import Button from 'components/common/button';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
 import SubmissionReviewForm from 'components/submission-review-page/submission-review-form';
-import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useEvent } from 'hooks/use-event';
 import { useSubmission } from 'hooks/use-submission';
@@ -44,19 +43,9 @@ const SubmissionReviewPage: NextPage = () => {
                 }),
             )
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsLoading(false));
     };
