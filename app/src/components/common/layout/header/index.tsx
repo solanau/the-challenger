@@ -57,7 +57,10 @@ const Header = () => {
                     </div>
                     <div className="flex h-full flex-row items-center gap-2 md:gap-10">
                         <div className="h-8 w-0.5 bg-zinc-900" />
-                        <OverflowMenu eventId={eventId} />
+                        <OverflowMenu
+                            isEventPage={isEventPage}
+                            eventId={eventId}
+                        />
                     </div>
                     <div className={isNavOpen ? 'showMenuNav' : 'hideMenuNav'}>
                         <div
@@ -143,7 +146,10 @@ const Header = () => {
 
                     <div className="flex h-full flex-row gap-3 md:gap-5">
                         <div className="h-15 w-px bg-line" />
-                        <OverflowMenu eventId={eventId} />
+                        <OverflowMenu
+                            isEventPage={isEventPage}
+                            eventId={eventId}
+                        />
                     </div>
                 </div>
             </div>
