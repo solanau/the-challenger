@@ -1,4 +1,3 @@
-import { PubSub } from '@google-cloud/pubsub';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -18,7 +17,6 @@ const rewardRoute = require('./controllers/reward');
 const mintRoute = require('./controllers/mint');
 
 admin.initializeApp(functions.config().firebase);
-const pubsub = new PubSub();
 
 const app = express();
 app.use(bodyParser.json());
