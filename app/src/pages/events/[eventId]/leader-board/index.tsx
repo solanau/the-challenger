@@ -60,7 +60,7 @@ const LeaderBoardPage: NextPage = () => {
                         <div className="flex w-full flex-col items-center">
                             <Text
                                 variant="big-heading"
-                                className="bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a] bg-clip-text text-center text-8xl text-transparent"
+                                className="bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a] bg-clip-text text-center text-transparent"
                             >
                                 LeaderBoard
                             </Text>
