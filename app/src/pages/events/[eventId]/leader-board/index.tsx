@@ -66,6 +66,7 @@ const LeaderBoardPage: NextPage = () => {
                             </Text>
                             {user &&
                                 event &&
+                                event.managers &&
                                 event.managers.includes(user.id) && (
                                     <Button
                                         className="flex h-8 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]"
