@@ -1,4 +1,5 @@
 import Button from 'components/common/button';
+import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
 import LeaderBoardList from 'components/leader-board-page/leader-board-list';
 import { useEvent } from 'hooks/use-event';
@@ -8,6 +9,8 @@ import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const LeaderBoardPage: NextPage = () => {
     const router = useRouter();
@@ -18,11 +21,27 @@ const LeaderBoardPage: NextPage = () => {
     const { user } = useAuth();
     const event = useEvent(eventId);
     const leaderBoard = useLeaderBoard(eventId, 'individual');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleUpdateLeaderBoard = () => {
+        setIsLoading(true);
+
         updateLeaderBoard({
             eventId,
-        });
+        })
+            .then(() => {
+                toast('Leader board updated!', {
+                    type: 'success',
+                });
+            })
+            .catch(error => {
+                toast(error, {
+                    type: 'error',
+                });
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     };
 
     return (
@@ -53,6 +72,9 @@ const LeaderBoardPage: NextPage = () => {
                                         variant="orange"
                                         onClick={handleUpdateLeaderBoard}
                                     >
+                                        {isLoading && (
+                                            <Spinner variant="large"></Spinner>
+                                        )}
                                         Refresh
                                     </Button>
                                 )}
