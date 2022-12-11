@@ -150,24 +150,28 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                 </a>
                                             </Link>
 
-                                            <Link
-                                                href={{
-                                                    pathname: `/`,
-                                                }}
-                                                passHref
-                                            >
-                                                <a className="flex flex-row justify-end">
-                                                    <Button
-                                                        text="View global page"
-                                                        icon={FaGlobe}
-                                                        variant="transparent"
-                                                        className="mt-2 !w-full"
-                                                        onClick={() =>
-                                                            setMenuOpen(false)
-                                                        }
-                                                    />
-                                                </a>
-                                            </Link>
+                                            {eventId && (
+                                                <Link
+                                                    href={{
+                                                        pathname: `/`,
+                                                    }}
+                                                    passHref
+                                                >
+                                                    <a className="flex flex-row justify-end">
+                                                        <Button
+                                                            text="View global page"
+                                                            icon={FaGlobe}
+                                                            variant="transparent"
+                                                            className="mt-2 !w-full"
+                                                            onClick={() =>
+                                                                setMenuOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        />
+                                                    </a>
+                                                </Link>
+                                            )}
 
                                             <Button
                                                 text="Log out"
@@ -292,25 +296,28 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                     />
                                                 </a>
                                             </Link>
-
-                                            <Link
-                                                href={{
-                                                    pathname: `/`,
-                                                }}
-                                                passHref
-                                            >
-                                                <a className="flex flex-row justify-end">
-                                                    <Button
-                                                        text="View global page"
-                                                        icon={FaGlobe}
-                                                        variant="transparent"
-                                                        className="mt-2 !w-full"
-                                                        onClick={() =>
-                                                            setMenuOpen(false)
-                                                        }
-                                                    />
-                                                </a>
-                                            </Link>
+                                            {eventId && (
+                                                <Link
+                                                    href={{
+                                                        pathname: `/`,
+                                                    }}
+                                                    passHref
+                                                >
+                                                    <a className="flex flex-row justify-end">
+                                                        <Button
+                                                            text="View global page"
+                                                            icon={FaGlobe}
+                                                            variant="transparent"
+                                                            className="mt-2 !w-full"
+                                                            onClick={() =>
+                                                                setMenuOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        />
+                                                    </a>
+                                                </Link>
+                                            )}
 
                                             <Button
                                                 text="Log out"
