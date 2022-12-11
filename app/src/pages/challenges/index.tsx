@@ -108,6 +108,14 @@ const ChallengesPage: NextPage = () => {
                             </Text>
 
                             <div className="flex flex-row justify-end gap-2">
+                                <Link href={`challenges/${challenge.id}`}>
+                                    <a>
+                                        <Button variant="orange">
+                                            View Preview
+                                        </Button>
+                                    </a>
+                                </Link>
+
                                 <Link
                                     href={`challenges/${challenge.id}/settings`}
                                 >
