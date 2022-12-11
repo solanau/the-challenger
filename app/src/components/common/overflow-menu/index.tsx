@@ -15,9 +15,10 @@ import Text from '../text';
 
 interface OverflowMenuProps {
     eventId?: string;
+    isEventPage?: boolean;
 }
 
-const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
+const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
     const { credential, user, logOut } = useAuth();
@@ -150,7 +151,7 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                 </a>
                                             </Link>
 
-                                            {eventId && (
+                                            {isEventPage && (
                                                 <Link
                                                     href={{
                                                         pathname: `/`,
