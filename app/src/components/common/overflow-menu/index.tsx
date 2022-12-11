@@ -2,7 +2,7 @@ import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo, useRef, useState } from 'react';
-import { FaTwitter } from 'react-icons/fa';
+import { FaGlobe, FaTwitter } from 'react-icons/fa';
 import {
     MdLogin,
     MdLogout,
@@ -150,6 +150,25 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                 </a>
                                             </Link>
 
+                                            <Link
+                                                href={{
+                                                    pathname: `/`,
+                                                }}
+                                                passHref
+                                            >
+                                                <a className="flex flex-row justify-end">
+                                                    <Button
+                                                        text="View global page"
+                                                        icon={FaGlobe}
+                                                        variant="transparent"
+                                                        className="mt-2 !w-full"
+                                                        onClick={() =>
+                                                            setMenuOpen(false)
+                                                        }
+                                                    />
+                                                </a>
+                                            </Link>
+
                                             <Button
                                                 text="Log out"
                                                 icon={MdLogout}
@@ -266,6 +285,25 @@ const OverflowMenu = ({ eventId }: OverflowMenuProps) => {
                                                         text="Manage Social"
                                                         icon={FaTwitter}
                                                         variant="orange"
+                                                        className="mt-2 !w-full"
+                                                        onClick={() =>
+                                                            setMenuOpen(false)
+                                                        }
+                                                    />
+                                                </a>
+                                            </Link>
+
+                                            <Link
+                                                href={{
+                                                    pathname: `/`,
+                                                }}
+                                                passHref
+                                            >
+                                                <a className="flex flex-row justify-end">
+                                                    <Button
+                                                        text="View global page"
+                                                        icon={FaGlobe}
+                                                        variant="transparent"
                                                         className="mt-2 !w-full"
                                                         onClick={() =>
                                                             setMenuOpen(false)
