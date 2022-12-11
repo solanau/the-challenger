@@ -14,7 +14,6 @@ export interface CreateSubmissionAnswerPayload {
 }
 
 export interface CreateSubmissionPayload {
-    id: string;
     challengeId: string;
     answers: CreateSubmissionAnswerPayload[];
     eventId: string;

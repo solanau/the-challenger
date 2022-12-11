@@ -1,6 +1,5 @@
 import Text from 'components/common/text';
 import EventSettingsForm from 'components/event-settings-page/event-settings-form';
-import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { useEvent } from 'hooks/use-event';
@@ -33,19 +32,9 @@ const EventSettingsPage: NextPage = () => {
                 }),
             )
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsLoading(false));
     };

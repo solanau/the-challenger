@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import { httpsCallable } from 'firebase/functions';
 import {
     CreateSubmissionPayload,
@@ -11,20 +12,29 @@ import {
 import { CreateEventPayload, UpdateEventPayload } from 'types/event';
 import { ReviewSubmissionPayload } from 'types/submission';
 import { functions } from 'utils/firebase';
-import { v4 as uuid } from 'uuid';
 
-export async function createSubmission(payload: CreateSubmissionPayload) {
-    const instance = httpsCallable<CreateSubmissionPayload, unknown>(
-        functions,
-        'createSubmission',
-    );
+function handleError(error: unknown) {
+    if (typeof error === 'string') {
+        return error;
+    } else if (error instanceof FirebaseError) {
+        return error.code;
+    } else {
+        return JSON.stringify(error);
+    }
+}
+
+export async function createSubmission(
+    id: string,
+    payload: CreateSubmissionPayload,
+) {
+    const instance = httpsCallable(functions, 'createSubmission');
 
     try {
-        const result = await instance(payload);
+        const result = await instance({ id, ...payload });
 
         return result.data;
     } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
+        throw handleError(error);
     }
 }
 
@@ -44,7 +54,7 @@ export async function reviewSubmission(
 
         return result.data;
     } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
+        throw handleError(error);
     }
 }
 
@@ -59,7 +69,7 @@ export async function setUser(payload: SetUserPayload) {
 
         return result.data;
     } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
+        throw handleError(error);
     }
 }
 
@@ -74,19 +84,19 @@ export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
 
         return result.data;
     } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
+        throw handleError(error);
     }
 }
 
-export async function createEvent(payload: CreateEventPayload) {
+export async function createEvent(id: string, payload: CreateEventPayload) {
     const instance = httpsCallable(functions, 'createEvent');
 
     try {
-        const result = await instance({ id: uuid(), ...payload });
+        const result = await instance({ id, ...payload });
 
         return result.data;
     } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
+        throw handleError(error);
     }
 }
 
@@ -98,20 +108,22 @@ export async function updateEvent(id: string, payload: UpdateEventPayload) {
 
         return result.data;
     } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
+        throw handleError(error);
     }
 }
 
-export async function createChallenge(payload: CreateChallengePayload) {
+export async function createChallenge(
+    id: string,
+    payload: CreateChallengePayload,
+) {
     const instance = httpsCallable(functions, 'createChallenge');
 
     try {
-        const id = uuid();
         const result = await instance({ id, ...payload });
 
-        return { data: result.data, id };
+        return result.data;
     } catch (error) {
-        throw new Error(`${error.code}: ${error.message}`);
+        throw handleError(error);
     }
 }
 
@@ -127,6 +139,6 @@ export async function updateChallenge(
         return result.data;
     } catch (error) {
         console.log(`${error.code}: ${error.message}`);
-        throw new Error(`${error.code}: ${error.message}`);
+        throw handleError(error);
     }
 }

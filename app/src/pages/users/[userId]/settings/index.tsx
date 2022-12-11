@@ -1,7 +1,6 @@
 import Button from 'components/common/button';
 import Text from 'components/common/text';
 import UserSettingsForm from 'components/user-settings-page/user-settings-form';
-import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { setUser } from 'lib/api';
 import { NextPage } from 'next';
@@ -32,19 +31,9 @@ const UserSettingsPage: NextPage = () => {
                 }),
             )
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => setIsLoading(false));
     };

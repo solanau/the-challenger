@@ -3,45 +3,40 @@ import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
 import CreateEventForm from 'components/events-page/create-event-form';
-import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { useEvents } from 'hooks/use-events';
 import { createEvent } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { CreateEventPayload } from 'types/event';
+import { v4 as uuid } from 'uuid';
 
 const EventsPage: NextPage = () => {
     const [isCreateEventModalOpen, setIsCreateEventModalOpen] = useState(false);
     const events = useEvents();
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const handleCreateEvent = (createEventPayload: CreateEventPayload) => {
         setIsLoading(true);
 
-        createEvent(createEventPayload)
-            .then(() =>
+        const eventId = uuid();
+
+        createEvent(eventId, createEventPayload)
+            .then(() => {
                 toast('Event created!', {
                     type: 'success',
-                }),
-            )
+                });
+                router.push(`/events/${eventId}/settings`);
+            })
             .catch(error => {
-                if (typeof error === 'string') {
-                    toast(error, {
-                        type: 'error',
-                    });
-                } else if (error instanceof FirebaseError) {
-                    toast(error.code, {
-                        type: 'error',
-                    });
-                } else {
-                    toast(JSON.stringify(error), {
-                        type: 'error',
-                    });
-                }
+                toast(error, {
+                    type: 'error',
+                });
             })
             .finally(() => {
                 setIsLoading(false);
