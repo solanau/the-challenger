@@ -98,31 +98,43 @@ const EventsPage: NextPage = () => {
                         className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
                     >
                         <div className="flex flex-col gap-5">
-                            <Text className="min-w-fit" variant="big-heading">
+                            <Text
+                                className="min-w-fit break-all"
+                                variant="big-heading"
+                            >
                                 {event.title}
                             </Text>
                             <Text variant="paragraph">{event.description}</Text>
 
-                            <div className="flex flex-row justify-end gap-2">
+                            <div className="flex flex-row flex-wrap justify-end gap-2">
                                 <Link href={`events/${event.id}`}>
-                                    <a>
-                                        <Button variant="orange">
+                                    <a className="w-full md:w-auto">
+                                        <Button
+                                            variant="orange"
+                                            className="w-full md:w-auto"
+                                        >
                                             View Preview
                                         </Button>
                                     </a>
                                 </Link>
 
                                 <Link href={`events/${event.id}/submissions`}>
-                                    <a>
-                                        <Button variant="orange">
+                                    <a className="w-full md:w-auto">
+                                        <Button
+                                            variant="orange"
+                                            className="w-full md:w-auto"
+                                        >
                                             View Submissions
                                         </Button>
                                     </a>
                                 </Link>
 
                                 <Link href={`events/${event.id}/settings`}>
-                                    <a>
-                                        <Button variant="black">
+                                    <a className="w-full md:w-auto">
+                                        <Button
+                                            variant="black"
+                                            className="w-full md:w-auto"
+                                        >
                                             Settings
                                         </Button>
                                     </a>
