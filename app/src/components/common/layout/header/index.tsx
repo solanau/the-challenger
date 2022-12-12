@@ -1,12 +1,12 @@
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Image from 'components/common/image';
-import OverflowMenu from 'components/common/overflow-menu';
 import Text from 'components/common/text';
 import Link from 'next/link';
 import { useState } from 'react';
 import NavElement from './nav-element';
-
 const Header = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
+    const supabase = useSupabaseClient();
     return (
         <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between  bg-transparent bg-opacity-40 px-6  backdrop-blur-xl">
             <Link href="/" passHref>
@@ -47,7 +47,6 @@ const Header = () => {
                     </div>
                     <div className="flex h-full flex-row items-center gap-2 md:gap-10">
                         <div className="h-8 w-0.5 bg-zinc-900" />
-                        <OverflowMenu />
                     </div>
                     <div className={isNavOpen ? 'showMenuNav' : 'hideMenuNav'}>
                         <div
@@ -110,8 +109,16 @@ const Header = () => {
                     />
                     <div className="flex h-full flex-row gap-3 md:gap-5">
                         <div className="h-15 w-px bg-line" />
-                        <OverflowMenu />
                     </div>
+                    <button
+                        onClick={() =>
+                            supabase.auth.signInWithOAuth({
+                                provider: 'github',
+                            })
+                        }
+                    >
+                        log in with gh
+                    </button>
                     {/* <WalletMultiButton></WalletMultiButton> */}
                 </div>
             </div>

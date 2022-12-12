@@ -9,7 +9,7 @@ import React from 'react';
 import { TbBrandChrome } from 'react-icons/tb';
 import { cn } from 'utils';
 
-const HeroSection = () => {
+const HeroSection = ({ event }) => {
     const [MousePosition, setMousePosition] = React.useState({
         left: 0,
         top: 0,
@@ -42,34 +42,10 @@ const HeroSection = () => {
             <div className="flex">
                 <div className="relative z-30 mt-28 flex h-full w-full flex-col items-center justify-evenly gap-16 px-4 pt-20 text-left sm:mt-20 sm:items-start sm:px-8 md:px-16 lg:mt-0 lg:px-32 xl:px-64">
                     <Text className="font-bold" variant="super-hero">
-                        BERLIN DEV CHALLENGE
+                        {event.name}
                     </Text>
                     <Text className="max-w-[650px]" variant="paragraph">
-                        Welcome
-                        <a className="mx-1 font-bold text-primary">
-                            hackers
-                        </a>{' '}
-                        to the
-                        <a className="mx-1 font-bold text-primary">Berlin </a>
-                        bounty challenge competition!! We are excited to be
-                        hosting this special challenge event where hackers
-                        compete to
-                        <a className="mx-1 font-bold text-primary">
-                            earn prizes, rewards,
-                        </a>
-                        and the title of
-                        <a className="mx-1 font-bold text-primary">
-                            bounty challenge champion!
-                        </a>
-                        Learn to
-                        <a className="mx-1 font-bold text-primary">
-                            build on Solana
-                        </a>
-                        while exploring the many protocols, sdks, and tools in
-                        the ecosystem. Complete challenges to
-                        <a className="mx-1 font-bold text-primary">level up</a>
-                        your position on the leaderboard and battle your way to
-                        the top ranks!
+                        {event.description}
                     </Text>
                     <div className="mb-10 mt-72 flex w-full flex-row flex-wrap justify-center  gap-4  sm:mb-20 md:mt-0 md:justify-start">
                         <Link href="https://heavyduty.builders/" passHref>
