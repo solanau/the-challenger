@@ -1,10 +1,11 @@
-import { initializeApp } from 'firebase/app';
+import { FirebaseError, initializeApp } from 'firebase/app';
 import {
     connectAuthEmulator,
     EmailAuthProvider,
     FacebookAuthProvider,
     getAuth,
     GithubAuthProvider,
+    OAuthProvider,
     TwitterAuthProvider,
 } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
@@ -38,9 +39,9 @@ const twitterAuthProvider = new TwitterAuthProvider();
 const facebookAuthProvider = new FacebookAuthProvider();
 const emailAuthProvider = new EmailAuthProvider();
 
-const getSocialProvider = (
+function getSocialProvider(
     authProviderType: AuthProviderType,
-): TwitterAuthProvider | FacebookAuthProvider | GithubAuthProvider => {
+): TwitterAuthProvider | FacebookAuthProvider | GithubAuthProvider {
     switch (authProviderType) {
         case AuthProviderType.githubProvider:
             return githubAuthProvider;
@@ -49,7 +50,20 @@ const getSocialProvider = (
         case AuthProviderType.twitterProvider:
             return twitterAuthProvider;
     }
-};
+}
+
+function handleSocialError(error: FirebaseError, socialType: AuthProviderType) {
+    switch (socialType) {
+        case 'twitter':
+            return TwitterAuthProvider.credentialFromError(error);
+        case 'facebook':
+            return FacebookAuthProvider.credentialFromError(error);
+        case 'github':
+            return GithubAuthProvider.credentialFromError(error);
+        default:
+            return OAuthProvider.credentialFromError(error);
+    }
+}
 
 export {
     firestore,
@@ -60,4 +74,5 @@ export {
     facebookAuthProvider,
     emailAuthProvider,
     getSocialProvider,
+    handleSocialError,
 };
