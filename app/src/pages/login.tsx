@@ -11,7 +11,6 @@ import {
     fetchSignInMethodsForEmail,
     linkWithCredential,
     OAuthCredential,
-    OAuthProvider,
     signInWithEmailAndPassword,
     signInWithPopup,
 } from 'firebase/auth';
@@ -24,7 +23,7 @@ import { useState } from 'react';
 import { TbBrandFacebook, TbBrandGithub, TbBrandTwitter } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { AuthProviderType } from 'types/api';
-import { auth, getSocialProvider } from 'utils/firebase';
+import { auth, getSocialProvider, handleSocialError } from 'utils/firebase';
 
 const LoginPage: NextPage = () => {
     const [email, setEmail] = useState('');
@@ -112,7 +111,7 @@ const LoginPage: NextPage = () => {
                             setIsEnteringSocial(true);
                         }
                         setUserCredential(
-                            OAuthProvider.credentialFromError(error),
+                            handleSocialError(error, authProviderType),
                         );
                         setSocialEmail(error.customData.email);
                     });
