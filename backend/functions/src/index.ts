@@ -6,6 +6,7 @@ import * as functions from 'firebase-functions';
 import adminService from './service/admin';
 import challengeService from './service/challenge';
 import eventService from './service/event';
+import submissionService from './service/submission';
 
 admin.initializeApp(functions.config().firebase);
 
@@ -21,7 +22,7 @@ app.use(
 /**
  * Init
  */
-app.get(
+app.post(
     '/init/:masterApiKey',
     async (req, res) => await adminService.initDb(req, res),
 );
@@ -64,6 +65,22 @@ app.post(
 app.put(
     '/challenge/:id/:masterApiKey',
     async (req, res) => await challengeService.updateChallenge(req, res),
+);
+
+/**
+ * Submissions
+ */
+app.get(
+    '/submissions',
+    async (req, res) => await submissionService.fetchSubmissions(req, res),
+);
+app.get(
+    '/submission/:id',
+    async (req, res) => await submissionService.fetchSubmission(req, res),
+);
+app.post(
+    '/submission/:masterApiKey',
+    async (req, res) => await submissionService.createSubmission(req, res),
 );
 
 export const db = admin.firestore();

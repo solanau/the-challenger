@@ -39,7 +39,7 @@ const createChallenge = async function (req, res) {
             const id = uuid();
             const dbResponse = await loadTopLevelDoc(collection);
             let challenges = dbResponse.challenges;
-            const publicKey = Keypair.generate().publicKey.toBase58();
+            const publicKey = Keypair.generate().publicKey.toBase58(); // TODO: insert PDA derivation here.
             challenges.push({
                 id,
                 publicKey,
@@ -65,18 +65,18 @@ const updateChallenge = async function (req, res) {
         try {
             const updateId = req.params.id;
             let updatePublicKey: string;
-            let originalValue: any;
+            let challengeToModify: any;
             const dbResponse = await loadTopLevelDoc(collection);
             let challenges = dbResponse.challenges.filter(o => {
                 if (o.id === updateId) {
                     updatePublicKey = o.publicKey;
-                    originalValue = o;
+                    challengeToModify = o;
                 } else {
                     return true;
                 }
             });
             challenges.push({
-                ...originalValue,
+                ...challengeToModify,
                 ...req.body,
             });
             await updateTopLevelDoc(collection, { challenges });

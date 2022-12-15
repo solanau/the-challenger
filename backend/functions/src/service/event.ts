@@ -40,7 +40,7 @@ const createEvent = async function (req, res) {
             const id = uuid();
             const dbResponse = await loadTopLevelDoc(collection);
             let events = dbResponse.events;
-            const publicKey = Keypair.generate().publicKey.toBase58();
+            const publicKey = Keypair.generate().publicKey.toBase58(); // TODO: insert PDA derivation here.
             events.push({
                 id,
                 publicKey,
@@ -66,18 +66,18 @@ const updateEvent = async function (req, res) {
         try {
             const updateId = req.params.id;
             let updatePublicKey: string;
-            let originalValue: any;
+            let eventToModify: any;
             const dbResponse = await loadTopLevelDoc(collection);
             let events = dbResponse.events.filter(o => {
                 if (o.id === updateId) {
                     updatePublicKey = o.publicKey;
-                    originalValue = o;
+                    eventToModify = o;
                 } else {
                     return true;
                 }
             });
             events.push({
-                ...originalValue,
+                ...eventToModify,
                 ...req.body,
             });
             await updateTopLevelDoc(collection, { events });
