@@ -74,9 +74,7 @@ export default function EnterSocialDialog({
                                                     AuthProviderType.facebookProvider,
                                                 )
                                             }
-                                        >
-                                            <TbBrandFacebook size={35} />
-                                        </Button>
+                                        ></Button>
                                     )}
                                     {methods.includes('twitter.com') && (
                                         <Button
@@ -89,9 +87,7 @@ export default function EnterSocialDialog({
                                                     AuthProviderType.twitterProvider,
                                                 )
                                             }
-                                        >
-                                            <TbBrandTwitter size={35} />
-                                        </Button>
+                                        ></Button>
                                     )}
                                     {methods.includes('github.com') && (
                                         <Button
@@ -104,9 +100,7 @@ export default function EnterSocialDialog({
                                                     AuthProviderType.githubProvider,
                                                 )
                                             }
-                                        >
-                                            <TbBrandGithub size={35} />
-                                        </Button>
+                                        ></Button>
                                     )}
                                 </Dialog.Panel>
                             </Transition.Child>
