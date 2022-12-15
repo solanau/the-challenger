@@ -8,6 +8,7 @@ import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { SignUpFormData } from 'types/auth';
+import * as Yup from 'yup';
 
 const SignUpPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +32,17 @@ const SignUpPage: NextPage = () => {
             .finally(() => setIsLoading(false));
     };
 
+    const SignupSchema = Yup.object().shape({
+        password: Yup.string()
+            .required('No password provided.')
+            .min(8, 'Password is too short - should be 8 chars minimum.')
+            .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+        email: Yup.string().email('Invalid email').required('Required'),
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            .required('Confirm Password is required'),
+    });
+
     return (
         <>
             <section className="mt-0 px-4 pt-20 sm:px-8 md:px-16 lg:px-32 xl:px-48">
@@ -40,13 +52,21 @@ const SignUpPage: NextPage = () => {
                     </h1>
 
                     <Formik
+                        validationSchema={SignupSchema}
                         initialValues={{
                             email: '',
                             password: '',
+                            confirmPassword: '',
                         }}
                         onSubmit={handleSignUp}
                     >
-                        <SignUpForm isLoading={isLoading}></SignUpForm>
+                        {({ errors, touched, validateForm }) => (
+                            <SignUpForm
+                                isLoading={isLoading}
+                                errors={errors}
+                                touched={touched}
+                            ></SignUpForm>
+                        )}
                     </Formik>
 
                     <Text variant="paragraph" className="text-xs">
