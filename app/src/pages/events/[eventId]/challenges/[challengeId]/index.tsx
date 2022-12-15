@@ -4,7 +4,6 @@ import FormBuilder from 'components/common/form-builder';
 import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
 import { useFormik } from 'formik';
-import { useChallenge } from 'hooks/challenges/use-challenge';
 import { createSubmission } from 'lib/api/submission';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
@@ -12,21 +11,26 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { cn } from 'utils';
-import { v4 as uuid } from 'uuid';
+import {
+    getChallengeExpiredAgo,
+    getChallengeExpiresIn,
+    getChallengeStartsIn,
+    getChallengeStatus,
+} from 'utils/challenge';
 
 type ChallengePageProps = {
-    eventId: string;
+    eventChallengeId: string;
+    contractId: string;
     challengeId: string;
+    eventId: string;
+    userId: string;
 };
 
-const ChallengePage: NextPage<ChallengePageProps> = ({
-    eventId,
-    challengeId,
-}) => {
+const ChallengePage: NextPage<ChallengePageProps> = props => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const { publicKey } = useWallet();
-    const challenge = useChallenge(challengeId);
+    const challenge = useEventChallenge(props.challengeId);
     const formik = useFormik({
         initialValues: {},
         onSubmit: async values => {
@@ -44,10 +48,17 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
             });
 
             createSubmission({
-                id: uuid(),
-                challengeId,
+                eventChallengeId: props.eventChallengeId,
+                contractId: props.contractId,
+                challengeId: props.challengeId,
+                eventId: props.eventId,
+                userId: props.userId,
                 answers,
-                eventId,
+                status: 'pending',
+                createdAt: 0,
+                basePoints: 0,
+                timeBonusPoints: 0,
+                totalPoints: 0,
             })
                 .then(() => alert('Submission Sent!'))
                 .catch(error => alert(error))
@@ -103,28 +114,38 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                         </h1>
 
                                         <Text variant="paragraph">
-                                            {challenge.timeStatus ===
+                                            {getChallengeStatus(challenge) ===
                                                 'pending' && (
                                                 <span>
                                                     Starts{' '}
-                                                    <b>{challenge.startsIn}</b>
+                                                    <b>
+                                                        {getChallengeStartsIn(
+                                                            challenge,
+                                                        )}
+                                                    </b>
                                                 </span>
                                             )}
 
-                                            {challenge.timeStatus ===
+                                            {getChallengeStatus(challenge) ===
                                                 'active' && (
                                                 <span>
                                                     Expires{' '}
-                                                    <b>{challenge.expiresIn}</b>
+                                                    <b>
+                                                        {getChallengeExpiresIn(
+                                                            challenge,
+                                                        )}
+                                                    </b>
                                                 </span>
                                             )}
 
-                                            {challenge.timeStatus ===
+                                            {getChallengeStatus(challenge) ===
                                                 'expired' && (
                                                 <span>
                                                     Expired{' '}
                                                     <b>
-                                                        {challenge.expiredAgo}
+                                                        {getChallengeExpiredAgo(
+                                                            challenge,
+                                                        )}
                                                     </b>
                                                 </span>
                                             )}
@@ -138,11 +159,12 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                     {`### Rewards: ${challenge.rewardValue} Points 🔥 `}
                                 </Markdown>
 
-                                {challenge.timeStatus !== 'pending' && (
+                                {getChallengeStatus(challenge) !==
+                                    'pending' && (
                                     <Markdown>{challenge.description}</Markdown>
                                 )}
 
-                                {challenge.submittedStatus ? (
+                                {challenge ? (
                                     <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-green-400">
                                         <Markdown>{`### How to Submit `}</Markdown>
                                         <p className="mt-4">
@@ -152,7 +174,8 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                     </div>
                                 ) : (
                                     <div>
-                                        {challenge.timeStatus === 'active' && (
+                                        {getChallengeStatus(challenge) ===
+                                            'active' && (
                                             <form
                                                 onSubmit={formik.handleSubmit}
                                             >
@@ -178,14 +201,14 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                                         type="submit"
                                                         variant="orange"
                                                         text="Submit"
-                                                        disabled={
-                                                            isLoading ||
-                                                            user === null
-                                                        }
+                                                        // disabled={
+                                                        //     isLoading ||
+                                                        //     user === null
+                                                        // }
                                                     />
                                                 </div>
 
-                                                {user === null && (
+                                                {/* {user === null && (
                                                     <Text
                                                         variant="paragraph"
                                                         className="mt-4 text-right italic"
@@ -203,7 +226,7 @@ const ChallengePage: NextPage<ChallengePageProps> = ({
                                                             </a>
                                                         </Link>
                                                     </Text>
-                                                )}
+                                                )} */}
                                             </form>
                                         )}
                                     </div>

@@ -1,50 +1,50 @@
 import axios from 'axios';
 import {
-    ChallengeData,
-    CreateChallengePayload,
-    UpdateChallengePayload,
-} from 'types/api/challenge';
+    CreateEventChallengePayload,
+    EventChallengeData,
+    UpdateEventChallengePayload,
+} from 'types/api/event-challenge';
 
-export async function fetchAllChallenges(): Promise<ChallengeData[]> {
+export async function fetchAllEventChallenges(): Promise<EventChallengeData[]> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                `/challenges`,
+                `/eventChallenges`,
         )
         .then(res => res.data);
 }
 
-export async function fetchChallenge(
-    challengeId: string,
-): Promise<ChallengeData> {
+export async function fetchEventChallenge(
+    eventChallengeId: string,
+): Promise<EventChallengeData> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                `/challenge/${challengeId}/`,
+                `/eventChallenge/${eventChallengeId}/`,
         )
         .then(res => res.data);
 }
 
-export async function createChallenge(
-    payload: CreateChallengePayload,
+export async function createEventChallenge(
+    payload: CreateEventChallengePayload,
 ): Promise<string> {
     return await axios
         .post(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                '/challenge/' +
+                '/eventChallenge/' +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )
         .then(res => res.data.pubkey);
 }
 
-export async function updateChallenge(
-    payload: UpdateChallengePayload,
+export async function updateEventChallenge(
+    payload: UpdateEventChallengePayload,
 ): Promise<string> {
     return await axios
         .put(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                `/challenge/${payload.id}/` +
+                `/eventChallenge/${payload.id}/` +
                 process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_API_KEY,
             payload,
         )

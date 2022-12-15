@@ -1,8 +1,8 @@
 import SubmissionList from 'components/common/submission-list';
 import Text from 'components/common/text';
 import Hero from 'components/profile-page/hero';
+import { useSubmissions } from 'hooks/submissions/use-submissions';
 import { useLeaderBoard } from 'hooks/use-leader-board';
-import { useSubmissions } from 'hooks/use-submissions';
 import { useUserByUserName } from 'hooks/use-user-by-user-name';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';

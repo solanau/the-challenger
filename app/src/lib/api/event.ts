@@ -12,11 +12,11 @@ export async function fetchAllEvents(): Promise<EventData[]> {
         .then(res => res.data);
 }
 
-export async function fetchEvent(id: string): Promise<EventData> {
+export async function fetchEvent(eventId: string): Promise<EventData> {
     return await axios
         .get(
             process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_ENDPOINT +
-                `/event/${id}/`,
+                `/event/${eventId}/`,
         )
         .then(res => res.data);
 }

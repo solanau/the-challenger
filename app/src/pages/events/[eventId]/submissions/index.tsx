@@ -1,8 +1,8 @@
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Text from 'components/common/text';
+import { useSubmissions } from 'hooks/submissions/use-submissions';
 import { useEvent } from 'hooks/use-event';
-import { useSubmissions } from 'hooks/use-submissions';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';

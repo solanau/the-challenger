@@ -1,6 +1,4 @@
 import { FieldConfig } from '../form';
-import { ContractData, RewardData } from './contract';
-import { SubmissionData } from './submission';
 
 export type ChallengeTimeStatus = 'active' | 'pending' | 'expired';
 
@@ -53,10 +51,9 @@ export type ChallengeData = {
     description: string;
     shortDescription: string;
     githubUrl: string;
-    timeStatus: ChallengeTimeStatus;
-    submittedStatus: boolean;
-    progress: number;
-    bonus: number;
+    timeStatus?: ChallengeTimeStatus;
+    progress?: number;
+    bonus?: number;
     authorName?: string;
     authorGithub?: string;
     authorTwitter?: string;
@@ -79,12 +76,4 @@ export type ChallengeData = {
     createdAt: string;
     startDate: string;
     endDate: string;
-};
-
-export type EventChallengeData = ChallengeData & {
-    eventId: string;
-    eventPublicKey: string;
-    contracts: ContractData[];
-    rewards: RewardData[];
-    submissions: SubmissionData[];
 };

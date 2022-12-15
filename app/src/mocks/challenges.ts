@@ -1,12 +1,7 @@
-import { ChallengePayload } from 'types/api';
-
 let i = 100;
 
 // TODO: refactor for types, collection, interfaces etc
-export const mockChallenges: Omit<
-    ChallengePayload,
-    'pubkey' | 'eventPubkey' | 'eventId'
->[] = [
+export const mockChallenges = [
     // Heavy Duty Social
     {
         key: ++i,
@@ -16,6 +11,7 @@ export const mockChallenges: Omit<
         title: 'Social Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Join our community and be part of Heavy Duty Builders and Solana U.',
         description: `
@@ -87,6 +83,7 @@ There's many awesome communities out there, for now let's start with joining Sol
         title: 'Social Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Post a tweet with the hashtag #MunichDevChallenge',
         description: `
 ___
@@ -124,6 +121,7 @@ Take a picture at some place inside and post it on Twitter with the hashtag #Mun
         title: 'Social Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Join your local German community and be part of SuperteamDE!',
         description: `
@@ -186,6 +184,7 @@ Solana developers, builders, creators, and more all from across Germany will col
         title: 'Solana Feedback',
         type: 'Feedback',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Give Feedback About Solana Developer Experience',
         description: `
 ___
@@ -293,6 +292,7 @@ ___
         title: 'Social Photo Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Find and Meet Tamar with Solana Foundation & SuperteamDE!',
         description: `
@@ -340,6 +340,7 @@ Time to meet more folks in the Solana ecosystem! Find Tamar from Solana Foundati
         title: 'Social Photo Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Find and Meet Noe with Solana Foundation & SuperteamDE!',
         description: `
@@ -387,6 +388,7 @@ Time to meet more folks in the Solana ecosystem! Find Noe from Solana Foundation
         title: 'Social Photo Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Find and Meet TJ with Solana Labs Payments Team!',
         description: `
 ___
@@ -433,6 +435,7 @@ Time to meet more folks in the Solana ecosystem! Find TJ from Solana Labs Paymen
         title: 'Social Photo Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Find and Meet Joe with Solana Foundation Developer Relations!',
         description: `
@@ -480,6 +483,7 @@ Time to meet more folks in the Solana ecosystem! Find Buffalo Joe from Solana De
         title: 'Social Photo Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Find and Meet Valentin with Solana Foundation!',
         description: `
 ___
@@ -526,6 +530,7 @@ Time to meet more folks in the Solana ecosystem! Find Valentin from Solana Found
         title: 'Social Photo Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Find and Meet Solandy with Solana Foundation!',
         description: `
 ___
@@ -572,6 +577,7 @@ Time to meet more folks in the Solana ecosystem! Find Solandy from Solana Founda
         title: 'Solana 101: Deploy a Program',
         type: 'Deploy',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Publish your first smart contract in minutes with Solana Playground!',
         description: `
@@ -656,6 +662,7 @@ ___
         title: 'Create a Token',
         type: 'SPL Token',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Create a Token on Solana!',
         description: `
 ___
@@ -739,6 +746,7 @@ ___
         title: 'NFTs 101: Overview-01',
         type: 'NFT',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'In this challenge we gain more insight into Solana NFTs with Metaplex!',
         description: `
@@ -833,6 +841,7 @@ ___
         title: 'Solana 101: Basics-01',
         type: 'Solana',
         difficulty: 'Easy',
+        tags: '',
         description: `
 ___
 ### Description
@@ -910,6 +919,7 @@ ___
         title: 'Solana Unity Save Game Data',
         type: 'Game',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'In this challenge we gain more insight into Unity using Solana!',
         description: `
@@ -991,6 +1001,7 @@ ___
         title: 'Versioned Transactions',
         type: 'Video',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Learn how to use the new transaction format with Versioned Transactions.',
         description: `
@@ -1064,6 +1075,7 @@ ___
         title: 'Accounts Overview',
         type: 'Video',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Dive into the Solana programming model with this overview on Accounts.',
         description: `
@@ -1147,6 +1159,7 @@ ___
         title: 'Accounts Ownership',
         type: 'Video',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Learn more about Solana accounts and ownership.',
         description: `
 ___
@@ -1224,6 +1237,7 @@ ___
         title: 'CPI',
         type: 'Video',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Learn about what a Cross-Program Invocation is, and how to use it.',
         description: `
@@ -1296,6 +1310,7 @@ ___
         title: 'Custom Account Data',
         type: 'Video',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Learn about custom account data on Solana.',
         description: `
 ___
@@ -1368,6 +1383,7 @@ ___
         title: 'Phantom Deeplinks: 101',
         type: 'Wallet',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Learn about phantom deeplinks for mobile wallets.',
         description: `
 ___
@@ -1446,6 +1462,7 @@ ___
         title: 'Writing PDAs',
         type: 'Concept',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Learn more about Solana PDAs.',
         description: `
 ___
@@ -1523,6 +1540,7 @@ ___
         title: 'Solana Staking: 101',
         type: 'Staking',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Learn about Solana Staking.',
         description: `
 ___
@@ -1617,6 +1635,7 @@ ___
         title: 'Demonstrate your Knowledge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Help a fren out on Solana Stack Exchange',
         description: `
 ___
@@ -1679,6 +1698,7 @@ ___
         title: 'Social Photo Bomb Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Photo Bomb Tamar from Solana Foundation & SuperteamDE!',
         description: `
@@ -1728,6 +1748,7 @@ Find and photo bomb Tamar from Solana Foundation & SuperteamDE! You and friends?
         title: 'Social Photo Bomb Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Photo Bomb Noe from Solana Foundation & SuperteamDE!',
         description: `
@@ -1777,6 +1798,7 @@ Find and photo bomb Noe from Solana Foundation & SuperteamDE! You and friends? A
         title: 'Social Photo Bomb Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Photo Bomb TJ from Solana Labs Payments Team!',
         description: `
 ___
@@ -1825,6 +1847,7 @@ Find and Photobomb TJ from Solana Labs Payments Team and then ask some questions
         title: 'Social Photo Bomb Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Photo Bomb Joe from Solana Foundation Developer Relations!',
         description: `
@@ -1874,6 +1897,7 @@ Should we photo bomb Joe and show some love?! Appear in a photo with Joe to post
         title: 'Social Photo Bomb Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Photo Bomb Valentin from Solana Foundation!',
         description: `
 ___
@@ -1922,6 +1946,7 @@ Should we photo bomb Valentin and show some love?! Appear in a photo with Valent
         title: 'Social Photo Bomb Challenge',
         type: 'Social',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Photo Bomb Solandy from Solana Foundation!',
         description: `
 ___
@@ -1970,6 +1995,7 @@ Should we photo bomb Solandy and show some love?! Appear in a photo with Solandy
         title: 'Transfer SOL',
         type: 'Deploy',
         difficulty: 'Medium',
+        tags: '',
         shortDescription:
             'Write a Solana program to transfer SOL between two accounts!',
         description: `
@@ -2052,6 +2078,7 @@ ___
         title: 'Lookup Table',
         type: 'Client',
         difficulty: 'Medium',
+        tags: '',
         shortDescription:
             'Send a Transaction V0 using an Address Lookup Table.',
         description: `
@@ -2134,6 +2161,7 @@ ___
         title: 'Writing Custom Data',
         type: 'Deploy',
         difficulty: 'Medium',
+        tags: '',
         shortDescription: 'Write custom data to the Solana blockchain.',
         description: `
 ___
@@ -2216,6 +2244,7 @@ ___
         title: 'Writing PDAs',
         type: 'Deploy',
         difficulty: 'Medium',
+        tags: '',
         shortDescription:
             'Create a Solana account with a Program Derived Address using your program.',
         description: `
@@ -2302,6 +2331,7 @@ ___
         title: 'PDA Mint Authority',
         type: 'Deploy',
         difficulty: 'Medium',
+        tags: '',
         shortDescription:
             'Write a custom Solana program that can create a new Token Mint with a PDA as the Mint Authority.',
         description: `
@@ -2398,6 +2428,7 @@ ___
         title: 'Helius Webhooks',
         type: 'SDK',
         difficulty: 'medium',
+        tags: '',
         shortDescription: 'Build a webhook with Helius!',
         description: `
 ___
@@ -2461,6 +2492,7 @@ ___
         title: 'Processing Instructions',
         type: 'Deploy',
         difficulty: 'Hard',
+        tags: '',
         shortDescription:
             'Build custom instruction processing for your Solana program.',
         description: `
@@ -2562,6 +2594,7 @@ ___
         title: 'Orca SDK Challenge',
         type: 'SDK',
         difficulty: 'Hard',
+        tags: '',
         shortDescription: 'Build a unique application using Orca SDK!',
         description: `
 ___
@@ -2629,6 +2662,7 @@ ___
         title: 'Jupiter SDK Challenge',
         type: 'SDK',
         difficulty: 'Hard',
+        tags: '',
         shortDescription: 'Build a unique application using Jupiter SDK!',
         description: `
 ___
@@ -2707,6 +2741,7 @@ ___
         title: 'Solana Unity Save Game Data',
         type: 'Game',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Play with Fractal!',
         description: `
 ___
@@ -2768,6 +2803,7 @@ ___
         title: 'Solana Unity Save Game Data',
         type: 'Game',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Learn concepts of ev.io on fractal!',
         description: `
 ___
@@ -2834,6 +2870,7 @@ ___
         title: 'Metaplex NFT Standard and tools',
         type: 'NFT',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Metaplex NFT Standard and tools',
         description: `
 ___
@@ -2928,6 +2965,7 @@ ___
         title: 'Solana Unity Save Game Data',
         type: 'Game',
         difficulty: 'Medium',
+        tags: '',
         shortDescription:
             'Create your own Unity Game on Solana referencing a tutorial!',
         description: `
@@ -2991,6 +3029,7 @@ ___
         title: 'Solana Unity Save Game Data',
         type: 'Game',
         difficulty: 'Easy',
+        tags: '',
         shortDescription: 'Learn about raindrops and boots!',
         description: `
 ___
@@ -3063,6 +3102,7 @@ ___
         title: 'Solana Unity Save Game Data',
         type: 'Game',
         difficulty: 'Easy',
+        tags: '',
         shortDescription:
             'Install Solana.Unity SDK and mint a unique NFT badge of completion in Unity!',
         description: `
@@ -3127,6 +3167,7 @@ ___
         title: 'Unity Wallet Web3Auth SDK Challenge!',
         type: 'Game',
         difficulty: 'Medium',
+        tags: '',
         shortDescription:
             'Create an SSO login using Solana Unity SDK and Web3Auth SDK Challenge!',
         description: `
@@ -3198,6 +3239,7 @@ ___
         title: 'Unity SDK 101-1 webgl',
         type: 'Game',
         difficulty: 'Medium',
+        tags: '',
         shortDescription: 'Solana Unity SDK and WebGL basics!',
         description: `
 ___
@@ -3257,6 +3299,7 @@ ___
         title: 'Friktion SDK Challenge 1!',
         type: 'SDK',
         difficulty: 'Hard',
+        tags: '',
         shortDescription: 'Build a unique application using Friktion SDK!',
         description: `
 ___
@@ -3332,6 +3375,7 @@ ___
         title: 'ORAO VRF SDK Challenge 1',
         type: 'SDK',
         difficulty: 'Medium',
+        tags: '',
         shortDescription: 'Random numbers with ORAO using VRF',
         description: `
 ___
