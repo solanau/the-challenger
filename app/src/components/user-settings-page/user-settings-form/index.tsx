@@ -36,7 +36,6 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
             if (!sign.detached.verify(message, signature, publicKey.toBytes()))
                 throw new Error('Invalid signature!');
             setSignatureVerified(true);
-            setSignatureVerified(true);
         } catch (error) {
             alert(`Signing failed: ${error?.message}`);
         }
