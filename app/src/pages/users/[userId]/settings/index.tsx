@@ -1,3 +1,4 @@
+import { useWallet } from '@solana/wallet-adapter-react';
 import Button from 'components/common/button';
 import Text from 'components/common/text';
 import UserSettingsForm from 'components/user-settings-page/user-settings-form';
@@ -7,36 +8,48 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { UpdateUserFormData } from 'types/user';
 
 const UserSettingsPage: NextPage = () => {
+    const { publicKey } = useWallet();
     const [isLoading, setIsLoading] = useState(false);
     const { isLoggedIn, user } = useAuth();
+    const [signatureVerified, setSignatureVerified] = useState(false);
     const router = useRouter();
     const eventId =
         router.query.eventId instanceof Array
             ? router.query.eventId[0]
             : router.query.eventId;
 
-    const handleUpdateUser = async (updateUserFormData: UpdateUserFormData) => {
-        setIsLoading(true);
+    const handleUpdateUser = useCallback(
+        async (updateUserFormData: UpdateUserFormData) => {
+            if (!signatureVerified) {
+                toast('You must provide a public key');
+                return;
+            }
+            if (signatureVerified && publicKey) {
+                updateUserFormData.walletPublicKey = publicKey.toBase58();
+            }
+            setIsLoading(true);
 
-        setUser(updateUserFormData)
-            .then(() =>
-                toast('Changes saved!', {
-                    type: 'success',
-                }),
-            )
-            .catch(error => {
-                toast(error, {
-                    type: 'error',
-                });
-            })
-            .finally(() => setIsLoading(false));
-    };
+            setUser(updateUserFormData)
+                .then(() =>
+                    toast('Changes saved!', {
+                        type: 'success',
+                    }),
+                )
+                .catch(error => {
+                    toast(error, {
+                        type: 'error',
+                    });
+                })
+                .finally(() => setIsLoading(false));
+        },
+        [publicKey, signatureVerified],
+    );
 
     return (
         <>
@@ -96,6 +109,8 @@ const UserSettingsPage: NextPage = () => {
                         >
                             <UserSettingsForm
                                 isLoading={isLoading}
+                                signatureVerified={signatureVerified}
+                                setSignatureVerified={setSignatureVerified}
                             ></UserSettingsForm>
                         </Formik>
                     </>
