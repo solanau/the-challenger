@@ -76,7 +76,7 @@ const EventsPreviewComponent: FC<EventsPreviewComponentProps> = (
                             </div>
 
                             <div className="flex w-full flex-row flex-wrap justify-end gap-2">
-                                <Link href={`events/${event.id}`}>
+                                <Link href={`/events/${event.id}`}>
                                     <a className="w-full md:w-auto">
                                         <Button
                                             variant="orange"
@@ -87,7 +87,7 @@ const EventsPreviewComponent: FC<EventsPreviewComponentProps> = (
                                     </a>
                                 </Link>
 
-                                <Link href={`events/${event.id}/submissions`}>
+                                <Link href={`/events/${event.id}/submissions`}>
                                     <a className="w-full md:w-auto">
                                         <Button
                                             variant="orange"
@@ -98,16 +98,21 @@ const EventsPreviewComponent: FC<EventsPreviewComponentProps> = (
                                     </a>
                                 </Link>
 
-                                <Link href={`events/${event.id}/settings`}>
-                                    <a className="w-full md:w-auto">
-                                        <Button
-                                            variant="black"
-                                            className="w-full md:w-auto"
+                                {props.user &&
+                                    props.user.id === event.userId && (
+                                        <Link
+                                            href={`/events/${event.id}/settings`}
                                         >
-                                            Settings
-                                        </Button>
-                                    </a>
-                                </Link>
+                                            <a className="w-full md:w-auto">
+                                                <Button
+                                                    variant="black"
+                                                    className="w-full md:w-auto"
+                                                >
+                                                    Settings
+                                                </Button>
+                                            </a>
+                                        </Link>
+                                    )}
                             </div>
                         </div>
                     </div>

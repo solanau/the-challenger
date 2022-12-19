@@ -78,7 +78,7 @@ const ChallengesPreviewComponent: FC<ChallengesPreviewComponentProps> = (
                             </div>
 
                             <div className="flex w-full flex-row justify-end gap-2">
-                                <Link href={`challenges/${challenge.id}`}>
+                                <Link href={`/challenges/${challenge.id}`}>
                                     <a>
                                         <Button variant="orange">
                                             View Preview
@@ -89,7 +89,7 @@ const ChallengesPreviewComponent: FC<ChallengesPreviewComponentProps> = (
                                 {props.user &&
                                     props.user.id === challenge.userId && (
                                         <Link
-                                            href={`challenges/${challenge.id}/settings`}
+                                            href={`/challenges/${challenge.id}/settings`}
                                         >
                                             <a>
                                                 <Button variant="black">
