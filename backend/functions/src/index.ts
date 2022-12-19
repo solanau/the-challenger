@@ -21,6 +21,50 @@ app.use(cors({ origin: ['http://localhost:3000'] }));
 export const db = admin.firestore();
 export const webApi = functions.https.onRequest(app);
 
+export const createChallenge = functions.https.onCall(async (data, context) => {
+    const challenge = await challengeService.createChallenge(
+        data,
+        context.auth && {
+            id: context.auth.token.uid,
+            email: context.auth.token.email,
+        },
+    );
+    return challenge;
+});
+
+export const updateChallenge = functions.https.onCall(async (data, context) => {
+    const challenge = await challengeService.updateChallenge(
+        data,
+        context.auth && {
+            id: context.auth.token.uid,
+            email: context.auth.token.email,
+        },
+    );
+    return challenge;
+});
+
+export const createEvent = functions.https.onCall(async (data, context) => {
+    const event = await eventService.createEvent(
+        data,
+        context.auth && {
+            id: context.auth.token.uid,
+            email: context.auth.token.email,
+        },
+    );
+    return event;
+});
+
+export const updateEvent = functions.https.onCall(async (data, context) => {
+    const event = await eventService.updateEvent(
+        data,
+        context.auth && {
+            id: context.auth.token.uid,
+            email: context.auth.token.email,
+        },
+    );
+    return event;
+});
+
 export const createSubmission = functions.https.onCall(
     async (data, context) => {
         const submission = await submissionService.createSubmission(
@@ -68,46 +112,10 @@ export const setUser = functions.https.onCall(async (data, context) => {
     return user;
 });
 
-export const createEvent = functions.https.onCall(async (data, context) => {
-    const event = await eventService.createEvent(
+export const updateUser = functions.https.onCall(async (data, context) => {
+    const user = await userService.updateUser(
+        { id: context.auth.token.uid, email: context.auth.token.email },
         data,
-        context.auth && {
-            id: context.auth.token.uid,
-            email: context.auth.token.email,
-        },
     );
-    return event;
-});
-
-export const updateEvent = functions.https.onCall(async (data, context) => {
-    const event = await eventService.updateEvent(
-        data,
-        context.auth && {
-            id: context.auth.token.uid,
-            email: context.auth.token.email,
-        },
-    );
-    return event;
-});
-
-export const createChallenge = functions.https.onCall(async (data, context) => {
-    const challenge = await challengeService.createChallenge(
-        data,
-        context.auth && {
-            id: context.auth.token.uid,
-            email: context.auth.token.email,
-        },
-    );
-    return challenge;
-});
-
-export const updateChallenge = functions.https.onCall(async (data, context) => {
-    const challenge = await challengeService.updateChallenge(
-        data,
-        context.auth && {
-            id: context.auth.token.uid,
-            email: context.auth.token.email,
-        },
-    );
-    return challenge;
+    return user;
 });

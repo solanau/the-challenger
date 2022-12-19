@@ -1,3 +1,5 @@
+export type EventStatus = 'active' | 'draft';
+
 export interface EventPayload {
     id: string;
     title: string;
@@ -8,6 +10,7 @@ export interface EventPayload {
     isNew: boolean;
     createdAt: number;
     updatedAt: number;
+    status?: EventStatus;
     startDate?: number;
     endDate?: number;
     reviewers?: string[];
@@ -26,6 +29,7 @@ export interface UpdateEventPayload {
         title: string;
         description: string;
         challenges: string[];
+        status?: EventStatus;
     };
 }
 

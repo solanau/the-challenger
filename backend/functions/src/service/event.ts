@@ -36,6 +36,7 @@ class EventService {
             createdAt: Date.now(),
             updatedAt: Date.now(),
             isNew: true,
+            status: 'draft',
         };
 
         const event = await db.doc(`events/${payload.id}`).set(eventData);

@@ -103,6 +103,59 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                 <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
                                             )}
 
+                                            {user.canCreate && (
+                                                <Link
+                                                    href={{
+                                                        pathname: `/users/${userId}/social`,
+                                                        query: eventId
+                                                            ? {
+                                                                  eventId,
+                                                              }
+                                                            : {},
+                                                    }}
+                                                    passHref
+                                                >
+                                                    <a className="flex flex-row justify-end">
+                                                        <Button
+                                                            text="My Events"
+                                                            variant="black"
+                                                            className="mt-2 !w-full"
+                                                            onClick={() =>
+                                                                setMenuOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        />
+                                                    </a>
+                                                </Link>
+                                            )}
+                                            {user.canCreate && (
+                                                <Link
+                                                    href={{
+                                                        pathname: `/users/${userId}/social`,
+                                                        query: eventId
+                                                            ? {
+                                                                  eventId,
+                                                              }
+                                                            : {},
+                                                    }}
+                                                    passHref
+                                                >
+                                                    <a className="flex flex-row justify-end">
+                                                        <Button
+                                                            text="My Challenges"
+                                                            variant="black"
+                                                            className="mt-2 !w-full"
+                                                            onClick={() =>
+                                                                setMenuOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        />
+                                                    </a>
+                                                </Link>
+                                            )}
+
                                             <Link
                                                 href={{
                                                     pathname: `/users/${userId}/settings`,

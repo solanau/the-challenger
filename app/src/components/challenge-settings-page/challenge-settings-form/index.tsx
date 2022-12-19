@@ -429,6 +429,15 @@ const ChallengeSettingsForm = ({
                     {isLoading && <Spinner variant="large"></Spinner>}
                     Save changes
                 </Button>
+                <Button
+                    className="bg-green-400"
+                    type="submit"
+                    variant="orange"
+                    disabled={isLoading}
+                >
+                    {isLoading && <Spinner variant="large"></Spinner>}
+                    Publish
+                </Button>
             </div>
         </Form>
     );

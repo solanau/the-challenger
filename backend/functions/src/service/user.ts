@@ -26,10 +26,24 @@ class UserService {
         }
 
         await db.doc(`users/${auth.id}`).set({
-            fullName: payload.fullName,
-            userName: payload.userName,
             email: auth.email,
-            walletPublicKey: payload.walletPublicKey,
+            ...payload,
+        });
+
+        return payload;
+    }
+
+    async updateUser(auth: Auth, payload: SetUserPayload) {
+        if (await isDuplicateUserName(auth.id, payload.userName)) {
+            throw new functions.https.HttpsError(
+                'already-exists',
+                `There's a user with that user name already.`,
+            );
+        }
+
+        await db.doc(`users/${auth.id}`).update({
+            email: auth.email,
+            ...payload,
         });
 
         return payload;

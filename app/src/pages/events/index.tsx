@@ -9,6 +9,7 @@ import { createEvent } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
 import { toast } from 'react-toastify';
@@ -16,6 +17,7 @@ import { CreateEventPayload } from 'types/event';
 import { v4 as uuid } from 'uuid';
 
 const EventsPage: NextPage = () => {
+    const { user } = useAuth();
     const [isCreateEventModalOpen, setIsCreateEventModalOpen] = useState(false);
     const events = useEvents();
     const [isLoading, setIsLoading] = useState(false);
@@ -54,15 +56,19 @@ const EventsPage: NextPage = () => {
                 </Text>
 
                 <div>
-                    <Button
-                        icon={TbPlus}
-                        text={'Create an event'}
-                        variant="transparent"
-                        className="bg-zinc-700"
-                        onClick={() =>
-                            setIsCreateEventModalOpen(!isCreateEventModalOpen)
-                        }
-                    ></Button>
+                    {user && user.canCreateStatus === 'approved' && (
+                        <Button
+                            icon={TbPlus}
+                            text={'Create an event'}
+                            variant="transparent"
+                            className="bg-zinc-700"
+                            onClick={() =>
+                                setIsCreateEventModalOpen(
+                                    !isCreateEventModalOpen,
+                                )
+                            }
+                        ></Button>
+                    )}
 
                     <Modal
                         title="New Event"

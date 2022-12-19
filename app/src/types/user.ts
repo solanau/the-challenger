@@ -1,3 +1,6 @@
+export type CanCreateStatus = 'approved' | 'denied' | 'pending';
+export type CanCreateRequested = 'Yes' | 'No';
+
 export type UserPayload = {
     id: string;
     fullName: string;
@@ -7,16 +10,19 @@ export type UserPayload = {
     avatarUrl?: string;
     closedBountiesCount?: number;
     level?: number;
+    canCreateStatus?: CanCreateStatus;
 };
 
 export interface SetUserPayload {
     fullName: string;
     userName: string;
     walletPublicKey: string;
+    canCreateStatus?: CanCreateStatus;
 }
 
 export interface UpdateUserFormData {
     fullName: string;
     userName: string;
     walletPublicKey: string;
+    canCreateRequested?: CanCreateRequested;
 }

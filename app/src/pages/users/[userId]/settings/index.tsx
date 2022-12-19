@@ -3,7 +3,7 @@ import Button from 'components/common/button';
 import Text from 'components/common/text';
 import UserSettingsForm from 'components/user-settings-page/user-settings-form';
 import { Formik } from 'formik';
-import { setUser } from 'lib/api';
+import { setUser, updateUser } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -11,7 +11,7 @@ import { useAuth } from 'providers/AuthProvider';
 import { useCallback, useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { toast } from 'react-toastify';
-import { UpdateUserFormData } from 'types/user';
+import { SetUserPayload, UpdateUserFormData } from 'types/user';
 
 const UserSettingsPage: NextPage = () => {
     const { publicKey } = useWallet();
@@ -35,7 +35,23 @@ const UserSettingsPage: NextPage = () => {
             }
             setIsLoading(true);
 
-            setUser(updateUserFormData)
+            const updateUserData: SetUserPayload = {
+                fullName: updateUserFormData.fullName,
+                userName: updateUserFormData.userName,
+                walletPublicKey: updateUserFormData.walletPublicKey,
+            };
+
+            if (
+                updateUserFormData.canCreateRequested === 'Yes' &&
+                user &&
+                user.canCreateStatus != 'approved' &&
+                user.canCreateStatus != 'denied'
+            )
+                updateUserData.canCreateStatus = 'pending';
+
+            let update = (data: SetUserPayload) => setUser(data);
+            if (user) update = (data: SetUserPayload) => updateUser(data);
+            update(updateUserData)
                 .then(() =>
                     toast('Changes saved!', {
                         type: 'success',
@@ -48,7 +64,7 @@ const UserSettingsPage: NextPage = () => {
                 })
                 .finally(() => setIsLoading(false));
         },
-        [publicKey, signatureVerified],
+        [publicKey, signatureVerified, user],
     );
 
     return (
@@ -103,6 +119,7 @@ const UserSettingsPage: NextPage = () => {
                                 fullName: user?.fullName ?? '',
                                 userName: user?.userName ?? '',
                                 walletPublicKey: user?.walletPublicKey ?? '',
+                                canCreateRequested: 'No',
                             }}
                             onSubmit={handleUpdateUser}
                             enableReinitialize={true}

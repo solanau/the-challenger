@@ -9,6 +9,7 @@ import { createChallenge } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
 import { toast } from 'react-toastify';
@@ -16,6 +17,7 @@ import { CreateChallengePayload } from 'types/challenge';
 import { v4 as uuid } from 'uuid';
 
 const ChallengesPage: NextPage = () => {
+    const { user } = useAuth();
     const [isCreateChallengeModalOpen, setIsCreateChallengeModalOpen] =
         useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -58,17 +60,19 @@ const ChallengesPage: NextPage = () => {
                 </Text>
 
                 <div>
-                    <Button
-                        icon={TbPlus}
-                        text={'Create a challenge'}
-                        variant="transparent"
-                        className="bg-zinc-700"
-                        onClick={() =>
-                            setIsCreateChallengeModalOpen(
-                                !isCreateChallengeModalOpen,
-                            )
-                        }
-                    ></Button>
+                    {user && user.canCreateStatus === 'approved' && (
+                        <Button
+                            icon={TbPlus}
+                            text={'Create a challenge'}
+                            variant="transparent"
+                            className="bg-zinc-700"
+                            onClick={() =>
+                                setIsCreateChallengeModalOpen(
+                                    !isCreateChallengeModalOpen,
+                                )
+                            }
+                        ></Button>
+                    )}
 
                     <Modal
                         title="New Challenge"

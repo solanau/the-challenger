@@ -27,6 +27,7 @@ class ChallengeService {
             isNew: true,
             version: CHALLENGE_DOCUMENT_VERSION,
             userId: auth.id,
+            status: 'draft',
         };
 
         const challenge = await db
