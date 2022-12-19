@@ -66,14 +66,16 @@ const EventSettingsPage: NextPage = () => {
                             challenges: event.challenges,
                             managers: event.managers?.join(', ') ?? '',
                             reviewers: event.reviewers?.join(', ') ?? '',
+                            status: event.status ?? 'pending',
                         }}
                         onSubmit={values =>
                             handleUpdateEvent(fromEventSettingsFormData(values))
                         }
                     >
                         <EventSettingsForm
-                            challenges={challenges}
                             isLoading={isLoading}
+                            eventStatus={event.status}
+                            challenges={challenges}
                         ></EventSettingsForm>
                     </Formik>
                 )}

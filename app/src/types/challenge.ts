@@ -102,6 +102,7 @@ export interface UpdateChallengePayload {
         authorName: string;
         authorGithub: string;
         authorTwitter: string;
+        status?: ChallengeStatus;
     };
 }
 

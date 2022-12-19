@@ -73,6 +73,7 @@ const ChallengeSettingsPage: NextPage = () => {
                     >
                         <ChallengeSettingsForm
                             isLoading={isLoading}
+                            challengeStatus={challenge.status}
                         ></ChallengeSettingsForm>
                     </Formik>
                 )}
