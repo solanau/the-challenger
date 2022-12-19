@@ -33,8 +33,8 @@ const EventsPreviewComponent: FC<EventsPreviewComponentProps> = (
     };
 
     return (
-        <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-            <div>
+        <>
+            <div className="ml-2 mt-4">
                 <select
                     name="filter-list"
                     id="filter-list"
@@ -47,78 +47,82 @@ const EventsPreviewComponent: FC<EventsPreviewComponentProps> = (
                     <option value="draft">Drafts</option>
                 </select>
             </div>
-            {filteredEvents.map(event => (
-                <Card
-                    key={event.id}
-                    className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
-                >
-                    <div className="flex flex-col gap-5">
-                        <Text
-                            className="min-w-fit break-all"
-                            variant="big-heading"
-                        >
-                            {event.title}
-                        </Text>
-                        <Text variant="paragraph">{event.description}</Text>
+            <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                {filteredEvents.map(event => (
+                    <Card
+                        key={event.id}
+                        className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
+                    >
+                        <div className="flex flex-col gap-5">
+                            <Text
+                                className="min-w-fit break-all"
+                                variant="big-heading"
+                            >
+                                {event.title}
+                            </Text>
+                            <Text variant="paragraph">{event.description}</Text>
 
-                        <div className="flex flex-row">
-                            <div className="flex flex-row justify-start">
-                                <Text
-                                    className={`my-auto ${
-                                        event.status === 'draft'
-                                            ? 'text-pink-500'
-                                            : 'text-green-500'
-                                    }`}
-                                    variant="label"
-                                >
-                                    {event.status}
-                                </Text>
-                            </div>
+                            <div className="flex flex-row">
+                                <div className="flex flex-row justify-start">
+                                    <Text
+                                        className={`my-auto ${
+                                            event.status === 'draft'
+                                                ? 'text-pink-500'
+                                                : 'text-green-500'
+                                        }`}
+                                        variant="label"
+                                    >
+                                        {event.status}
+                                    </Text>
+                                </div>
 
-                            <div className="flex w-full flex-row flex-wrap justify-end gap-2">
-                                <Link href={`/events/${event.id}`}>
-                                    <a className="w-full md:w-auto">
-                                        <Button
-                                            variant="orange"
-                                            className="w-full md:w-auto"
-                                        >
-                                            View Preview
-                                        </Button>
-                                    </a>
-                                </Link>
+                                <div className="flex w-full flex-row flex-wrap justify-end gap-2">
+                                    <Link href={`/events/${event.id}`}>
+                                        <a className="w-full md:w-auto">
+                                            <Button
+                                                variant="orange"
+                                                className="w-full md:w-auto"
+                                            >
+                                                View Preview
+                                            </Button>
+                                        </a>
+                                    </Link>
 
-                                <Link href={`/events/${event.id}/submissions`}>
-                                    <a className="w-full md:w-auto">
-                                        <Button
-                                            variant="orange"
-                                            className="w-full md:w-auto"
-                                        >
-                                            View Submissions
-                                        </Button>
-                                    </a>
-                                </Link>
+                                    <Link
+                                        href={`/events/${event.id}/submissions`}
+                                    >
+                                        <a className="w-full md:w-auto">
+                                            <Button
+                                                variant="orange"
+                                                className="w-full md:w-auto"
+                                            >
+                                                View Submissions
+                                            </Button>
+                                        </a>
+                                    </Link>
 
-                                {props.user &&
-                                    props.user.id === event.userId && (
-                                        <Link
-                                            href={`/events/${event.id}/settings`}
-                                        >
-                                            <a className="w-full md:w-auto">
-                                                <Button
-                                                    variant="black"
-                                                    className="w-full md:w-auto"
-                                                >
-                                                    Settings
-                                                </Button>
-                                            </a>
-                                        </Link>
-                                    )}
+                                    {props.user &&
+                                        props.user.id === event.userId && (
+                                            <Link
+                                                href={`/events/${event.id}/settings`}
+                                            >
+                                                <a className="w-full md:w-auto">
+                                                    <Button
+                                                        variant="black"
+                                                        className="w-full md:w-auto"
+                                                    >
+                                                        Settings
+                                                    </Button>
+                                                </a>
+                                            </Link>
+                                        )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Card>
-            ))}
-        </div>
+                    </Card>
+                ))}
+            </div>
+        </>
     );
 };
 
