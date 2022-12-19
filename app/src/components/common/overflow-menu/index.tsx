@@ -103,10 +103,11 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                 <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
                                             )}
 
-                                            {user.canCreate && (
+                                            {user.canCreateStatus ===
+                                                'approved' && (
                                                 <Link
                                                     href={{
-                                                        pathname: `/users/${userId}/social`,
+                                                        pathname: `/users/${userId}/events`,
                                                         query: eventId
                                                             ? {
                                                                   eventId,
@@ -129,10 +130,11 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                     </a>
                                                 </Link>
                                             )}
-                                            {user.canCreate && (
+                                            {user.canCreateStatus ===
+                                                'approved' && (
                                                 <Link
                                                     href={{
-                                                        pathname: `/users/${userId}/social`,
+                                                        pathname: `/users/${userId}/challenges`,
                                                         query: eventId
                                                             ? {
                                                                   eventId,

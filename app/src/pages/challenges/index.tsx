@@ -1,16 +1,15 @@
+import ChallengesPreviewComponent from 'components/challenges-page/challenges-preview-page';
 import CreateChallengeForm from 'components/challenges-page/create-challenge-form';
 import Button from 'components/common/button';
-import Card from 'components/common/card';
 import Modal from 'components/common/modal';
 import Text from 'components/common/text';
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { createChallenge } from 'lib/api';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
-import { ChangeEvent, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { CreateChallengePayload } from 'types/challenge';
@@ -23,22 +22,6 @@ const ChallengesPage: NextPage = () => {
         useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const challenges = useChallenges({ version: 1 });
-    const [selectedStatusFilter, setSelectedStatusFilter] =
-        useState<string>('active');
-    const filteredChallenges = useMemo(() => {
-        if (!selectedStatusFilter) {
-            return challenges;
-        }
-        return challenges.filter(
-            challenge => challenge.status === selectedStatusFilter,
-        );
-    }, [selectedStatusFilter, challenges]);
-
-    const handleStatusFilterChange = (
-        event: ChangeEvent<HTMLSelectElement>,
-    ) => {
-        setSelectedStatusFilter(event.target.value);
-    };
 
     const handleCreateChallenge = (
         createChallengePayload: CreateChallengePayload,
@@ -113,74 +96,7 @@ const ChallengesPage: NextPage = () => {
                 </div>
             </div>
 
-            <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                <div>
-                    <select
-                        name="filter-list"
-                        id="filter-list"
-                        onChange={handleStatusFilterChange}
-                        className="rounded-md border-2 border-white bg-white px-4 py-2 text-black"
-                        defaultValue={'active'}
-                    >
-                        <option value="">All</option>
-                        <option value="active">Active</option>
-                        <option value="draft">Drafts</option>
-                    </select>
-                </div>
-                {filteredChallenges.map(challenge => (
-                    <Card
-                        key={challenge.id}
-                        className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
-                    >
-                        <div className="flex w-full flex-col gap-5">
-                            <Text
-                                className="break-word min-w-fit"
-                                variant="big-heading"
-                            >
-                                {challenge.title}
-                            </Text>
-                            <Text variant="paragraph" className="break-word">
-                                {challenge.description}
-                            </Text>
-
-                            <div className="flex flex-row">
-                                <div className="flex flex-row justify-start">
-                                    <Text
-                                        className={`my-auto ${
-                                            challenge.status === 'draft'
-                                                ? 'text-pink-500'
-                                                : 'text-green-500'
-                                        }`}
-                                        variant="label"
-                                    >
-                                        {challenge.status}
-                                    </Text>
-                                </div>
-
-                                <div className="flex w-full flex-row justify-end gap-2">
-                                    <Link href={`challenges/${challenge.id}`}>
-                                        <a>
-                                            <Button variant="orange">
-                                                View Preview
-                                            </Button>
-                                        </a>
-                                    </Link>
-
-                                    <Link
-                                        href={`challenges/${challenge.id}/settings`}
-                                    >
-                                        <a>
-                                            <Button variant="black">
-                                                Settings
-                                            </Button>
-                                        </a>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                    </Card>
-                ))}
-            </div>
+            <ChallengesPreviewComponent challenges={challenges} user={user} />
         </>
     );
 };
