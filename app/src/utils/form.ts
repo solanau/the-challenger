@@ -1,4 +1,4 @@
-import { FieldType } from 'types/form';
+import { FieldType } from 'types';
 
 export function getFieldDefaultValueByType(type: FieldType) {
     switch (type) {

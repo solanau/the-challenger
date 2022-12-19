@@ -1,4 +1,3 @@
-import { CreateSubmissionPayload } from 'types/api';
 import {
     ActiveChallenge,
     BaseChallenge,
@@ -8,11 +7,12 @@ import {
     ChallengePayload,
     ChallengeSettingsFormData,
     ChallengeTimeStatus,
+    CreateSubmissionPayload,
+    EventPayload,
     ExpiredChallenge,
     PendingChallenge,
-} from 'types/challenge';
-import { EventPayload } from 'types/event';
-import { SubmissionPayload } from 'types/submission';
+    SubmissionPayload,
+} from 'types';
 import { getRelativeTime } from './time';
 
 const TIME_REWARD_PERCENTAGE = 20;

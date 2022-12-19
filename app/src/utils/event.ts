@@ -1,4 +1,4 @@
-import { EventSettingsFormData } from 'types/event';
+import { EventSettingsFormData } from 'types';
 
 export const fromEventSettingsFormData = (values: EventSettingsFormData) => ({
     ...values,

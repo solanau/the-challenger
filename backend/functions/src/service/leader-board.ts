@@ -1,13 +1,13 @@
 import * as functions from 'firebase-functions';
-import { db } from '..';
 import {
     Auth,
+    db,
     EventPayload,
-    LeaderBoard,
-    Participant,
+    LeaderBoardPayload,
+    ParticipantPayload,
     SubmissionPayload,
     UpdateLeaderBoardPayload,
-} from '../util/types';
+} from '..';
 
 const LEADER_BOARD_DOCUMENT_VERSION = 1;
 
@@ -16,7 +16,7 @@ function groupParticipants(
         participantsGroupedByPoints: { [key: number]: string[] };
         participantsLookUp: { [key: string]: number };
     },
-    participant: Participant,
+    participant: ParticipantPayload,
 ): {
     participantsGroupedByPoints: { [key: number]: string[] };
     participantsLookUp: { [key: string]: number };
@@ -43,7 +43,7 @@ function splitParticipants(participantsGroupedByPoints: {
 }) {
     return Object.keys(participantsGroupedByPoints)
         .sort((a, b) => Number(b) - Number(a))
-        .reduce<Participant[]>(
+        .reduce<ParticipantPayload[]>(
             (allParticipants, points) =>
                 allParticipants.concat(
                     participantsGroupedByPoints[Number(points)].map(userId => ({
@@ -63,9 +63,9 @@ function getParticipantsTotal(participantsLookUp: { [key: string]: number }) {
 }
 
 function updateLeaderBoard(
-    leaderBoard: LeaderBoard,
+    leaderBoard: LeaderBoardPayload,
     submissions: SubmissionPayload[],
-): LeaderBoard {
+): LeaderBoardPayload {
     const { participantsGroupedByPoints, participantsLookUp } =
         leaderBoard.participants.reduce(groupParticipants, {
             participantsGroupedByPoints: {},
@@ -116,7 +116,7 @@ function updateLeaderBoard(
     };
 }
 
-class LeaderBoardController {
+class LeaderBoardService {
     async updateLeaderBoard(auth: Auth, payload: UpdateLeaderBoardPayload) {
         const event = await db.doc(`events/${payload.eventId}`).get();
         const eventData = event.data() as EventPayload;
@@ -146,7 +146,7 @@ class LeaderBoardController {
             participants: [],
             totalPoints: 0,
             version: LEADER_BOARD_DOCUMENT_VERSION,
-        }) as LeaderBoard;
+        }) as LeaderBoardPayload;
 
         // save updated leader board
         await db.doc(`events/${payload.eventId}/leader-boards/individual`).set({
@@ -171,4 +171,4 @@ class LeaderBoardController {
     }
 }
 
-export const controller = new LeaderBoardController();
+export const leaderBoardService = new LeaderBoardService();

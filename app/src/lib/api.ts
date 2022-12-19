@@ -1,15 +1,14 @@
 import { FirebaseError } from 'firebase/app';
 import { httpsCallable } from 'firebase/functions';
 import {
+    CreateChallengePayload,
+    CreateEventPayload,
     CreateSubmissionPayload,
     SetUserPayload,
-    UpdateLeaderBoardPayload,
-} from 'types/api';
-import {
-    CreateChallengePayload,
     UpdateChallengePayload,
-} from 'types/challenge';
-import { CreateEventPayload, UpdateEventPayload } from 'types/event';
+    UpdateEventPayload,
+    UpdateLeaderBoardPayload,
+} from 'types';
 import { ReviewSubmissionPayload } from 'types/submission';
 import { functions } from 'utils/firebase';
 
@@ -31,7 +30,6 @@ export async function createSubmission(
 
     try {
         const result = await instance({ id, ...payload });
-
         return result.data;
     } catch (error) {
         throw handleError(error);
@@ -51,7 +49,6 @@ export async function reviewSubmission(
             id: submissionId,
             ...payload,
         });
-
         return result.data;
     } catch (error) {
         throw handleError(error);
@@ -63,7 +60,6 @@ export async function setUser(payload: SetUserPayload) {
         functions,
         'setUser',
     );
-
     try {
         const result = await instance(payload);
 
@@ -78,7 +74,6 @@ export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
         functions,
         'updateLeaderBoard',
     );
-
     try {
         const result = await instance(payload);
 
@@ -90,7 +85,6 @@ export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
 
 export async function createEvent(id: string, payload: CreateEventPayload) {
     const instance = httpsCallable(functions, 'createEvent');
-
     try {
         const result = await instance({ id, ...payload });
 
@@ -102,7 +96,6 @@ export async function createEvent(id: string, payload: CreateEventPayload) {
 
 export async function updateEvent(id: string, payload: UpdateEventPayload) {
     const instance = httpsCallable(functions, 'updateEvent');
-
     try {
         const result = await instance({ id, data: payload });
 
@@ -117,7 +110,6 @@ export async function createChallenge(
     payload: CreateChallengePayload,
 ) {
     const instance = httpsCallable(functions, 'createChallenge');
-
     try {
         const result = await instance({ id, ...payload });
 
@@ -132,7 +124,6 @@ export async function updateChallenge(
     payload: UpdateChallengePayload,
 ) {
     const instance = httpsCallable(functions, 'updateChallenge');
-
     try {
         const result = await instance({ id, data: payload });
 

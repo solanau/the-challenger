@@ -22,7 +22,7 @@ import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandFacebook, TbBrandGithub, TbBrandTwitter } from 'react-icons/tb';
 import { toast } from 'react-toastify';
-import { AuthProviderType } from 'types/api';
+import { AuthProviderType } from 'types/auth';
 import { auth, getSocialProvider, handleSocialError } from 'utils/firebase';
 
 const LoginPage: NextPage = () => {

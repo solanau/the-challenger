@@ -1,4 +1,18 @@
-import { Keypair } from '@solana/web3.js';
+import { Connection, Keypair, PublicKey } from '@solana/web3.js';
+
+require('dotenv').config();
+
+export const MASTER_API_KEY: string | undefined = process.env.MASTER_API_KEY;
+
+export const connection = new Connection(
+    'https://api.devnet.solana.com',
+    'confirmed',
+);
+// export const connection = new Connection('http://localhost:8899', 'confirmed');
+export const PRESTIGE_PROGRAM_ID = new PublicKey(
+    '5p6mE4t2S74vpPf1PjbqPXkzSB8aGdY6r89bwbgRs6fr',
+);
+export const WALLET = createKeypairFromFile('./wallet/master.json');
 
 export function createKeypairFromFile(path: string): Keypair {
     return Keypair.fromSecretKey(
@@ -40,7 +54,7 @@ export function getTimeBonusPoints(
 
 export const MasterApiKeyError = () =>
     'Request blocked: Invalid Master API key.';
-export const PayloadError = () => 'Bad request body. Check app/src/types/api.';
+export const PayloadError = () => 'Bad request body. Check app/src/types.';
 export const PrestigeError = (type: string) =>
     `Error writing on-chain ${type}. Check the logs.`;
 export const DatabaseError = (type: string) =>

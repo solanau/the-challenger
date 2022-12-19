@@ -1,15 +1,15 @@
 import * as functions from 'firebase-functions';
-import { db } from '..';
 import {
     Auth,
     ChallengePayload,
     CreateChallengePayload,
+    db,
     UpdateChallengePayload,
-} from '../util/types';
+} from '..';
 
 const CHALLENGE_DOCUMENT_VERSION = 1;
 
-class ChallengeController {
+class ChallengeService {
     async createChallenge(payload: CreateChallengePayload, auth?: Auth) {
         if (!auth) {
             throw new functions.https.HttpsError(
@@ -19,6 +19,7 @@ class ChallengeController {
         }
 
         const challengeData: ChallengePayload = {
+            id: payload.id,
             title: payload.title,
             description: payload.description,
             createdAt: Date.now(),
@@ -51,4 +52,4 @@ class ChallengeController {
     }
 }
 
-export const controller = new ChallengeController();
+export const challengeService = new ChallengeService();

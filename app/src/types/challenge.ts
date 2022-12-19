@@ -67,32 +67,39 @@ export type Challenge = ActiveChallenge | PendingChallenge | ExpiredChallenge;
 export interface ChallengePayload {
     id: string;
     title: string;
+    description: string;
+    createdAt: number;
+    updatedAt: number;
+    isNew: boolean;
+    version: number;
+    userId: string;
+    fieldsConfig: FieldConfig[];
     category: ChallengeCategory;
     difficulty: ChallengeDifficulty;
-    description: string;
     points: number;
-    createdAt: number;
     authorName: string;
     authorGithub: string;
     authorTwitter: string;
-    fieldsConfig: FieldConfig[];
 }
 
 export interface CreateChallengePayload {
+    id: string;
     title: string;
     description: string;
 }
 
 export interface UpdateChallengePayload {
-    title: string;
-    description: string;
-    points: number;
-    difficulty: ChallengeDifficulty;
-    category: ChallengeCategory;
-    authorGithub: string;
-    authorTwitter: string;
-    authorName: string;
-    fieldsConfig: FieldConfig[];
+    id: string;
+    data: {
+        title: string;
+        description: string;
+        category: ChallengeCategory;
+        difficulty: ChallengeDifficulty;
+        points: number;
+        authorName: string;
+        authorGithub: string;
+        authorTwitter: string;
+    };
 }
 
 export interface ChallengeSettingsFormData {

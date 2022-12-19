@@ -16,7 +16,7 @@ import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import { TbBrandGithub } from 'react-icons/tb';
 import { toast } from 'react-toastify';
-import { CreateSubmissionAnswerPayload } from 'types/api';
+import { CreateSubmissionAnswerPayload } from 'types/submission';
 import { cn } from 'utils';
 import { getFieldDefaultValueByType } from 'utils/form';
 import { v4 as uuid } from 'uuid';

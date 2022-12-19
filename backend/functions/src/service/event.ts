@@ -1,15 +1,15 @@
 import * as functions from 'firebase-functions';
-import { db } from '..';
 import {
     Auth,
     CreateEventPayload,
+    db,
     EventPayload,
     UpdateEventPayload,
-} from '../util/types';
+} from '..';
 
 const EVENT_DOCUMENT_VERSION = 1;
 
-class EventController {
+class EventService {
     async createEvent(payload: CreateEventPayload, auth?: Auth) {
         if (!auth) {
             throw new functions.https.HttpsError(
@@ -27,6 +27,7 @@ class EventController {
             .where('isNew', '==', false)
             .get();
         const eventData: EventPayload = {
+            id: payload.id,
             title: payload.title,
             description: payload.description,
             userId: auth.id,
@@ -58,4 +59,4 @@ class EventController {
     }
 }
 
-export const controller = new EventController();
+export const eventService = new EventService();

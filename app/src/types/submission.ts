@@ -12,19 +12,35 @@ export interface SubmissionAnswerPayload {
 }
 
 export interface SubmissionPayload {
-    id: string;
-    challengeId: string;
-    answers: SubmissionAnswerPayload[];
     eventId: string;
-    userId: string;
-    status: SubmissionStatus;
+    challengeId: string;
     title: string;
     description: string;
+    userId: string;
     createdAt: number;
+    updatedAt: number;
+    isNew: boolean;
+    version: number;
     basePoints: number;
-    timeBonusPoints: number;
     totalPoints: number;
+    timeBonusPoints: number;
+    isProcessed: boolean;
+    status: SubmissionStatus;
+    answers: SubmissionAnswerPayload[];
     comments: string;
+}
+
+export interface CreateSubmissionPayload {
+    id: string;
+    eventId: string;
+    challengeId: string;
+    answers: SubmissionAnswerPayload[];
+}
+
+export interface CreateSubmissionAnswerPayload {
+    question: string;
+    reply: string;
+    field: string;
 }
 
 export interface SubmissionReviewFormData {
@@ -34,6 +50,8 @@ export interface SubmissionReviewFormData {
 }
 
 export type ReviewSubmissionPayload = {
+    id: string;
+    eventId: string;
     answers: {
         isApproved: boolean;
         comments: string;

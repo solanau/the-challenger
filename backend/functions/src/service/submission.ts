@@ -1,12 +1,12 @@
 import * as functions from 'firebase-functions';
-import { db } from '..';
 import {
     Auth,
     CreateSubmissionPayload,
+    db,
     ReviewSubmissionPayload,
     SubmissionPayload,
-} from '../util/types';
-import { getTimeBonusPoints } from '../util/util';
+} from '..';
+import { getTimeBonusPoints } from '../util';
 
 const SUBMISSION_DOCUMENT_VERSION = 1;
 
@@ -32,7 +32,7 @@ export const isReviewer = async (eventId: string, userId: string) => {
     return eventData.reviewers.includes(userId);
 };
 
-class SubmissionController {
+class SubmissionService {
     async createSubmission(auth: Auth, payload: CreateSubmissionPayload) {
         if (
             await isDuplicateSubmission(
@@ -119,4 +119,4 @@ class SubmissionController {
     }
 }
 
-export const controller = new SubmissionController();
+export const submissionService = new SubmissionService();

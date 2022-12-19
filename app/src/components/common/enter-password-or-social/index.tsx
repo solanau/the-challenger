@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { TbBrandFacebook, TbBrandGithub, TbBrandTwitter } from 'react-icons/tb';
-import { AuthProviderType } from 'types/api';
+import { AuthProviderType } from 'types/auth';
 import Button from '../button';
 import Text from '../text';
 
