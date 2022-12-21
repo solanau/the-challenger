@@ -5,9 +5,15 @@ import { NextPage } from 'next';
 
 interface LoginFormProps {
     isLoading?: boolean;
+    errors?: any;
+    touched?: any;
 }
 
-const LoginForm: NextPage<LoginFormProps> = ({ isLoading = false }) => (
+const LoginForm: NextPage<LoginFormProps> = ({
+    isLoading = false,
+    errors,
+    touched,
+}) => (
     <Form>
         <div className="pt-4">
             <label
@@ -21,13 +27,14 @@ const LoginForm: NextPage<LoginFormProps> = ({ isLoading = false }) => (
                 id="credential-email"
                 name="email"
                 type="email"
-                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                className="mb-1 w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a email for the credential"
                 maxLength={80}
                 required
                 disabled={isLoading}
                 autoComplete="off"
             />
+            {errors.email && touched.email ? <div>{errors.email}</div> : null}
         </div>
 
         <div className="pt-4">
@@ -42,13 +49,16 @@ const LoginForm: NextPage<LoginFormProps> = ({ isLoading = false }) => (
                 id="credential-password"
                 name="password"
                 type="password"
-                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                className="mb-1 w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a password for the credential"
                 maxLength={80}
                 required
                 disabled={isLoading}
                 autoComplete="off"
             />
+            {errors.password && touched.password ? (
+                <div>{errors.password}</div>
+            ) : null}
         </div>
 
         <div className="width-full flex flex-row justify-end gap-2 pt-4">

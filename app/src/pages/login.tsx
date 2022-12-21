@@ -25,6 +25,7 @@ import { TbBrandFacebook, TbBrandGithub, TbBrandTwitter } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { AuthProviderType } from 'types/api';
 import { auth, getSocialProvider } from 'utils/firebase';
+import * as Yup from 'yup';
 
 const LoginPage: NextPage = () => {
     const [email, setEmail] = useState('');
@@ -38,6 +39,13 @@ const LoginPage: NextPage = () => {
     const [userCredential, setUserCredential] = useState<OAuthCredential>(null);
     const { logIn } = useAuth();
     const router = useRouter();
+    const SignupSchema = Yup.object().shape({
+        password: Yup.string().required('No password provided.'),
+        email: Yup.string().email('Invalid email').required('Required'),
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            .required('Confirm Password is required'),
+    });
     const eventId =
         router.query.eventId instanceof Array
             ? router.query.eventId[0]
@@ -221,13 +229,20 @@ const LoginPage: NextPage = () => {
                     </h1>
 
                     <Formik
+                        validationSchema={SignupSchema}
                         initialValues={{
                             email: '',
                             password: '',
                         }}
                         onSubmit={handleLogIn}
                     >
-                        <LoginForm isLoading={isLoading}></LoginForm>
+                        {({ errors, touched, validateForm }) => (
+                            <LoginForm
+                                isLoading={isLoading}
+                                errors={errors}
+                                touched={touched}
+                            ></LoginForm>
+                        )}
                     </Formik>
 
                     <Text variant="paragraph" className="text-xs">
