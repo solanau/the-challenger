@@ -35,7 +35,7 @@ const ChallengePage: NextPage = () => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [answers, setAnswers] = useState<CreateSubmissionAnswerPayload[]>([]);
-    const { isLoggedIn, user } = useAuth();
+    const { isLoggedIn, credential, user } = useAuth();
     const challenge = useEventChallenge(eventId, challengeId, user?.id);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
@@ -220,8 +220,15 @@ const ChallengePage: NextPage = () => {
                                             In order to submit a challenge, you
                                             have to{' '}
                                             <Link
-                                                href="/users/profile-settings"
                                                 passHref
+                                                href={{
+                                                    pathname: `/users/${credential.id}/settings`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
                                             >
                                                 <a className="text-primary underline">
                                                     set up your profile.
