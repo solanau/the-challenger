@@ -14,7 +14,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
-import { TbBrandGithub } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { CreateSubmissionAnswerPayload } from 'types/api';
 import { cn } from 'utils';
@@ -24,9 +23,9 @@ import { v4 as uuid } from 'uuid';
 const ChallengePage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const challengeId =
         router.query.challengeId instanceof Array
             ? router.query.challengeId[0]
@@ -35,7 +34,7 @@ const ChallengePage: NextPage = () => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [answers, setAnswers] = useState<CreateSubmissionAnswerPayload[]>([]);
-    const { isLoggedIn, user } = useAuth();
+    const { isLoggedIn, credential, user } = useAuth();
     const challenge = useEventChallenge(eventId, challengeId, user?.id);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
@@ -220,8 +219,15 @@ const ChallengePage: NextPage = () => {
                                             In order to submit a challenge, you
                                             have to{' '}
                                             <Link
-                                                href="/users/profile-settings"
                                                 passHref
+                                                href={{
+                                                    pathname: `/users/${credential.id}/settings`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
                                             >
                                                 <a className="text-primary underline">
                                                     set up your profile.
@@ -289,9 +295,8 @@ const ChallengePage: NextPage = () => {
                         </div>
                     ) : (
                         <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                            <TbBrandGithub size={35} />
                             <Text variant="sub-heading">
-                                Sign in with GitHub to view the challenge.
+                                Sign in to view the challenge.
                             </Text>
 
                             <div className="flex flex-row gap-2">

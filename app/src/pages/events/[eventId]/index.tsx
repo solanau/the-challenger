@@ -6,9 +6,9 @@ import { useRouter } from 'next/router';
 const EventPage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const event = useEvent(eventId);
 
     return (

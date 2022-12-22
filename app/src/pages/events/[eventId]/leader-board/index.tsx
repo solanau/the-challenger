@@ -15,9 +15,9 @@ import { toast } from 'react-toastify';
 const LeaderBoardPage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const { user } = useAuth();
     const event = useEvent(eventId);
     const leaderBoard = useLeaderBoard(eventId, 'individual');
