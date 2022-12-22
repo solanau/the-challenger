@@ -27,7 +27,7 @@ const ExpiredChallengesSection = ({
                             {challenge.category}
                         </Text>
                         <Text className="min-w-fit" variant="big-heading">
-                            Challenge #{challenge.position}
+                            Challenge {challenge.position}
                         </Text>
                         <Text variant="sub-heading">
                             Reward: {challenge.points}

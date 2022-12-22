@@ -41,7 +41,7 @@ const SubmissionsPage: NextPage = () => {
                             <Text variant="big-heading">Submissions List</Text>
                         </div>
 
-                        <div>
+                        <div className="grid my-6 p-12 space-x-6 space-y-6 sm:max-w-7xl mx-auto sm:items-center">
                             <div>
                                 Filter by status:
                                 <select
@@ -54,11 +54,11 @@ const SubmissionsPage: NextPage = () => {
                                                 .value as SubmissionStatus,
                                         )
                                     }
-                                    className="bg-white bg-opacity-10 px-2 py-1"
+                                    className="bg-white bg-opacity-10 px-2 py-1 ml-4 h-10 rounded-lg"
                                 >
                                     <option
                                         value="pending"
-                                        className="bg-black bg-opacity-60"
+                                        className="bg-black bg-opacity-60 "
                                     >
                                         Pending
                                     </option>
@@ -85,7 +85,12 @@ const SubmissionsPage: NextPage = () => {
 
                             {filteredSubmissions.length > 0 ? (
                                 filteredSubmissions.map((submission, index) => (
-                                    <Card key={index} className="p-4">
+                                    <Card key={index} className="p-6 ">
+                                        <Link
+                                            href={`/events/${eventId}/submissions/${submission.id}/review`}
+                                            passHref
+                                        >
+                                        <div className="flex flex-col gap-5 cursor-pointer overflow-hidden">
                                         <Text variant="heading">
                                             {submission?.title ??
                                                 'Challenge not found'}
@@ -95,11 +100,9 @@ const SubmissionsPage: NextPage = () => {
                                             {submission.status}
                                         </Text>
 
-                                        <Link
-                                            href={`/events/${eventId}/submissions/${submission.id}/review`}
-                                            passHref
-                                        >
+
                                             <a className="underline">view</a>
+                                            </div>
                                         </Link>
                                     </Card>
                                 ))
