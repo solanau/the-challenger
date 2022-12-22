@@ -21,13 +21,18 @@ const ChallengesPage: NextPage = () => {
             : router.query.eventId;
     const { credential } = useAuth();
     const userId = credential?.id ?? null;
-    const challenges = useEventChallenges(eventId, userId);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const challenges = useEventChallenges(eventId, userId);
     const filteredChallenges = useMemo(() => {
+        if (!challenges) {
+            return [];
+        }
+
         // Avoid filter when selectedCategory is null
         if (!selectedCategory) {
             return challenges;
         }
+
         return challenges.filter(
             challenge => challenge.category === selectedCategory,
         );

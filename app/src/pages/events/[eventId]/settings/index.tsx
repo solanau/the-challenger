@@ -63,12 +63,16 @@ const EventSettingsPage: NextPage = () => {
                             endDate: event.endDate
                                 ? dateToValue(event.endDate)
                                 : '',
-                            challenges: event.challenges,
+                            challenges: event.challenges.map(
+                                challenge => challenge.id,
+                            ),
                             managers: event.managers?.join(', ') ?? '',
                             reviewers: event.reviewers?.join(', ') ?? '',
                         }}
                         onSubmit={values =>
-                            handleUpdateEvent(fromEventSettingsFormData(values))
+                            handleUpdateEvent(
+                                fromEventSettingsFormData(values, challenges),
+                            )
                         }
                     >
                         <EventSettingsForm

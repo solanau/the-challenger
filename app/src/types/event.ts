@@ -1,3 +1,5 @@
+import { ChallengePayload } from './challenge';
+
 export interface EventPayload {
     id: string;
     title: string;
@@ -7,7 +9,7 @@ export interface EventPayload {
     endDate: number;
     reviewers: string[];
     managers: string[];
-    challenges: string[];
+    challenges: (ChallengePayload & { position: number })[];
 }
 
 export interface CreateEventPayload {
@@ -20,7 +22,7 @@ export interface UpdateEventPayload {
     description: string;
     startDate: number;
     endDate: number;
-    challenges: string[];
+    challenges: ChallengePayload[];
     reviewers: string[];
     managers: string[];
 }
