@@ -15,9 +15,9 @@ import { SubmissionStatus } from 'types/submission';
 const SubmissionsPage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const [status, setStatus] = useState('pending');
     const { credential } = useAuth();
     const event = useEvent(eventId);
@@ -41,7 +41,7 @@ const SubmissionsPage: NextPage = () => {
                             <Text variant="big-heading">Submissions List</Text>
                         </div>
 
-                        <div className="grid my-6 p-12 space-x-6 space-y-6 sm:max-w-7xl mx-auto sm:items-center">
+                        <div className="my-6 mx-auto grid space-x-6 space-y-6 p-12 sm:max-w-7xl sm:items-center">
                             <div>
                                 Filter by status:
                                 <select
@@ -54,7 +54,7 @@ const SubmissionsPage: NextPage = () => {
                                                 .value as SubmissionStatus,
                                         )
                                     }
-                                    className="bg-white bg-opacity-10 px-2 py-1 ml-4 h-10 rounded-lg"
+                                    className="ml-4 h-10 rounded-lg bg-white bg-opacity-10 px-2 py-1"
                                 >
                                     <option
                                         value="pending"
@@ -90,18 +90,19 @@ const SubmissionsPage: NextPage = () => {
                                             href={`/events/${eventId}/submissions/${submission.id}/review`}
                                             passHref
                                         >
-                                        <div className="flex flex-col gap-5 cursor-pointer overflow-hidden">
-                                        <Text variant="heading">
-                                            {submission?.title ??
-                                                'Challenge not found'}
-                                        </Text>
+                                            <div className="flex cursor-pointer flex-col gap-5 overflow-hidden">
+                                                <Text variant="heading">
+                                                    {submission?.title ??
+                                                        'Challenge not found'}
+                                                </Text>
 
-                                        <Text variant="label">
-                                            {submission.status}
-                                        </Text>
+                                                <Text variant="label">
+                                                    {submission.status}
+                                                </Text>
 
-
-                                            <a className="underline">view</a>
+                                                <a className="underline">
+                                                    view
+                                                </a>
                                             </div>
                                         </Link>
                                     </Card>

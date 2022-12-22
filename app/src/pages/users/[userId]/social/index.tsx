@@ -20,9 +20,9 @@ const UserSocialPage: NextPage = () => {
     const { isLoggedIn, credential, link, unlink } = useAuth();
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const [isLinkingGitHub, setIsLinkingGitHub] = useState(false);
     const [isUnlinkingGitHub, setIsUnlinkingGitHub] = useState(false);
     const [isLinkingTwitter, setIsLinkingTwitter] = useState(false);

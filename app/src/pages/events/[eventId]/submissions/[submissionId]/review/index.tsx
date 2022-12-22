@@ -19,9 +19,9 @@ import { ReviewSubmissionPayload } from 'types/submission';
 const SubmissionReviewPage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const submissionId =
         router.query.submissionId instanceof Array
             ? router.query.submissionId[0]

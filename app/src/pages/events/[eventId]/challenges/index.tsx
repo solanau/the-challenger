@@ -16,9 +16,9 @@ import {
 const ChallengesPage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const { credential } = useAuth();
     const userId = credential?.id ?? null;
     const [selectedCategory, setSelectedCategory] = useState<string>('');

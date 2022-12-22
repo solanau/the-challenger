@@ -17,9 +17,9 @@ const UserSettingsPage: NextPage = () => {
     const { isLoggedIn, user } = useAuth();
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
 
     const handleUpdateUser = async (updateUserFormData: UpdateUserFormData) => {
         setIsLoading(true);

@@ -15,9 +15,9 @@ import { dateToValue } from 'utils/time';
 const EventSettingsPage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const event = useEvent(eventId);
     const challenges = useChallenges({ version: 1, isNew: false });
     const [isLoading, setIsLoading] = useState(false);

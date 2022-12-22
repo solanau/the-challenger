@@ -24,9 +24,9 @@ import { v4 as uuid } from 'uuid';
 const ChallengePage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const challengeId =
         router.query.challengeId instanceof Array
             ? router.query.challengeId[0]

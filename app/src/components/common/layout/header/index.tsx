@@ -14,9 +14,9 @@ const Header = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const isEventPage =
         EVENT_PATH_NAMES.includes(router.pathname) ||
         (eventId &&

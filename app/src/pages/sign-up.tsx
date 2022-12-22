@@ -14,9 +14,9 @@ const SignUpPage: NextPage = () => {
     const { signUp } = useAuth();
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
 
     const handleSignUp = async ({ email, password }: SignUpFormData) => {
         setIsLoading(true);
