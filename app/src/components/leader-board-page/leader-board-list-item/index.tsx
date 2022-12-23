@@ -69,7 +69,7 @@ const LeaderBoardListItem = ({
                                         }`}
                                     >
                                         <a>
-                                            <span className="">
+                                            <span className="pr-4">
                                                 {user?.userName}
                                             </span>
                                         </a>

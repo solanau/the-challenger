@@ -68,7 +68,7 @@ const EventSettingsForm = ({
                 htmlFor="event-reviewers"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Reviewers{' '}
+                Reviewers{' '} (comma, separated list)
             </label>
 
             <Field
@@ -88,7 +88,7 @@ const EventSettingsForm = ({
                 htmlFor="event-managers"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Managers{' '}
+                Managers{' '} (comma, separated list)
             </label>
 
             <Field
@@ -142,11 +142,11 @@ const EventSettingsForm = ({
         </div>
 
         <div role="group" aria-labelledby="checkbox-group" className="pt-4">
-            <Text variant="sub-heading" className="mb-4">
+            <Text variant="sub-heading" className="mt-4 mb-4">
                 Challenges
             </Text>
 
-            <div className="flex max-h-96 flex-col gap-5 overflow-y-auto">
+            <div className="flex max-h-256 flex-col gap-5 px-2 py-4 overflow-y-auto">
                 {challenges.map(challenge => (
                     <label key={challenge.id}>
                         <Card className="flex gap-8 p-8">

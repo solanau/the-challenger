@@ -122,6 +122,7 @@ const ChallengePage: NextPage = () => {
                                 </Markdown>
 
                                 <Markdown>{challenge.description}</Markdown>
+                                {/* <Markdown>{challenge.fullDescription}</Markdown> */}
 
                                 <Markdown>{`### How to Submit `}</Markdown>
 

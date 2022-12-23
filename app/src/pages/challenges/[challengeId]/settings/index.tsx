@@ -108,6 +108,7 @@ const ChallengeSettingsPage: NextPage = () => {
                                 initialValues={{
                                     title: challenge.title,
                                     description: challenge.description,
+                                    fullDescription: challenge.fullDescription,
                                     points: challenge?.points ?? 0,
                                     category: challenge?.category ?? '',
                                     difficulty: challenge?.difficulty ?? '',

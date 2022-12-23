@@ -32,6 +32,7 @@ export interface BaseChallenge {
     category: ChallengeCategory;
     difficulty: ChallengeDifficulty;
     description: string;
+    fullDescription?: string;
     points: number;
     createdAt: number;
     startDate: number;
@@ -70,6 +71,7 @@ export interface ChallengePayload {
     category: ChallengeCategory;
     difficulty: ChallengeDifficulty;
     description: string;
+    fullDescription?: string;
     points: number;
     createdAt: number;
     authorName: string;
@@ -86,6 +88,7 @@ export interface CreateChallengePayload {
 export interface UpdateChallengePayload {
     title: string;
     description: string;
+    fullDescription?: string;
     points: number;
     difficulty: ChallengeDifficulty;
     category: ChallengeCategory;
@@ -98,6 +101,7 @@ export interface UpdateChallengePayload {
 export interface ChallengeSettingsFormData {
     title: string;
     description: string;
+    fullDescription?: string;
     points: number;
     difficulty: string;
     category: string;

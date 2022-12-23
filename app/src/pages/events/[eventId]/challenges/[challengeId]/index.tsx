@@ -162,12 +162,14 @@ const ChallengePage: NextPage = () => {
                             </section>
 
                             <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-6 xl:px-48 xl:py-8">
+                            <div className="my-6 mx-auto grid space-y-6 sm:max-w-6xl sm:items-center">
                                 <Markdown>
                                     {`### Rewards: ${challenge.points} Points 🔥 `}
                                 </Markdown>
 
                                 {challenge.timeStatus !== 'pending' && (
-                                    <Markdown>{challenge.description}</Markdown>
+                                    // <Markdown>{challenge.description}</Markdown>
+                                    <Markdown>{challenge.fullDescription}</Markdown>
                                 )}
 
                                 {challenge.isSubmitted && (
@@ -245,8 +247,8 @@ const ChallengePage: NextPage = () => {
                                         setIsConfirmModalOpen(false)
                                     }
                                 >
-                                    <div className="mt-4 flex flex-col gap-2">
-                                        <div className="mb-4 max-h-80 overflow-y-auto pb-2">
+                                    <div className="grid p-6 sm:items-center">
+                                        <div className="w-content mb-4 max-h-106 max-w-124 space-y-4 overflow-y-auto pb-2">
                                             {answers.map((answer, index) => (
                                                 <Card
                                                     key={index}
@@ -256,8 +258,9 @@ const ChallengePage: NextPage = () => {
                                                         #{index + 1}{' '}
                                                         {answer.question}:
                                                     </Text>
+                                                    {/* TODO:Support Multiple field types */}
                                                     <Text
-                                                        className="pl-4"
+                                                        className="pl-4 pt-4 w-full mx-auto font-normal max-h-256 max-w-124 text-green-200 overflow-y-auto pb-2"
                                                         variant="sub-paragraph"
                                                     >
                                                         {answer.reply}
@@ -267,7 +270,17 @@ const ChallengePage: NextPage = () => {
                                         </div>
                                         <div className="flex justify-end gap-2">
                                             <Button
+                                                variant="black"
+                                                className="sm:px-12"
+                                                onClick={() =>
+                                                    setIsConfirmModalOpen(false)
+                                                }
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button
                                                 variant="orange"
+                                                className="sm:px-12"
                                                 onClick={() =>
                                                     handleCreateSubmission(
                                                         answers,
@@ -278,19 +291,12 @@ const ChallengePage: NextPage = () => {
                                                 {isLoading && (
                                                     <Spinner variant="large"></Spinner>
                                                 )}
-                                                Yes, I want to submit.
-                                            </Button>
-                                            <Button
-                                                variant="black"
-                                                onClick={() =>
-                                                    setIsConfirmModalOpen(false)
-                                                }
-                                            >
-                                                Cancel
+                                                Confirm
                                             </Button>
                                         </div>
                                     </div>
                                 </Modal>
+                                </div>
                             </section>
                         </div>
                     ) : (

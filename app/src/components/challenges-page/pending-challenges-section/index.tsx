@@ -8,11 +8,11 @@ import { getIconByCategory } from '../challenge-icon';
 type ChallengeListProps = { challenges: PendingChallenge[] };
 
 const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
-    <section className="flex w-full flex-row flex-wrap gap-5">
+    <section className="flex flex-row flex-wrap gap-5 justify-center items-center">
         {challenges.map(challenge => (
             <Card
                 key={challenge.id}
-                className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
+                className="h-128 w-80 sm:w-96 lg:w-1/2 xl:w-1/3 sm:max-w-xl flex-col justify-between gap-10 p-4 sm:p-12"
             >
                 <div className="flex flex-col gap-5 ">
                     {getIconByCategory(challenge.category, 35)}
@@ -30,7 +30,7 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
                         </Text>
                     </div>
 
-                    <Text variant="paragraph" className="break-word">
+                    <Text variant="paragraph" className="break-word max-w-xl h-14 overflow-hidden truncate text-ellipsis">
                         {challenge.description}
                     </Text>
 
@@ -38,7 +38,7 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
                         variant="paragraph"
                         className="font text-xl text-primary"
                     >
-                        Difficulty: {challenge.difficulty}
+                        Difficulty: {challenge.difficulty} fff
                     </Text>
 
                     <Text variant="paragraph">

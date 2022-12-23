@@ -42,7 +42,7 @@ const Modal = <T,>({
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-base p-6 text-left align-middle shadow-xl transition-all">
+                        <Dialog.Panel className="w-full max-w-80 sm:max-w-4xl transform overflow-hidden rounded-2xl bg-base p-6 text-left align-middle shadow-xl transition-all">
                             <Dialog.Title as="h3">
                                 <Text variant="dialog-heading">{title}</Text>
                             </Dialog.Title>

@@ -57,6 +57,7 @@ export interface SubmissionAnswer {
 
 export interface EventPayload {
     title: string;
+    fullDescription?: string;
     description: string;
     userId: string;
     challenges: string[];
@@ -72,6 +73,7 @@ export interface EventPayload {
 
 export interface ChallengePayload {
     title: string;
+    fullDescription?: string;
     description: string;
     createdAt: number;
     updatedAt: number;
@@ -106,6 +108,7 @@ export interface UpdateEventPayload {
     id: string;
     data: {
         title: string;
+        fullDescription?: string;
         description: string;
         challenges: string[];
     };
@@ -121,6 +124,7 @@ export interface UpdateChallengePayload {
     id: string;
     data: {
         title: string;
+        fullDescription?: string;
         description: string;
         category: ChallengeCategory;
         difficulty: ChallengeDifficulty;
@@ -191,6 +195,8 @@ export interface SubmissionPayload {
     eventId: string;
     challengeId: string;
     title: string;
+
+    fullDescription?: string;
     description: string;
     userId: string;
     createdAt: number;
