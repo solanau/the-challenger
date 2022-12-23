@@ -77,7 +77,7 @@ const HeroSection = ({ eventId, title, description }: HeroSectionProps) => {
                                 <Button
                                     icon={!user && TbLogin}
                                     text={
-                                        !user ? 'Sign In' : 'View your profile'
+                                        !user ? 'Sign In' : 'View your profile !'
                                     }
                                     variant="orange"
                                     className="!w-full"
