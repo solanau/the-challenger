@@ -52,11 +52,12 @@ const UserSettingsPage: NextPage = () => {
             let update = (data: SetUserPayload) => setUser(data);
             if (user) update = (data: SetUserPayload) => updateUser(data);
             update(updateUserData)
-                .then(() =>
+                .then(() => {
                     toast('Changes saved!', {
                         type: 'success',
-                    }),
-                )
+                    });
+                    router.replace('/');
+                })
                 .catch(error => {
                     toast(error, {
                         type: 'error',
@@ -64,6 +65,7 @@ const UserSettingsPage: NextPage = () => {
                 })
                 .finally(() => setIsLoading(false));
         },
+
         [publicKey, signatureVerified, user],
     );
 
@@ -74,7 +76,7 @@ const UserSettingsPage: NextPage = () => {
                     <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                         <TbBrandGithub size={35} />
                         <Text variant="sub-heading">
-                            Sign in with GitHub to view the challenge.
+                            Sign in to modify your profile.
                         </Text>
 
                         <div className="flex flex-row gap-2">

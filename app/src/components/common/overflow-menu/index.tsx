@@ -245,15 +245,43 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                 variant="nav-heading"
                                                 className="text-secondary"
                                             >
-                                                Sign in
+                                                New to The Challenger?
                                             </Text>
                                             <Text
-                                                variant="label"
-                                                className="!normal-case text-secondary"
+                                                variant="paragraph"
+                                                className="mt-2"
                                             >
-                                                Connect and earn your spot in
-                                                the leaderboard by solving
-                                                challenges.
+                                                <Link
+                                                    href={{
+                                                        pathname: '/sign-up',
+                                                        query: eventId
+                                                            ? {
+                                                                  eventId,
+                                                              }
+                                                            : {},
+                                                    }}
+                                                    passHref
+                                                >
+                                                    <a>
+                                                        <Button
+                                                            text="Sign Up"
+                                                            icon={MdLogin}
+                                                            variant="black"
+                                                            className="!w-full"
+                                                            onClick={() =>
+                                                                setMenuOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        />
+                                                    </a>
+                                                </Link>
+                                            </Text>
+                                            <Text
+                                                variant="nav-heading"
+                                                className="mt-4 text-secondary"
+                                            >
+                                                Already signed up?
                                             </Text>
                                             <Text
                                                 variant="paragraph"
@@ -272,7 +300,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                 >
                                                     <a>
                                                         <Button
-                                                            text="Sign in"
+                                                            text="Login"
                                                             icon={MdLogin}
                                                             variant="orange"
                                                             className="!w-full"
