@@ -66,7 +66,7 @@ const UserSettingsPage: NextPage = () => {
                 .finally(() => setIsLoading(false));
         },
 
-        [publicKey, signatureVerified, user],
+        [publicKey, router, signatureVerified, user],
     );
 
     return (

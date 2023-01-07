@@ -171,16 +171,28 @@ const ChallengePage: NextPage = () => {
                                     <Markdown>{challenge.description}</Markdown>
                                 )}
 
-                                {challenge.isSubmitted && (
+                                {challenge.submissionStatus == 'completed' && (
                                     <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-green-400">
                                         <p className="mt-4">
                                             You&apos;ve already submitted this
-                                            challenge!
+                                            challenge, and you were awarded
+                                            points for a correct answer!
                                         </p>
                                     </div>
                                 )}
 
-                                {!challenge.isSubmitted &&
+                                {challenge.submissionStatus == 'pending' && (
+                                    <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-pink-400">
+                                        <p className="mt-4">
+                                            You&apos;ve already submitted this
+                                            challenge! Your answers are
+                                            currently pending.
+                                        </p>
+                                    </div>
+                                )}
+
+                                {challenge.submissionStatus != 'completed' &&
+                                    challenge.submissionStatus != 'pending' &&
                                     challenge.timeStatus === 'active' &&
                                     user !== null && (
                                         <div>

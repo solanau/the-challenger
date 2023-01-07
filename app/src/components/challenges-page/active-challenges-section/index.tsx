@@ -93,23 +93,35 @@ const ActiveChallengesSection = ({
                             passHref
                         >
                             <a>
-                                {challenge.isSubmitted ? (
+                                {challenge.submissionStatus == 'completed' && (
                                     <Button
                                         className="h-auto w-full rounded-md border-2 md:w-auto"
                                         variant="transparent"
                                     >
                                         <p className="text-center text-green-400">
-                                            Submission Entered!
+                                            Submission Accepted!
                                         </p>
                                     </Button>
-                                ) : (
+                                )}
+                                {challenge.submissionStatus == 'pending' && (
                                     <Button
-                                        className="h-24 w-24 rounded-full border-2"
+                                        className="h-auto w-full rounded-md border-2 md:w-auto"
                                         variant="transparent"
                                     >
-                                        <MdPlayArrow size={40} />
+                                        <p className="text-center text-pink-400">
+                                            Submission Pending
+                                        </p>
                                     </Button>
                                 )}
+                                {challenge.submissionStatus != 'completed' &&
+                                    challenge.submissionStatus != 'pending' && (
+                                        <Button
+                                            className="h-24 w-24 rounded-full border-2"
+                                            variant="transparent"
+                                        >
+                                            <MdPlayArrow size={40} />
+                                        </Button>
+                                    )}
                             </a>
                         </Link>
                     </div>
