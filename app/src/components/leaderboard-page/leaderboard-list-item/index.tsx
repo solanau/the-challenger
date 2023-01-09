@@ -1,9 +1,7 @@
 import Card from 'components/common/card';
 import Chip from 'components/common/chip';
 import Text from 'components/common/text';
-import { useUser } from 'hooks/use-user';
 import Link from 'next/link';
-import { useAuth } from 'providers/AuthProvider';
 import { ParticipantPayload } from 'types/leaderboard';
 import { cn } from 'utils';
 
@@ -11,127 +9,99 @@ interface LeaderboardListItemProps {
     position: number;
     participant: ParticipantPayload;
     isEventManager: boolean;
+    isCurrentUser: boolean;
 }
 
 const LeaderboardListItem = ({
     position,
     participant,
     isEventManager,
-}: LeaderboardListItemProps) => {
-    const user = useUser(participant.userId);
-    const { credential } = useAuth();
-    const userId = credential?.id ?? null;
-
-    return (
-        <Card
-            className={cn(
-                'flex h-fit w-80 flex-shrink-0 snap-start flex-col items-start justify-between gap-2 p-6 sm:w-98',
-                '!w-full 2lg:flex-row 2lg:items-center',
-                'transition-all duration-300 hover:bg-opacity-[97%]',
-            )}
-        >
-            <Link href={`${user?.userName}`} passHref>
-                <div className="flex w-full cursor-pointer overflow-hidden">
-                    <div className="w-full overflow-hidden">
-                        <div className="flex h-16 flex-col justify-between">
-                            <Chip highlightValue={'rank'} />
-                            <Text
-                                variant="heading"
-                                className={cn(
-                                    'inline w-full overflow-hidden text-ellipsis whitespace-nowrap',
-                                )}
-                            >
-                                #{position}
-                            </Text>
-                        </div>
+    isCurrentUser,
+}: LeaderboardListItemProps) => (
+    <Card
+        className={cn(
+            'flex h-fit w-80 flex-shrink-0 snap-start flex-col items-start justify-between gap-2 p-6 sm:w-98',
+            '!w-full 2lg:flex-row 2lg:items-center',
+            'transition-all duration-300 hover:bg-opacity-[97%]',
+        )}
+    >
+        <Link href={`${participant.userName}`} passHref>
+            <div className="flex w-full cursor-pointer overflow-hidden">
+                <div className="w-full overflow-hidden">
+                    <div className="flex h-16 flex-col justify-between">
+                        <Chip highlightValue={'rank'} />
+                        <Text
+                            variant="heading"
+                            className={cn(
+                                'inline w-full overflow-hidden text-ellipsis whitespace-nowrap',
+                            )}
+                        >
+                            #{position}
+                        </Text>
                     </div>
+                </div>
 
-                    <div className="flex w-full max-w-full flex-row justify-between">
-                        <div className="flex h-16 w-full min-w-0 flex-1 flex-row gap-3">
-                            <div className="flex h-full w-full flex-col justify-between gap-3">
+                <div className="flex w-full max-w-full flex-row justify-between">
+                    <div className="flex h-16 w-full min-w-0 flex-1 flex-row gap-3">
+                        <div className="flex h-full w-full flex-col justify-between gap-3">
+                            <Text variant="label" className="text-secondary">
+                                Player
+                            </Text>
+                            <div className="flex flex-col justify-start">
                                 <Text
-                                    variant="label"
-                                    className="text-secondary"
+                                    variant="heading"
+                                    className={`overflow-hidden text-ellipsis whitespace-nowrap ${
+                                        isCurrentUser && 'text-primary'
+                                    }`}
                                 >
-                                    Player
-                                </Text>
-                                <div className="flex flex-col justify-start">
-                                    {/* only show handle, not full name but link to profile */}
-                                    {/* <Text
-                                variant="heading"
-                                className="overflow-hidden text-ellipsis whitespace-nowrap"
-                            >
-                                {user?.fullName} {' '}
-                            </Text> */}
-                                    <Text
-                                        variant="heading"
-                                        className={`overflow-hidden text-ellipsis whitespace-nowrap ${
-                                            userId === user?.id &&
-                                            'text-primary'
-                                        }`}
-                                    >
-                                        <a>
-                                            <span className="">
-                                                {user?.userName}
-                                            </span>
-                                        </a>
-                                    </Text>
-                                    {/* <Text variant="paragraph" className="text-primary">
-                                <Link href={`${user?.userName}`} passHref>
                                     <a>
-                                        @
-                                        <span className=" underline">
-                                            {user?.userName}
+                                        <span className="">
+                                            {participant.userName}
                                         </span>
                                     </a>
-                                </Link>
-                            </Text> */}
-                                </div>
+                                </Text>
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div className="flex w-full max-w-full flex-row justify-between overflow-hidden md:justify-end">
+                    <div className="basis-18 flex h-16 flex-shrink-0 flex-col justify-between overflow-hidden">
+                        <Text variant="label" className="inline text-secondary">
+                            Points
+                        </Text>
+                        <Text
+                            variant="heading"
+                            className="flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap text-primary"
+                        >
+                            {(+participant.points).toFixed(0)}
+                        </Text>
+                    </div>
+                </div>
+
+                {isEventManager && (
                     <div className="flex w-full max-w-full flex-row justify-between overflow-hidden md:justify-end">
                         <div className="basis-18 flex h-16 flex-shrink-0 flex-col justify-between overflow-hidden">
                             <Text
                                 variant="label"
                                 className="inline text-secondary"
                             >
-                                Points
+                                Payout
                             </Text>
-                            <Text
-                                variant="heading"
-                                className="flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap text-primary"
-                            >
-                                {(+participant.points).toFixed(0)}
-                            </Text>
-                        </div>
-                    </div>
-
-                    {isEventManager && (
-                        <div className="flex w-full max-w-full flex-row justify-between overflow-hidden md:justify-end">
-                            <div className="basis-18 flex h-16 flex-shrink-0 flex-col justify-between overflow-hidden">
+                            <div className="flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
                                 <Text
-                                    variant="label"
-                                    className="inline text-secondary"
+                                    variant="heading"
+                                    className="text-white-400"
                                 >
-                                    Payout
+                                    {(+participant.points).toFixed(0)}
                                 </Text>
-                                <div className="flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
-                                    <Text
-                                        variant="heading"
-                                        className="text-white-400"
-                                    >
-                                        {(+participant.points).toFixed(0)}
-                                    </Text>
-                                </div>
                             </div>
                         </div>
-                    )}
-                </div>
-            </Link>
-        </Card>
-    );
-};
+                    </div>
+                )}
+            </div>
+        </Link>
+    </Card>
+);
 
 export default LeaderboardListItem;

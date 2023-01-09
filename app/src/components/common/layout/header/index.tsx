@@ -1,7 +1,10 @@
 import Image from 'components/common/image';
 import OverflowMenu from 'components/common/overflow-menu';
+import Text from 'components/common/text';
+import { useEvent } from 'hooks/use-event';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
 import {
     AUTH_PATH_NAMES,
@@ -22,6 +25,9 @@ const Header = () => {
         (eventId &&
             (AUTH_PATH_NAMES.includes(router.pathname) ||
                 USER_PATH_NAMES.includes(router.pathname)));
+
+    const { user } = useAuth();
+    const event = useEvent(eventId);
 
     return (
         <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between  bg-transparent bg-opacity-40 px-6  backdrop-blur-xl">
@@ -44,6 +50,18 @@ const Header = () => {
                     </div>
                 </a>
             </Link>
+
+            {isEventPage &&
+                user &&
+                event &&
+                event.managers &&
+                event.managers.includes(user.id) && (
+                    <div className="align-center">
+                        <Text className="text-green-400" variant="label">
+                            You're an admin of this event
+                        </Text>
+                    </div>
+                )}
 
             <div>
                 <section className="flex flex-row items-center justify-end gap-5 self-end sm:hidden sm:gap-7 lg:hidden">
@@ -89,8 +107,8 @@ const Header = () => {
                             <div className="mb-5 h-0.5 w-20 gap-10 bg-zinc-500" />
                             {isEventPage && (
                                 <NavElement
-                                    label="Leader Board"
-                                    href={`/events/${eventId}/leader-board`}
+                                    label="Leaderboard"
+                                    href={`/events/${eventId}/leaderboard`}
                                     navigationStarts={() => setIsNavOpen(false)}
                                 />
                             )}
@@ -120,8 +138,8 @@ const Header = () => {
 
                     {isEventPage && (
                         <NavElement
-                            label="Leader Board"
-                            href={`/events/${eventId}/leader-board`}
+                            label="Leaderboard"
+                            href={`/events/${eventId}/leaderboard`}
                             navigationStarts={() => setIsNavOpen(false)}
                         />
                     )}

@@ -104,6 +104,11 @@ export const updateLeaderboard = functions.https.onCall(
     },
 );
 
+export const getAllUsers = functions.https.onCall(async () => {
+    const allUsers = await userService.getAllUsers();
+    return allUsers;
+});
+
 export const setUser = functions.https.onCall(async (data, context) => {
     const user = await userService.setUser(
         { id: context.auth.token.uid, email: context.auth.token.email },

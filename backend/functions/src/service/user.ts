@@ -17,6 +17,10 @@ export const isDuplicateUserName = async (
 };
 
 class UserService {
+    async getAllUsers() {
+        return (await db.doc(`users`).get()).data();
+    }
+
     async setUser(auth: Auth, payload: SetUserPayload) {
         if (await isDuplicateUserName(auth.id, payload.userName)) {
             throw new functions.https.HttpsError(
