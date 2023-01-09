@@ -1,7 +1,7 @@
 import SubmissionList from 'components/common/submission-list';
 import Text from 'components/common/text';
 import Hero from 'components/profile-page/hero';
-import { useLeaderBoard } from 'hooks/use-leader-board';
+import { useLeaderboard } from 'hooks/use-leaderboard';
 import { useSubmissions } from 'hooks/use-submissions';
 import { useUserByUserName } from 'hooks/use-user-by-user-name';
 import { NextPage } from 'next';
@@ -26,13 +26,13 @@ const ProfilePage: NextPage = () => {
     const { credential } = useAuth();
     const user = useUserByUserName(userName);
     const submissions = useSubmissions(eventId, { userId: user?.id });
-    const leaderBoard = useLeaderBoard(eventId, 'individual');
+    const leaderboard = useLeaderboard(eventId, 'individual');
     const rank = useMemo(() => {
-        if (leaderBoard === null) {
+        if (leaderboard === null) {
             return null;
         }
 
-        const participantIndex = leaderBoard.participants.findIndex(
+        const participantIndex = leaderboard.participants.findIndex(
             participant => participant.userId === user?.id,
         );
 
@@ -41,7 +41,7 @@ const ProfilePage: NextPage = () => {
         }
 
         return participantIndex + 1;
-    }, [user?.id, leaderBoard]);
+    }, [user?.id, leaderboard]);
     const totalPoints = useMemo(
         () =>
             submissions

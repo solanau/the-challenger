@@ -7,7 +7,7 @@ import {
     SetUserPayload,
     UpdateChallengePayload,
     UpdateEventPayload,
-    UpdateLeaderBoardPayload,
+    UpdateLeaderboardPayload,
 } from 'types';
 import { ReviewSubmissionPayload } from 'types/submission';
 import { functions } from 'utils/firebase';
@@ -83,10 +83,10 @@ export async function updateUser(payload: SetUserPayload) {
     }
 }
 
-export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
-    const instance = httpsCallable<UpdateLeaderBoardPayload, unknown>(
+export async function updateLeaderboard(payload: UpdateLeaderboardPayload) {
+    const instance = httpsCallable<UpdateLeaderboardPayload, unknown>(
         functions,
-        'updateLeaderBoard',
+        'updateLeaderboard',
     );
     try {
         const result = await instance(payload);

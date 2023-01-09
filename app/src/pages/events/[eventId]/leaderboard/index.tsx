@@ -1,18 +1,19 @@
 import Button from 'components/common/button';
 import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
-import LeaderBoardList from 'components/leader-board-page/leader-board-list';
+import LeaderboardList from 'components/leaderboard-page/leaderboard-list';
 import { useEvent } from 'hooks/use-event';
-import { useLeaderBoard } from 'hooks/use-leader-board';
-import { updateLeaderBoard } from 'lib/api';
+import { useLeaderboard } from 'hooks/use-leaderboard';
+import { updateLeaderboard } from 'lib/api';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
+import { CSVLink } from 'react-csv';
 import { toast } from 'react-toastify';
 
-const LeaderBoardPage: NextPage = () => {
+const LeaderboardPage: NextPage = () => {
     const router = useRouter();
     const eventId =
         router.query.eventId instanceof Array
@@ -20,17 +21,19 @@ const LeaderBoardPage: NextPage = () => {
             : router.query.eventId;
     const { user } = useAuth();
     const event = useEvent(eventId);
-    const leaderBoard = useLeaderBoard(eventId, 'individual');
+    const leaderboard = useLeaderboard(eventId, 'individual');
+    const isEventManager =
+        user && event && event.managers && event.managers.includes(user.id);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleUpdateLeaderBoard = () => {
+    const handleUpdateLeaderboard = () => {
         setIsLoading(true);
 
-        updateLeaderBoard({
+        updateLeaderboard({
             eventId,
         })
             .then(() => {
-                toast('Leader board updated!', {
+                toast('Leaderboard updated!', {
                     type: 'success',
                 });
             })
@@ -47,7 +50,7 @@ const LeaderBoardPage: NextPage = () => {
     return (
         <>
             <NextSeo
-                title="LeaderBoard"
+                title="Leaderboard"
                 description="Explore and contribute to bounties that interest you and get paid for your work"
             ></NextSeo>
 
@@ -60,30 +63,48 @@ const LeaderBoardPage: NextPage = () => {
                         <div className="flex w-full flex-col items-center">
                             <Text
                                 variant="big-heading"
-                                className="bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a] bg-clip-text text-center text-transparent"
+                                className="mt-2 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a] bg-clip-text text-center text-transparent"
                             >
-                                LeaderBoard
+                                Leaderboard
                             </Text>
-                            {user &&
-                                event &&
-                                event.managers &&
-                                event.managers.includes(user.id) && (
+                            {isEventManager && (
+                                <div className="flex w-full flex-row justify-end">
                                     <Button
-                                        className="flex h-8 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]"
+                                        className="mt-2 flex h-8 bg-gradient-to-tl from-[#a3568f] via-[#cf78b7] to-[#fca9e6]"
                                         variant="orange"
-                                        onClick={handleUpdateLeaderBoard}
+                                        onClick={handleUpdateLeaderboard}
+                                    >
+                                        {isLoading && (
+                                            <Spinner variant="large"></Spinner>
+                                        )}
+                                        Send Emails
+                                    </Button>
+                                    <Button
+                                        className="mx-2 mt-2 flex h-8 bg-gradient-to-tl from-[#6d737d] via-[#a8b1bf] to-[#d1d9e6]"
+                                        variant="orange"
+                                    >
+                                        <CSVLink {...leaderboard}>
+                                            Export to CSV
+                                        </CSVLink>
+                                    </Button>
+                                    <Button
+                                        className="mt-2 flex h-8 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]"
+                                        variant="orange"
+                                        onClick={handleUpdateLeaderboard}
                                     >
                                         {isLoading && (
                                             <Spinner variant="large"></Spinner>
                                         )}
                                         Refresh
                                     </Button>
-                                )}
+                                </div>
+                            )}
                         </div>
 
                         <div className="mt-6">
-                            <LeaderBoardList
-                                leaderBoard={leaderBoard}
+                            <LeaderboardList
+                                leaderboard={leaderboard}
+                                isEventManager={isEventManager}
                                 key="open-bounties"
                             />
                         </div>
@@ -94,4 +115,4 @@ const LeaderBoardPage: NextPage = () => {
     );
 };
 
-export default LeaderBoardPage;
+export default LeaderboardPage;

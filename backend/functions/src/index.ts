@@ -5,7 +5,7 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { challengeService } from './service/challenge';
 import { eventService } from './service/event';
-import { leaderBoardService } from './service/leader-board';
+import { leaderboardService } from './service/leaderboard';
 import { submissionService } from './service/submission';
 import { userService } from './service/user';
 
@@ -91,16 +91,16 @@ export const reviewSubmission = functions.https.onCall(
     },
 );
 
-export const updateLeaderBoard = functions.https.onCall(
+export const updateLeaderboard = functions.https.onCall(
     async (data, context) => {
-        await leaderBoardService.updateLeaderBoard(
+        await leaderboardService.updateLeaderboard(
             {
                 id: context.auth.token.uid,
                 email: context.auth.token.email,
             },
             data,
         );
-        return { message: 'Leader Board Updated.' };
+        return { message: 'Leaderboard Updated.' };
     },
 );
 

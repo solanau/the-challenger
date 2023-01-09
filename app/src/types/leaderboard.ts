@@ -3,11 +3,11 @@ export interface ParticipantPayload {
     points: number;
 }
 
-export interface LeaderBoardPayload {
+export interface LeaderboardPayload {
     totalPoints: number;
     participants: ParticipantPayload[];
 }
 
-export interface UpdateLeaderBoardPayload {
+export interface UpdateLeaderboardPayload {
     eventId: string;
 }

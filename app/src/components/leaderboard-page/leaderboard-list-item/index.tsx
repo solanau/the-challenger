@@ -4,18 +4,20 @@ import Text from 'components/common/text';
 import { useUser } from 'hooks/use-user';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
-import { ParticipantPayload } from 'types/leader-board';
+import { ParticipantPayload } from 'types/leaderboard';
 import { cn } from 'utils';
 
-interface LeaderBoardListItemProps {
+interface LeaderboardListItemProps {
     position: number;
     participant: ParticipantPayload;
+    isEventManager: boolean;
 }
 
-const LeaderBoardListItem = ({
+const LeaderboardListItem = ({
     position,
     participant,
-}: LeaderBoardListItemProps) => {
+    isEventManager,
+}: LeaderboardListItemProps) => {
     const user = useUser(participant.userId);
     const { credential } = useAuth();
     const userId = credential?.id ?? null;
@@ -105,10 +107,31 @@ const LeaderBoardListItem = ({
                             </Text>
                         </div>
                     </div>
+
+                    {isEventManager && (
+                        <div className="flex w-full max-w-full flex-row justify-between overflow-hidden md:justify-end">
+                            <div className="basis-18 flex h-16 flex-shrink-0 flex-col justify-between overflow-hidden">
+                                <Text
+                                    variant="label"
+                                    className="inline text-secondary"
+                                >
+                                    Payout
+                                </Text>
+                                <div className="flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
+                                    <Text
+                                        variant="heading"
+                                        className="text-white-400"
+                                    >
+                                        {(+participant.points).toFixed(0)}
+                                    </Text>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </Link>
         </Card>
     );
 };
 
-export default LeaderBoardListItem;
+export default LeaderboardListItem;

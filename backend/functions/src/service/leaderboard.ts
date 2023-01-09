@@ -3,10 +3,10 @@ import {
     Auth,
     db,
     EventPayload,
-    LeaderBoardPayload,
+    LeaderboardPayload,
     ParticipantPayload,
     SubmissionPayload,
-    UpdateLeaderBoardPayload,
+    UpdateLeaderboardPayload,
 } from '..';
 
 const LEADER_BOARD_DOCUMENT_VERSION = 1;
@@ -62,12 +62,12 @@ function getParticipantsTotal(participantsLookUp: { [key: string]: number }) {
     );
 }
 
-function updateLeaderBoard(
-    leaderBoard: LeaderBoardPayload,
+function updateLeaderboard(
+    leaderboard: LeaderboardPayload,
     submissions: SubmissionPayload[],
-): LeaderBoardPayload {
+): LeaderboardPayload {
     const { participantsGroupedByPoints, participantsLookUp } =
-        leaderBoard.participants.reduce(groupParticipants, {
+        leaderboard.participants.reduce(groupParticipants, {
             participantsGroupedByPoints: {},
             participantsLookUp: {},
         });
@@ -116,15 +116,15 @@ function updateLeaderBoard(
     };
 }
 
-class LeaderBoardService {
-    async updateLeaderBoard(auth: Auth, payload: UpdateLeaderBoardPayload) {
+class LeaderboardService {
+    async updateLeaderboard(auth: Auth, payload: UpdateLeaderboardPayload) {
         const event = await db.doc(`events/${payload.eventId}`).get();
         const eventData = event.data() as EventPayload;
 
         if (!eventData.managers.includes(auth.id)) {
             throw new functions.https.HttpsError(
                 'permission-denied',
-                `In order to update a leader board, you have to be a manager.`,
+                `In order to update a leaderboard, you have to be a manager.`,
             );
         }
 
@@ -139,18 +139,18 @@ class LeaderBoardService {
                 ...(doc.data() as SubmissionPayload),
             }),
         );
-        const leaderBoard = await db
-            .doc(`events/${payload.eventId}/leader-boards/individual`)
+        const leaderboard = await db
+            .doc(`events/${payload.eventId}/leaderboards/individual`)
             .get();
-        const leaderBoardData = (leaderBoard.data() ?? {
+        const leaderboardData = (leaderboard.data() ?? {
             participants: [],
             totalPoints: 0,
             version: LEADER_BOARD_DOCUMENT_VERSION,
-        }) as LeaderBoardPayload;
+        }) as LeaderboardPayload;
 
-        // save updated leader board
-        await db.doc(`events/${payload.eventId}/leader-boards/individual`).set({
-            ...updateLeaderBoard(leaderBoardData, unProcessedSubmissionsData),
+        // save updated leaderboard
+        await db.doc(`events/${payload.eventId}/leaderboards/individual`).set({
+            ...updateLeaderboard(leaderboardData, unProcessedSubmissionsData),
             updatedAt: Date.now(),
         });
 
@@ -171,4 +171,4 @@ class LeaderBoardService {
     }
 }
 
-export const leaderBoardService = new LeaderBoardService();
+export const leaderboardService = new LeaderboardService();
