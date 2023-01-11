@@ -38,7 +38,7 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
                         variant="paragraph"
                         className="font text-xl text-primary"
                     >
-                        Difficulty: {challenge.difficulty} fff
+                        Difficulty: {challenge.difficulty}
                     </Text>
 
                     <Text variant="paragraph">
