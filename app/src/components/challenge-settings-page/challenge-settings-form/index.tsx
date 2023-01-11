@@ -43,7 +43,7 @@ const ChallengeSettingsForm = ({
                     htmlFor="challenge-description"
                     className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                 >
-                    Description{' '}
+                    Short Description{' '}
                 </label>
 
                 <Field
@@ -51,12 +51,34 @@ const ChallengeSettingsForm = ({
                     id="challenge-description"
                     name="description"
                     className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
-                    placeholder="Enter a description for the challenge"
+                    placeholder="Enter a short description for the challenge"
+                    required
+                    disabled={isLoading}
+                    autoComplete="off"
+                    maxLength={255}
+                    rows={4}
+                />
+            </div>
+
+            <div className="pt-4">
+                <label
+                    htmlFor="challenge-fullDescription"
+                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                >
+                    Description{' '}
+                </label>
+
+                <Field
+                    as="textarea"
+                    id="challenge-fullDescription"
+                    name="fullDescription"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    placeholder="Enter the full description for the challenge"
                     required
                     disabled={isLoading}
                     autoComplete="off"
                     maxLength={8000}
-                    rows={4}
+                    rows={8}
                 />
             </div>
 
