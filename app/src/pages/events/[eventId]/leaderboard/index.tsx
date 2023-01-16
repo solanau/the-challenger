@@ -1,8 +1,9 @@
 import Button from 'components/common/button';
+import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
 import LeaderboardListItem from 'components/leaderboard-page/leaderboard-list-item';
 import { useEvent } from 'hooks/use-event';
-import { useLeaderboard } from 'hooks/use-leaderboard-2';
+import { useLeaderboard } from 'hooks/use-leaderboard';
 import { updateLeaderboard } from 'lib/api';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
@@ -66,54 +67,66 @@ const LeaderboardPage: NextPage = () => {
                             >
                                 Leaderboard
                             </Text>
-                            {user && isEventManager && leaderboard && (
+                            {isEventManager && (
                                 <div className="mt-2 flex w-full flex-row justify-end">
                                     <Button
-                                        className="mx-2 mt-2 flex h-8 bg-gradient-to-tl from-[#a3568f] via-[#cf78b7] to-[#fca9e6]"
+                                        className="mt-2 flex h-8 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]"
                                         variant="orange"
+                                        onClick={handleUpdateLeaderboard}
                                     >
-                                        <CSVLink
-                                            {...{
-                                                headers: [
-                                                    {
-                                                        label: 'UserID',
-                                                        key: 'userId',
-                                                    },
-                                                    {
-                                                        label: 'Username',
-                                                        key: 'userName',
-                                                    },
-                                                    {
-                                                        label: 'Full Name',
-                                                        key: 'fullName',
-                                                    },
-                                                    {
-                                                        label: 'Email',
-                                                        key: 'email',
-                                                    },
-                                                    {
-                                                        label: 'PublicKey',
-                                                        key: 'userPublicKey',
-                                                    },
-                                                    {
-                                                        label: 'Points',
-                                                        key: 'points',
-                                                    },
-                                                    {
-                                                        label: '% of Total Points',
-                                                        key: 'percentTotal',
-                                                    },
-                                                ],
-                                                data: leaderboard.participants,
-                                                filename: `${event.title.replaceAll(
-                                                    ' ',
-                                                    '_',
-                                                )}_leaderboard.csv`,
-                                            }}
-                                        >
-                                            Export to CSV
-                                        </CSVLink>
+                                        {isLoading && (
+                                            <Spinner variant="large"></Spinner>
+                                        )}
+                                        Refresh
                                     </Button>
+                                    {user && leaderboard && (
+                                        <Button
+                                            className="mx-2 mt-2 flex h-8 bg-gradient-to-tl from-[#a3568f] via-[#cf78b7] to-[#fca9e6]"
+                                            variant="orange"
+                                        >
+                                            <CSVLink
+                                                {...{
+                                                    headers: [
+                                                        {
+                                                            label: 'UserID',
+                                                            key: 'userId',
+                                                        },
+                                                        {
+                                                            label: 'Username',
+                                                            key: 'userName',
+                                                        },
+                                                        {
+                                                            label: 'Full Name',
+                                                            key: 'fullName',
+                                                        },
+                                                        {
+                                                            label: 'Email',
+                                                            key: 'email',
+                                                        },
+                                                        {
+                                                            label: 'PublicKey',
+                                                            key: 'userPublicKey',
+                                                        },
+                                                        {
+                                                            label: 'Points',
+                                                            key: 'points',
+                                                        },
+                                                        {
+                                                            label: '% of Total Points',
+                                                            key: 'percentTotal',
+                                                        },
+                                                    ],
+                                                    data: leaderboard.participants,
+                                                    filename: `${event.title.replaceAll(
+                                                        ' ',
+                                                        '_',
+                                                    )}_leaderboard.csv`,
+                                                }}
+                                            >
+                                                Export to CSV
+                                            </CSVLink>
+                                        </Button>
+                                    )}
                                 </div>
                             )}
                         </div>

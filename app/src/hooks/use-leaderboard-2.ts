@@ -21,8 +21,6 @@ export const useLeaderboard = (eventId: string): LeaderboardPayload | null => {
             setLeaderboard(null);
             return;
         }
-        console.log(`All Users length: ${allUsers.length}`);
-        console.log(`Submission length: ${submissions.length}`);
         const rawParticipants = Array.from(
             submissions
                 .filter(l => l.status === 'completed')
