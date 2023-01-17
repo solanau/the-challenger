@@ -59,7 +59,7 @@ const ChallengesPage: NextPage = () => {
                 </Text>
 
                 <div>
-                    {user && user.canCreateStatus === 'approved' && (
+                    {user && (
                         <Button
                             icon={TbPlus}
                             text={'Create a challenge'}

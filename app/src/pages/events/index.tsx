@@ -55,7 +55,7 @@ const EventsPage: NextPage = () => {
                 </Text>
 
                 <div>
-                    {user && user.canCreateStatus === 'approved' && (
+                    {user && (
                         <Button
                             icon={TbPlus}
                             text={'Create an event'}

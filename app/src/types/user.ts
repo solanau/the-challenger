@@ -10,7 +10,6 @@ export type UserPayload = {
     avatarUrl?: string;
     closedBountiesCount?: number;
     level?: number;
-    canCreateStatus?: CanCreateStatus;
 };
 
 export interface SetUserPayload {

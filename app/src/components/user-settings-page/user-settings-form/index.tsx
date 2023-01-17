@@ -134,35 +134,6 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                 )}
             </div>
 
-            <div className="pt-4">
-                <label
-                    htmlFor="user-can-create"
-                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
-                >
-                    Request permission to create Events & Challenges? (This will
-                    require approval){' '}
-                </label>
-
-                <>
-                    <label>
-                        <Field
-                            name="canCreateRequested"
-                            type="radio"
-                            value="Yes"
-                        />
-                        Yes
-                    </label>
-                    <label>
-                        <Field
-                            name="canCreateRequested"
-                            type="radio"
-                            value="No"
-                        />
-                        No
-                    </label>
-                </>
-            </div>
-
             <div className="width-full flex flex-row justify-end gap-2 pt-4">
                 <Button type="submit" variant="orange" disabled={isLoading}>
                     {isLoading && <Spinner variant="large"></Spinner>}
