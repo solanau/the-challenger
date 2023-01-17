@@ -206,7 +206,7 @@ const EventSettingsForm = ({
                     Save Changes
                 </Button>
                 <Button
-                    className="bg-green-500"
+                    className="bg-green-400"
                     type="submit"
                     onClick={() => {
                         setStatusValue('active');
