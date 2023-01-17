@@ -63,11 +63,11 @@ function getParticipantsTotal(participantsLookUp: { [key: string]: number }) {
 }
 
 function updateLeaderBoard(
-    leaderBoard: LeaderBoard,
+    leaderboard: LeaderBoard,
     submissions: SubmissionPayload[],
 ): LeaderBoard {
     const { participantsGroupedByPoints, participantsLookUp } =
-        leaderBoard.participants.reduce(groupParticipants, {
+        leaderboard.participants.reduce(groupParticipants, {
             participantsGroupedByPoints: {},
             participantsLookUp: {},
         });
@@ -116,7 +116,7 @@ function updateLeaderBoard(
     };
 }
 
-class LeaderBoardController {
+class LeaderBoardService {
     async updateLeaderBoard(auth: Auth, payload: UpdateLeaderBoardPayload) {
         const event = await db.doc(`events/${payload.eventId}`).get();
         const eventData = event.data() as EventPayload;
@@ -139,18 +139,18 @@ class LeaderBoardController {
                 ...(doc.data() as SubmissionPayload),
             }),
         );
-        const leaderBoard = await db
-            .doc(`events/${payload.eventId}/leader-boards/individual`)
+        const leaderboard = await db
+            .doc(`events/${payload.eventId}/leaderboards/individual`)
             .get();
-        const leaderBoardData = (leaderBoard.data() ?? {
+        const leaderboardData = (leaderboard.data() ?? {
             participants: [],
             totalPoints: 0,
             version: LEADER_BOARD_DOCUMENT_VERSION,
         }) as LeaderBoard;
 
         // save updated leader board
-        await db.doc(`events/${payload.eventId}/leader-boards/individual`).set({
-            ...updateLeaderBoard(leaderBoardData, unProcessedSubmissionsData),
+        await db.doc(`events/${payload.eventId}/leaderboards/individual`).set({
+            ...updateLeaderBoard(leaderboardData, unProcessedSubmissionsData),
             updatedAt: Date.now(),
         });
 
@@ -171,4 +171,4 @@ class LeaderBoardController {
     }
 }
 
-export const controller = new LeaderBoardController();
+export const leaderboardService = new LeaderBoardService();

@@ -1,24 +1,24 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { LeaderBoardPayload } from 'types/leader-board';
+import { LeaderBoardPayload } from 'types/leaderboard';
 import { firestore } from 'utils/firebase';
 
 export const useLeaderBoard = (
     eventId: string,
-    leaderBoardId: string,
+    leaderboardId: string,
 ): LeaderBoardPayload | null => {
-    const [leaderBoard, setLeaderBoard] = useState<LeaderBoardPayload | null>(
+    const [leaderboard, setLeaderBoard] = useState<LeaderBoardPayload | null>(
         null,
     );
 
     useEffect(() => {
-        if (eventId === null || leaderBoardId === null) {
+        if (eventId === null || leaderboardId === null) {
             setLeaderBoard(null);
             return;
         }
 
         const unsubscribe = onSnapshot(
-            doc(firestore, `events/${eventId}/leader-boards/${leaderBoardId}`),
+            doc(firestore, `events/${eventId}/leaderboards/${leaderboardId}`),
             snapshot => {
                 const data = snapshot.data();
 
@@ -31,7 +31,7 @@ export const useLeaderBoard = (
         );
 
         return () => unsubscribe();
-    }, [eventId, leaderBoardId]);
+    }, [eventId, leaderboardId]);
 
-    return leaderBoard;
+    return leaderboard;
 };

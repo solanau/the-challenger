@@ -9,7 +9,7 @@ import {
 
 const CHALLENGE_DOCUMENT_VERSION = 1;
 
-class ChallengeController {
+class ChallengeService {
     async createChallenge(payload: CreateChallengePayload, auth?: Auth) {
         if (!auth) {
             throw new functions.https.HttpsError(
@@ -51,4 +51,4 @@ class ChallengeController {
     }
 }
 
-export const controller = new ChallengeController();
+export const challengeService = new ChallengeService();

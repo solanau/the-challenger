@@ -17,7 +17,7 @@ export const isDuplicateUserName = async (
     );
 };
 
-class UserController {
+class UserService {
     async setUser(auth: Auth, payload: SetUserPayload) {
         if (await isDuplicateUserName(auth.id, payload.userName)) {
             throw new functions.https.HttpsError(
@@ -37,4 +37,4 @@ class UserController {
     }
 }
 
-export const controller = new UserController();
+export const userService = new UserService();

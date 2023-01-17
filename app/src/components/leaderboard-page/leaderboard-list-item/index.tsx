@@ -4,7 +4,7 @@ import Text from 'components/common/text';
 import { useUser } from 'hooks/use-user';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
-import { ParticipantPayload } from 'types/leader-board';
+import { ParticipantPayload } from 'types/leaderboard';
 import { cn } from 'utils';
 
 interface LeaderBoardListItemProps {

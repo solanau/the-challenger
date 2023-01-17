@@ -1,9 +1,9 @@
 import Button from 'components/common/button';
 import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
-import LeaderBoardList from 'components/leader-board-page/leader-board-list';
+import LeaderBoardList from 'components/leaderboard-page/leaderboard-list';
 import { useEvent } from 'hooks/use-event';
-import { useLeaderBoard } from 'hooks/use-leader-board';
+import { useLeaderBoard } from 'hooks/use-leaderboard';
 import { updateLeaderBoard } from 'lib/api';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
@@ -20,7 +20,7 @@ const LeaderBoardPage: NextPage = () => {
             : router.query.eventId) ?? null;
     const { user } = useAuth();
     const event = useEvent(eventId);
-    const leaderBoard = useLeaderBoard(eventId, 'individual');
+    const leaderboard = useLeaderBoard(eventId, 'individual');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleUpdateLeaderBoard = () => {
@@ -83,7 +83,7 @@ const LeaderBoardPage: NextPage = () => {
 
                         <div className="mt-6">
                             <LeaderBoardList
-                                leaderBoard={leaderBoard}
+                                leaderboard={leaderboard}
                                 key="open-bounties"
                             />
                         </div>

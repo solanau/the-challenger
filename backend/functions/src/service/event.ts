@@ -9,7 +9,7 @@ import {
 
 const EVENT_DOCUMENT_VERSION = 1;
 
-class EventController {
+class EventService {
     async createEvent(payload: CreateEventPayload, auth?: Auth) {
         if (!auth) {
             throw new functions.https.HttpsError(
@@ -58,4 +58,4 @@ class EventController {
     }
 }
 
-export const controller = new EventController();
+export const eventService = new EventService();

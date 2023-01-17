@@ -1,4 +1,4 @@
-import { useLeaderBoard } from 'hooks/use-leader-board';
+import { useLeaderBoard } from 'hooks/use-leaderboard';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo, useRef, useState } from 'react';
@@ -23,13 +23,13 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const { credential, user, logOut } = useAuth();
     const userId = credential?.id ?? null;
-    const leaderBoard = useLeaderBoard(eventId, 'individual');
+    const leaderboard = useLeaderBoard(eventId, 'individual');
     const rank = useMemo(() => {
-        if (leaderBoard === null) {
+        if (leaderboard === null) {
             return null;
         }
 
-        const participantIndex = leaderBoard?.participants.findIndex(
+        const participantIndex = leaderboard?.participants.findIndex(
             participant => participant.userId === user?.id,
         );
 
@@ -38,9 +38,9 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
         }
 
         return participantIndex + 1;
-    }, [user?.id, leaderBoard]);
+    }, [user?.id, leaderboard]);
     const totalPoints = useMemo(() => {
-        const participantIndex = leaderBoard?.participants.findIndex(
+        const participantIndex = leaderboard?.participants.findIndex(
             participant => participant.userId === user?.id,
         );
 
@@ -48,8 +48,8 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
             return null;
         }
 
-        return leaderBoard?.participants[participantIndex].points;
-    }, [user?.id, leaderBoard?.participants]);
+        return leaderboard?.participants[participantIndex].points;
+    }, [user?.id, leaderboard?.participants]);
 
     return (
         <>

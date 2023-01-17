@@ -32,7 +32,7 @@ export const isReviewer = async (eventId: string, userId: string) => {
     return eventData.reviewers.includes(userId);
 };
 
-class SubmissionController {
+class SubmissionService {
     async createSubmission(auth: Auth, payload: CreateSubmissionPayload) {
         if (
             await isDuplicateSubmission(
@@ -119,4 +119,4 @@ class SubmissionController {
     }
 }
 
-export const controller = new SubmissionController();
+export const submissionService = new SubmissionService();
