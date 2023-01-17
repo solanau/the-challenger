@@ -90,7 +90,7 @@ export interface ChallengePayload {
 }
 
 export interface CreateChallengePayload {
-    id: string;
+    id?: string;
     title: string;
     description: string;
 }
