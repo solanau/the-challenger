@@ -1,5 +1,6 @@
 import Text from 'components/common/text';
 import SignUpForm from 'components/sign-up-page/sign-up-form';
+import { FirebaseError } from 'firebase/app';
 import { Formik } from 'formik';
 import { NextPage } from 'next';
 import Link from 'next/link';
@@ -14,9 +15,9 @@ const SignUpPage: NextPage = () => {
     const { signUp } = useAuth();
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
 
     const handleSignUp = async ({ email, password }: SignUpFormData) => {
         setIsLoading(true);
@@ -27,9 +28,19 @@ const SignUpPage: NextPage = () => {
                 router.replace(`/users/${user.uid}/settings`);
             })
             .catch(error => {
-                toast(error, {
-                    type: 'error',
-                });
+                if (typeof error === 'string') {
+                    toast(error, {
+                        type: 'error',
+                    });
+                } else if (error instanceof FirebaseError) {
+                    toast(error.code, {
+                        type: 'error',
+                    });
+                } else {
+                    toast(JSON.stringify(error), {
+                        type: 'error',
+                    });
+                }
             })
             .finally(() => setIsLoading(false));
     };

@@ -18,7 +18,7 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                     <>
                         <label
                             htmlFor={fieldConfig.name}
-                            className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                            className="block w-full border-none bg-transparent pt-4 pb-2 outline-none after:text-primary after:content-['*']"
                         >
                             {++index}. {fieldConfig.label}{' '}
                         </label>
@@ -42,7 +42,7 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                     <>
                         <label
                             htmlFor={fieldConfig.name}
-                            className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                            className="block w-full border-none bg-transparent pt-4 pb-2 outline-none after:text-primary after:content-['*']"
                         >
                             {++index}. {fieldConfig.label}{' '}
                         </label>
@@ -66,7 +66,7 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                     <>
                         <label
                             htmlFor={fieldConfig.name}
-                            className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                            className="block w-full border-none bg-transparent  pt-4 pb-2 outline-none after:text-primary after:content-['*']"
                         >
                             {++index}. {fieldConfig.label}{' '}
                         </label>
@@ -91,7 +91,7 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
     return (
         <>
             {fieldsConfig.map((fieldConfig: FieldConfig, index: number) => (
-                <div key={fieldConfig.name}>
+                <div key={fieldConfig.name} className="my-4 ">
                     {builder(fieldConfig, index, disabled)}
                 </div>
             ))}

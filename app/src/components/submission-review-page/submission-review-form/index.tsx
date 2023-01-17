@@ -34,7 +34,7 @@ const SubmissionReviewForm: NextPage<SubmissionReviewFormProps> = ({
                                         #{index} {answer.question}:
                                     </Text>
                                     <Text
-                                        className="pl-4"
+                                        className="pl-4 pt-4 w-full mx-auto font-normal max-h-256 max-w-124 text-green-200 overflow-y-auto pb-2"
                                         variant="sub-paragraph"
                                     >
                                         {answer.reply}

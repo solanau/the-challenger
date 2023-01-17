@@ -15,14 +15,13 @@ import { TbBrandGithub } from 'react-icons/tb';
 const ProfilePage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
-
+            : router.query.eventId) ?? null;
     const userName =
-        router.query.username instanceof Array
+        (router.query.username instanceof Array
             ? router.query.username[0]
-            : router.query.username;
+            : router.query.username) ?? null;
     const { credential } = useAuth();
     const user = useUserByUserName(userName);
     const submissions = useSubmissions(eventId, { userId: user?.id });

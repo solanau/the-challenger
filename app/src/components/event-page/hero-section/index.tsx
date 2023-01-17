@@ -55,8 +55,10 @@ const HeroSection = ({ eventId, title, description }: HeroSectionProps) => {
                         {title}
                     </Text>
 
-                    <div className="max-w-[650px]">
-                        <Markdown>{description}</Markdown>
+                    <div className="max-w-[650px] text-xl text-gray-200">
+                        {description}
+                        {/* // TODO: */}
+                        {/* <Markdown>{description}</Markdown> */}
                     </div>
 
                     <div className="mb-10 mt-72 flex w-full flex-row flex-wrap justify-center  gap-4  sm:mb-20 md:mt-0 md:justify-start">
@@ -75,7 +77,7 @@ const HeroSection = ({ eventId, title, description }: HeroSectionProps) => {
                                 <Button
                                     icon={!user && TbLogin}
                                     text={
-                                        !user ? 'Sign In' : 'View your profile'
+                                        !user ? 'Sign In' : 'View your profile !'
                                     }
                                     variant="orange"
                                     className="!w-full"

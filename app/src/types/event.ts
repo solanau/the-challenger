@@ -1,20 +1,17 @@
 export type EventStatus = 'active' | 'draft';
+import { ChallengePayload } from './challenge';
 
 export interface EventPayload {
     id: string;
     title: string;
     description: string;
-    userId: string;
-    challenges: string[];
-    version: number;
-    isNew: boolean;
-    createdAt: number;
-    updatedAt: number;
+    location: string;
+    startDate: number;
+    endDate: number;
     status?: EventStatus;
-    startDate?: number;
-    endDate?: number;
-    reviewers?: string[];
-    managers?: string[];
+    reviewers: string[];
+    managers: string[];
+    challenges: (ChallengePayload & { position: number })[];
 }
 
 export interface CreateEventPayload {
@@ -24,13 +21,13 @@ export interface CreateEventPayload {
 }
 
 export interface UpdateEventPayload {
-    id: string;
-    data: {
-        title: string;
-        description: string;
-        challenges: string[];
-        status?: EventStatus;
-    };
+    title: string;
+    description: string;
+    startDate: number;
+    endDate: number;
+    challenges: ChallengePayload[];
+    reviewers: string[];
+    managers: string[];
 }
 
 export interface EventSettingsFormData {

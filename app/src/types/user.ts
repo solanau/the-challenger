@@ -10,6 +10,7 @@ export type UserPayload = {
     avatarUrl?: string;
     closedBountiesCount?: number;
     level?: number;
+    isAdmin: boolean;
 };
 
 export interface SetUserPayload {

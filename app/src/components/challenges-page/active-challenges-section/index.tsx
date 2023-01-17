@@ -16,11 +16,11 @@ const ActiveChallengesSection = ({
     eventId,
     challenges,
 }: ChallengeListProps) => (
-    <section className="flex w-full flex-row flex-wrap gap-5">
+    <section className="flex flex-row flex-wrap gap-5 justify-center items-center">
         {challenges.map(challenge => (
             <Card
                 key={challenge.id}
-                className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
+                className="h-128 w-80 sm:w-96 lg:w-1/2 xl:w-1/3 sm:max-w-xl flex-col justify-between gap-10 p-4 sm:p-12"
             >
                 <div className="flex flex-col gap-5">
                     {getIconByCategory(challenge.category, 35)}
@@ -30,14 +30,14 @@ const ActiveChallengesSection = ({
                             {challenge.category} challenge
                         </Text>
                         <Text className="min-w-fit" variant="big-heading">
-                            Challenge #{challenge.position}
+                            Challenge {challenge.position}
                         </Text>
                         <Text variant="sub-heading">
                             Reward: {challenge.points} (BONUS: +
                             {challenge.bonus})
                         </Text>
                     </div>
-                    <Text variant="paragraph" className="break-word">
+                    <Text variant="paragraph" className="break-word max-w-xl h-14 overflow-hidden truncate text-ellipsis">
                         {challenge.description}
                     </Text>
 
@@ -95,7 +95,7 @@ const ActiveChallengesSection = ({
                             <a>
                                 {challenge.submissionStatus == 'completed' && (
                                     <Button
-                                        className="h-auto w-full rounded-md border-2 md:w-auto"
+                                        className="h-24 w-24 rounded-md border-0 md:w-auto"
                                         variant="transparent"
                                     >
                                         <p className="text-center text-green-400">

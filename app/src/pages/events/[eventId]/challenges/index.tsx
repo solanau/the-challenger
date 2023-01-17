@@ -16,18 +16,23 @@ import {
 const ChallengesPage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const { credential } = useAuth();
     const userId = credential?.id ?? null;
-    const challenges = useEventChallenges(eventId, userId);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const challenges = useEventChallenges(eventId, userId);
     const filteredChallenges = useMemo(() => {
+        if (!challenges) {
+            return [];
+        }
+
         // Avoid filter when selectedCategory is null
         if (!selectedCategory) {
             return challenges;
         }
+
         return challenges.filter(
             challenge => challenge.category === selectedCategory,
         );
@@ -45,8 +50,8 @@ const ChallengesPage: NextPage = () => {
             ></NextSeo>
 
             {challenges.length > 0 ? (
-                <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                    <div>
+                <div className="flex flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                    <div className="mx-auto grid sm:max-w-7xl sm:items-center">
                         <select
                             name="category-list"
                             id="category-list"
@@ -66,6 +71,7 @@ const ChallengesPage: NextPage = () => {
                             <option value="NFT">NFT</option>
                         </select>
                     </div>
+
                     <ActiveChallengesSection
                         eventId={eventId}
                         challenges={filteredChallenges.filter(

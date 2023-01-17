@@ -18,12 +18,57 @@ const ChallengePage: NextPage = () => {
             ? router.query.challengeId[0]
             : router.query.challengeId;
     const [validBountyName] = useState(true);
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn, credential, user } = useAuth();
     const challenge = useChallenge(challengeId);
 
     return (
         <>
-            {challenge && (
+            {!isLoggedIn && (
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                    <Text variant="sub-heading">
+                        Sign in to access this page.
+                    </Text>
+
+                    <div className="flex flex-row gap-2">
+                        <Link href="/" passHref>
+                            <a>
+                                <Button variant="transparent" text="Go back" />
+                            </a>
+                        </Link>
+
+                        <Link href="/login" passHref>
+                            <a>
+                                <Button variant="orange" text="Sign in" />
+                            </a>
+                        </Link>
+                    </div>
+                </div>
+            )}
+
+            {isLoggedIn && user === null && (
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                    <Text variant="sub-heading">
+                        Only users that have a profile can access this page. In
+                        order to set yours, go ahead and{' '}
+                        <Link href={`/users/${credential.id}/settings`}>
+                            <a className="text-primary underline">
+                                set up your profile
+                            </a>
+                        </Link>{' '}
+                        to get started.
+                    </Text>
+                </div>
+            )}
+
+            {isLoggedIn && user !== null && !user.isAdmin && (
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                    <Text variant="sub-heading">
+                        You're not authorized to access this page.
+                    </Text>
+                </div>
+            )}
+
+            {isLoggedIn && user !== null && user.isAdmin && challenge && (
                 <>
                     <NextSeo
                         title={challenge.title}
@@ -77,6 +122,7 @@ const ChallengePage: NextPage = () => {
                                 </Markdown>
 
                                 <Markdown>{challenge.description}</Markdown>
+                                {/* <Markdown>{challenge.fullDescription}</Markdown> */}
 
                                 <Markdown>{`### How to Submit `}</Markdown>
 
@@ -94,7 +140,7 @@ const ChallengePage: NextPage = () => {
                         <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                             <TbBrandGithub size={35} />
                             <Text variant="sub-heading">
-                                Sign in with GitHub to view the challenge.
+                                Sign in to view the challenge.
                             </Text>
 
                             <div className="flex flex-row gap-2">

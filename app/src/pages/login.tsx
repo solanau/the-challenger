@@ -38,9 +38,9 @@ const LoginPage: NextPage = () => {
     const { logIn } = useAuth();
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
 
     const handleLogIn = async data => {
         setIsLoading(true);

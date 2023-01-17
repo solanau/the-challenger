@@ -19,9 +19,9 @@ import { ReviewSubmissionPayload } from 'types/submission';
 const SubmissionReviewPage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const submissionId =
         router.query.submissionId instanceof Array
             ? router.query.submissionId[0]
@@ -70,15 +70,19 @@ const SubmissionReviewPage: NextPage = () => {
                                     </div>
                                 </section>
 
-                                <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-6 xl:px-48 xl:py-8">
-                                    <Markdown>
+                                <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-4 md:px-16 lg:px-32 lg:py-4 xl:px-48 xl:py-4">
+                                <div className="mx-auto grid space-x-6 space-y-6 p-6 sm:max-w-7xl sm:items-center">
+                                <Text variant="heading" className="text-red-500 mx-auto grid sm:max-w-7xl sm:items-center">
+                                        {`> Review `}
+                                    </Text>
+                                <Text variant="heading">
                                         {submission.description}
-                                    </Markdown>
+                                    </Text>
 
                                     <Text variant="paragraph">
                                         Submission: {submission.id}
                                     </Text>
-
+                                    
                                     <Formik
                                         initialValues={{
                                             comments: submission.comments,
@@ -98,6 +102,7 @@ const SubmissionReviewPage: NextPage = () => {
                                             answers={submission.answers}
                                         ></SubmissionReviewForm>
                                     </Formik>
+                                    </div>
                                 </section>
                             </div>
                         ) : (
@@ -111,9 +116,8 @@ const SubmissionReviewPage: NextPage = () => {
                         )
                     ) : (
                         <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                            <TbBrandGithub size={35} />
                             <Text variant="sub-heading">
-                                Sign in with GitHub to view the submission.
+                                Sign in to view the submission.
                             </Text>
 
                             <div className="flex flex-row gap-2">

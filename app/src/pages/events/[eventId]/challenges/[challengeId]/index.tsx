@@ -14,7 +14,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
-import { TbBrandGithub } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { CreateSubmissionAnswerPayload } from 'types/submission';
 import { cn } from 'utils';
@@ -24,9 +23,9 @@ import { v4 as uuid } from 'uuid';
 const ChallengePage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const challengeId =
         router.query.challengeId instanceof Array
             ? router.query.challengeId[0]
@@ -35,7 +34,7 @@ const ChallengePage: NextPage = () => {
     const [validBountyName] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [answers, setAnswers] = useState<CreateSubmissionAnswerPayload[]>([]);
-    const { isLoggedIn, user } = useAuth();
+    const { isLoggedIn, credential, user } = useAuth();
     const challenge = useEventChallenge(eventId, challengeId, user?.id);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
@@ -163,12 +162,14 @@ const ChallengePage: NextPage = () => {
                             </section>
 
                             <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-6 xl:px-48 xl:py-8">
+                            <div className="my-6 mx-auto grid space-y-6 sm:max-w-6xl sm:items-center">
                                 <Markdown>
                                     {`### Rewards: ${challenge.points} Points 🔥 `}
                                 </Markdown>
 
                                 {challenge.timeStatus !== 'pending' && (
-                                    <Markdown>{challenge.description}</Markdown>
+                                    // <Markdown>{challenge.description}</Markdown>
+                                    <Markdown>{challenge.fullDescription}</Markdown>
                                 )}
 
                                 {challenge.submissionStatus == 'completed' && (
@@ -232,8 +233,15 @@ const ChallengePage: NextPage = () => {
                                             In order to submit a challenge, you
                                             have to{' '}
                                             <Link
-                                                href="/users/profile-settings"
                                                 passHref
+                                                href={{
+                                                    pathname: `/users/${credential.id}/settings`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
                                             >
                                                 <a className="text-primary underline">
                                                     set up your profile.
@@ -251,8 +259,8 @@ const ChallengePage: NextPage = () => {
                                         setIsConfirmModalOpen(false)
                                     }
                                 >
-                                    <div className="mt-4 flex flex-col gap-2">
-                                        <div className="mb-4 max-h-80 overflow-y-auto pb-2">
+                                    <div className="grid p-6 sm:items-center">
+                                        <div className="w-content mb-4 max-h-106 max-w-124 space-y-4 overflow-y-auto pb-2">
                                             {answers.map((answer, index) => (
                                                 <Card
                                                     key={index}
@@ -262,8 +270,9 @@ const ChallengePage: NextPage = () => {
                                                         #{index + 1}{' '}
                                                         {answer.question}:
                                                     </Text>
+                                                    {/* TODO:Support Multiple field types */}
                                                     <Text
-                                                        className="pl-4"
+                                                        className="pl-4 pt-4 w-full mx-auto font-normal max-h-256 max-w-124 text-green-200 overflow-y-auto pb-2"
                                                         variant="sub-paragraph"
                                                     >
                                                         {answer.reply}
@@ -273,7 +282,17 @@ const ChallengePage: NextPage = () => {
                                         </div>
                                         <div className="flex justify-end gap-2">
                                             <Button
+                                                variant="black"
+                                                className="sm:px-12"
+                                                onClick={() =>
+                                                    setIsConfirmModalOpen(false)
+                                                }
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button
                                                 variant="orange"
+                                                className="sm:px-12"
                                                 onClick={() =>
                                                     handleCreateSubmission(
                                                         answers,
@@ -284,26 +303,18 @@ const ChallengePage: NextPage = () => {
                                                 {isLoading && (
                                                     <Spinner variant="large"></Spinner>
                                                 )}
-                                                Yes, I want to submit.
-                                            </Button>
-                                            <Button
-                                                variant="black"
-                                                onClick={() =>
-                                                    setIsConfirmModalOpen(false)
-                                                }
-                                            >
-                                                Cancel
+                                                Confirm
                                             </Button>
                                         </div>
                                     </div>
                                 </Modal>
+                                </div>
                             </section>
                         </div>
                     ) : (
                         <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                            <TbBrandGithub size={35} />
                             <Text variant="sub-heading">
-                                Sign in with GitHub to view the challenge.
+                                Sign in to view the challenge.
                             </Text>
 
                             <div className="flex flex-row gap-2">

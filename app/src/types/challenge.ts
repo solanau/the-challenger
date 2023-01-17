@@ -35,6 +35,7 @@ export interface BaseChallenge {
     category: ChallengeCategory;
     difficulty: ChallengeDifficulty;
     description: string;
+    fullDescription?: string;
     points: number;
     createdAt: number;
     startDate: number;
@@ -72,6 +73,7 @@ export interface ChallengePayload {
     id: string;
     title: string;
     description: string;
+    fullDescription?: string;
     createdAt: number;
     updatedAt: number;
     isNew: boolean;
@@ -94,27 +96,22 @@ export interface CreateChallengePayload {
 }
 
 export interface UpdateChallengePayload {
-    id: string;
-    data: {
-        title: string;
-        description: string;
-        category: ChallengeCategory;
-        difficulty: ChallengeDifficulty;
-        points: number;
-        authorName: string;
-        authorGithub: string;
-        authorTwitter: string;
-        status?: ChallengeStatus;
-    };
-}
-
-export interface PublishChallengePayload {
-    id: string;
+    title: string;
+    description: string;
+    fullDescription?: string;
+    points: number;
+    difficulty: ChallengeDifficulty;
+    category: ChallengeCategory;
+    authorGithub: string;
+    authorTwitter: string;
+    authorName: string;
+    fieldsConfig: FieldConfig[];
 }
 
 export interface ChallengeSettingsFormData {
     title: string;
     description: string;
+    fullDescription?: string;
     points: number;
     difficulty: string;
     category: string;

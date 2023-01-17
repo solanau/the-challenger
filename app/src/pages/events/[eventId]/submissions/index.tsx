@@ -15,9 +15,9 @@ import { SubmissionStatus } from 'types/submission';
 const SubmissionsPage: NextPage = () => {
     const router = useRouter();
     const eventId =
-        router.query.eventId instanceof Array
+        (router.query.eventId instanceof Array
             ? router.query.eventId[0]
-            : router.query.eventId;
+            : router.query.eventId) ?? null;
     const [status, setStatus] = useState('pending');
     const { credential } = useAuth();
     const event = useEvent(eventId);
@@ -41,7 +41,7 @@ const SubmissionsPage: NextPage = () => {
                             <Text variant="big-heading">Submissions List</Text>
                         </div>
 
-                        <div>
+                        <div className="my-6 mx-auto grid space-x-6 space-y-6 p-12 sm:max-w-7xl sm:items-center">
                             <div>
                                 Filter by status:
                                 <select
@@ -54,11 +54,11 @@ const SubmissionsPage: NextPage = () => {
                                                 .value as SubmissionStatus,
                                         )
                                     }
-                                    className="bg-white bg-opacity-10 px-2 py-1"
+                                    className="ml-4 h-10 rounded-lg bg-white bg-opacity-10 px-2 py-1"
                                 >
                                     <option
                                         value="pending"
-                                        className="bg-black bg-opacity-60"
+                                        className="bg-black bg-opacity-60 "
                                     >
                                         Pending
                                     </option>
@@ -85,21 +85,25 @@ const SubmissionsPage: NextPage = () => {
 
                             {filteredSubmissions.length > 0 ? (
                                 filteredSubmissions.map((submission, index) => (
-                                    <Card key={index} className="p-4">
-                                        <Text variant="heading">
-                                            {submission?.title ??
-                                                'Challenge not found'}
-                                        </Text>
-
-                                        <Text variant="label">
-                                            {submission.status}
-                                        </Text>
-
+                                    <Card key={index} className="p-6 ">
                                         <Link
                                             href={`/events/${eventId}/submissions/${submission.id}/review`}
                                             passHref
                                         >
-                                            <a className="underline">view</a>
+                                            <div className="flex cursor-pointer flex-col gap-5 overflow-hidden">
+                                                <Text variant="heading">
+                                                    {submission?.title ??
+                                                        'Challenge not found'}
+                                                </Text>
+
+                                                <Text variant="label">
+                                                    {submission.status}
+                                                </Text>
+
+                                                <a className="underline">
+                                                    view
+                                                </a>
+                                            </div>
                                         </Link>
                                     </Card>
                                 ))
@@ -122,9 +126,8 @@ const SubmissionsPage: NextPage = () => {
                 )
             ) : (
                 <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                    <TbBrandGithub size={35} />
                     <Text variant="sub-heading">
-                        Sign in with GitHub to view the submission.
+                        Sign in to view the submission.
                     </Text>
 
                     <div className="flex flex-row gap-2">

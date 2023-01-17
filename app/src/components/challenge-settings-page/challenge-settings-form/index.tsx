@@ -78,7 +78,7 @@ const ChallengeSettingsForm = ({
                     required
                     disabled={isLoading}
                     autoComplete="off"
-                    maxLength={500}
+                    maxLength={8000}
                     rows={4}
                 />
             </div>
