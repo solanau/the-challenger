@@ -17,7 +17,7 @@ const UserSettingsPage: NextPage = () => {
     const { publicKey } = useWallet();
     const [isLoading, setIsLoading] = useState(false);
     const { isLoggedIn, user } = useAuth();
-    const [signatureVerified, setSignatureVerified] = useState(false);
+    const [messageSigned, setMessageSigned] = useState(false);
     const router = useRouter();
     const eventId =
         router.query.eventId instanceof Array
@@ -26,28 +26,18 @@ const UserSettingsPage: NextPage = () => {
 
     const handleUpdateUser = useCallback(
         async (updateUserFormData: UpdateUserFormData) => {
-            if (!signatureVerified) {
+            if (!messageSigned) {
                 toast('You must provide a public key');
                 return;
             }
-            if (signatureVerified && publicKey) {
+            if (messageSigned && publicKey) {
                 updateUserFormData.walletPublicKey = publicKey.toBase58();
             }
             setIsLoading(true);
 
             const updateUserData: SetUserPayload = {
-                fullName: updateUserFormData.fullName,
-                userName: updateUserFormData.userName,
-                walletPublicKey: updateUserFormData.walletPublicKey,
+                ...updateUserFormData,
             };
-
-            if (
-                updateUserFormData.canCreateRequested === 'Yes' &&
-                user &&
-                user.canCreateStatus != 'approved' &&
-                user.canCreateStatus != 'denied'
-            )
-                updateUserData.canCreateStatus = 'pending';
 
             let update = (data: SetUserPayload) => setUser(data);
             if (user) update = (data: SetUserPayload) => updateUser(data);
@@ -66,7 +56,7 @@ const UserSettingsPage: NextPage = () => {
                 .finally(() => setIsLoading(false));
         },
 
-        [publicKey, router, signatureVerified, user],
+        [publicKey, router, messageSigned, user],
     );
 
     return (
@@ -121,15 +111,16 @@ const UserSettingsPage: NextPage = () => {
                                 fullName: user?.fullName ?? '',
                                 userName: user?.userName ?? '',
                                 walletPublicKey: user?.walletPublicKey ?? '',
-                                canCreateRequested: 'No',
+                                message: '',
+                                signature: '',
                             }}
                             onSubmit={handleUpdateUser}
                             enableReinitialize={true}
                         >
                             <UserSettingsForm
                                 isLoading={isLoading}
-                                signatureVerified={signatureVerified}
-                                setSignatureVerified={setSignatureVerified}
+                                messageSigned={messageSigned}
+                                setMessageSigned={setMessageSigned}
                             ></UserSettingsForm>
                         </Formik>
                     </>

@@ -15,13 +15,15 @@ export type UserPayload = {
 export interface SetUserPayload {
     fullName: string;
     userName: string;
-    walletPublicKey: string;
-    canCreateStatus?: CanCreateStatus;
+    walletPublicKey?: string;
+    message?: string;
+    signature?: string;
 }
 
 export interface UpdateUserFormData {
     fullName: string;
     userName: string;
-    walletPublicKey: string;
-    canCreateRequested?: CanCreateRequested;
+    walletPublicKey?: string;
+    message?: string;
+    signature?: string;
 }

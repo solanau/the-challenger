@@ -1,26 +1,29 @@
 import { useWallet } from '@solana/wallet-adapter-react';
+import bs58 from 'bs58';
 import Button from 'components/common/button';
 import Spinner from 'components/common/spinner';
 import { WalletMultiButton } from 'components/common/wallet-adapter';
-import { Field, Form } from 'formik';
+import { Field, Form, useField } from 'formik';
 import { NextPage } from 'next';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { BsFillCheckSquareFill } from 'react-icons/bs';
-import { sign } from 'tweetnacl';
 import { v4 as uuid } from 'uuid';
 
 interface UserSettingsFormProps {
     isLoading?: boolean;
-    signatureVerified: boolean;
-    setSignatureVerified: Dispatch<SetStateAction<boolean>>;
+    messageSigned: boolean;
+    setMessageSigned: Dispatch<SetStateAction<boolean>>;
 }
 
 const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
     isLoading = false,
-    signatureVerified,
-    setSignatureVerified,
+    messageSigned,
+    setMessageSigned,
 }) => {
     const { publicKey, signMessage } = useWallet();
+
+    const messageHelper = useField('message')[2];
+    const signatureHelper = useField('signature')[2];
 
     const [signingIsSupported, setSigningIsSupported] = useState<boolean>(true);
 
@@ -32,14 +35,19 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                 throw new Error('Wallet does not support message signing!');
             }
             const message = new TextEncoder().encode(uuid());
-            const signature = await signMessage(message);
-            if (!sign.detached.verify(message, signature, publicKey.toBytes()))
-                throw new Error('Invalid signature!');
-            setSignatureVerified(true);
+            messageHelper.setValue(bs58.encode(message));
+            signatureHelper.setValue(bs58.encode(await signMessage(message)));
+            setMessageSigned(true);
         } catch (error) {
             alert(`Signing failed: ${error?.message}`);
         }
-    }, [publicKey, signMessage, setSigningIsSupported, setSignatureVerified]);
+    }, [
+        publicKey,
+        signMessage,
+        messageHelper,
+        signatureHelper,
+        setMessageSigned,
+    ]);
 
     return (
         <Form>
@@ -95,14 +103,14 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
 
                 {signingIsSupported ? (
                     <div>
-                        {signatureVerified ? (
+                        {messageSigned ? (
                             <div className="mt-2 flex h-full flex-row gap-3 pl-2 md:gap-5">
                                 <BsFillCheckSquareFill
                                     className="my-auto ml-4"
                                     fill="#4caf50"
                                 />
                                 <p className="my-auto text-green-500">
-                                    Wallet authenticated!
+                                    Message signed successfully
                                 </p>
                             </div>
                         ) : (
