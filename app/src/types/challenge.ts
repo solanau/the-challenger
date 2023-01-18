@@ -1,4 +1,5 @@
 import { FieldConfig } from './form';
+import { SubmissionStatus } from './submission';
 
 export type ChallengeStatus = 'active' | 'draft';
 
@@ -44,6 +45,7 @@ export interface BaseChallenge {
     authorTwitter: string;
     timeStatus: ChallengeTimeStatus;
     isSubmitted: boolean;
+    submissionStatus: SubmissionStatus;
     progress: number;
     bonus: number;
     position: number;

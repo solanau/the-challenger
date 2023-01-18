@@ -134,21 +134,34 @@ export const toChallenge = (
     challenge: ChallengePayload,
     submissions: SubmissionPayload[],
     position: number,
-): Challenge => ({
-    ...challenge,
-    position,
-    startDate: event.startDate,
-    endDate: event.endDate,
-    timeStatus: getChallengeStatus(event),
-    expiresIn: getChallengeExpiresIn(event),
-    startsIn: getChallengeStartsIn(event),
-    expiredAgo: getChallengeExpiredAgo(event),
-    progress: getChallengeProgress(event),
-    bonus: getChallengeBonus(event, challenge),
-    isSubmitted:
-        submissions.length > 0 &&
-        submissions.some(submission => submission.challengeId === challenge.id),
-});
+): Challenge => {
+    const challengeSubmissions = submissions.filter(
+        submission => submission.challengeId === challenge.id,
+    );
+    const isSubmitted =
+        submissions.length > 0 && challengeSubmissions.length > 0;
+    let submissionStatus = undefined;
+    if (isSubmitted) {
+        for (const sub of challengeSubmissions) {
+            submissionStatus = sub.status;
+            if (sub.status == 'completed') break;
+        }
+    }
+    return {
+        ...challenge,
+        position,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        timeStatus: getChallengeStatus(event),
+        expiresIn: getChallengeExpiresIn(event),
+        startsIn: getChallengeStartsIn(event),
+        expiredAgo: getChallengeExpiredAgo(event),
+        progress: getChallengeProgress(event),
+        bonus: getChallengeBonus(event, challenge),
+        isSubmitted,
+        submissionStatus,
+    };
+};
 
 export const fromChallengeSettingsFormData = (
     values: ChallengeSettingsFormData,
