@@ -1,5 +1,8 @@
 export type SubmissionStatus = 'pending' | 'invalid' | 'complete';
 
+export type ChallengeStatus = 'active' | 'draft';
+export type EventStatus = 'active' | 'draft';
+
 export type ChallengeDifficulty = 'Easy' | 'Medium' | 'Hard';
 
 export type ChallengeCategory =
@@ -69,6 +72,7 @@ export interface EventPayload {
     endDate?: number;
     reviewers?: string[];
     managers?: string[];
+    status?: EventStatus;
 }
 
 export interface ChallengePayload {
@@ -87,6 +91,7 @@ export interface ChallengePayload {
     authorName?: string;
     authorGithub?: string;
     authorTwitter?: string;
+    status?: ChallengeStatus;
 }
 
 export interface PrizePayload {

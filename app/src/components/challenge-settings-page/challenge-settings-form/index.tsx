@@ -2,22 +2,44 @@ import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
-import { Field, FieldArray, Form, useFormikContext } from 'formik';
+import { Field, FieldArray, Form, useField, useFormikContext } from 'formik';
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoIosAdd } from 'react-icons/io';
 import { FieldConfig } from 'types/form';
 
 interface ChallengeSettingsFormProps {
     isLoading?: boolean;
+    challengeStatus: string;
 }
 
 const ChallengeSettingsForm = ({
     isLoading = false,
+    challengeStatus,
 }: ChallengeSettingsFormProps) => {
     const { values } = useFormikContext<{ fieldsConfig: FieldConfig[] }>();
+    const helper = useField('status')[2];
+    const setStatusValue = helper.setValue;
 
     return (
         <Form>
+            <div className="pt-4">
+                <Text
+                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                    variant="dialog-heading"
+                >
+                    Your Challenge's Status:{' '}
+                    <span
+                        className={`${
+                            challengeStatus &&
+                            challengeStatus.toLowerCase() === 'active'
+                                ? 'text-green-500'
+                                : 'text-pink-500'
+                        }`}
+                    >
+                        {challengeStatus.toUpperCase()}
+                    </span>{' '}
+                </Text>
+            </div>
             <div className="pt-4">
                 <label
                     htmlFor="challenge-title"
@@ -450,6 +472,18 @@ const ChallengeSettingsForm = ({
                 <Button type="submit" variant="orange" disabled={isLoading}>
                     {isLoading && <Spinner variant="large"></Spinner>}
                     Save changes
+                </Button>
+                <Button
+                    className="bg-green-500"
+                    type="submit"
+                    onClick={() => {
+                        setStatusValue('active');
+                    }}
+                    variant="orange"
+                    disabled={isLoading}
+                >
+                    {isLoading && <Spinner variant="large"></Spinner>}
+                    Publish
                 </Button>
             </div>
         </Form>

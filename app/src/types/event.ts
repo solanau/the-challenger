@@ -1,5 +1,7 @@
 import { ChallengePayload } from './challenge';
 
+export type EventStatus = 'active' | 'draft';
+
 export interface EventPayload {
     id: string;
     title: string;
@@ -10,6 +12,7 @@ export interface EventPayload {
     reviewers: string[];
     managers: string[];
     challenges: (ChallengePayload & { position: number })[];
+    status?: EventStatus;
 }
 
 export interface CreateEventPayload {

@@ -1,5 +1,7 @@
 import { FieldConfig } from './form';
 
+export type ChallengeStatus = 'active' | 'draft';
+
 export type ChallengeTimeStatus = 'active' | 'pending' | 'expired';
 
 export type ChallengeReviewStatus =
@@ -78,6 +80,7 @@ export interface ChallengePayload {
     authorGithub: string;
     authorTwitter: string;
     fieldsConfig: FieldConfig[];
+    status?: ChallengeStatus;
 }
 
 export interface CreateChallengePayload {
