@@ -73,6 +73,20 @@ export async function setUser(payload: SetUserPayload) {
     }
 }
 
+export async function updateUser(payload: SetUserPayload) {
+    const instance = httpsCallable<SetUserPayload, unknown>(
+        functions,
+        'updateUser',
+    );
+    try {
+        const result = await instance(payload);
+
+        return result.data;
+    } catch (error) {
+        throw handleError(error);
+    }
+}
+
 export async function updateLeaderBoard(payload: UpdateLeaderBoardPayload) {
     const instance = httpsCallable<UpdateLeaderBoardPayload, unknown>(
         functions,

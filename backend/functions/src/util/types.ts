@@ -185,10 +185,24 @@ export interface Auth {
     email: string;
 }
 
+export type UserPayload = {
+    id: string;
+    fullName: string;
+    userName: string;
+    email?: string;
+    walletPublicKey?: string;
+    avatarUrl?: string;
+    closedBountiesCount?: number;
+    level?: number;
+    isAdmin: boolean;
+};
+
 export interface SetUserPayload {
     fullName: string;
     userName: string;
-    walletPublicKey: string;
+    walletPublicKey?: string;
+    message?: string;
+    signature?: string;
 }
 
 export interface SubmissionPayload {

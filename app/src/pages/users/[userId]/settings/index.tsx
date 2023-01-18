@@ -1,41 +1,63 @@
+import { useWallet } from '@solana/wallet-adapter-react';
 import Button from 'components/common/button';
 import Text from 'components/common/text';
 import UserSettingsForm from 'components/user-settings-page/user-settings-form';
 import { Formik } from 'formik';
-import { setUser } from 'lib/api';
+import { setUser, updateUser } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
+import { SetUserPayload } from 'types/api';
 import { UpdateUserFormData } from 'types/user';
 
 const UserSettingsPage: NextPage = () => {
+    const { publicKey } = useWallet();
     const [isLoading, setIsLoading] = useState(false);
     const { isLoggedIn, user } = useAuth();
+    const [messageSigned, setMessageSigned] = useState(false);
     const router = useRouter();
     const eventId =
         (router.query.eventId instanceof Array
             ? router.query.eventId[0]
             : router.query.eventId) ?? null;
 
-    const handleUpdateUser = async (updateUserFormData: UpdateUserFormData) => {
-        setIsLoading(true);
+    const handleUpdateUser = useCallback(
+        async (updateUserFormData: UpdateUserFormData) => {
+            if (!messageSigned) {
+                toast('You must provide a public key');
+                return;
+            }
+            if (messageSigned && publicKey) {
+                updateUserFormData.walletPublicKey = publicKey.toBase58();
+            }
+            setIsLoading(true);
 
-        setUser(updateUserFormData)
-            .then(() =>
-                toast('Changes saved!', {
-                    type: 'success',
-                }),
-            )
-            .catch(error => {
-                toast(error, {
-                    type: 'error',
-                });
-            })
-            .finally(() => setIsLoading(false));
-    };
+            const updateUserData: SetUserPayload = {
+                ...updateUserFormData,
+            };
+
+            let update = (data: SetUserPayload) => setUser(data);
+            if (user) update = (data: SetUserPayload) => updateUser(data);
+            update(updateUserData)
+                .then(() => {
+                    toast('Changes saved!', {
+                        type: 'success',
+                    });
+                    router.replace('/');
+                })
+                .catch(error => {
+                    toast(error, {
+                        type: 'error',
+                    });
+                })
+                .finally(() => setIsLoading(false));
+        },
+
+        [publicKey, router, messageSigned, user],
+    );
 
     return (
         <>
@@ -94,6 +116,8 @@ const UserSettingsPage: NextPage = () => {
                         >
                             <UserSettingsForm
                                 isLoading={isLoading}
+                                messageSigned={messageSigned}
+                                setMessageSigned={setMessageSigned}
                             ></UserSettingsForm>
                         </Formik>
                     </>

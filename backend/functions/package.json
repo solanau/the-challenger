@@ -17,12 +17,14 @@
     "dependencies": {
         "@solana/web3.js": "^1.66.2",
         "body-parser": "^1.20.1",
+        "bs58": "^5.0.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
         "firebase-admin": "^11.3.0",
         "firebase-functions": "^4.1.0",
         "prestige-protocol": "^0.0.9",
+        "tweetnacl": "^1.0.3",
         "uuid": "^9.0.0"
     },
     "devDependencies": {
