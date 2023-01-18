@@ -120,6 +120,8 @@ export const AuthContextProvider = ({
 
         setCredential(toCredential(userCredential.user));
         setFirebaseUser(userCredential.user);
+
+        return userCredential.user;
     };
 
     const logIn = async (email: string, password: string) => {
