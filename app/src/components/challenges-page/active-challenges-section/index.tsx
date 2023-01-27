@@ -116,8 +116,19 @@ const ActiveChallengesSection = ({
                                         </p>
                                     </Button>
                                 )}
+                                {challenge.submissionStatus == 'closed' && (
+                                    <Button
+                                        className="h-24 w-24 rounded-md border-0 md:w-auto"
+                                        variant="transparent"
+                                    >
+                                        <p className="text-center text-yellow-400">
+                                            Submissions Disabled
+                                        </p>
+                                    </Button>
+                                )}
                                 {challenge.submissionStatus != 'completed' &&
-                                    challenge.submissionStatus != 'pending' && (
+                                    challenge.submissionStatus != 'pending' &&
+                                    challenge.submissionStatus != 'closed' && (
                                         <div className="flex-col">
                                             {challenge.submissionStatus ==
                                                 ('invalid' || 'incorrect') && (

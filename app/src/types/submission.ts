@@ -2,7 +2,8 @@ export type SubmissionStatus =
     | 'pending'
     | 'invalid'
     | 'incorrect'
-    | 'completed';
+    | 'completed'
+    | 'closed';
 
 export interface SubmissionAnswerPayload {
     question: string;

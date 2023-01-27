@@ -194,10 +194,21 @@ const ChallengePage: NextPage = () => {
                                         </div>
                                     )}
 
+                                    {challenge.submissionStatus == 'closed' && (
+                                        <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-yellow-400">
+                                            <p className="mt-4">
+                                                Your submissions have been
+                                                disabled for this challenge.
+                                            </p>
+                                        </div>
+                                    )}
+
                                     {challenge.submissionStatus !=
                                         'completed' &&
                                         challenge.submissionStatus !=
                                             'pending' &&
+                                        challenge.submissionStatus !=
+                                            'closed' &&
                                         challenge.timeStatus === 'active' &&
                                         user !== null && (
                                             <div>
