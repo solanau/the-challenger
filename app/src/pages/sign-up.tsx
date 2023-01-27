@@ -23,7 +23,7 @@ const SignUpPage: NextPage = () => {
         setIsLoading(true);
 
         signUp(email, password)
-            .then(() => router.push(eventId ? `/events/${eventId}` : '/'))
+            .then(user => router.push(`/users/${user.uid}/settings`))
             .catch(error => {
                 if (typeof error === 'string') {
                     toast(error, {

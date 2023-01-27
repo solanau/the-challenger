@@ -17,8 +17,13 @@ const CreateSubmissionForm: NextPage<CreateSubmissionFormProps> = ({
     <Form>
         <FormBuilder fieldsConfig={fieldsConfig} disabled={isLoading} />
 
-        <div className="width-full flex flex-row justify-end gap-2 pt-4">
-            <Button type="submit" variant="orange" className="px-8" disabled={isLoading}>
+        <div className="flex w-full flex-row justify-end gap-2 pt-4">
+            <Button
+                type="submit"
+                variant="orange"
+                className="px-8"
+                disabled={isLoading}
+            >
                 {isLoading && <Spinner variant="large"></Spinner>}
                 Submit
             </Button>

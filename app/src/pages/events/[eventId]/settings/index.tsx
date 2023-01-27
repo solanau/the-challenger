@@ -95,12 +95,10 @@ const EventSettingsPage: NextPage = () => {
                     <div className="flex w-full flex-col gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                         <Text variant="big-heading">Event Settings</Text>
 
-                        <Text variant="paragraph">
-                            Customize your event
-                        </Text>
+                        <Text variant="paragraph">Customize your event</Text>
                     </div>
 
-                    <div className="my-4 mx-auto grid space-x-6 space-y-6 sm:max-w-7xl sm:items-center gap-5 bg-gradient-to-tr px-5 sm:p-8 md:px-16 lg:px-32 lg:py-4 xl:px-48 xl:py-6">
+                    <div className="my-4 mx-auto grid w-full gap-5 space-x-6 space-y-6 bg-gradient-to-tr px-5 sm:max-w-7xl sm:items-center sm:p-8 md:px-16 lg:px-32 lg:py-4 xl:px-48 xl:py-6">
                         {event && (
                             <Formik
                                 initialValues={{

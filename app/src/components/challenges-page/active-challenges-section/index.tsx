@@ -16,11 +16,11 @@ const ActiveChallengesSection = ({
     eventId,
     challenges,
 }: ChallengeListProps) => (
-    <section className="flex flex-row flex-wrap gap-5 justify-center items-center">
+    <section className="flex w-full flex-row flex-wrap items-center justify-center gap-5">
         {challenges.map(challenge => (
             <Card
                 key={challenge.id}
-                className="h-128 w-80 sm:w-96 lg:w-1/2 xl:w-1/3 sm:max-w-xl flex-col justify-between gap-10 p-4 sm:p-12"
+                className="h-128 w-80 flex-col justify-between gap-10 p-4 sm:w-96 sm:max-w-xl sm:p-12 lg:w-1/2 xl:w-1/3"
             >
                 <div className="flex flex-col gap-5">
                     {getIconByCategory(challenge.category, 35)}
@@ -37,7 +37,10 @@ const ActiveChallengesSection = ({
                             {challenge.bonus})
                         </Text>
                     </div>
-                    <Text variant="paragraph" className="break-word max-w-xl h-14 overflow-hidden truncate text-ellipsis">
+                    <Text
+                        variant="paragraph"
+                        className="break-word h-14 max-w-xl overflow-hidden truncate text-ellipsis"
+                    >
                         {challenge.description}
                     </Text>
 
@@ -93,23 +96,43 @@ const ActiveChallengesSection = ({
                             passHref
                         >
                             <a>
-                                {challenge.isSubmitted ? (
+                                {challenge.submissionStatus == 'completed' && (
                                     <Button
                                         className="h-24 w-24 rounded-md border-0 md:w-auto"
                                         variant="transparent"
                                     >
                                         <p className="text-center text-green-400">
-                                            Submission Entered!
+                                            Submission Accepted!
                                         </p>
                                     </Button>
-                                ) : (
+                                )}
+                                {challenge.submissionStatus == 'pending' && (
                                     <Button
-                                        className="h-24 w-24 rounded-full border-2"
+                                        className="h-24 w-24 rounded-md border-0 md:w-auto"
                                         variant="transparent"
                                     >
-                                        <MdPlayArrow size={40} />
+                                        <p className="text-center text-pink-400">
+                                            Submission Pending
+                                        </p>
                                     </Button>
                                 )}
+                                {challenge.submissionStatus != 'completed' &&
+                                    challenge.submissionStatus != 'pending' && (
+                                        <div className="flex-col">
+                                            {challenge.submissionStatus ==
+                                                ('invalid' || 'incorrect') && (
+                                                <p className="mx-auto mb-2 text-center text-yellow-400">
+                                                    Try Again!
+                                                </p>
+                                            )}
+                                            <Button
+                                                className="h-24 w-24 rounded-full border-2"
+                                                variant="transparent"
+                                            >
+                                                <MdPlayArrow size={40} />
+                                            </Button>
+                                        </div>
+                                    )}
                             </a>
                         </Link>
                     </div>

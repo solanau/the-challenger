@@ -79,7 +79,7 @@ export interface AuthContextState {
     user: UserPayload;
     credential: Credential;
     isLoggedIn: boolean;
-    signUp(email: string, password: string): Promise<void>;
+    signUp(email: string, password: string): Promise<User>;
     logIn(email: string, password: string): Promise<void>;
     logOut(): Promise<void>;
     link(provider: AuthProvider, method?: 'popup' | 'redirect'): Promise<void>;
@@ -111,7 +111,7 @@ export const AuthContextProvider = ({
         return () => unsubscribe();
     }, []);
 
-    const signUp = async (email: string, password: string) => {
+    const signUp = async (email: string, password: string): Promise<User> => {
         const userCredential = await createUserWithEmailAndPassword(
             auth,
             email,
@@ -120,6 +120,7 @@ export const AuthContextProvider = ({
 
         setCredential(toCredential(userCredential.user));
         setFirebaseUser(userCredential.user);
+        return userCredential.user;
     };
 
     const logIn = async (email: string, password: string) => {

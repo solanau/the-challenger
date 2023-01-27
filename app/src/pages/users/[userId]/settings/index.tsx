@@ -24,11 +24,12 @@ const UserSettingsPage: NextPage = () => {
         setIsLoading(true);
 
         setUser(updateUserFormData)
-            .then(() =>
+            .then(() => {
                 toast('Changes saved!', {
                     type: 'success',
-                }),
-            )
+                });
+                router.push(eventId ? `/events/${eventId}` : '/');
+            })
             .catch(error => {
                 toast(error, {
                     type: 'error',
