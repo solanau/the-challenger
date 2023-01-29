@@ -21,7 +21,7 @@ const ChallengeSettingsPage: NextPage = () => {
             : router.query.challengeId;
 
     const challenge = useChallenge(challengeId);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { isLoggedIn, credential, user } = useAuth();
 
     const handleUpdateChallenge = (
