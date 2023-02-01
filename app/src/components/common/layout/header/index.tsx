@@ -97,14 +97,14 @@ const Header = () => {
                             {!isEventPage && (
                                 <NavElement
                                     label="Events"
-                                    href={`/events`}
+                                    href={`/events/${eventId}/events`}
                                     navigationStarts={() => setIsNavOpen(false)}
                                 />
                             )}
                             <div className="mb-5 h-0.5 w-20 gap-10 bg-zinc-500" />
                             <NavElement
                                 label="Challenges"
-                                href="/challenges"
+                                href={`/events/${eventId}/challenges`}
                                 navigationStarts={() => setIsNavOpen(false)}
                             />
                             <div className="mb-5 h-0.5 w-20 gap-10 bg-zinc-500" />
