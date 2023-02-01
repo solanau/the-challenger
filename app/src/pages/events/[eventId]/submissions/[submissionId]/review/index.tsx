@@ -1,5 +1,4 @@
 import Button from 'components/common/button';
-import Markdown from 'components/common/markdown';
 import Text from 'components/common/text';
 import SubmissionReviewForm from 'components/submission-review-page/submission-review-form';
 import { Formik } from 'formik';
@@ -30,7 +29,6 @@ const SubmissionReviewPage: NextPage = () => {
     const { credential } = useAuth();
     const submission = useSubmission(eventId, submissionId);
     const event = useEvent(eventId);
-
     const handleSendReview = (
         reviewSubmissionPayload: ReviewSubmissionPayload,
     ) => {
@@ -71,37 +69,55 @@ const SubmissionReviewPage: NextPage = () => {
                                 </section>
 
                                 <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-4 md:px-16 lg:px-32 lg:py-4 xl:px-48 xl:py-4">
-                                <div className="mx-auto grid space-x-6 space-y-6 p-6 sm:max-w-7xl sm:items-center">
-                                <Text variant="heading" className="text-red-500 mx-auto grid sm:max-w-7xl sm:items-center">
-                                        {`> Review `}
-                                    </Text>
-                                <Text variant="heading">
-                                        {submission.description}
-                                    </Text>
+                                    <div className="mx-auto grid space-x-6 space-y-6 p-6 sm:max-w-7xl sm:items-center">
+                                        <Text
+                                            variant="heading"
+                                            className="mx-auto grid text-red-500 sm:max-w-7xl sm:items-center"
+                                        >
+                                            {`> Review `}
+                                        </Text>
+                                        <Text variant="heading">
+                                            {submission.description}
+                                        </Text>
 
-                                    <Text variant="paragraph">
-                                        Submission: {submission.id}
-                                    </Text>
-                                    
-                                    <Formik
-                                        initialValues={{
-                                            comments: submission.comments,
-                                            status: submission.status,
-                                            answers: submission.answers.map(
-                                                answer => ({
-                                                    isApproved:
-                                                        answer.isApproved,
-                                                    comments: answer.comments,
-                                                }),
-                                            ),
-                                        }}
-                                        onSubmit={handleSendReview}
-                                    >
-                                        <SubmissionReviewForm
-                                            isLoading={isLoading}
-                                            answers={submission.answers}
-                                        ></SubmissionReviewForm>
-                                    </Formik>
+                                        <Text variant="paragraph">
+                                            Submission: {submission.id}
+                                        </Text>
+
+                                        <Text variant="paragraph">
+                                            Submission description:{' '}
+                                            {submission.description}
+                                        </Text>
+
+                                        <Text variant="paragraph">
+                                            Submission Event Id:{' '}
+                                            {submission.challengeId}
+                                        </Text>
+
+                                        <Text variant="paragraph">
+                                            User Id: {submission.userId}
+                                        </Text>
+
+                                        <Formik
+                                            initialValues={{
+                                                comments: submission.comments,
+                                                status: submission.status,
+                                                answers: submission.answers.map(
+                                                    answer => ({
+                                                        isApproved:
+                                                            answer.isApproved,
+                                                        comments:
+                                                            answer.comments,
+                                                    }),
+                                                ),
+                                            }}
+                                            onSubmit={handleSendReview}
+                                        >
+                                            <SubmissionReviewForm
+                                                isLoading={isLoading}
+                                                answers={submission.answers}
+                                            ></SubmissionReviewForm>
+                                        </Formik>
                                     </div>
                                 </section>
                             </div>
