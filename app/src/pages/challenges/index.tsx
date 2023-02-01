@@ -52,11 +52,10 @@ const ChallengesPage: NextPage = () => {
     return (
         <>
             {!isLoggedIn && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
                     <Text variant="sub-heading">
                         Sign in to access this page.
                     </Text>
-
                     <div className="flex flex-row gap-2">
                         <Link href="/" passHref>
                             <a>
@@ -74,7 +73,7 @@ const ChallengesPage: NextPage = () => {
             )}
 
             {isLoggedIn && user === null && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
                     <Text variant="sub-heading">
                         Only users that have a profile can access this page. In
                         order to set yours, go ahead and{' '}
@@ -89,7 +88,7 @@ const ChallengesPage: NextPage = () => {
             )}
 
             {isLoggedIn && user !== null && !user.isAdmin && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
                     <Text variant="sub-heading">
                         You're not authorized to access this page.
                     </Text>
@@ -98,7 +97,7 @@ const ChallengesPage: NextPage = () => {
 
             {isLoggedIn && user !== null && user.isAdmin && (
                 <>
-                    <div className="flex w-full flex-col gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                    <div className="flex w-full flex-col gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
                         <Text variant="big-heading">Challenges</Text>
 
                         <Text variant="paragraph">
@@ -143,7 +142,7 @@ const ChallengesPage: NextPage = () => {
                         </div>
                     </div>
 
-                    <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                    <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
                         {challenges.map(challenge => (
                             <Card
                                 key={challenge.id}

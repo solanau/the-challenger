@@ -50,7 +50,7 @@ const ChallengesPage: NextPage = () => {
             ></NextSeo>
 
             {challenges.length > 0 ? (
-                <div className="flex flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                <div className="flex flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
                     <div className="mx-auto grid sm:max-w-7xl sm:items-center">
                         <select
                             name="category-list"
