@@ -90,21 +90,33 @@ const Header = () => {
                             {isEventPage && (
                                 <NavElement
                                     label="Leader Board"
-                                    href={`/events/${eventId}/leader-board`}
+                                    href={
+                                        isEventPage
+                                            ? `/events/${eventId}/leader-board`
+                                            : `/events`
+                                    }
                                     navigationStarts={() => setIsNavOpen(false)}
                                 />
                             )}
                             {!isEventPage && (
                                 <NavElement
                                     label="Events"
-                                    href={`/events/${eventId}/events`}
+                                    href={
+                                        isEventPage
+                                            ? `/events/${eventId}/events`
+                                            : `/events`
+                                    }
                                     navigationStarts={() => setIsNavOpen(false)}
                                 />
                             )}
                             <div className="mb-5 h-0.5 w-20 gap-10 bg-zinc-500" />
                             <NavElement
                                 label="Challenges"
-                                href={`/events/${eventId}/challenges`}
+                                href={
+                                    isEventPage
+                                        ? `/events/${eventId}/challenges`
+                                        : `/challenges`
+                                }
                                 navigationStarts={() => setIsNavOpen(false)}
                             />
                             <div className="mb-5 h-0.5 w-20 gap-10 bg-zinc-500" />
