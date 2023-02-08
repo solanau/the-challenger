@@ -114,6 +114,10 @@ export interface UpdateEventPayload {
     };
 }
 
+export interface GetParticipantsPayload {
+    id: string;
+}
+
 export interface CreateChallengePayload {
     id: string;
     title: string;

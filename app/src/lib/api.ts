@@ -142,3 +142,16 @@ export async function updateChallenge(
         throw handleError(error);
     }
 }
+
+export async function getEventParticipants(id: string) {
+    const instance = httpsCallable(functions, 'getEventParticipants');
+
+    try {
+        const result = await instance({ id });
+
+        return result.data;
+    } catch (error) {
+        console.log(`${error.code}: ${error.message}`);
+        throw handleError(error);
+    }
+}
