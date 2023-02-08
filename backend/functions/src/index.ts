@@ -197,3 +197,17 @@ export const updateChallenge = functions.https.onCall(async (data, context) => {
 
     return challenge;
 });
+
+export const getEventParticipants = functions.https.onCall(
+    async (data, context) => {
+        const participants = await eventController.getParticipants(
+            data,
+            context.auth && {
+                id: context.auth.token.uid,
+                email: context.auth.token.email,
+            },
+        );
+
+        return participants;
+    },
+);

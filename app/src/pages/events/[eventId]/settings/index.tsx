@@ -1,10 +1,11 @@
 import Button from 'components/common/button';
+import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
 import EventSettingsForm from 'components/event-settings-page/event-settings-form';
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { useEvent } from 'hooks/use-event';
-import { updateEvent } from 'lib/api';
+import { getEventParticipants, updateEvent } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -24,6 +25,7 @@ const EventSettingsPage: NextPage = () => {
     const event = useEvent(eventId);
     const challenges = useChallenges({ version: 1, isNew: false });
     const [isLoading, setIsLoading] = useState(false);
+    const [isDownloadingCSV, setIsDownloadingCSV] = useState(false);
     const { isLoggedIn, credential, user } = useAuth();
 
     const handleUpdateEvent = (updateEventPayload: UpdateEventPayload) => {
@@ -41,6 +43,19 @@ const EventSettingsPage: NextPage = () => {
                 });
             })
             .finally(() => setIsLoading(false));
+    };
+
+    const handleDownloadParticipantsCSV = () => {
+        setIsDownloadingCSV(true);
+
+        getEventParticipants(eventId)
+            .then(participants => console.log(participants))
+            .catch(error => {
+                toast(error, {
+                    type: 'error',
+                });
+            })
+            .finally(() => setIsDownloadingCSV(false));
     };
 
     return (
@@ -95,12 +110,23 @@ const EventSettingsPage: NextPage = () => {
                     <div className="flex w-full flex-col gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                         <Text variant="big-heading">Event Settings</Text>
 
-                        <Text variant="paragraph">
-                            Customize your event
-                        </Text>
+                        <Text variant="paragraph">Customize your event</Text>
+
+                        <div>
+                            <Button
+                                variant="black"
+                                onClick={() => handleDownloadParticipantsCSV()}
+                                disabled={isDownloadingCSV}
+                            >
+                                {isDownloadingCSV && (
+                                    <Spinner variant="large"></Spinner>
+                                )}
+                                Download Participants .CSV
+                            </Button>
+                        </div>
                     </div>
 
-                    <div className="my-4 mx-auto grid space-x-6 space-y-6 sm:max-w-7xl sm:items-center gap-5 bg-gradient-to-tr px-5 sm:p-8 md:px-16 lg:px-32 lg:py-4 xl:px-48 xl:py-6">
+                    <div className="my-4 mx-auto grid gap-5 space-x-6 space-y-6 bg-gradient-to-tr px-5 sm:max-w-7xl sm:items-center sm:p-8 md:px-16 lg:px-32 lg:py-4 xl:px-48 xl:py-6">
                         {event && (
                             <Formik
                                 initialValues={{

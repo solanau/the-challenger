@@ -4,6 +4,7 @@ import {
     Auth,
     CreateEventPayload,
     EventPayload,
+    GetParticipantsPayload,
     UpdateEventPayload,
 } from '../util/types';
 
@@ -55,6 +56,44 @@ class EventController {
             .update({ ...data, updatedAt: Date.now(), isNew: false });
 
         return event;
+    }
+
+    async getParticipants(payload: GetParticipantsPayload, auth?: Auth) {
+        if (!auth) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to update an event, you have to log in.`,
+            );
+        }
+
+        const user = await db.doc(`users/${auth.id}`).get();
+
+        if (!user.data().isAdmin) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to get the participants data, you have to be an admin.`,
+            );
+        }
+
+        const individualLeaderboardDoc = await db
+            .doc(`events/${payload.id}/leader-boards/individual`)
+            .get();
+        const individualParticipants = await Promise.all(
+            individualLeaderboardDoc
+                .data()
+                .participants.map(({ userId, points }) =>
+                    db
+                        .doc(`users/${userId}`)
+                        .get()
+                        .then(userDoc => ({
+                            fullName: userDoc.data().fullName,
+                            email: userDoc.data().email,
+                            points,
+                        })),
+                ),
+        );
+
+        return individualParticipants;
     }
 }
 
