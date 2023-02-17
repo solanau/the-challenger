@@ -32,7 +32,7 @@ class EventController {
             description: payload.description,
             userId: auth.id,
             version: EVENT_DOCUMENT_VERSION,
-            challenges: challenges.docs.map(doc => doc.id),
+            challenges: [],
             createdAt: Date.now(),
             updatedAt: Date.now(),
             isNew: true,

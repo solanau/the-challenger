@@ -33,7 +33,7 @@ const CreateEventForm = ({ isLoading = false }: CreateEventFormProps) => (
                 htmlFor="event-description"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Description{' '}
+                Short Description{' '}
             </label>
 
             <Field
@@ -42,6 +42,28 @@ const CreateEventForm = ({ isLoading = false }: CreateEventFormProps) => (
                 name="description"
                 className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                 placeholder="Enter a description for the event"
+                required
+                disabled={isLoading}
+                autoComplete="off"
+                maxLength={500}
+                rows={4}
+            />
+        </div>
+
+        <div className="pt-4">
+            <label
+                htmlFor="event-body"
+                className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+            >
+                Body{' '}
+            </label>
+
+            <Field
+                as="textarea"
+                id="event-body"
+                name="body"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                placeholder="Enter the body for the event (You can use markdown)"
                 required
                 disabled={isLoading}
                 autoComplete="off"

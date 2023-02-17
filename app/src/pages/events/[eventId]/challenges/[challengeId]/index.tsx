@@ -162,140 +162,152 @@ const ChallengePage: NextPage = () => {
                             </section>
 
                             <section className="flex w-full flex-col gap-7 p-2 !pb-0 sm:p-8 md:px-16 lg:px-32 lg:py-6 xl:px-48 xl:py-8">
-                            <div className="my-6 mx-auto grid space-y-6 sm:max-w-6xl sm:items-center">
-                                <Markdown>
-                                    {`### Rewards: ${challenge.points} Points 🔥 `}
-                                </Markdown>
+                                <div className="my-6 grid space-y-6 sm:max-w-6xl sm:items-center">
+                                    <Markdown>
+                                        {`### Rewards: ${challenge.points} Points 🔥 `}
+                                    </Markdown>
 
-                                {challenge.timeStatus !== 'pending' && (
-                                    // <Markdown>{challenge.description}</Markdown>
-                                    <Markdown>{challenge.fullDescription}</Markdown>
-                                )}
+                                    {challenge.timeStatus !== 'pending' && (
+                                        // <Markdown>{challenge.description}</Markdown>
+                                        <Markdown>
+                                            {challenge.fullDescription}
+                                        </Markdown>
+                                    )}
 
-                                {challenge.isSubmitted && (
-                                    <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-green-400">
-                                        <p className="mt-4">
-                                            You&apos;ve already submitted this
-                                            challenge!
-                                        </p>
-                                    </div>
-                                )}
+                                    {challenge.isSubmitted && (
+                                        <div className="justify-front flex flex-col gap-2 p-2 pt-4 font-thin text-green-400">
+                                            <p className="mt-4">
+                                                You&apos;ve already submitted
+                                                this challenge!
+                                            </p>
+                                        </div>
+                                    )}
 
-                                {!challenge.isSubmitted &&
-                                    challenge.timeStatus === 'active' &&
-                                    user !== null && (
-                                        <div>
-                                            <Markdown>{`### How to Submit `}</Markdown>
+                                    {!challenge.isSubmitted &&
+                                        challenge.timeStatus === 'active' &&
+                                        user !== null && (
+                                            <div>
+                                                <Markdown>{`### How to Submit `}</Markdown>
 
-                                            <Formik
-                                                initialValues={challenge.fieldsConfig.reduce(
-                                                    (initialValues, field) => ({
-                                                        ...initialValues,
-                                                        [field.name]:
-                                                            getFieldDefaultValueByType(
-                                                                field.type,
-                                                            ),
-                                                    }),
-                                                    {},
-                                                )}
-                                                onSubmit={
-                                                    handleConfirmSubmission
-                                                }
-                                            >
-                                                <CreateSubmissionForm
-                                                    fieldsConfig={
-                                                        challenge.fieldsConfig
+                                                <Formik
+                                                    initialValues={challenge.fieldsConfig.reduce(
+                                                        (
+                                                            initialValues,
+                                                            field,
+                                                        ) => ({
+                                                            ...initialValues,
+                                                            [field.name]:
+                                                                getFieldDefaultValueByType(
+                                                                    field.type,
+                                                                ),
+                                                        }),
+                                                        {},
+                                                    )}
+                                                    onSubmit={
+                                                        handleConfirmSubmission
                                                     }
-                                                ></CreateSubmissionForm>
-                                            </Formik>
-                                        </div>
-                                    )}
-
-                                {!challenge.isSubmitted &&
-                                    challenge.timeStatus === 'active' &&
-                                    user === null && (
-                                        <Text
-                                            variant="paragraph"
-                                            className="mt-4 text-right italic"
-                                        >
-                                            In order to submit a challenge, you
-                                            have to{' '}
-                                            <Link
-                                                passHref
-                                                href={{
-                                                    pathname: `/users/${credential.id}/settings`,
-                                                    query: eventId
-                                                        ? {
-                                                              eventId,
-                                                          }
-                                                        : {},
-                                                }}
-                                            >
-                                                <a className="text-primary underline">
-                                                    set up your profile.
-                                                </a>
-                                            </Link>
-                                        </Text>
-                                    )}
-
-                                <Modal
-                                    title="Confirm submission"
-                                    subTitle="A submission cannot be changed after it's been sent. Make sure to double-check your answers before confirming."
-                                    isOpen={isConfirmModalOpen}
-                                    onClose={() =>
-                                        !isLoading &&
-                                        setIsConfirmModalOpen(false)
-                                    }
-                                >
-                                    <div className="grid p-6 sm:items-center">
-                                        <div className="w-content mb-4 max-h-106 max-w-124 space-y-4 overflow-y-auto pb-2">
-                                            {answers.map((answer, index) => (
-                                                <Card
-                                                    key={index}
-                                                    className="p-4"
                                                 >
-                                                    <Text variant="sub-heading">
-                                                        #{index + 1}{' '}
-                                                        {answer.question}:
-                                                    </Text>
-                                                    {/* TODO:Support Multiple field types */}
-                                                    <Text
-                                                        className="pl-4 pt-4 w-full mx-auto font-normal max-h-256 max-w-124 text-green-200 overflow-y-auto pb-2"
-                                                        variant="sub-paragraph"
-                                                    >
-                                                        {answer.reply}
-                                                    </Text>
-                                                </Card>
-                                            ))}
-                                        </div>
-                                        <div className="flex justify-end gap-2">
-                                            <Button
-                                                variant="black"
-                                                className="sm:px-12"
-                                                onClick={() =>
-                                                    setIsConfirmModalOpen(false)
-                                                }
+                                                    <CreateSubmissionForm
+                                                        fieldsConfig={
+                                                            challenge.fieldsConfig
+                                                        }
+                                                    ></CreateSubmissionForm>
+                                                </Formik>
+                                            </div>
+                                        )}
+
+                                    {!challenge.isSubmitted &&
+                                        challenge.timeStatus === 'active' &&
+                                        user === null && (
+                                            <Text
+                                                variant="paragraph"
+                                                className="mt-4 text-right italic"
                                             >
-                                                Cancel
-                                            </Button>
-                                            <Button
-                                                variant="orange"
-                                                className="sm:px-12"
-                                                onClick={() =>
-                                                    handleCreateSubmission(
-                                                        answers,
-                                                    )
-                                                }
-                                                disabled={isLoading}
-                                            >
-                                                {isLoading && (
-                                                    <Spinner variant="large"></Spinner>
+                                                In order to submit a challenge,
+                                                you have to{' '}
+                                                <Link
+                                                    passHref
+                                                    href={{
+                                                        pathname: `/users/${credential.id}/settings`,
+                                                        query: eventId
+                                                            ? {
+                                                                  eventId,
+                                                              }
+                                                            : {},
+                                                    }}
+                                                >
+                                                    <a className="text-primary underline">
+                                                        set up your profile.
+                                                    </a>
+                                                </Link>
+                                            </Text>
+                                        )}
+
+                                    <Modal
+                                        title="Confirm submission"
+                                        subTitle="A submission cannot be changed after it's been sent. Make sure to double-check your answers before confirming."
+                                        isOpen={isConfirmModalOpen}
+                                        onClose={() =>
+                                            !isLoading &&
+                                            setIsConfirmModalOpen(false)
+                                        }
+                                    >
+                                        <div className="grid p-6 sm:items-center">
+                                            <div className="w-content max-h-106 max-w-124 mb-4 space-y-4 overflow-y-auto pb-2">
+                                                {answers.map(
+                                                    (answer, index) => (
+                                                        <Card
+                                                            key={index}
+                                                            className="p-4"
+                                                        >
+                                                            <Text variant="sub-heading">
+                                                                #{index + 1}{' '}
+                                                                {
+                                                                    answer.question
+                                                                }
+                                                                :
+                                                            </Text>
+                                                            {/* TODO:Support Multiple field types */}
+                                                            <Text
+                                                                className="max-h-256 max-w-124 mx-auto w-full overflow-y-auto pl-4 pt-4 pb-2 font-normal text-green-200"
+                                                                variant="sub-paragraph"
+                                                            >
+                                                                {answer.reply}
+                                                            </Text>
+                                                        </Card>
+                                                    ),
                                                 )}
-                                                Confirm
-                                            </Button>
+                                            </div>
+                                            <div className="flex justify-end gap-2">
+                                                <Button
+                                                    variant="black"
+                                                    className="sm:px-12"
+                                                    onClick={() =>
+                                                        setIsConfirmModalOpen(
+                                                            false,
+                                                        )
+                                                    }
+                                                >
+                                                    Cancel
+                                                </Button>
+                                                <Button
+                                                    variant="orange"
+                                                    className="sm:px-12"
+                                                    onClick={() =>
+                                                        handleCreateSubmission(
+                                                            answers,
+                                                        )
+                                                    }
+                                                    disabled={isLoading}
+                                                >
+                                                    {isLoading && (
+                                                        <Spinner variant="large"></Spinner>
+                                                    )}
+                                                    Confirm
+                                                </Button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Modal>
+                                    </Modal>
                                 </div>
                             </section>
                         </div>

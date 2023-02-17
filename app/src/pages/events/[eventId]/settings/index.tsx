@@ -132,6 +132,7 @@ const EventSettingsPage: NextPage = () => {
                                 initialValues={{
                                     title: event.title,
                                     description: event.description,
+                                    body: event.body,
                                     startDate: event.startDate
                                         ? dateToValue(event.startDate)
                                         : '',

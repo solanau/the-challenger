@@ -2,7 +2,6 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import Button from 'components/common/button';
 
-import Image from 'components/common/image';
 import Text from 'components/common/text';
 import Link from 'next/link';
 import React from 'react';
@@ -85,13 +84,6 @@ const HeroSection = () => {
                     </div>
                 </div>
                 <div className="flex">
-                    <div className="absolute -right-10 top-[-10px] lg:-top-[150px]">
-                        <Image
-                            src="/clouds.png"
-                            alt="solana icon"
-                            width={2000}
-                        />
-                    </div>
                     <div className="absolute top-[450px] -right-[200px] z-20 sm:top-[350px] sm:-right-[100px] md:-right-[400px] md:top-[150px] lg:-top-[150px]">
                         {/* <Image
                             src="/helicopter.png"
