@@ -19,6 +19,8 @@ jobs:
           firebase experiments:enable webframeworks
       - id: project-dependencies-installantion
         name: Installing and building project 📦
+        with:
+          node-version: 16
         run: |
           cd app
           yarn

@@ -127,7 +127,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                 </a>
                                             </Link>
 
-                                            <Link
+                                            {/* <Link
                                                 href={{
                                                     pathname: `/users/${userId}/social`,
                                                     query: eventId
@@ -149,7 +149,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                         }
                                                     />
                                                 </a>
-                                            </Link>
+                                            </Link> */}
 
                                             {isEventPage && user.isAdmin && (
                                                 <Link
