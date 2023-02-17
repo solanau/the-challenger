@@ -46,7 +46,7 @@ const EventSettingsForm = ({
                 htmlFor="event-description"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Description{' '}
+                Short Description{' '}
             </label>
 
             <Field
@@ -65,10 +65,32 @@ const EventSettingsForm = ({
 
         <div className="pt-4">
             <label
+                htmlFor="challenge-body"
+                className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+            >
+                Body{' '}
+            </label>
+
+            <Field
+                as="textarea"
+                id="challenge-body"
+                name="body"
+                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                placeholder="Enter the body for the event (You can use markdown)"
+                required
+                disabled={isLoading}
+                autoComplete="off"
+                maxLength={8000}
+                rows={8}
+            />
+        </div>
+
+        <div className="pt-4">
+            <label
                 htmlFor="event-reviewers"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Reviewers{' '} (comma, separated list)
+                Reviewers (comma, separated list)
             </label>
 
             <Field
@@ -88,7 +110,7 @@ const EventSettingsForm = ({
                 htmlFor="event-managers"
                 className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
             >
-                Managers{' '} (comma, separated list)
+                Managers (comma, separated list)
             </label>
 
             <Field
@@ -146,7 +168,7 @@ const EventSettingsForm = ({
                 Challenges
             </Text>
 
-            <div className="flex max-h-256 flex-col gap-5 px-2 py-4 overflow-y-auto">
+            <div className="max-h-256 flex flex-col gap-5 overflow-y-auto px-2 py-4">
                 {challenges.map(challenge => (
                     <label key={challenge.id}>
                         <Card className="flex gap-8 p-8">

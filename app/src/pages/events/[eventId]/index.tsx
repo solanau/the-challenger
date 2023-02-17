@@ -16,7 +16,7 @@ const EventPage: NextPage = () => {
             <HeroSection
                 eventId={eventId}
                 title={event?.title ?? ''}
-                description={event?.description ?? ''}
+                body={event?.body ?? ''}
             />
         </>
     );

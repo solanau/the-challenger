@@ -129,6 +129,7 @@ const EventsPage: NextPage = () => {
                                     initialValues={{
                                         title: '',
                                         description: '',
+                                        body: '',
                                     }}
                                     onSubmit={handleCreateEvent}
                                 >
