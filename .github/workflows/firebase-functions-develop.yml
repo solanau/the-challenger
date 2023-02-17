@@ -11,7 +11,7 @@ jobs:
       - id: config-repo
         name: Pre config - 🧰 Checkout repository
         uses: actions/checkout@v3
-      - id: config-repo
+      - id: config-node
         name: Pre config - 🧰 Set up node 16
         uses: actions/setup-node@v3
         with:
