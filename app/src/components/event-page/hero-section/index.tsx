@@ -89,14 +89,14 @@ const HeroSection = ({ eventId, title, body }: HeroSectionProps) => {
                         </Link>
                         <Link
                             href={{
-                                pathname: `${eventId}/leader-board`,
+                                pathname: `${eventId}/challenges`,
                             }}
                             passHref
                         >
                             <a className="flex-1 sm:flex-none">
                                 <Button
                                     icon={TbTrophy}
-                                    text={'View Leaderboard'}
+                                    text={'View Challenges'}
                                     variant="transparent"
                                     className="!w-full bg-zinc-700"
                                 ></Button>
