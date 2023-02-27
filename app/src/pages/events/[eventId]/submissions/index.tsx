@@ -81,6 +81,12 @@ const SubmissionsPage: NextPage = () => {
                                         Completed
                                     </option>
                                 </select>
+                                <div className="mt-2">
+                                    <p>
+                                        Submissions:{' '}
+                                        {filteredSubmissions.length}
+                                    </p>
+                                </div>
                             </div>
 
                             {filteredSubmissions.length > 0 ? (

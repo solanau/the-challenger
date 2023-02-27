@@ -95,6 +95,11 @@ const SubmissionReviewPage: NextPage = () => {
                                         </Text>
 
                                         <Text variant="paragraph">
+                                            Submission Date:{' '}
+                                            {submission.createdAt}
+                                        </Text>
+
+                                        <Text variant="paragraph">
                                             User Id: {submission.userId}
                                         </Text>
 
