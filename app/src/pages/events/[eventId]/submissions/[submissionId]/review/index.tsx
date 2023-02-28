@@ -31,7 +31,7 @@ const SubmissionReviewPage: NextPage = () => {
     const submission = useSubmission(eventId, submissionId);
     const event = useEvent(eventId);
     console.log('LA SUBMISSIONS', submission);
-    const username = useUserByUserId(submission);
+    const user = useUserByUserId(submission);
     const handleSendReview = (
         reviewSubmissionPayload: ReviewSubmissionPayload,
     ) => {
@@ -127,7 +127,15 @@ const SubmissionReviewPage: NextPage = () => {
                                         </Text>
 
                                         <Text variant="paragraph">
-                                            User Id: {username}
+                                            User Id:{' '}
+                                            <Link href={`/${user?.userName}`}>
+                                                <a
+                                                    className="text-sky-600"
+                                                    target="_blank"
+                                                >
+                                                    {user?.userName}
+                                                </a>
+                                            </Link>
                                         </Text>
 
                                         <Formik

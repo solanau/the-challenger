@@ -1,4 +1,10 @@
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import {
+    collection,
+    documentId,
+    onSnapshot,
+    query,
+    where,
+} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { SubmissionPayload } from 'types/submission';
 import { UserPayload } from 'types/user';
@@ -10,7 +16,6 @@ export const useUserByUserId = (
     const [user, setUser] = useState<UserPayload>(null);
 
     useEffect(() => {
-        console.log('ENTER HERE', submission);
         if (submission === null) {
             setUser(null);
             return;
@@ -19,7 +24,7 @@ export const useUserByUserId = (
         const unsubscribe = onSnapshot(
             query(
                 collection(firestore, 'users'),
-                where('Document ID', '==', submission.userId),
+                where(documentId(), '==', submission.userId),
             ),
             querySnapshot => {
                 if (querySnapshot.empty) {
@@ -35,6 +40,6 @@ export const useUserByUserId = (
 
         return () => unsubscribe();
     }, [submission]);
-
+    console.log('This is the user...', user);
     return user;
 };
