@@ -4,6 +4,7 @@ import SubmissionReviewForm from 'components/submission-review-page/submission-r
 import { Formik } from 'formik';
 import { useEvent } from 'hooks/use-event';
 import { useSubmission } from 'hooks/use-submission';
+import { useUserByUserId } from 'hooks/use-user-by-user-id';
 import { reviewSubmission } from 'lib/api';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
@@ -29,6 +30,8 @@ const SubmissionReviewPage: NextPage = () => {
     const { credential } = useAuth();
     const submission = useSubmission(eventId, submissionId);
     const event = useEvent(eventId);
+    console.log('LA SUBMISSIONS', submission);
+    const username = useUserByUserId(submission);
     const handleSendReview = (
         reviewSubmissionPayload: ReviewSubmissionPayload,
     ) => {
@@ -90,17 +93,41 @@ const SubmissionReviewPage: NextPage = () => {
                                         </Text>
 
                                         <Text variant="paragraph">
-                                            Submission Event Id:{' '}
-                                            {submission.challengeId}
+                                            Event Id:{' '}
+                                            <Link
+                                                href={`/events/${submission.eventId}`}
+                                            >
+                                                <a
+                                                    className="text-sky-600"
+                                                    target="_blank"
+                                                >
+                                                    {submission.eventId}
+                                                </a>
+                                            </Link>
+                                        </Text>
+                                        <Text variant="paragraph">
+                                            Challenge Id:{' '}
+                                            <Link
+                                                href={`/events/${submission.eventId}/challenges/${submission.challengeId}`}
+                                            >
+                                                <a
+                                                    className="text-sky-600"
+                                                    target="_blank"
+                                                >
+                                                    {submission.challengeId}
+                                                </a>
+                                            </Link>
                                         </Text>
 
                                         <Text variant="paragraph">
                                             Submission Date:{' '}
-                                            {submission.createdAt}
+                                            {new Date(
+                                                submission.createdAt,
+                                            ).toString()}
                                         </Text>
 
                                         <Text variant="paragraph">
-                                            User Id: {submission.userId}
+                                            User Id: {username}
                                         </Text>
 
                                         <Formik
