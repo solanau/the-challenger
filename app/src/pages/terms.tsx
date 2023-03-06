@@ -10,7 +10,7 @@ const TermsPage: NextPage = () => (
 
 Welcome to Solana Bounty!
 
-These terms and conditions outline the rules and regulations for the use of HeavyDuty's Website, located at https://university.heavyduty.builders/.
+These terms and conditions outline the rules and regulations for the use of HeavyDuty's Website, located at https://challenger.heavyduty.builders/.
 
 By accessing this website we assume you accept these terms and conditions. Do not continue to use Solana Bounty if you do not agree to take all of the terms and conditions stated on this page.
 
