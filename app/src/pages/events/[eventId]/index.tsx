@@ -1,6 +1,7 @@
 import HeroSection from 'components/event-page/hero-section';
 import { useEvent } from 'hooks/use-event';
 import { NextPage } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 const EventPage: NextPage = () => {
@@ -13,6 +14,9 @@ const EventPage: NextPage = () => {
 
     return (
         <>
+            <Head>
+                <title>{event?.title ?? ''} - The Challenger</title>
+            </Head>
             <HeroSection
                 eventId={eventId}
                 title={event?.title ?? ''}

@@ -45,8 +45,8 @@ const ChallengesPage: NextPage = () => {
     return (
         <>
             <NextSeo
-                title="Solana Bounty Challenges"
-                description="Complete the Solana challenges to collect Solana rewards!"
+                title="Challenges"
+                description="Complete the challenges to collect rewards!"
             ></NextSeo>
 
             {challenges.length > 0 ? (
