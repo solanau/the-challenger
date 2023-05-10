@@ -96,6 +96,7 @@ const LoginPage: NextPage = () => {
         signInWithPopup(auth, authProvider)
             .then(() => router.push(eventId ? `/events/${eventId}` : '/'))
             .catch(error => {
+                console.log(error); 
                 if (
                     error.code ===
                     'auth/account-exists-with-different-credential'
