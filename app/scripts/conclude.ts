@@ -1,4 +1,4 @@
-import { fetchAllSubmissions, fetchChallengesForEvent, issueAllRewardsForChallenge } from "../src/lib/api";
+import { fetchAllSubmissions, issueAllRewardsForChallenge } from "../src/lib/api";
 import { getIssuesPagingUpgrade } from "../src/lib/github";
 import { getChallengeIdAndCompletionStatusForIssue } from "../src/utils/challenge";
 
@@ -16,7 +16,7 @@ require('dotenv').config();
 
 async function main() {
 
-    console.log("Issuing rewards...");
+    console.log("Issuing rewards...") ;
 
     const allSubmissionsFromDb = new Map((await fetchAllSubmissions()).map((i) => [i.issueId, i]));
 
