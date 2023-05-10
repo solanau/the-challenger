@@ -151,6 +151,12 @@ const ChallengeSettingsForm = ({
                     <option value="NFT" className="bg-zinc-700">
                         NFT
                     </option>
+                    <option value="Security" className="bg-zinc-700">
+                        Security
+                    </option>
+                    <option value="Tokenomics" className="bg-zinc-700">
+                        Tokenomics
+                    </option>
                 </Field>
             </div>
 

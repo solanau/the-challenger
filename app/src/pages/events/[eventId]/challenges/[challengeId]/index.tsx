@@ -91,9 +91,9 @@ const ChallengePage: NextPage = () => {
                         title={challenge.title}
                         description={challenge.description}
                         twitter={{
-                            site: '@HeavyDutyBuild',
+                            site: '@SolanaUni',
                             cardType: 'summary_large_image',
-                            handle: '@HeavyDutyBuild',
+                            handle: '@SolanaUni',
                         }}
                         openGraph={{
                             site_name: 'Solana Bounty Program',

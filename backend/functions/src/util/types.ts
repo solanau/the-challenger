@@ -15,7 +15,9 @@ export type ChallengeCategory =
     | 'Staking'
     | 'Client'
     | 'SDK'
-    | 'Feedback';
+    | 'Feedback'
+    | 'Security'
+    | 'Tokenomics';
 
 export interface BaseFieldConfig {
     name: string;

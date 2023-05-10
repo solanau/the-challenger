@@ -24,7 +24,9 @@ export type ChallengeCategory =
     | 'Client'
     | 'SDK'
     | 'Pay'
-    | 'Feedback';
+    | 'Feedback'
+    | 'Security'
+    | 'Tokenomics';
 
 export interface BaseChallenge {
     id: string;

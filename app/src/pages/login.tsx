@@ -263,7 +263,7 @@ const LoginPage: NextPage = () => {
                             Login with GitHub
                         </Button>
 
-                        <Button
+                        {/* <Button
                             icon={TbBrandTwitter}
                             variant="orange"
                             className="w-full md:w-auto"
@@ -289,7 +289,7 @@ const LoginPage: NextPage = () => {
                             }
                         >
                             Login with Facebook
-                        </Button>
+                        </Button> */}
                     </div>
                 </div>
             </section>
