@@ -61,7 +61,7 @@ const Footer = () => (
                         src="/solanau.png"
                         alt="SolanaU Logo "
                         width={200}
-                        height={150}
+                        height={40}
                     />
                 </a>
             </div>
