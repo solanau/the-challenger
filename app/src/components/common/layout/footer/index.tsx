@@ -53,15 +53,15 @@ const Footer = () => (
             </Text> */}
             <div>
                 <a
-                    href="https://twitter.com/HeavyDutyBuild"
+                    href="https://twitter.com/solanauni"
                     target="_blank"
                     rel="noreferrer"
                 >
                     <Image
-                        src="/heavy.png"
-                        alt="Heavy Duty Builder "
+                        src="/solanau.png"
+                        alt="SolanaU Logo "
                         width={200}
-                        height={150}
+                        height={40}
                     />
                 </a>
             </div>
