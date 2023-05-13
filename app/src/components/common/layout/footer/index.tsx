@@ -53,7 +53,7 @@ const Footer = () => (
             </Text> */}
             <div>
                 <a
-                    href="https://twitter.com/solanau"
+                    href="https://twitter.com/solanauni"
                     target="_blank"
                     rel="noreferrer"
                 >
