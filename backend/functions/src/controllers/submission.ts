@@ -3,12 +3,12 @@ import { db } from '..';
 import {
     Auth,
     CreateSubmissionPayload,
-    SubmissionStatus,
-    UpdateSubmissionStatusPayload,
+    ReviewSubmissionPayload,
+    SubmissionPayload,
 } from '../util/types';
 import { getTimeBonusPoints } from '../util/util';
 
-const submissionCollection = 'submissions';
+const SUBMISSION_DOCUMENT_VERSION = 1;
 
 export const isDuplicateSubmission = async (
     eventId: string,
@@ -16,7 +16,7 @@ export const isDuplicateSubmission = async (
     challengeId: string,
 ) => {
     const pastSubmissions = await db
-        .collection(submissionCollection)
+        .collection('submissions')
         .where('userId', '==', userId)
         .where('eventId', '==', eventId)
         .where('challenge.id', '==', challengeId)
@@ -51,28 +51,36 @@ class SubmissionController {
             .doc(`challenges/${payload.challengeId}`)
             .get();
         const challengeData = challenge.data();
+        const event = await db.doc(`events/${payload.eventId}`).get();
+        const eventData = event.data();
         const submittedAt = Date.now();
         const submissionTimeBonusPoints = getTimeBonusPoints(
-            challengeData.rewardValue,
-            challengeData.startDate,
-            challengeData.endDate,
+            challengeData.points,
+            eventData.startDate,
+            eventData.endDate,
             submittedAt,
         );
-        const submission = {
+        const submission: SubmissionPayload = {
             status: 'pending',
             userId: auth.id,
-            challenge: {
-                id: challenge.id,
-                ...challengeData,
-            },
+            title: challengeData.title,
+            description: challengeData.description,
             challengeId: payload.challengeId,
             eventId: payload.eventId,
-            answers: payload.answers,
+            answers: payload.answers.map(answer => ({
+                ...answer,
+                isApproved: false,
+                comments: '',
+            })),
             isProcessed: false,
             createdAt: submittedAt,
-            basePoints: challengeData.rewardValue,
+            updatedAt: Date.now(),
+            isNew: true,
+            version: SUBMISSION_DOCUMENT_VERSION,
+            basePoints: challengeData.points,
             timeBonusPoints: submissionTimeBonusPoints,
-            totalPoints: challengeData.rewardValue + submissionTimeBonusPoints,
+            totalPoints: challengeData.points + submissionTimeBonusPoints,
+            comments: '',
         };
 
         await db
@@ -82,39 +90,32 @@ class SubmissionController {
         return { id: payload.id, ...submission };
     }
 
-    async updateSubmissionStatus(
-        auth: Auth,
-        payload: UpdateSubmissionStatusPayload,
-    ) {
+    async reviewSubmission(auth: Auth, payload: ReviewSubmissionPayload) {
         if (!(await isReviewer(payload.eventId, auth.id))) {
             throw new functions.https.HttpsError(
                 'permission-denied',
-                `In order to change a submission's status, you have to be a reviewer.`,
+                `In order to review a submission, you have to be a reviewer.`,
             );
         }
 
-        const result = await db.runTransaction(async transaction => {
+        await db.runTransaction(async transaction => {
             const submissionRef = db.doc(
                 `events/${payload.eventId}/submissions/${payload.id}`,
             );
-            const currentSubmission = await submissionRef.get();
-            const currentSubmissionData = currentSubmission.data();
+            const submission = await submissionRef.get();
+            const submissionData = submission.data() as SubmissionPayload;
 
             transaction.update(submissionRef, {
+                comments: payload.comments,
                 status: payload.status,
+                answers: submissionData.answers.map((answer, index) => ({
+                    ...answer,
+                    ...payload.answers[index],
+                })),
+                updatedAt: Date.now(),
+                isNew: false,
             });
-
-            return {
-                id: payload.id,
-                eventId: currentSubmissionData.eventId,
-                oldStatus: currentSubmissionData.status as SubmissionStatus,
-                newStatus: payload.status,
-                rewardValue: currentSubmissionData.challenge
-                    .rewardValue as number,
-            };
         });
-
-        return result;
     }
 }
 

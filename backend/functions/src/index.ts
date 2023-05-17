@@ -1,9 +1,10 @@
-import { PubSub } from '@google-cloud/pubsub';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { controller as challengeController } from './controllers/challenge';
+import { controller as eventController } from './controllers/event';
 import { controller as leaderBoardController } from './controllers/leader-board';
 import { controller as submissionController } from './controllers/submission';
 import { controller as userController } from './controllers/user';
@@ -16,7 +17,6 @@ const rewardRoute = require('./controllers/reward');
 const mintRoute = require('./controllers/mint');
 
 admin.initializeApp(functions.config().firebase);
-const pubsub = new PubSub();
 
 const app = express();
 app.use(bodyParser.json());
@@ -113,9 +113,9 @@ export const createSubmission = functions.https.onCall(
     },
 );
 
-export const updateSubmissionStatus = functions.https.onCall(
+export const reviewSubmission = functions.https.onCall(
     async (data, context) => {
-        await submissionController.updateSubmissionStatus(
+        await submissionController.reviewSubmission(
             {
                 id: context.auth.token.uid,
                 email: context.auth.token.email,
@@ -123,7 +123,7 @@ export const updateSubmissionStatus = functions.https.onCall(
             data,
         );
 
-        return { message: 'Submission status updated.' };
+        return { message: 'Submission reviewed.' };
     },
 );
 
@@ -149,3 +149,65 @@ export const setUser = functions.https.onCall(async (data, context) => {
 
     return user;
 });
+
+export const createEvent = functions.https.onCall(async (data, context) => {
+    const event = await eventController.createEvent(
+        data,
+        context.auth && {
+            id: context.auth.token.uid,
+            email: context.auth.token.email,
+        },
+    );
+
+    return event;
+});
+
+export const updateEvent = functions.https.onCall(async (data, context) => {
+    const event = await eventController.updateEvent(
+        data,
+        context.auth && {
+            id: context.auth.token.uid,
+            email: context.auth.token.email,
+        },
+    );
+
+    return event;
+});
+
+export const createChallenge = functions.https.onCall(async (data, context) => {
+    const challenge = await challengeController.createChallenge(
+        data,
+        context.auth && {
+            id: context.auth.token.uid,
+            email: context.auth.token.email,
+        },
+    );
+
+    return challenge;
+});
+
+export const updateChallenge = functions.https.onCall(async (data, context) => {
+    const challenge = await challengeController.updateChallenge(
+        data,
+        context.auth && {
+            id: context.auth.token.uid,
+            email: context.auth.token.email,
+        },
+    );
+
+    return challenge;
+});
+
+export const getEventParticipants = functions.https.onCall(
+    async (data, context) => {
+        const participants = await eventController.getParticipants(
+            data,
+            context.auth && {
+                id: context.auth.token.uid,
+                email: context.auth.token.email,
+            },
+        );
+
+        return participants;
+    },
+);

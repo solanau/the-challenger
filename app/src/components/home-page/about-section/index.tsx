@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import Card from 'components/common/card';
-import { MdOutlineTipsAndUpdates } from 'react-icons/md';
 import NavElement from 'components/common/layout/header/nav-element';
 import Text from 'components/common/text';
-import { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
+import { MdOutlineTipsAndUpdates } from 'react-icons/md';
 
 const AboutSection = () => {
     const tabs = useMemo(
@@ -59,7 +59,7 @@ const AboutSection = () => {
                             {' '}
                             I am a...{' '}
                         </Text>
-                        <div className="flex h-12 w-full flex-row justify-center gap-8 border-b-1.5 border-b-line">
+                        <div className="min-h-12 flex w-full flex-row justify-center gap-8 border-b-1.5 border-b-line">
                             {tabs.map((tab, index) => (
                                 <NavElement
                                     as={index === 0 && `/`}

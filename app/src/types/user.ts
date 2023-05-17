@@ -7,4 +7,11 @@ export type UserPayload = {
     avatarUrl?: string;
     closedBountiesCount?: number;
     level?: number;
+    isAdmin: boolean;
 };
+
+export interface UpdateUserFormData {
+    fullName: string;
+    userName: string;
+    walletPublicKey: string;
+}

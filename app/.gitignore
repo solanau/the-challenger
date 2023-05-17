@@ -30,7 +30,11 @@ yarn-error.log*
 .env
 .env.development
 .env.production
-
+.env.prod
+.env.*
 
 # Firebase
 /.firebase/
+
+# Vercel
+.vercel

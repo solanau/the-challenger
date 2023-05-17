@@ -1,18 +1,20 @@
+export type FieldType = 'text' | 'textArea' | 'number' | 'email';
+
 export interface BaseFieldConfig {
-    field: string;
+    name: string;
     label: string;
-    key: string;
     placeholder: string;
-    maxLength?: number;
 }
 
 export type TextFieldConfig = BaseFieldConfig & {
     type: 'text';
+    maxLength?: number;
 };
 
 export type TextAreaFieldConfig = BaseFieldConfig & {
     type: 'textArea';
     rows?: number;
+    maxLength?: number;
 };
 
 export type NumberFieldConfig = BaseFieldConfig & {

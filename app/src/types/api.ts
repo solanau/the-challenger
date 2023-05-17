@@ -1,56 +1,3 @@
-import { ChallengeType } from './challenge';
-import { FieldConfig } from './form';
-import { SubmissionAnswerPayload, SubmissionStatus } from './submission';
-
-export interface EventPayload {
-    pubkey: string;
-    authority: string;
-    title: string;
-    description: string;
-    location: string;
-    host: string;
-    date: string;
-}
-
-export interface ChallengePayload {
-    uid?: string;
-    eventId?: string;
-    id: string;
-    pubkey: string;
-    eventPubkey: string;
-    key: number;
-    iconKey: number;
-    iconSize: number;
-    title: string;
-    type: ChallengeType;
-    difficulty: string;
-    description: string;
-    shortDescription: string;
-    githubUrl: string;
-    authorName?: string;
-    authorGithub?: string;
-    authorTwitter?: string;
-    rewardValue: number;
-    rewardType: string;
-    nftBadge?: boolean;
-    authorWebsite?: string;
-    authorLogo?: string;
-    sponsorALink?: string;
-    sponsorALogo?: string;
-    sponsorBLink?: string;
-    sponsorBLogo?: string;
-    mint?: string;
-    name?: string;
-    owner?: string;
-    state?: 'open' | 'closed';
-    tags?: { value: string }[];
-    rank?: number;
-    formComponents: FieldConfig[];
-    createdAt: string;
-    startDate: string;
-    endDate: string;
-}
-
 export interface PrizePayload {
     pubkey: string;
     challengePubkey: string;
@@ -60,10 +7,15 @@ export interface PrizePayload {
     quantity: number;
 }
 
+export interface CreateSubmissionAnswerPayload {
+    question: string;
+    reply: string;
+    field: string;
+}
+
 export interface CreateSubmissionPayload {
-    id: string;
     challengeId: string;
-    answers: SubmissionAnswerPayload[];
+    answers: CreateSubmissionAnswerPayload[];
     eventId: string;
 }
 
@@ -103,12 +55,15 @@ export interface SetUserPayload {
     walletPublicKey: string;
 }
 
-export type UpdateSubmissionStatusPayload = {
-    eventId: string;
-    id: string;
-    status: SubmissionStatus;
-};
-
 export type UpdateLeaderBoardPayload = {
     eventId: string;
 };
+
+export enum AuthProviderType {
+    githubProvider = 'github',
+    facebookProvider = 'facebook',
+    twitterProvider = 'twitter',
+    emailProvider = 'email',
+}
+
+// export type AuthProviderType = 'github' | 'facebook' | 'twitter' | 'email';

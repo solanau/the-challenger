@@ -1,140 +1,100 @@
-import { PublicKey } from '@solana/web3.js';
-import { createEvent, updateEvent } from 'prestige-protocol';
+import * as functions from 'firebase-functions';
 import { db } from '..';
 import {
-    connection,
-    MASTER_API_KEY,
-    PRESTIGE_PROGRAM_ID,
-    WALLET,
-} from '../util/const';
-import { EventPayload } from '../util/types';
-import {
-    DatabaseError,
-    MasterApiKeyError,
-    PayloadError,
-    PrestigeError,
-} from '../util/util';
+    Auth,
+    CreateEventPayload,
+    EventPayload,
+    GetParticipantsPayload,
+    UpdateEventPayload,
+} from '../util/types';
 
-const objectType = 'Event';
-const eventCollection = 'events';
+const EVENT_DOCUMENT_VERSION = 1;
 
-exports.fetchEventsForAuthority = async (req, res) => {
-    try {
-        const eventQuerySnapshot = await db.collection(eventCollection).get();
-        const events: EventPayload[] = [];
-        eventQuerySnapshot.forEach(async doc => {
-            const data: any = doc.data();
-            if (data.authority === req.params.authority) {
-                events.push(data);
-            }
-        });
-        res.status(200).json(events);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
-    }
-};
-
-exports.createNewEvent = async (req, res) => {
-    if (req.params.masterApiKey != MASTER_API_KEY) {
-        console.error(MasterApiKeyError());
-        res.status(400).send(MasterApiKeyError());
-    } else {
-        let rawEvent: Omit<EventPayload, 'pubkey'>;
-        let eventPubkey: PublicKey;
-        try {
-            rawEvent = {
-                authority: req.body['authority'],
-                title: req.body['title'],
-                description: req.body['description'],
-                location: req.body['location'],
-                host: req.body['host'],
-                date: req.body['date'],
-            };
-        } catch (error) {
-            console.log(error);
-            res.status(400).send(PayloadError());
-        }
-        try {
-            eventPubkey = (
-                await createEvent(
-                    connection,
-                    WALLET,
-                    PRESTIGE_PROGRAM_ID,
-                    rawEvent.title,
-                    rawEvent.description,
-                    rawEvent.location,
-                    rawEvent.host,
-                    rawEvent.date,
-                )
-            )[0];
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(PrestigeError(objectType));
-        }
-        try {
-            const event: EventPayload = {
-                pubkey: eventPubkey.toBase58(),
-                ...rawEvent,
-            };
-            const newDoc = await db.collection(eventCollection).add(event);
-            res.status(201).send({
-                pubkey: eventPubkey.toBase58(),
-                firebaseEventId: newDoc.id,
-            });
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(DatabaseError(objectType));
-        }
-    }
-};
-
-exports.updateEvent = async (req, res) => {
-    if (req.params.masterApiKey != MASTER_API_KEY) {
-        console.error(MasterApiKeyError());
-        res.status(400).send(MasterApiKeyError());
-    } else {
-        let rawEvent: EventPayload;
-        try {
-            rawEvent = {
-                pubkey: req.body['pubkey'],
-                authority: req.body['authority'],
-                title: req.body['title'],
-                description: req.body['description'],
-                location: req.body['location'],
-                host: req.body['host'],
-                date: req.body['date'],
-            };
-        } catch (error) {
-            console.log(error);
-            res.status(400).send(PayloadError());
-        }
-        try {
-            await updateEvent(
-                connection,
-                WALLET,
-                PRESTIGE_PROGRAM_ID,
-                new PublicKey(rawEvent.pubkey),
-                rawEvent.title,
-                rawEvent.description,
-                rawEvent.location,
-                rawEvent.host,
-                rawEvent.date,
+class EventController {
+    async createEvent(payload: CreateEventPayload, auth?: Auth) {
+        if (!auth) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to create an event, you have to log in.`,
             );
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(PrestigeError(objectType));
         }
-        try {
-            const event: EventPayload = { ...rawEvent };
-            const newDoc = await db
-                .collection(eventCollection)
-                .doc(req.params.id)
-                .set(event);
-            res.status(201).send(`Updated event: ${event.pubkey}`);
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(DatabaseError(objectType));
-        }
+
+        /* 
+            We're adding all challenges by default.
+        */
+        const challenges = await db
+            .collection('challenges')
+            .where('version', '==', 1)
+            .where('isNew', '==', false)
+            .get();
+        const eventData: EventPayload = {
+            title: payload.title,
+            description: payload.description,
+            userId: auth.id,
+            version: EVENT_DOCUMENT_VERSION,
+            challenges: [],
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            isNew: true,
+        };
+
+        const event = await db.doc(`events/${payload.id}`).set(eventData);
+
+        return event;
     }
-};
+
+    async updateEvent({ id, data }: UpdateEventPayload, auth?: Auth) {
+        if (!auth) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to update an event, you have to log in.`,
+            );
+        }
+
+        const event = await db
+            .doc(`events/${id}`)
+            .update({ ...data, updatedAt: Date.now(), isNew: false });
+
+        return event;
+    }
+
+    async getParticipants(payload: GetParticipantsPayload, auth?: Auth) {
+        if (!auth) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to update an event, you have to log in.`,
+            );
+        }
+
+        const user = await db.doc(`users/${auth.id}`).get();
+
+        if (!user.data().isAdmin) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `In order to get the participants data, you have to be an admin.`,
+            );
+        }
+
+        const individualLeaderboardDoc = await db
+            .doc(`events/${payload.id}/leader-boards/individual`)
+            .get();
+        const individualParticipants = await Promise.all(
+            individualLeaderboardDoc
+                .data()
+                .participants.map(({ userId, points }) =>
+                    db
+                        .doc(`users/${userId}`)
+                        .get()
+                        .then(userDoc => ({
+                            fullName: userDoc.data().fullName,
+                            email: userDoc.data().email,
+                            points,
+                        })),
+                ),
+        );
+
+        return individualParticipants;
+    }
+}
+
+export const controller = new EventController();

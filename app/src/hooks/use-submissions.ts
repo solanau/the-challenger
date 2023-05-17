@@ -10,24 +10,21 @@ export type SubmissionFilters = Partial<{
 
 export const useSubmissions = (
     eventId: string,
-    filters: SubmissionFilters | null,
+    filters?: SubmissionFilters,
 ): SubmissionPayload[] => {
     const [submissions, setSubmissions] = useState<SubmissionPayload[]>([]);
+    const challengeId = filters?.challengeId;
+    const userId = filters?.userId;
 
     useEffect(() => {
-        if (filters === null) {
-            setSubmissions([]);
-            return;
-        }
-
         const whereFilters = [];
 
-        if (filters.challengeId) {
-            whereFilters.push(where('challengeId', '==', filters.challengeId));
+        if (challengeId) {
+            whereFilters.push(where('challengeId', '==', challengeId));
         }
 
-        if (filters.userId) {
-            whereFilters.push(where('userId', '==', filters.userId));
+        if (userId) {
+            whereFilters.push(where('userId', '==', userId));
         }
 
         const unsubscribe = onSnapshot(
@@ -53,7 +50,7 @@ export const useSubmissions = (
         );
 
         return () => unsubscribe();
-    }, [eventId, filters?.challengeId, filters?.userId]);
+    }, [eventId, challengeId, userId]);
 
     return submissions;
 };

@@ -14,7 +14,7 @@ type MarkdownProps = {
 const Markdown = ({ as = 'div', children }: MarkdownProps) =>
     createElement(
         as,
-        { className: 'prose w-full' },
+        { className: 'md prose w-full' },
         <ReactMarkdown rehypePlugins={[rehypeRaw]}>{children}</ReactMarkdown>,
     );
 

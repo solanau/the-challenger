@@ -1,8 +1,8 @@
-import { useCurrentUser } from 'hooks/use-current-user';
 import { useLeaderBoard } from 'hooks/use-leader-board';
 import Link from 'next/link';
 import { useAuth } from 'providers/AuthProvider';
 import { useMemo, useRef, useState } from 'react';
+import { FaGlobe, FaTwitter } from 'react-icons/fa';
 import {
     MdLogin,
     MdLogout,
@@ -13,19 +13,22 @@ import Button from '../button';
 import Card from '../card';
 import Text from '../text';
 
-const OverflowMenu = () => {
+interface OverflowMenuProps {
+    eventId?: string;
+    isEventPage?: boolean;
+}
+
+const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
     const buttonRef = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
-    const {
-        user: { uid },
-        logOut,
-    } = useAuth();
-    const user = useCurrentUser();
-    const leaderBoard = useLeaderBoard(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-        'individual',
-    );
+    const { credential, user, logOut } = useAuth();
+    const userId = credential?.id ?? null;
+    const leaderBoard = useLeaderBoard(eventId, 'individual');
     const rank = useMemo(() => {
+        if (leaderBoard === null) {
+            return null;
+        }
+
         const participantIndex = leaderBoard?.participants.findIndex(
             participant => participant.userId === user?.id,
         );
@@ -35,7 +38,7 @@ const OverflowMenu = () => {
         }
 
         return participantIndex + 1;
-    }, [user?.id, leaderBoard?.participants]);
+    }, [user?.id, leaderBoard]);
     const totalPoints = useMemo(() => {
         const participantIndex = leaderBoard?.participants.findIndex(
             participant => participant.userId === user?.id,
@@ -71,27 +74,44 @@ const OverflowMenu = () => {
                                             >
                                                 {user.fullName}
                                             </Text>
-                                            <Text
-                                                variant="label"
-                                                className="lowercase text-primary underline"
+
+                                            <Link
+                                                href={{
+                                                    pathname: `/${user.userName}`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
+                                                passHref
                                             >
-                                                <Link
+                                                <a
                                                     onClick={() =>
                                                         setMenuOpen(false)
                                                     }
-                                                    href={`/${user.userName}`}
-                                                    passHref
                                                 >
-                                                    {`@${user.userName}`}
-                                                </Link>
-                                            </Text>
+                                                    <Text
+                                                        variant="label"
+                                                        className="lowercase text-primary underline"
+                                                    >
+                                                        {`@${user.userName}`}
+                                                    </Text>
+                                                </a>
+                                            </Link>
                                             {rank && totalPoints && (
-                                                <div>
-                                                    <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
-                                                </div>
+                                                <Text variant="label">{`Rank: #${rank}. (${totalPoints} points)`}</Text>
                                             )}
+
                                             <Link
-                                                href="/users/profile-settings"
+                                                href={{
+                                                    pathname: `/users/${userId}/settings`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
                                                 passHref
                                             >
                                                 <a className="flex flex-row justify-end">
@@ -106,6 +126,54 @@ const OverflowMenu = () => {
                                                     />
                                                 </a>
                                             </Link>
+
+                                            {/* <Link
+                                                href={{
+                                                    pathname: `/users/${userId}/social`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
+                                                passHref
+                                            >
+                                                <a className="flex flex-row justify-end">
+                                                    <Button
+                                                        text="Manage Social"
+                                                        icon={FaTwitter}
+                                                        variant="orange"
+                                                        className="mt-2 !w-full"
+                                                        onClick={() =>
+                                                            setMenuOpen(false)
+                                                        }
+                                                    />
+                                                </a>
+                                            </Link> */}
+
+                                            {isEventPage && user.isAdmin && (
+                                                <Link
+                                                    href={{
+                                                        pathname: `/`,
+                                                    }}
+                                                    passHref
+                                                >
+                                                    <a className="flex flex-row justify-end">
+                                                        <Button
+                                                            text="View global page"
+                                                            icon={FaGlobe}
+                                                            variant="transparent"
+                                                            className="mt-2 !w-full"
+                                                            onClick={() =>
+                                                                setMenuOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        />
+                                                    </a>
+                                                </Link>
+                                            )}
+
                                             <Button
                                                 text="Log out"
                                                 icon={MdLogout}
@@ -116,29 +184,37 @@ const OverflowMenu = () => {
                                         </>
                                     )}
 
-                                    {!uid && (
+                                    {!userId && (
                                         <div>
                                             <Text
                                                 variant="nav-heading"
                                                 className="text-secondary"
                                             >
-                                                Sign in with GitHub
+                                                Sign in
                                             </Text>
                                             <Text
                                                 variant="label"
                                                 className="!normal-case text-secondary"
                                             >
-                                                Connect your GitHub account for
-                                                an enhanced user experience,
-                                                including the ability to create
-                                                new and claim completed
-                                                bounties.
+                                                Connect and earn your spot in
+                                                the leaderboard by solving
+                                                challenges.
                                             </Text>
                                             <Text
                                                 variant="paragraph"
                                                 className="mt-2"
                                             >
-                                                <Link href="/login" passHref>
+                                                <Link
+                                                    href={{
+                                                        pathname: '/login',
+                                                        query: eventId
+                                                            ? {
+                                                                  eventId,
+                                                              }
+                                                            : {},
+                                                    }}
+                                                    passHref
+                                                >
                                                     <a>
                                                         <Button
                                                             text="Sign in"
@@ -157,7 +233,7 @@ const OverflowMenu = () => {
                                         </div>
                                     )}
 
-                                    {uid && !user && (
+                                    {userId && !user && (
                                         <div>
                                             <Text
                                                 variant="nav-heading"
@@ -173,8 +249,16 @@ const OverflowMenu = () => {
                                                 profile in order to start doing
                                                 challenges.
                                             </Text>
+
                                             <Link
-                                                href="/users/profile-settings"
+                                                href={{
+                                                    pathname: `/users/${userId}/settings`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
                                                 passHref
                                             >
                                                 <a className="flex flex-row justify-end">
@@ -189,6 +273,53 @@ const OverflowMenu = () => {
                                                     />
                                                 </a>
                                             </Link>
+
+                                            <Link
+                                                href={{
+                                                    pathname: `/users/${userId}/social`,
+                                                    query: eventId
+                                                        ? {
+                                                              eventId,
+                                                          }
+                                                        : {},
+                                                }}
+                                                passHref
+                                            >
+                                                <a className="flex flex-row justify-end">
+                                                    <Button
+                                                        text="Manage Social"
+                                                        icon={FaTwitter}
+                                                        variant="orange"
+                                                        className="mt-2 !w-full"
+                                                        onClick={() =>
+                                                            setMenuOpen(false)
+                                                        }
+                                                    />
+                                                </a>
+                                            </Link>
+                                            {eventId && user?.isAdmin && (
+                                                <Link
+                                                    href={{
+                                                        pathname: `/`,
+                                                    }}
+                                                    passHref
+                                                >
+                                                    <a className="flex flex-row justify-end">
+                                                        <Button
+                                                            text="View global page"
+                                                            icon={FaGlobe}
+                                                            variant="transparent"
+                                                            className="mt-2 !w-full"
+                                                            onClick={() =>
+                                                                setMenuOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        />
+                                                    </a>
+                                                </Link>
+                                            )}
+
                                             <Button
                                                 text="Log out"
                                                 icon={MdLogout}

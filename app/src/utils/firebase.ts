@@ -1,7 +1,16 @@
-import { initializeApp } from 'firebase/app';
-import { connectAuthEmulator, getAuth } from 'firebase/auth';
+import { FirebaseError, initializeApp } from 'firebase/app';
+import {
+    connectAuthEmulator,
+    EmailAuthProvider,
+    FacebookAuthProvider,
+    getAuth,
+    GithubAuthProvider,
+    OAuthProvider,
+    TwitterAuthProvider,
+} from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { AuthProviderType } from 'types/api';
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -25,4 +34,45 @@ if (process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') {
     connectFunctionsEmulator(functions, 'localhost', 4001);
 }
 
-export { firestore, auth, functions };
+const githubAuthProvider = new GithubAuthProvider();
+const twitterAuthProvider = new TwitterAuthProvider();
+const facebookAuthProvider = new FacebookAuthProvider();
+const emailAuthProvider = new EmailAuthProvider();
+
+function getSocialProvider(
+    authProviderType: AuthProviderType,
+): TwitterAuthProvider | FacebookAuthProvider | GithubAuthProvider {
+    switch (authProviderType) {
+        case AuthProviderType.githubProvider:
+            return githubAuthProvider;
+        case AuthProviderType.facebookProvider:
+            return facebookAuthProvider;
+        case AuthProviderType.twitterProvider:
+            return twitterAuthProvider;
+    }
+}
+
+function handleSocialError(error: FirebaseError, socialType: AuthProviderType) {
+    switch (socialType) {
+        case 'twitter':
+            return TwitterAuthProvider.credentialFromError(error);
+        case 'facebook':
+            return FacebookAuthProvider.credentialFromError(error);
+        case 'github':
+            return GithubAuthProvider.credentialFromError(error);
+        default:
+            return OAuthProvider.credentialFromError(error);
+    }
+}
+
+export {
+    firestore,
+    auth,
+    functions,
+    twitterAuthProvider,
+    githubAuthProvider,
+    facebookAuthProvider,
+    emailAuthProvider,
+    getSocialProvider,
+    handleSocialError,
+};

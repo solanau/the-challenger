@@ -26,3 +26,18 @@
         rgba(0, 0, 0, 0) 100%
     );
 }
+
+@layer components {
+    .md strong {
+        @apply text-primary;
+    }
+}
+
+.required:after {
+    content: ' *';
+    @apply text-primary;
+}
+
+.break-word {
+    word-break: break-word;
+}

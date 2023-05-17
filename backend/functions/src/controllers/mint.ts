@@ -5,7 +5,7 @@ import {
     connection,
     MASTER_API_KEY,
     PRESTIGE_PROGRAM_ID,
-    WALLET,
+    WALLET
 } from '../util/const';
 import { MintPayload } from '../util/types';
 import { DatabaseError, PayloadError, PrestigeError } from '../util/util';

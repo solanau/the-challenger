@@ -27,7 +27,7 @@ const SubmissionCard = ({ submission }: SubmissionCardProps) => (
             variant="heading"
             className="mb-4 w-full overflow-hidden text-ellipsis whitespace-nowrap"
         >
-            {submission.challenge.title}
+            {submission.title}
         </Text>
         <div className="flex w-full justify-between">
             <p

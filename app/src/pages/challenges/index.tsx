@@ -1,93 +1,193 @@
-import ActiveChallengesSection from 'components/challenges-page/active-challenges-section';
-import ExpiredChallengesSection from 'components/challenges-page/expired-challenges-section';
-import PendingChallengesSection from 'components/challenges-page/pending-challenges-section';
+import CreateChallengeForm from 'components/challenges-page/create-challenge-form';
+import Button from 'components/common/button';
+import Card from 'components/common/card';
+import Modal from 'components/common/modal';
+import Text from 'components/common/text';
+import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
+import { createChallenge } from 'lib/api';
 import { NextPage } from 'next';
-import { NextSeo } from 'next-seo';
-import { ChangeEvent, useMemo, useState } from 'react';
-import {
-    isActiveChallenge,
-    isExpiredChallenge,
-    isPendingChallenge,
-} from 'utils/challenge';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useAuth } from 'providers/AuthProvider';
+import { useState } from 'react';
+import { TbPlus } from 'react-icons/tb';
+import { toast } from 'react-toastify';
+import { CreateChallengePayload } from 'types/challenge';
+import { v4 as uuid } from 'uuid';
 
 const ChallengesPage: NextPage = () => {
-    const challenges = useChallenges(
-        process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_EVENT_ID,
-    );
-    const [selectedCategory, setSelectedCategory] = useState<string>('');
-    const filteredChallenges = useMemo(() => {
-        // Avoid filter when selectedCategory is null
-        if (!selectedCategory) {
-            return challenges;
-        }
-        return challenges.filter(
-            challenge => challenge.type === selectedCategory,
-        );
-    }, [selectedCategory, challenges]);
+    const [isCreateChallengeModalOpen, setIsCreateChallengeModalOpen] =
+        useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const challenges = useChallenges({ version: 1 });
+    const router = useRouter();
+    const { isLoggedIn, credential, user } = useAuth();
 
-    const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setSelectedCategory(event.target.value);
+    const handleCreateChallenge = (
+        createChallengePayload: CreateChallengePayload,
+    ) => {
+        setIsLoading(true);
+
+        const challengeId = uuid();
+
+        createChallenge(challengeId, createChallengePayload)
+            .then(() => {
+                toast('Challenge created!', {
+                    type: 'success',
+                });
+                router.push(`/challenges/${challengeId}/settings`);
+            })
+            .catch(error => {
+                toast(error, {
+                    type: 'error',
+                });
+            })
+            .finally(() => {
+                setIsLoading(false);
+                setIsCreateChallengeModalOpen(false);
+            });
     };
 
     return (
         <>
-            <NextSeo
-                title="Solana Bounty Challenges"
-                description="Complete the Solana challenges to collect Solana rewards!"
-            ></NextSeo>
+            {!isLoggedIn && (
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
+                    <Text variant="sub-heading">
+                        Sign in to access this page.
+                    </Text>
+                    <div className="flex flex-row gap-2">
+                        <Link href="/" passHref>
+                            <a>
+                                <Button variant="transparent" text="Go back" />
+                            </a>
+                        </Link>
 
-            {challenges.length > 0 ? (
-                <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                    {/* <div className="flex w-full text-center rounded-lg justify-end">
+                        <Link href="/login" passHref>
+                            <a>
+                                <Button variant="orange" text="Sign in" />
+                            </a>
+                        </Link>
+                    </div>
+                </div>
+            )}
 
-                        <Text variant="paragraph" className="flex items-center mr-4">
-                        Challenges:
+            {isLoggedIn && user === null && (
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
+                    <Text variant="sub-heading">
+                        Only users that have a profile can access this page. In
+                        order to set yours, go ahead and{' '}
+                        <Link href={`/users/${credential.id}/settings`}>
+                            <a className="text-primary underline">
+                                set up your profile
+                            </a>
+                        </Link>{' '}
+                        to get started.
+                    </Text>
+                </div>
+            )}
+
+            {isLoggedIn && user !== null && !user.isAdmin && (
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
+                    <Text variant="sub-heading">
+                        You're not authorized to access this page.
+                    </Text>
+                </div>
+            )}
+
+            {isLoggedIn && user !== null && user.isAdmin && (
+                <>
+                    <div className="flex w-full flex-col gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
+                        <Text variant="big-heading">Challenges</Text>
+
+                        <Text variant="paragraph">
+                            Explore challenges available for you to use in your
+                            next event.
                         </Text>
 
-                        <select
-                            name="category-list"
-                            id="category-list"
-                            onChange={handleCategoryChange}
-                            // className="rounded-md border-2 border-white bg-transparent px-4 py-2 text-black"
-                            // className="flex bg-gradient-to-tl rounded-md border-2 border-white h-12 w-32 from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]" from-primary/75 to-secondary/75 e37542 F64B62
-                            className="flex w-48 self-end flex-row bg-white-50 border text-lg border-gray-300 text-primary rounded-lg focus:ring-orange-500 ring-orange-500 focus:border-slate-100 p-2.5 dark:bg-[#F64B62] dark:border-white dark:placeholder-orange-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-slate-100"
-                        >
-                            <option value="">All</option>
-                            <option value="Social">Social</option>
-                            <option value="Video">Video</option>
-                            <option value="Concept">Concept</option>
-                            <option value="Wallet">Wallet</option>
-                            <option value="SDK">SDK</option>
-                            <option value="Deploy">Deploy</option>
-                            <option value="Staking">Staking</option>
-                            <option value="Game">Game</option>
-                            <option value="Client">Client</option>
-                            <option value="NFT">NFT</option>
-                        </select>
-                    </div> */}
-                    <ActiveChallengesSection
-                        challenges={filteredChallenges.filter(
-                            isActiveChallenge,
-                        )}
-                    />
+                        <div>
+                            <Button
+                                icon={TbPlus}
+                                text={'Create a challenge'}
+                                variant="transparent"
+                                className="bg-zinc-700"
+                                onClick={() =>
+                                    setIsCreateChallengeModalOpen(
+                                        !isCreateChallengeModalOpen,
+                                    )
+                                }
+                            ></Button>
 
-                    <PendingChallengesSection
-                        challenges={filteredChallenges.filter(
-                            isPendingChallenge,
-                        )}
-                    />
+                            <Modal
+                                title="New Challenge"
+                                subTitle="Create a new challenge that can be added to events."
+                                isOpen={isCreateChallengeModalOpen}
+                                onClose={() =>
+                                    !isLoading &&
+                                    setIsCreateChallengeModalOpen(false)
+                                }
+                            >
+                                <Formik
+                                    initialValues={{
+                                        title: '',
+                                        description: '',
+                                    }}
+                                    onSubmit={handleCreateChallenge}
+                                >
+                                    <CreateChallengeForm
+                                        isLoading={isLoading}
+                                    ></CreateChallengeForm>
+                                </Formik>
+                            </Modal>
+                        </div>
+                    </div>
 
-                    <ExpiredChallengesSection
-                        challenges={filteredChallenges.filter(
-                            isExpiredChallenge,
-                        )}
-                    />
-                </div>
-            ) : (
-                <div className="flex h-20 items-center justify-center">
-                    <p className="text-secondary">No challenges found.</p>
-                </div>
+                    <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
+                        {challenges.map(challenge => (
+                            <Card
+                                key={challenge.id}
+                                className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
+                            >
+                                <div className="flex flex-col gap-5">
+                                    <Text
+                                        className="break-word min-w-fit"
+                                        variant="big-heading"
+                                    >
+                                        {challenge.title}
+                                    </Text>
+                                    <Text
+                                        variant="paragraph"
+                                        className="break-word"
+                                    >
+                                        {challenge.description}
+                                    </Text>
+
+                                    <div className="flex flex-row justify-end gap-2">
+                                        <Link
+                                            href={`challenges/${challenge.id}`}
+                                        >
+                                            <a>
+                                                <Button variant="orange">
+                                                    View Preview
+                                                </Button>
+                                            </a>
+                                        </Link>
+
+                                        <Link
+                                            href={`challenges/${challenge.id}/settings`}
+                                        >
+                                            <a>
+                                                <Button variant="black">
+                                                    Settings
+                                                </Button>
+                                            </a>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </Card>
+                        ))}
+                    </div>
+                </>
             )}
         </>
     );
