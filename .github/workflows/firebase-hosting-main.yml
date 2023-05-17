@@ -15,3 +15,5 @@ jobs:
           projectId: challenger-27b2b
           channelId: live
           entryPoint: "./app"
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
