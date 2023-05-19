@@ -8,24 +8,27 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      - id: changed-files-backend
+        name: Get changed files in the docs folder
+        uses: tj-actions/changed-files@v35
+        with:
+          files: backend/**
       - id: config-repo
+        if: steps.changed-files-backend.outputs.any_changed == 'true'
         name: Pre config - 🧰 Checkout repository
         uses: actions/checkout@v3
       - id: config-node
+        if: steps.changed-files-backend.outputs.any_changed == 'true'
         name: Pre config - 🧰 Set up node 16
         uses: actions/setup-node@v3
         with:
           node-version: 16
       - id: set-firebase-config
         name: Pre config - 🧰 Setting Firebase configurations
+        if: steps.changed-files-backend.outputs.any_changed == 'true'
         run: |
           npm install -g firebase-tools
           firebase experiments:enable webframeworks
-      - id: changed-files-backend
-        name: Get changed files in the docs folder
-        uses: tj-actions/changed-files@v35
-        with:
-          files: backend/**
       - id: project-dependencies-installantion
         name: Installing and building project 📦
         if: steps.changed-files-backend.outputs.any_changed == 'true'
