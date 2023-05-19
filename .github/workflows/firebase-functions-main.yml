@@ -1,0 +1,41 @@
+# not working right now
+name: Deploy to Firebase Functions on push to Develop
+"on":
+  push:
+    branches:
+      - main
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - id: config-repo
+        name: Pre config - 🧰 Checkout repository
+        uses: actions/checkout@v3
+      - id: changed-files-backend
+        name: Get changed files in the docs folder
+        uses: tj-actions/changed-files@v35
+        with:
+          files: backend/**
+      - id: config-node
+        if: steps.changed-files-backend.outputs.any_changed == 'true'
+        name: Pre config - 🧰 Set up node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - id: set-firebase-config
+        name: Pre config - 🧰 Setting Firebase configurations
+        if: steps.changed-files-backend.outputs.any_changed == 'true'
+        run: |
+          npm install -g firebase-tools
+          firebase experiments:enable webframeworks
+      - id: project-dependencies-installantion
+        name: Installing and building project 📦
+        if: steps.changed-files-backend.outputs.any_changed == 'true'
+        run: |
+          cd backend/functions
+          yarn
+          yarn run build
+          export MASTER_API_KEY=${{secrets.NEXT_PUBLIC_THE_CHALLENGER_API_MASTER_API_KEY}}
+          firebase use --token "${{secrets.FIREBASE_DEPLOYMENT_TOKEN}}" the-challenger-test-8a51c
+          firebase deploy --token "${{secrets.FIREBASE_DEPLOYMENT_TOKEN}}" --only functions
