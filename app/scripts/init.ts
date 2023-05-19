@@ -79,7 +79,7 @@ async function main() {
 
     const event = await createNewEvent({
         authority:
-            process.env.NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
+            process.env.NEXT_PUBLIC_THE_CHALLENGER_API_MASTER_WALLET_PUBKEY,
         title: 'Solana Hacker House Lisbon',
         description: 'Hacker House in Lisbon, Portugal',
         location: 'Lisbon, Portugal',
@@ -93,13 +93,13 @@ async function main() {
 
     const envConfigs: string = require('fs').readFileSync('./.env', 'utf-8');
     const newEventPKEnvConfigs = envConfigs.replace(
-        RegExp('HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=.*\\s'),
-        `HEAVY_DUTY_BOUNTY_API_EVENT_PUBKEY=${eventPubkey}\n`,
+        RegExp('THE_CHALLENGER_API_EVENT_PUBKEY=.*\\s'),
+        `THE_CHALLENGER_API_EVENT_PUBKEY=${eventPubkey}\n`,
     );
 
     const newEventIdEnvConfigs = envConfigs.replace(
-        RegExp('HEAVY_DUTY_BOUNTY_API_EVENT_ID=.*\\s'),
-        `HEAVY_DUTY_BOUNTY_API_EVENT_ID=${firebaseEventId}\n`,
+        RegExp('THE_CHALLENGER_API_EVENT_ID=.*\\s'),
+        `THE_CHALLENGER_API_EVENT_ID=${firebaseEventId}\n`,
     );
     require('fs').writeFileSync('./.env', newEventPKEnvConfigs);
     require('fs').writeFileSync('./.env', newEventIdEnvConfigs);
@@ -129,7 +129,7 @@ async function main() {
             mintControl: 0,
             escrowOrMintAuthority:
                 process.env
-                    .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
+                    .NEXT_PUBLIC_THE_CHALLENGER_API_MASTER_WALLET_PUBKEY,
             quantity,
         });
 
@@ -148,7 +148,7 @@ async function main() {
                 mintControl: 0,
                 escrowOrMintAuthority:
                     process.env
-                        .NEXT_PUBLIC_HEAVY_DUTY_BOUNTY_API_MASTER_WALLET_PUBKEY,
+                        .NEXT_PUBLIC_THE_CHALLENGER_API_MASTER_WALLET_PUBKEY,
                 quantity,
             });
         }
