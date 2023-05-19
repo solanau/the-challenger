@@ -28,7 +28,6 @@ jobs:
           files: backend
       - id: project-dependencies-installantion
         name: Installing and building project 📦
-        uses: tj-actions/changed-files@v35
         if: steps.changed-files-backend.outputs.any_changed == 'true'
         run: |
           cd backend/functions
