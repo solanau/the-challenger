@@ -21,8 +21,15 @@ jobs:
         run: |
           npm install -g firebase-tools
           firebase experiments:enable webframeworks
+      - id: changed-files-backend
+        name: Get changed files in the docs folder
+        uses: tj-actions/changed-files@v35
+        with:
+          files: backend/**
       - id: project-dependencies-installantion
         name: Installing and building project 📦
+        uses: tj-actions/changed-files@v35
+        if: steps.changed-files-backend.outputs.any_changed == 'true'
         run: |
           cd backend/functions
           yarn
