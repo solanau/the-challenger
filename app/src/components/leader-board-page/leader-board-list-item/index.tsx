@@ -36,7 +36,7 @@ const LeaderBoardListItem = ({
                             <Text
                                 variant="heading"
                                 className={cn(
-                                    'inline w-full overflow-hidden text-ellipsis whitespace-nowrap',
+                                    'xs:text-xl inline w-full overflow-hidden text-ellipsis whitespace-nowrap',
                                 )}
                             >
                                 #{position}
@@ -44,9 +44,9 @@ const LeaderBoardListItem = ({
                         </div>
                     </div>
 
-                    <div className="flex w-full max-w-full flex-row justify-between">
-                        <div className="flex h-16 w-full min-w-0 flex-1 flex-row gap-3">
-                            <div className="flex h-full w-full flex-col justify-between gap-3">
+                    <div className="flex w-full flex-row justify-between">
+                        <div className="flex h-16 min-w-0 flex-1 flex-row gap-3">
+                            <div className="flex h-full flex-col justify-between gap-3">
                                 <Text
                                     variant="label"
                                     className="text-secondary"
@@ -63,7 +63,7 @@ const LeaderBoardListItem = ({
                             </Text> */}
                                     <Text
                                         variant="heading"
-                                        className={`overflow-hidden text-ellipsis whitespace-nowrap ${
+                                        className={`xs:text-xl overflow-hidden text-ellipsis whitespace-nowrap ${
                                             userId === user?.id &&
                                             'text-primary'
                                         }`}
@@ -99,7 +99,7 @@ const LeaderBoardListItem = ({
                             </Text>
                             <Text
                                 variant="heading"
-                                className="flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap text-primary"
+                                className="xs:text-xl flex max-w-full flex-row items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap text-primary"
                             >
                                 {(+participant.points).toFixed(0)}
                             </Text>

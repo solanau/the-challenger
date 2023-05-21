@@ -53,6 +53,7 @@ module.exports = {
                 3: '3px',
             },
             screens: {
+                'xs': '350px',
                 '2lg': '1111px',
             },
         },
