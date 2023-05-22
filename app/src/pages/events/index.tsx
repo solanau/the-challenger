@@ -145,7 +145,7 @@ const EventsPage: NextPage = () => {
                         {events.map(event => (
                             <Card
                                 key={event.id}
-                                className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
+                                className="flex min-w-fit flex-col justify-between gap-10 p-12 w-full"
                             >
                                 <div className="flex flex-col gap-5">
                                     <Text
