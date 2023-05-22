@@ -63,7 +63,7 @@ const ChallengesPage: NextPage = () => {
 
             {challenges.length > 0 ? (
                 <div className="flex flex-row flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
-                    <div className="flex flex-row flex-wrap gap-5 justify-center items-center">
+                    <div className="flex flex-row flex-wrap gap-5 justify-center items-center w-full">
                         <div className="h-128 w-80 sm:w-96 lg:w-1/2 xl:w-1/3 sm:max-w-xl flex-col justify-between gap-10 p-2">
                             <div className="mx-auto w-30 grid sm:max-w-7xl sm:items-end pb-3">
                                 <span>Category</span>
