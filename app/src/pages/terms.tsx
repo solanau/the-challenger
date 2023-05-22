@@ -10,7 +10,7 @@ const TermsPage: NextPage = () => (
 
 Welcome to Solana Bounty!
 
-These terms and conditions outline the rules and regulations for the use of HeavyDuty's Website, located at https://challenger.heavyduty.builders/.
+These terms and conditions outline the rules and regulations for the use of The Challenger's Website, located at https://challenger.solanau.org/.
 
 By accessing this website we assume you accept these terms and conditions. Do not continue to use Solana Bounty if you do not agree to take all of the terms and conditions stated on this page.
 
@@ -20,13 +20,13 @@ This website is in beta
 
 ### Cookies
 
-We employ the use of cookies. By accessing Solana Bounty, you agreed to use cookies in agreement with the HeavyDuty's Privacy Policy.
+We employ the use of cookies. By accessing Solana Bounty, you agreed to use cookies in agreement with the The Challenger's Privacy Policy.
 
 Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
 
 ### License
 
-Unless otherwise stated, HeavyDuty and/or its licensors own the intellectual property rights for all material on Solana Bounty. All intellectual property rights are reserved. You may access this from Solana Bounty for your own personal use subjected to restrictions set in these terms and conditions.
+Unless otherwise stated, The Challenger and/or its licensors own the intellectual property rights for all material on Solana Bounty. All intellectual property rights are reserved. You may access this from Solana Bounty for your own personal use subjected to restrictions set in these terms and conditions.
 
 You must not:
 - Republish material from Solana Bounty
@@ -37,9 +37,9 @@ You must not:
 
 This Agreement shall begin on the date hereof.
 
-Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. HeavyDuty does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of HeavyDuty,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, HeavyDuty shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.
+Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. The Challenger does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of The Challenger,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, The Challenger shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.
 
-HeavyDuty reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
+The Challenger reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
 
 You warrant and represent that:
 
@@ -50,7 +50,7 @@ You warrant and represent that:
 - The Comments will not be used to solicit or promote business or custom or present commercial activities or unlawful activity.
 
 
-You hereby grant HeavyDuty a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.
+You hereby grant The Challenger a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.
 
 ### Hyperlinking to our Content
 
@@ -76,11 +76,11 @@ We may consider and approve other link requests from the following types of orga
 - accounting, law and consulting firms; and
 - educational institutions and trade associations.
 
-We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of HeavyDuty; and (d) the link is in the context of general resource information.
+We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of The Challenger; and (d) the link is in the context of general resource information.
 
 These organizations may link to our home page so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products or services; and (c) fits within the context of the linking party’s site.
 
-If you are one of the organizations listed in paragraph 2 above and are interested in linking to our website, you must inform us by sending an e-mail to HeavyDuty. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.
+If you are one of the organizations listed in paragraph 2 above and are interested in linking to our website, you must inform us by sending an e-mail to The Challenger. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.
 
 Approved organizations may hyperlink to our Website as follows:
 
@@ -90,7 +90,7 @@ Approved organizations may hyperlink to our Website as follows:
 - By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking party’s site.
 
 
-No use of HeavyDuty's logo or other artwork will be allowed for linking absent a trademark license agreement.
+No use of The Challenger's logo or other artwork will be allowed for linking absent a trademark license agreement.
 
 ### iFrames
 
@@ -116,25 +116,20 @@ We do not ensure that the information on this website is correct, we do not warr
 
 ### Disclaimer
 
-Please note that this is a beta version of the Solana Bounty Program and Heavy Duty platform which is
+Please note that this is a beta version of the Solana Bounty Program and The Challenger platform which is
 still undergoing final testing before its official release. The
 platform, its software and all content found on it are provided on an
-“as is” and “as available” basis. HeavyDuty does not give any warranties,
+“as is” and “as available” basis. The Challenger does not give any warranties,
 whether express or implied, as to the suitability or usability of the
 website, its software or any of its content.
 
-HeavyDuty will not be liable for any loss, whether such loss is direct,
+The Challenger will not be liable for any loss, whether such loss is direct,
 indirect, special or consequential, suffered by any party as a result
-of their use of the HeavyDuty platform, its software or content. Any
+of their use of the The Challenger platform, its software or content. Any
 downloading or uploading of material to the website is done at the
 user’s own risk and the user will be solely responsible for any
 damage to any computer system or loss of data that results from such
 activities.
-
-Should you encounter any bugs, glitches, lack of functionality or
-other problems on the website, please let us know immediately so we
-can rectify these accordingly. Your help in this regard is greatly
-appreciated! You can write to us at this address team@heavyduty.builders.
 
 To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website. Nothing in this disclaimer will:
 

@@ -67,8 +67,8 @@ const HeroSection = ({ eventId, title, body }: HeroSectionProps) => {
                                 query:
                                     eventId && !user
                                         ? {
-                                              eventId,
-                                          }
+                                            eventId,
+                                        }
                                         : {},
                             }}
                             passHref
@@ -102,16 +102,6 @@ const HeroSection = ({ eventId, title, body }: HeroSectionProps) => {
                                 ></Button>
                             </a>
                         </Link>
-                        {/* <Link href="https://heavyduty.builders/" passHref>
-                            <a className="flex-1 sm:flex-none" target="_blank">
-                                <Button
-                                    icon={TbBrandChrome}
-                                    text={'View Heavy Duty website'}
-                                    variant="transparent"
-                                    className="!w-full bg-zinc-700"
-                                ></Button>
-                            </a>
-                        </Link> */}
                     </div>
                 </div>
                 <div className="flex">
