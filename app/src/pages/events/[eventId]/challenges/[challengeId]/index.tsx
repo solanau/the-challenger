@@ -5,7 +5,6 @@ import Markdown from 'components/common/markdown';
 import Modal from 'components/common/modal';
 import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
-import { Formik } from 'formik';
 import { useEventChallenge } from 'hooks/use-event-challenge';
 import { createSubmission } from 'lib/api';
 import { NextPage } from 'next';
@@ -17,7 +16,6 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { CreateSubmissionAnswerPayload } from 'types/api';
 import { cn } from 'utils';
-import { getFieldDefaultValueByType } from 'utils/form';
 import { v4 as uuid } from 'uuid';
 
 const ChallengePage: NextPage = () => {
@@ -121,7 +119,7 @@ const ChallengePage: NextPage = () => {
                                     className={cn(
                                         'tooltip-bottom tooltip-error',
                                         !validBountyName &&
-                                            'tooltip-open tooltip',
+                                        'tooltip-open tooltip',
                                     )}
                                     data-tip="Challenge name"
                                 >
@@ -133,29 +131,29 @@ const ChallengePage: NextPage = () => {
                                         <Text variant="paragraph">
                                             {challenge.timeStatus ===
                                                 'pending' && (
-                                                <span>
-                                                    Starts{' '}
-                                                    <b>{challenge.startsIn}</b>
-                                                </span>
-                                            )}
+                                                    <span>
+                                                        Starts{' '}
+                                                        <b>{challenge.startsIn}</b>
+                                                    </span>
+                                                )}
 
                                             {challenge.timeStatus ===
                                                 'active' && (
-                                                <span>
-                                                    Expires{' '}
-                                                    <b>{challenge.expiresIn}</b>
-                                                </span>
-                                            )}
+                                                    <span>
+                                                        Expires{' '}
+                                                        <b>{challenge.expiresIn}</b>
+                                                    </span>
+                                                )}
 
                                             {challenge.timeStatus ===
                                                 'expired' && (
-                                                <span>
-                                                    Expired{' '}
-                                                    <b>
-                                                        {challenge.expiredAgo}
-                                                    </b>
-                                                </span>
-                                            )}
+                                                    <span>
+                                                        Expired{' '}
+                                                        <b>
+                                                            {challenge.expiredAgo}
+                                                        </b>
+                                                    </span>
+                                                )}
                                         </Text>
                                     </div>
                                 </div>
@@ -189,30 +187,13 @@ const ChallengePage: NextPage = () => {
                                             <div>
                                                 <Markdown>{`### How to Submit `}</Markdown>
 
-                                                <Formik
-                                                    initialValues={challenge.fieldsConfig.reduce(
-                                                        (
-                                                            initialValues,
-                                                            field,
-                                                        ) => ({
-                                                            ...initialValues,
-                                                            [field.name]:
-                                                                getFieldDefaultValueByType(
-                                                                    field.type,
-                                                                ),
-                                                        }),
-                                                        {},
-                                                    )}
-                                                    onSubmit={
-                                                        handleConfirmSubmission
+
+                                                <CreateSubmissionForm
+                                                    fieldsConfig={
+                                                        challenge.fieldsConfig
                                                     }
-                                                >
-                                                    <CreateSubmissionForm
-                                                        fieldsConfig={
-                                                            challenge.fieldsConfig
-                                                        }
-                                                    ></CreateSubmissionForm>
-                                                </Formik>
+                                                    handleConfirmSubmission={handleConfirmSubmission}
+                                                ></CreateSubmissionForm>
                                             </div>
                                         )}
 
@@ -231,8 +212,8 @@ const ChallengePage: NextPage = () => {
                                                         pathname: `/users/${credential.id}/settings`,
                                                         query: eventId
                                                             ? {
-                                                                  eventId,
-                                                              }
+                                                                eventId,
+                                                            }
                                                             : {},
                                                     }}
                                                 >
@@ -332,8 +313,8 @@ const ChallengePage: NextPage = () => {
                                         pathname: '/login',
                                         query: eventId
                                             ? {
-                                                  eventId,
-                                              }
+                                                eventId,
+                                            }
                                             : {},
                                     }}
                                     passHref

@@ -1,12 +1,26 @@
-import { Field } from 'formik';
+import { Field, FormikErrors, FormikTouched, FormikValues } from 'formik';
 import { FieldConfig } from 'types/form';
 
 interface FormBuilderProps {
     fieldsConfig: FieldConfig[];
     disabled?: boolean;
+    errors: FormikErrors<FormikValues>;
+    touched: FormikTouched<FormikValues>;
+    isValidating: boolean;
 }
 
-const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
+const FormBuilder = ({ errors, touched, isValidating, fieldsConfig, disabled = false }: FormBuilderProps) => {
+
+    function validateEmptyField(value) {
+        let error;
+        if (!value) {
+            error = 'Required';
+        } else if (value.replaceAll(" ", "").length == 0) {
+            error = 'Enter a value';
+        }
+        return error;
+    }
+
     const builder = (
         fieldConfig: FieldConfig,
         index: number,
@@ -31,10 +45,11 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                             placeholder={fieldConfig.placeholder}
                             maxLength={fieldConfig.maxLength}
                             rows={fieldConfig.rows}
-                            required
+                            validate={validateEmptyField}
                             disabled={disabled}
                             autoComplete="off"
                         />
+                        {errors[fieldConfig.name] && touched[fieldConfig.name] && <div className='mt-2'>{errors[fieldConfig.name]}</div>}
                     </>
                 );
             case 'text':
@@ -54,10 +69,11 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                             className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                             placeholder={fieldConfig.placeholder}
                             maxLength={fieldConfig.maxLength}
-                            required
+                            validate={validateEmptyField}
                             disabled={disabled}
                             autoComplete="off"
                         />
+                        {errors[fieldConfig.name] && touched[fieldConfig.name] && <div className='mt-2'>{errors[fieldConfig.name]}</div>}
                     </>
                 );
             case 'number':
@@ -77,10 +93,11 @@ const FormBuilder = ({ fieldsConfig, disabled = false }: FormBuilderProps) => {
                             type={fieldConfig.type}
                             className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                             placeholder={fieldConfig.placeholder}
-                            required
+                            validate={validateEmptyField}
                             disabled={disabled}
                             autoComplete="off"
                         />
+                        {errors[fieldConfig.name] && touched[fieldConfig.name] && <div className='mt-2'>{errors[fieldConfig.name]}</div>}
                     </>
                 );
             default:

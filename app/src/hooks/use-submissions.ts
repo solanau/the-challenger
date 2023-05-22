@@ -39,10 +39,10 @@ export const useSubmissions = (
                     setSubmissions(
                         querySnapshot.docs.map(
                             doc =>
-                                ({
-                                    id: doc.id,
-                                    ...doc.data(),
-                                } as SubmissionPayload),
+                            ({
+                                id: doc.id,
+                                ...doc.data(),
+                            } as SubmissionPayload),
                         ),
                     );
                 }
