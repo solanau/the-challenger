@@ -23,7 +23,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
     cors({
-        origin: ['http://localhost:3000', 'https://germany.heavyduty.builders'],
+        origin: [
+            'http://localhost:3000',
+            'https://challenger.solana.org',
+            'https://dev-challenger.solana.org',
+        ],
     }),
 );
 
@@ -141,9 +145,7 @@ export const updateLeaderBoard = functions.https.onCall(
     },
 );
 
-export const setUser = functions.runWith({
-    enforceAppCheck: true
-}).https.onCall(async (data, context) => {
+export const setUser = functions.https.onCall(async (data, context) => {
     const user = await userController.setUser(
         { id: context.auth.token.uid, email: context.auth.token.email },
         data,
