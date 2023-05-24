@@ -12,32 +12,31 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
         {challenges.map(challenge => (
             <Card
                 key={challenge.id}
-                className="h-128 w-80 sm:w-96 lg:w-1/2 xl:w-1/3 sm:max-w-xl flex-col justify-between gap-10 p-4 sm:p-12"
+                className={`h-128 sm:max-w-xl flex-col justify-between gap-10 p-4 sm:p-12 ${challenges.length === 1 ? 'min-w-96' : ''
+                    }`}
             >
-                <div className="flex flex-col gap-5 ">
-                    {getIconByCategory(challenge.category, 35)}
+                <div className="flex flex-col gap-5">
 
-                    <div className="flex flex-col gap-1">
+                    {getIconByCategory(challenge.category, 35)}
+                    <div className="flex flex-col">
                         <Text variant="label" className="text-secondary">
-                            {challenge.category} challenge
+                            {challenge.category} Challenge
                         </Text>
                         <Text className="min-w-fit" variant="big-heading">
                             Challenge {challenge.position}
                         </Text>
                         <Text variant="sub-heading">
-                            Reward: {challenge.points} (BONUS: +
-                            {challenge.bonus})
+                            Reward: {challenge.points} (BONUS: +{challenge.bonus})
                         </Text>
                     </div>
-
-                    <Text variant="paragraph" className="break-word max-w-xl h-14 overflow-hidden truncate text-ellipsis">
+                    <Text
+                        variant="paragraph"
+                        className="break-word max-w-xl h-14 overflow-hidden truncate text-ellipsis"
+                    >
                         {challenge.description}
                     </Text>
 
-                    <Text
-                        variant="paragraph"
-                        className="font text-xl text-primary"
-                    >
+                    <Text variant="paragraph" className="font text-xl text-primary">
                         Difficulty: {challenge.difficulty}
                     </Text>
 
@@ -45,14 +44,9 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
                         Starts <b>{challenge.startsIn}</b>
                     </Text>
 
-                    <div className="flex flex-row items-end gap-4">
-                        <Text variant="paragraph" className="text-white">
-                            Author:
-                        </Text>
-                        <Link
-                            href={`https://twitter.com/${challenge.authorTwitter}`}
-                            passHref
-                        >
+                    <div className="flex items-end gap-4 text-white">
+                        <Text variant="paragraph">Author:</Text>
+                        <Link href={`https://twitter.com/${challenge.authorTwitter}`} passHref>
                             <a
                                 className="flex flex-row justify-end"
                                 target="_blank"
@@ -61,11 +55,7 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
                                 <FaTwitter size={24} />
                             </a>
                         </Link>
-
-                        <Link
-                            href={`https://github.com/${challenge.authorGithub}`}
-                            passHref
-                        >
+                        <Link href={`https://github.com/${challenge.authorGithub}`} passHref>
                             <a
                                 className="flex flex-row justify-end"
                                 target="_blank"
@@ -79,6 +69,7 @@ const PendingChallengesSection = ({ challenges }: ChallengeListProps) => (
             </Card>
         ))}
     </section>
+
 );
 
 export default PendingChallengesSection;
