@@ -19,7 +19,7 @@ jobs:
       - id: set-firebase-config
         name: Pre config - 🧰 Setting Firebase configurations
         run: |
-          npm install -g firebase-tools
+          npm install -g firebase-tools@12.1.0
           firebase experiments:enable webframeworks
       - id: project-dependencies-installantion
         name: Installing and building project 📦
