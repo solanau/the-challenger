@@ -22,4 +22,4 @@ packages/react-refresh-utils/**/*.d.ts
 packages/react-refresh-utils/**/*.js
 pnpm-lock.yaml
 test-timings.json
-test/**/out/**
+test/**/out/** 
