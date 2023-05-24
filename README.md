@@ -61,7 +61,7 @@ The UI was designed in a circular manner. Basic prototypes were created in Figma
 
 ### Back-end
 
-The backend is based primarily on [Drill](https://github.com/heavy-duty/platform), a Web3 ecosystem by [Heavy Duty](https://heavyduty.builders/) that includes web services as well as NPM packages allowing the creation of bounty programs that are deeply integrated with Solana and GitHub. Using GitHub Actions, Drill automates the process of creating, funding, closing, and claiming bounties (with hunter, owner, and additional metadata stored as GitHub issues interacted with via authenticated GitHub API requests), of which only the critical information is stored on-chain. Therefore, the Bounty Program can be thought of as a fully-managed, two-part service that leverages both the GitHub API and Solana’s [spl-token](https://solana-labs.github.io/solana-program-library/token/js/) library for all of its transactions.
+Firebase is used as a storage engine, endpoints are generated using firebase cloud functions [firebase cloud functions](https://firebase.google.com/docs/functions).
 
 ### Web3
 

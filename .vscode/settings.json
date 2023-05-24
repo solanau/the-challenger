@@ -5,5 +5,8 @@
     "editor.codeActionsOnSave": {
         "source.organizeImports": true,
         "source.fixAll": true
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
     }
 }
