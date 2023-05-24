@@ -141,7 +141,9 @@ export const updateLeaderBoard = functions.https.onCall(
     },
 );
 
-export const setUser = functions.https.onCall(async (data, context) => {
+export const setUser = functions.runWith({
+    enforceAppCheck: true
+}).https.onCall(async (data, context) => {
     const user = await userController.setUser(
         { id: context.auth.token.uid, email: context.auth.token.email },
         data,
