@@ -46,7 +46,8 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
     }, []);
 
     return (
-        <div className="relative">
+        <div className="relative flex flex-col items-center">
+
             <button
                 className={`rounded-full bg-gray-800 text-white px-8 py-3 transition-all duration-300 ease-in-out ${isOpen ? 'bg-gray-600' : ''
                     }`}
@@ -74,21 +75,6 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
                     ))}
                 </div>
             </div>
-        </div>
-    );
-};
-
-const SelectedItems: React.FC<{ items: string[] }> = ({ items }) => {
-    return (
-        <div className="flex flex-wrap mt-2">
-            {items.map((item) => (
-                <span
-                    key={item}
-                    className="px-2 py-1 bg-gray-800 text-white rounded-full mb-1 mr-1"
-                >
-                    {item}
-                </span>
-            ))}
         </div>
     );
 };
@@ -221,13 +207,10 @@ const ChallengesPage: NextPage = () => {
                                         },
                                     ]}
                                 />
-                                {selectedCategories.length > 0 && (
-                                    <div className="text-white mt-2">
-                                        Selected Categories:
-                                        <SelectedItems items={selectedCategories} />
-                                    </div>
-                                )}
+
                             </div>
+
+
 
                             <div className="flex flex-col justify-center">
                                 <span className="text-white font-bold text-xl">Difficulty:</span>
@@ -260,15 +243,10 @@ const ChallengesPage: NextPage = () => {
                                         },
                                     ]}
                                 />
-                                {selectedDifficulties.length > 0 && (
-                                    <div className="text-white mt-2">
-                                        Selected Difficulties:
-                                        <SelectedItems items={selectedDifficulties} />
-                                    </div>
-                                )}
-                            </div>
-                        </div>
 
+                            </div>
+
+                        </div>
                         <ActiveChallengesSection
                             eventId={eventId}
                             challenges={filteredChallenges.filter(isActiveChallenge)}
