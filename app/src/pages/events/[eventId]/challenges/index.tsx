@@ -12,7 +12,6 @@ import {
     isExpiredChallenge,
     isPendingChallenge
 } from 'utils/challenge';
-
 interface ButtonProps {
     label: string;
     onClick: () => void;
@@ -31,7 +30,10 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
     };
 
     const handleOutsideClick = (event: MouseEvent) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        if (
+            dropdownRef.current &&
+            !dropdownRef.current.contains(event.target as Node)
+        ) {
             setIsOpen(false);
         }
     };
@@ -46,42 +48,61 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
     return (
         <div className="relative">
             <button
-                className={`rounded-full bg-black text-white px-8 py-3 ${isOpen ? 'bg-gray-500' : ''}`}
+                className={`rounded-full bg-gray-800 text-white px-8 py-3 transition-all duration-300 ease-in-out ${isOpen ? 'bg-gray-600' : ''
+                    }`}
                 onClick={handleButtonClick}
             >
                 {label}
             </button>
-            {isOpen && (
-                <div
-                    className="absolute top-full transform -translate-x-1/2 left-1/2 w-max max-h-48 overflow-y-auto bg-black border border-white rounded-b-md shadow-lg z-10"
-                    style={{ minWidth: '150px' }}
-                    ref={dropdownRef}
-                >
-                    <div className="flex flex-col items-center">
-                        {options.map((option) => (
-                            <button
-                                key={option.label}
-                                className={`w-full px-4 py-2 text-white ${option.isActive ? 'bg-gray-800' : ''}`}
-                                onClick={option.onClick}
-                            >
-                                {option.label}
-                            </button>
-                        ))}
-                    </div>
+            <div
+                className={`dropdown-menu absolute top-full transform left-0 w-auto max-h-48 overflow-y-auto bg-gray-800 border border-white rounded-b-md shadow-lg z-10 transition-all duration-300 ease-in-out ${isOpen ? 'scale-100 opacity-100 translate-y-2' : 'scale-95 opacity-0 translate-y-1'
+                    }`}
+                style={{ minWidth: '150px' }}
+                ref={dropdownRef}
+            >
+                <div className="flex flex-wrap">
+                    {options.map((option) => (
+                        <button
+                            key={option.label}
+                            className={`w-full px-4 py-2 text-white transition-all duration-300 ease-in-out ${option.isActive ? 'bg-gray-700' : ''
+                                }`}
+                            onClick={option.onClick}
+                        >
+                            {option.isActive ? '✅ ' : ''}
+                            {option.label}
+                        </button>
+                    ))}
                 </div>
-            )}
+            </div>
         </div>
     );
 };
 
+const SelectedItems: React.FC<{ items: string[] }> = ({ items }) => {
+    return (
+        <div className="flex flex-wrap mt-2">
+            {items.map((item) => (
+                <span
+                    key={item}
+                    className="px-2 py-1 bg-gray-800 text-white rounded-full mb-1 mr-1"
+                >
+                    {item}
+                </span>
+            ))}
+        </div>
+    );
+};
 
 const ChallengesPage: NextPage = () => {
     const router = useRouter();
-    const eventId = (router.query.eventId instanceof Array ? router.query.eventId[0] : router.query.eventId) ?? null;
+    const eventId =
+        (router.query.eventId instanceof Array
+            ? router.query.eventId[0]
+            : router.query.eventId) ?? null;
     const { credential } = useAuth();
     const userId = credential?.id ?? null;
-    const [selectedCategory, setSelectedCategory] = useState<string>('');
-    const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]);
     const challenges = useEventChallenges(eventId, userId);
 
     const filteredChallenges = useMemo(() => {
@@ -89,65 +110,162 @@ const ChallengesPage: NextPage = () => {
             return [];
         }
 
-        if (!selectedCategory && !selectedDifficulty) {
+        if (selectedCategories.length === 0 && selectedDifficulties.length === 0) {
             return challenges;
         }
 
         return challenges.filter((challenge) => {
-            const filteredByCategory = selectedCategory ? challenge.category === selectedCategory : true;
-            const filteredByDifficulty = selectedDifficulty ? challenge.difficulty === selectedDifficulty : true;
+            const filteredByCategory =
+                selectedCategories.length === 0 ||
+                selectedCategories.includes(challenge.category);
+            const filteredByDifficulty =
+                selectedDifficulties.length === 0 ||
+                selectedDifficulties.includes(challenge.difficulty);
 
             return filteredByCategory && filteredByDifficulty;
         });
-    }, [selectedCategory, selectedDifficulty, challenges]);
+    }, [selectedCategories, selectedDifficulties, challenges]);
 
     const handleCategoryChange = (category: string) => {
-        setSelectedCategory(category);
+        if (selectedCategories.includes(category)) {
+            setSelectedCategories(selectedCategories.filter((c) => c !== category));
+        } else {
+            setSelectedCategories([...selectedCategories, category]);
+        }
     };
 
     const handleDifficultyChange = (difficulty: string) => {
-        setSelectedDifficulty(difficulty);
+        if (selectedDifficulties.includes(difficulty)) {
+            setSelectedDifficulties(
+                selectedDifficulties.filter((d) => d !== difficulty)
+            );
+        } else {
+            setSelectedDifficulties([...selectedDifficulties, difficulty]);
+        }
     };
 
     return (
         <>
-            <NextSeo title="Challenges" description="Complete the challenges to collect rewards!" />
+            <NextSeo
+                title="Challenges"
+                description="Complete the challenges to collect rewards!"
+            />
 
             {challenges.length > 0 ? (
                 <div className="bg-gradient-to-tr from-primary to-secondary">
                     <div className="flex flex-row flex-wrap gap-5 p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20 relative z-0">
                         <div className="flex items-center justify-center w-full gap-5">
                             <div className="flex flex-col justify-center">
-                                <span className="text-white">Category</span>
+                                <span className="text-white font-bold text-xl">Category:</span>
                                 <DropdownMenu
-                                    label={selectedCategory || 'All'}
+                                    label={
+                                        selectedCategories.length > 0
+                                            ? 'Selected Categories'
+                                            : 'All Categories'
+                                    }
                                     options={[
-                                        { label: 'All', onClick: () => handleCategoryChange(''), isActive: !selectedCategory },
-                                        { label: 'Social', onClick: () => handleCategoryChange('Social'), isActive: selectedCategory === 'Social' },
-                                        { label: 'Video', onClick: () => handleCategoryChange('Video'), isActive: selectedCategory === 'Video' },
-                                        { label: 'Concept', onClick: () => handleCategoryChange('Concept'), isActive: selectedCategory === 'Concept' },
-                                        { label: 'Wallet', onClick: () => handleCategoryChange('Wallet'), isActive: selectedCategory === 'Wallet' },
-                                        { label: 'SDK', onClick: () => handleCategoryChange('SDK'), isActive: selectedCategory === 'SDK' },
-                                        { label: 'Deploy', onClick: () => handleCategoryChange('Deploy'), isActive: selectedCategory === 'Deploy' },
-                                        { label: 'Staking', onClick: () => handleCategoryChange('Staking'), isActive: selectedCategory === 'Staking' },
-                                        { label: 'Game', onClick: () => handleCategoryChange('Game'), isActive: selectedCategory === 'Game' },
-                                        { label: 'Client', onClick: () => handleCategoryChange('Client'), isActive: selectedCategory === 'Client' },
-                                        { label: 'NFT', onClick: () => handleCategoryChange('NFT'), isActive: selectedCategory === 'NFT' },
+                                        {
+                                            label: 'All Categories',
+                                            onClick: () => setSelectedCategories([]),
+                                            isActive: selectedCategories.length === 0,
+                                        },
+                                        {
+                                            label: 'Social',
+                                            onClick: () => handleCategoryChange('Social'),
+                                            isActive: selectedCategories.includes('Social'),
+                                        },
+                                        {
+                                            label: 'Video',
+                                            onClick: () => handleCategoryChange('Video'),
+                                            isActive: selectedCategories.includes('Video'),
+                                        },
+                                        {
+                                            label: 'Concept',
+                                            onClick: () => handleCategoryChange('Concept'),
+                                            isActive: selectedCategories.includes('Concept'),
+                                        },
+                                        {
+                                            label: 'Wallet',
+                                            onClick: () => handleCategoryChange('Wallet'),
+                                            isActive: selectedCategories.includes('Wallet'),
+                                        },
+                                        {
+                                            label: 'SDK',
+                                            onClick: () => handleCategoryChange('SDK'),
+                                            isActive: selectedCategories.includes('SDK'),
+                                        },
+                                        {
+                                            label: 'Deploy',
+                                            onClick: () => handleCategoryChange('Deploy'),
+                                            isActive: selectedCategories.includes('Deploy'),
+                                        },
+                                        {
+                                            label: 'Staking',
+                                            onClick: () => handleCategoryChange('Staking'),
+                                            isActive: selectedCategories.includes('Staking'),
+                                        },
+                                        {
+                                            label: 'Game',
+                                            onClick: () => handleCategoryChange('Game'),
+                                            isActive: selectedCategories.includes('Game'),
+                                        },
+                                        {
+                                            label: 'Client',
+                                            onClick: () => handleCategoryChange('Client'),
+                                            isActive: selectedCategories.includes('Client'),
+                                        },
+                                        {
+                                            label: 'NFT',
+                                            onClick: () => handleCategoryChange('NFT'),
+                                            isActive: selectedCategories.includes('NFT'),
+                                        },
                                     ]}
                                 />
+                                {selectedCategories.length > 0 && (
+                                    <div className="text-white mt-2">
+
+                                        <SelectedItems items={selectedCategories} />
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex flex-col justify-center">
-                                <span className="text-white">Difficulty</span>
+                                <span className="text-white font-bold text-xl">Difficulty:</span>
                                 <DropdownMenu
-                                    label={selectedDifficulty || 'All'}
+                                    label={
+                                        selectedDifficulties.length > 0
+                                            ? 'Selected Difficulties'
+                                            : 'All Difficulties'
+                                    }
                                     options={[
-                                        { label: 'All', onClick: () => handleDifficultyChange(''), isActive: !selectedDifficulty },
-                                        { label: 'Easy', onClick: () => handleDifficultyChange('Easy'), isActive: selectedDifficulty === 'Easy' },
-                                        { label: 'Medium', onClick: () => handleDifficultyChange('Medium'), isActive: selectedDifficulty === 'Medium' },
-                                        { label: 'Hard', onClick: () => handleDifficultyChange('Hard'), isActive: selectedDifficulty === 'Hard' },
+                                        {
+                                            label: 'All Difficulties',
+                                            onClick: () => setSelectedDifficulties([]),
+                                            isActive: selectedDifficulties.length === 0,
+                                        },
+                                        {
+                                            label: 'Easy',
+                                            onClick: () => handleDifficultyChange('Easy'),
+                                            isActive: selectedDifficulties.includes('Easy'),
+                                        },
+                                        {
+                                            label: 'Medium',
+                                            onClick: () => handleDifficultyChange('Medium'),
+                                            isActive: selectedDifficulties.includes('Medium'),
+                                        },
+                                        {
+                                            label: 'Hard',
+                                            onClick: () => handleDifficultyChange('Hard'),
+                                            isActive: selectedDifficulties.includes('Hard'),
+                                        },
                                     ]}
                                 />
+                                {selectedDifficulties.length > 0 && (
+                                    <div className="text-white mt-2">
+
+                                        <SelectedItems items={selectedDifficulties} />
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -156,7 +274,9 @@ const ChallengesPage: NextPage = () => {
                             challenges={filteredChallenges.filter(isActiveChallenge)}
                         />
 
-                        <PendingChallengesSection challenges={filteredChallenges.filter(isPendingChallenge)} />
+                        <PendingChallengesSection
+                            challenges={filteredChallenges.filter(isPendingChallenge)}
+                        />
 
                         <ExpiredChallengesSection
                             eventId={eventId}
