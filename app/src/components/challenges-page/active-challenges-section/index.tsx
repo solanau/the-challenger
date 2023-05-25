@@ -20,8 +20,7 @@ const ActiveChallengesSection = ({
         {challenges.map(challenge => (
             <Card
                 key={challenge.id}
-                className={`h-128 sm:max-w-xl flex-col justify-between gap-10 p-4 sm:p-12 ${challenges.length === 1 ? 'min-w-96' : ''
-                    }`}
+                className={`h-128 ${challenges.length === 1 ? 'w-full sm:w-96' : 'w-80 sm:w-96 lg:w-1/2 xl:w-1/3 sm:max-w-xl'} flex-col justify-between gap-10 p-4 sm:p-12`}
             >
                 <div className="flex flex-col gap-5">
                     {getIconByCategory(challenge.category, 35)}
@@ -30,18 +29,15 @@ const ActiveChallengesSection = ({
                         <Text variant="label" className="text-secondary">
                             {challenge.category} challenge
                         </Text>
-                        <Text variant="big-heading">
+                        <Text className="min-w-fit" variant="big-heading">
                             Challenge {challenge.position}
                         </Text>
                         <Text variant="sub-heading">
-                            Reward: {challenge.points} (BONUS: +{challenge.bonus})
+                            Reward: {challenge.points} (BONUS: +
+                            {challenge.bonus})
                         </Text>
                     </div>
-
-                    <Text
-                        variant="paragraph"
-                        className="break-word max-w-xl h-14 overflow-hidden truncate text-ellipsis"
-                    >
+                    <Text variant="paragraph" className="break-word max-w-xl h-14 overflow-hidden truncate text-ellipsis">
                         {challenge.description}
                     </Text>
 
@@ -60,32 +56,57 @@ const ActiveChallengesSection = ({
                         {challenge.progress}%
                     </progress>
 
-                    <div className="flex items-end justify-between">
-                        <div className="flex gap-4">
+                    <div className="flex flex-wrap items-end justify-between">
+                        <div className="mb-5 flex flex-row gap-4 md:mb-0">
                             <Text variant="paragraph" className="text-white">
                                 Author:
                             </Text>
-                            <Link href={`https://twitter.com/${challenge.authorTwitter}`} passHref>
-                                <a className="flex flex-row justify-end" target="_blank" rel="noopener noreferrer">
+                            <Link
+                                href={`https://twitter.com/${challenge.authorTwitter}`}
+                                passHref
+                            >
+                                <a
+                                    className="flex flex-row justify-end"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
                                     <FaTwitter size={24} />
                                 </a>
                             </Link>
 
-                            <Link href={`https://github.com/${challenge.authorGithub}`} passHref>
-                                <a className="flex flex-row justify-end" target="_blank" rel="noopener noreferrer">
+                            <Link
+                                href={`https://github.com/${challenge.authorGithub}`}
+                                passHref
+                            >
+                                <a
+                                    className="flex flex-row justify-end"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
                                     <FaGithub size={24} />
                                 </a>
                             </Link>
                         </div>
 
-                        <Link href={`/events/${eventId}/challenges/${challenge.id}`} passHref>
+                        <Link
+                            href={`/events/${eventId}/challenges/${challenge.id}`}
+                            passHref
+                        >
                             <a>
                                 {challenge.isSubmitted ? (
-                                    <Button className="h-24 w-24 rounded-md border-0 md:w-auto" variant="transparent">
-                                        <p className="text-center text-green-400">Submission Entered!</p>
+                                    <Button
+                                        className="h-24 w-24 rounded-md border-0 md:w-auto"
+                                        variant="transparent"
+                                    >
+                                        <p className="text-center text-green-400">
+                                            Submission Entered!
+                                        </p>
                                     </Button>
                                 ) : (
-                                    <Button className="h-24 w-24 rounded-full border-2" variant="transparent">
+                                    <Button
+                                        className="h-24 w-24 rounded-full border-2"
+                                        variant="transparent"
+                                    >
                                         <MdPlayArrow size={40} />
                                     </Button>
                                 )}
@@ -96,8 +117,6 @@ const ActiveChallengesSection = ({
             </Card>
         ))}
     </section>
-
-
 );
 
 export default ActiveChallengesSection;
