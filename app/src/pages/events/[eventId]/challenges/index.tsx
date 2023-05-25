@@ -56,7 +56,7 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
                 {label}
             </button>
             <div
-                className={`dropdown-menu absolute top-full transform left-0 w-auto max-h-48 overflow-y-auto bg-gray-800 border border-white rounded-b-md shadow-lg z-10 transition-all duration-300 ease-in-out ${isOpen ? 'scale-100 opacity-100 translate-y-2' : 'scale-95 opacity-0 translate-y-1'
+                className={`dropdown-menu absolute top-full transform left-0 w-auto max-h-48 overflow-y-auto bg-gray-900 border border-white rounded-b-md shadow-lg z-10 transition-all duration-300 ease-in-out ${isOpen ? 'scale-100 opacity-100 translate-y-2' : 'scale-95 opacity-0 translate-y-1'
                     }`}
                 style={{ minWidth: '150px' }}
                 ref={dropdownRef}
