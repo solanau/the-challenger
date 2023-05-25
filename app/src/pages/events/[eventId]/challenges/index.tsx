@@ -12,18 +12,19 @@ import {
     isExpiredChallenge,
     isPendingChallenge
 } from 'utils/challenge';
+
 interface ButtonProps {
     label: string;
     onClick: () => void;
     isActive: boolean;
 }
-
 const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
     label,
     options,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleButtonClick = () => {
         setIsOpen(!isOpen);
@@ -39,45 +40,68 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
     };
 
     useEffect(() => {
-        document.addEventListener('mousedown', handleOutsideClick);
+        document.addEventListener("mousedown", handleOutsideClick);
         return () => {
-            document.removeEventListener('mousedown', handleOutsideClick);
+            document.removeEventListener("mousedown", handleOutsideClick);
         };
     }, []);
 
-    return (
-        <div className="relative flex flex-col items-center">
+    useEffect(() => {
+        if (buttonRef.current && dropdownRef.current) {
+            const buttonWidth = buttonRef.current.offsetWidth;
+            dropdownRef.current.style.minWidth = `${buttonWidth}px`;
+        }
+    }, [isOpen]);
 
+    return (
+        <div className="relative inline-block">
             <button
-                className={`rounded-full bg-black text-white px-8 py-3 transition-all duration-300 ease-in-out ${isOpen ? 'bg-gray-600' : ''
-                    }`}
+                ref={buttonRef}
+                className={`inline-flex rounded-full text-white px-8 py-3.5 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${isOpen ? "bg-gray-800" : "bg-black"
+                    } top-0`}
                 onClick={handleButtonClick}
             >
                 {label}
+                <svg
+                    className={`-mr-1 ml-2 h-5 w-5 transition-transform duration-300 ${isOpen ? "transform rotate-180" : ""
+                        }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                >
+                    <path
+                        fillRule="evenodd"
+                        d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                    />
+                </svg>
             </button>
-            <div
-                className={`dropdown-menu absolute top-full transform left-0 w-auto max-h-48 overflow-y-auto bg-gray-900 border border-white rounded-b-md shadow-lg z-10 transition-all duration-300 ease-in-out ${isOpen ? 'scale-100 opacity-100 translate-y-2' : 'scale-95 opacity-0 translate-y-1'
-                    }`}
-                style={{ minWidth: '150px' }}
-                ref={dropdownRef}
-            >
-                <div className="flex flex-wrap">
-                    {options.map((option) => (
-                        <button
-                            key={option.label}
-                            className={`w-full px-4 py-2 text-white transition-all duration-300 ease-in-out ${option.isActive ? 'bg-gray-700' : ''
-                                }`}
-                            onClick={option.onClick}
-                        >
-                            {option.isActive ? '✅ ' : ''}
-                            {option.label}
-                        </button>
-                    ))}
+            {isOpen && (
+                <div
+                    className="dropdown-menu absolute left-0 top-full mt-1 overflow-y-auto bg-gray-800 border border-white  border-solid border-1 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out"
+                    ref={dropdownRef}
+                >
+                    <div className="flex flex-wrap">
+                        {options.map((option) => (
+                            <button
+                                key={option.label}
+                                className={`w-full px-4 py-3 text-white transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${option.isActive ? "bg-gray-800" : "bg-black"
+                                    }`}
+                                onClick={option.onClick}
+                            >
+                                {option.isActive ? "✅ " : ""}
+                                {option.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
+
+
 
 const ChallengesPage: NextPage = () => {
     const router = useRouter();
@@ -142,7 +166,7 @@ const ChallengesPage: NextPage = () => {
                     <div className="flex flex-row flex-wrap gap-5 p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20 relative z-0">
                         <div className="flex items-center justify-center w-full gap-5">
                             <div className="flex flex-col justify-center">
-                                <span className="text-white font-bold text-xl">Category:</span>
+
                                 <DropdownMenu
                                     label={
                                         selectedCategories.length > 0
@@ -209,11 +233,8 @@ const ChallengesPage: NextPage = () => {
                                 />
 
                             </div>
-
-
-
                             <div className="flex flex-col justify-center">
-                                <span className="text-white font-bold text-xl">Difficulty:</span>
+
                                 <DropdownMenu
                                     label={
                                         selectedDifficulties.length > 0
