@@ -223,7 +223,7 @@ const ChallengesPage: NextPage = () => {
                                 />
                                 {selectedCategories.length > 0 && (
                                     <div className="text-white mt-2">
-
+                                        Selected Categories:
                                         <SelectedItems items={selectedCategories} />
                                     </div>
                                 )}
@@ -262,7 +262,7 @@ const ChallengesPage: NextPage = () => {
                                 />
                                 {selectedDifficulties.length > 0 && (
                                     <div className="text-white mt-2">
-
+                                        Selected Difficulties:
                                         <SelectedItems items={selectedDifficulties} />
                                     </div>
                                 )}
