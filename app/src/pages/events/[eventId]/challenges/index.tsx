@@ -49,7 +49,7 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
         <div className="relative flex flex-col items-center">
 
             <button
-                className={`rounded-full bg-gray-800 text-white px-8 py-3 transition-all duration-300 ease-in-out ${isOpen ? 'bg-gray-600' : ''
+                className={`rounded-full bg-black text-white px-8 py-3 transition-all duration-300 ease-in-out ${isOpen ? 'bg-gray-600' : ''
                     }`}
                 onClick={handleButtonClick}
             >
