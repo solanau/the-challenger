@@ -45,7 +45,10 @@ const ActiveChallengesSection = ({
                         {challenge.description}
                     </Text>
 
-                    <Text variant="paragraph" className="font text-xl text-primary">
+                    <Text
+                        variant="paragraph"
+                        className="font text-xl text-primary"
+                    >
                         Difficulty: {challenge.difficulty}
                     </Text>
 
