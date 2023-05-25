@@ -15,7 +15,7 @@
     "rules": {
         "indent": "off",
         "arrow-body-style": ["warn", "as-needed"],
-        "arrow-parens": ["error", "as-needed"],
+        "arrow-parens": ["off", "error", "as-needed"],
         "comma-dangle": "off",
         "import/extensions": ["warn", "never"],
         "object-curly-newline": "off",
