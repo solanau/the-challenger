@@ -114,7 +114,7 @@ const ChallengesPage: NextPage = () => {
 
     const handleCategoryChange = (category: string) => {
         if (selectedCategories.includes(category)) {
-            setSelectedCategories(selectedCategories.filter((c) => c !== category));
+            setSelectedCategories(selectedCategories.filter(c => c !== category));
         } else {
             setSelectedCategories([...selectedCategories, category]);
         }
@@ -123,7 +123,7 @@ const ChallengesPage: NextPage = () => {
     const handleDifficultyChange = (difficulty: string) => {
         if (selectedDifficulties.includes(difficulty)) {
             setSelectedDifficulties(
-                selectedDifficulties.filter((d) => d !== difficulty)
+                selectedDifficulties.filter(d => d !== difficulty)
             );
         } else {
             setSelectedDifficulties([...selectedDifficulties, difficulty]);
@@ -243,9 +243,7 @@ const ChallengesPage: NextPage = () => {
                                         },
                                     ]}
                                 />
-
                             </div>
-
                         </div>
                         <ActiveChallengesSection
                             eventId={eventId}
