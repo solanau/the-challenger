@@ -55,15 +55,17 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
     }, [isOpen]);
 
     return (
-        <div className="relative inline-block">
+        <div className="relative inline-block ">
             {/* Button component */}
             <button
                 ref={buttonRef}
-                className={`inline-flex rounded-full text-white px-8 py-3.5 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${isOpen ? "bg-gray-800" : "bg-black"
+                className={`inline-flex rounded-full text-white text-xl font-bold px-9 py-6 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${isOpen ? "bg-gray-800" : "bg-black"
                     } top-0`}
                 onClick={handleButtonClick}
             >
                 {label}
+
+
                 <svg
                     className={`-mr-1 ml-2 h-5 w-5 transition-transform duration-300 ${isOpen ? "transform rotate-180" : ""
                         }`}
@@ -78,6 +80,7 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
                         clipRule="evenodd"
                     />
                 </svg>
+
             </button>
 
             <div
@@ -89,7 +92,7 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
                     {options.map((option) => (
                         <button
                             key={option.label}
-                            className={`w-full px-4 py-3 text-white transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${option.isActive ? "bg-gray-800" : "bg-black"
+                            className={`w-full px-4 py-3 text-white text-xl font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${option.isActive ? "bg-gray-800" : "bg-black"
                                 }`}
                             onClick={option.onClick}
                         >
@@ -292,3 +295,4 @@ const ChallengesPage: NextPage = () => {
     );
 };
 export default ChallengesPage;
+
