@@ -10,7 +10,7 @@ import { ChangeEvent, useMemo, useState } from 'react';
 import {
     isActiveChallenge,
     isExpiredChallenge,
-    isPendingChallenge,
+    isPendingChallenge
 } from 'utils/challenge';
 
 const ChallengesPage: NextPage = () => {
@@ -36,12 +36,12 @@ const ChallengesPage: NextPage = () => {
         }
 
         return challenges.filter(challenge => {
-            const filteredByCategory = 
+            const filteredByCategory =
                 selectedCategory ? challenge.category == selectedCategory : true
-            const filteredByDifficulty = 
+            const filteredByDifficulty =
                 selectedDifficulty ? challenge.difficulty == selectedDifficulty : true
 
-            return filteredByCategory && filteredByDifficulty 
+            return filteredByCategory && filteredByDifficulty
         })
 
     }, [selectedCategory, selectedDifficulty, challenges]);
