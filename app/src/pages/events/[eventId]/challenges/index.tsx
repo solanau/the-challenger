@@ -33,7 +33,8 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
     const handleOutsideClick = (event: MouseEvent) => {
         if (
             dropdownRef.current &&
-            !dropdownRef.current.contains(event.target as Node)
+            !dropdownRef.current.contains(event.target as Node) &&
+            buttonRef.current !== event.target
         ) {
             setIsOpen(false);
         }
@@ -55,6 +56,7 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
 
     return (
         <div className="relative inline-block">
+            {/* Button component */}
             <button
                 ref={buttonRef}
                 className={`inline-flex rounded-full text-white px-8 py-3.5 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${isOpen ? "bg-gray-800" : "bg-black"
@@ -77,26 +79,26 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
                     />
                 </svg>
             </button>
-            {isOpen && (
-                <div
-                    className="dropdown-menu absolute left-0 top-full mt-1 overflow-y-auto bg-gray-800 border border-white  border-solid border-1 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out"
-                    ref={dropdownRef}
-                >
-                    <div className="flex flex-wrap">
-                        {options.map((option) => (
-                            <button
-                                key={option.label}
-                                className={`w-full px-4 py-3 text-white transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${option.isActive ? "bg-gray-800" : "bg-black"
-                                    }`}
-                                onClick={option.onClick}
-                            >
-                                {option.isActive ? "✅ " : ""}
-                                {option.label}
-                            </button>
-                        ))}
-                    </div>
+
+            <div
+                className={`dropdown-menu absolute left-0 top-full mt-1 overflow-y-auto bg-gray-800 border border-white  border-solid border-1 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 translate-y-0 ease-out transition-slow' : 'opacity-0 -translate-y-2 ease-in transition-fast'} `}
+                ref={dropdownRef}
+                style={{ transitionProperty: 'transform, opacity' }}
+            >
+                <div className="flex flex-wrap">
+                    {options.map((option) => (
+                        <button
+                            key={option.label}
+                            className={`w-full px-4 py-3 text-white transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${option.isActive ? "bg-gray-800" : "bg-black"
+                                }`}
+                            onClick={option.onClick}
+                        >
+                            {option.isActive ? "✅ " : ""}
+                            {option.label}
+                        </button>
+                    ))}
                 </div>
-            )}
+            </div>
         </div>
     );
 };
