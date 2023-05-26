@@ -151,7 +151,6 @@ const ChallengesPage: NextPage = () => {
             setSelectedCategories([...selectedCategories, category]);
         }
     };
-
     const handleDifficultyChange = (difficulty: string) => {
         if (selectedDifficulties.includes(difficulty)) {
             setSelectedDifficulties(
@@ -161,20 +160,17 @@ const ChallengesPage: NextPage = () => {
             setSelectedDifficulties([...selectedDifficulties, difficulty]);
         }
     };
-
     return (
         <>
             <NextSeo
                 title="Challenges"
                 description="Complete the challenges to collect rewards!"
             />
-
             {challenges.length > 0 ? (
                 <div className="bg-gradient-to-tr from-primary to-secondary">
-                    <div className="flex flex-row flex-wrap gap-5 p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20 relative z-0">
+                    <div className="flex flex-row flex-wrap justify-center gap-5 p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20 relative z-0">
                         <div className="flex items-center justify-center w-full gap-5">
                             <div className="flex flex-col justify-center">
-
                                 <DropdownMenu
                                     label={
                                         selectedCategories.length > 0
@@ -259,7 +255,6 @@ const ChallengesPage: NextPage = () => {
                                         },
                                     ]}
                                 />
-
                             </div>
                             <div className="flex flex-col justify-center">
 

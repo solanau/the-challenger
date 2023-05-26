@@ -20,7 +20,7 @@ const ActiveChallengesSection = ({
         {challenges.map(challenge => (
             <Card
                 key={challenge.id}
-className={`h-128 ${challenges.length <= 2 ? 'w-full sm:w-96' : 'w-80 sm:w-96 lg:w-1/2 xl:w-1/3 sm:max-w-xl'} flex-col justify-between gap-10 p-4 sm:p-12`}
+                className={`h-128 ${challenges.length <= 2 ? 'w-full sm:w-96' : 'w-80 sm:w-96 lg:w-1/2 xl:w-1/3 sm:max-w-xl'} flex-col justify-between gap-10 p-4 sm:p-12`}
             >
                 <div className="flex flex-col gap-5">
                     {getIconByCategory(challenge.category, 35)}
