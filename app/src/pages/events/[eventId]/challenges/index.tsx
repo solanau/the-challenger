@@ -84,16 +84,16 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
             </button>
 
             <div
-                className={`dropdown-menu absolute left-0 top-full mt-1 overflow-y-auto bg-gray-800 border border-white  border-solid border-1 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 translate-y-0 ease-out transition-slow' : 'opacity-0 -translate-y-2 ease-in transition-fast'} `}
+                className={`dropdown-menu absolute left-0 top-full mt-1 overflow-y-scroll scrollbar scrollbar-thumb-orange-500 scrollbar-track-black max-h-60 bg-black border border-white border-solid border-2 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 translate-y-0 ease-out transition-slow' : 'opacity-0 -translate-y-2 ease-in transition-fast'} `}
                 ref={dropdownRef}
                 style={{ transitionProperty: 'transform, opacity' }}
             >
                 <div className="flex flex-wrap">
-                    {options.map((option) => (
+                    {options.map((option, index) => (
                         <button
                             key={option.label}
-                            className={`w-full px-4 py-3 text-white text-xl font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${option.isActive ? "bg-gray-800" : "bg-black"
-                                }`}
+                            className={`w-full px-4 py-3 text-white text-xl font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-zinc-800 hover:bg-zinc-800 ${option.isActive ? "bg-zinc-800" : "bg-black"
+                                } ${index === options.length - 1 ? 'mb-4 -mb-2' : ''}`} // adding margin bottom and negative margin to the last item
                             onClick={option.onClick}
                         >
                             {option.isActive ? "✅ " : ""}
@@ -102,6 +102,8 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
                     ))}
                 </div>
             </div>
+
+
         </div>
     );
 };
@@ -234,6 +236,16 @@ const ChallengesPage: NextPage = () => {
                                             onClick: () => handleCategoryChange('NFT'),
                                             isActive: selectedCategories.includes('NFT'),
                                         },
+                                        {
+                                            label: 'Security',
+                                            onClick: () => handleCategoryChange('Security'),
+                                            isActive: selectedCategories.includes('Security'),
+                                        },
+                                        {
+                                            label: 'Tokenomics',
+                                            onClick: () => handleCategoryChange('Tokenomics'),
+                                            isActive: selectedCategories.includes('Tokenomics'),
+                                        },
                                     ]}
                                 />
 
@@ -295,4 +307,5 @@ const ChallengesPage: NextPage = () => {
     );
 };
 export default ChallengesPage;
+
 
