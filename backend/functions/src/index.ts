@@ -1,8 +1,10 @@
+import { clusterApiUrl } from '@solana/web3.js';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { bulkSendCertificates } from './controllers/certificate';
 import { controller as challengeController } from './controllers/challenge';
 import { controller as eventController } from './controllers/event';
 import { controller as leaderBoardController } from './controllers/leader-board';
@@ -215,3 +217,16 @@ export const getEventParticipants = functions.https.onCall(
         return participants;
     },
 );
+
+
+export const sendCertificates = functions
+    .runWith({ secrets: ["challenger_mint_certificate_pk"] })
+    .https.onCall(
+        async (data, context) => {
+            const cluster = clusterApiUrl('devnet')
+            const privateKeyAsString = process.env.challenger_mint_certificate_pk
+            const eventId = ''//context.auth.token.eventId
+            bulkSendCertificates(privateKeyAsString, eventId, cluster)
+            return true;
+        },
+    );
