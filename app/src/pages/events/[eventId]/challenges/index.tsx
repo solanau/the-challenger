@@ -247,6 +247,16 @@ const ChallengesPage: NextPage = () => {
                                             onClick: () => handleCategoryChange('Tokenomics'),
                                             isActive: selectedCategories.includes('Tokenomics'),
                                         },
+                                        {
+                                            label: 'User',
+                                            onClick: () => handleCategoryChange('User'),
+                                            isActive: selectedCategories.includes('User'),
+                                        },
+                                        {
+                                            label: 'Developer',
+                                            onClick: () => handleCategoryChange('Developer'),
+                                            isActive: selectedCategories.includes('Developer'),
+                                        },
                                     ]}
                                 />
 
