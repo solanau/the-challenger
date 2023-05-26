@@ -5,7 +5,7 @@ import EventSettingsForm from 'components/event-settings-page/event-settings-for
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { useEvent } from 'hooks/use-event';
-import { getEventParticipants, updateEvent } from 'lib/api';
+import { getEventParticipants, sendCertificates, updateEvent } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -25,6 +25,7 @@ const EventSettingsPage: NextPage = () => {
     const event = useEvent(eventId);
     const challenges = useChallenges({ version: 1, isNew: false });
     const [isLoading, setIsLoading] = useState(false);
+    const [isSendingParticipationNFTs, setIsSendingParticipationNFTs] = useState(false);
     const [isDownloadingCSV, setIsDownloadingCSV] = useState(false);
     const { isLoggedIn, credential, user } = useAuth();
 
@@ -44,6 +45,22 @@ const EventSettingsPage: NextPage = () => {
             })
             .finally(() => setIsLoading(false));
     };
+
+    const handleSendParticipationNFTs = () => {
+        setIsSendingParticipationNFTs(true);
+        sendCertificates(eventId)
+            .then(() =>
+                toast('Event updated!', {
+                    type: 'success',
+                }),
+            )
+            .catch(error => {
+                toast(error, {
+                    type: 'error',
+                });
+            })
+            .finally(() => setIsLoading(false));
+    }
 
     const handleDownloadParticipantsCSV = () => {
         setIsDownloadingCSV(true);
@@ -145,6 +162,9 @@ const EventSettingsPage: NextPage = () => {
                                     managers: event.managers?.join(', ') ?? '',
                                     reviewers:
                                         event.reviewers?.join(', ') ?? '',
+                                    minChallengesToCertificate: event.minChallengesToCertificate,
+                                    candyMachineAddress: event.candyMachineAddress,
+                                    collectionUpdateAuthority: event.collectionUpdateAuthority,
                                 }}
                                 onSubmit={values =>
                                     handleUpdateEvent(
@@ -161,7 +181,22 @@ const EventSettingsPage: NextPage = () => {
                                 ></EventSettingsForm>
                             </Formik>
                         )}
+                        <div role="group" aria-labelledby="checkbox-group" className="pt-4">
+                            <Text variant="sub-heading" className="mt-4 mb-4">
+                                Participation actions
+                            </Text>
+
+                            <div className="max-h-256 flex flex-col gap-5 overflow-y-auto px-2 py-4">
+                                <div className="width-full flex flex-row justify-start gap-2 pt-4">
+                                    <Button onClick={handleSendParticipationNFTs} type="button" variant="orange" disabled={isSendingParticipationNFTs}>
+                                        {isSendingParticipationNFTs && <Spinner variant="large"></Spinner>}
+                                        Send Participation NFTs
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </>
             )}
         </>

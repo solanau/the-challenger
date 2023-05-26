@@ -1,6 +1,5 @@
 import Button from 'components/common/button';
 import Text from 'components/common/text';
-import { sendCertificates } from 'lib/api';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -8,11 +7,6 @@ import { TbSearch } from 'react-icons/tb';
 
 // Home
 const Home: NextPage = () => {
-
-    const handleSendCertificates = () => {
-        console.log('handleSendCertificates')
-        sendCertificates('f9c8a945-25c4-48cc-bf7f-b982fd6de31c')
-    }
 
     return (
         <>
@@ -48,7 +42,6 @@ const Home: NextPage = () => {
                             ></Button>
                         </a>
                     </Link>
-                    <div onClick={handleSendCertificates}>Test</div>
                 </div>
             </div>
         </>
