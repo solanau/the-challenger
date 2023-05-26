@@ -41,33 +41,37 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
     };
 
     useEffect(() => {
-        document.addEventListener("mousedown", handleOutsideClick);
+        document.addEventListener('mousedown', handleOutsideClick);
         return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
+            document.removeEventListener('mousedown', handleOutsideClick);
         };
     }, []);
 
     useEffect(() => {
         if (buttonRef.current && dropdownRef.current) {
             const buttonWidth = buttonRef.current.offsetWidth;
+            const viewportWidth = window.innerWidth;
             dropdownRef.current.style.minWidth = `${buttonWidth}px`;
+
+            // Adjust maxWidth calculation for mobile screens
+            const maxWidth = viewportWidth < 640 ? viewportWidth - 32 : viewportWidth - 16;
+            dropdownRef.current.style.maxWidth = `${maxWidth}px`;
+            dropdownRef.current.style.right = '0';
         }
     }, [isOpen]);
 
     return (
-        <div className="relative inline-block ">
+        <div className="relative inline-block w-full sm:w-auto">
             {/* Button component */}
             <button
                 ref={buttonRef}
-                className={`inline-flex rounded-full text-white text-xl font-bold px-9 py-6 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${isOpen ? "bg-gray-800" : "bg-black"
+                className={`w-full sm:w-auto inline-flex justify-center rounded-full text-white text-xl font-bold px-6 py-4 sm:px-9 sm:py-6 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${isOpen ? 'bg-gray-800' : 'bg-black'
                     } top-0`}
                 onClick={handleButtonClick}
             >
                 {label}
-
-
                 <svg
-                    className={`-mr-1 ml-2 h-5 w-5 transition-transform duration-300 ${isOpen ? "transform rotate-180" : ""
+                    className={`-mr-1 ml-2 h-5 w-5 transition-transform duration-300 ${isOpen ? 'transform rotate-180' : ''
                         }`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -80,11 +84,12 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
                         clipRule="evenodd"
                     />
                 </svg>
-
             </button>
-
             <div
-                className={`dropdown-menu absolute left-0 top-full mt-1 overflow-y-scroll scrollbar scrollbar-thumb-orange-500 scrollbar-track-black max-h-60 bg-black border border-white border-solid border-2 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 translate-y-0 ease-out transition-slow' : 'opacity-0 -translate-y-2 ease-in transition-fast'} `}
+                className={`dropdown-menu absolute left-0 top-full mt-1 overflow-y-scroll scrollbar scrollbar-thumb-orange-500 scrollbar-track-black max-h-60 bg-black border border-white border-solid border-2 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out ${isOpen
+                    ? 'opacity-100 translate-y-0 ease-out transition-slow'
+                    : 'opacity-0 -translate-y-2 ease-in transition-fast'
+                    } `}
                 ref={dropdownRef}
                 style={{ transitionProperty: 'transform, opacity' }}
             >
@@ -92,23 +97,19 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
                     {options.map((option, index) => (
                         <button
                             key={option.label}
-                            className={`w-full px-4 py-3 text-white text-xl font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-zinc-800 hover:bg-zinc-800 ${option.isActive ? "bg-zinc-800" : "bg-black"
+                            className={`w-full px-4 py-3 text-white text-lg sm:text-xl font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-zinc-800 hover:bg-zinc-800 ${option.isActive ? 'bg-zinc-800' : 'bg-black'
                                 } ${index === options.length - 1 ? 'mb-4 -mb-2' : ''}`} // adding margin bottom and negative margin to the last item
                             onClick={option.onClick}
                         >
-                            {option.isActive ? "✅ " : ""}
+                            {option.isActive ? '✅ ' : ''}
                             {option.label}
                         </button>
                     ))}
                 </div>
             </div>
-
-
         </div>
     );
 };
-
-
 
 const ChallengesPage: NextPage = () => {
     const router = useRouter();
