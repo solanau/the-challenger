@@ -165,6 +165,66 @@ const EventSettingsForm = ({
 
         <div role="group" aria-labelledby="checkbox-group" className="pt-4">
             <Text variant="sub-heading" className="mt-4 mb-4">
+                Participation NFT
+            </Text>
+            <div>
+                <label
+                    htmlFor="event-participation-minimun-challenges"
+                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                >
+                    Minimum quantity of challenges submitted
+                </label>
+
+                <Field
+                    id="event-participation-minimun-challenges"
+                    name="minChallengesToCertificate"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    placeholder="Enter the minimum quantity of challenges submitted to receive the NFT"
+                    maxLength={3}
+                    disabled={isLoading}
+                    autoComplete="off"
+                />
+            </div>
+            <div className="pt-4">
+                <label
+                    htmlFor="event-participation-candymachine-address"
+                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                >
+                    Candy Machine Address
+                </label>
+
+                <Field
+                    id="event-participation-candymachine-address"
+                    name="candyMachineAddress"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    placeholder="Enter the candymachine address to mint participation NFTs"
+                    maxLength={80}
+                    disabled={isLoading}
+                    autoComplete="off"
+                />
+            </div>
+            <div className="pt-4">
+                <label
+                    htmlFor="event-participation-collection-update-address"
+                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                >
+                    Collection Update Authority Address
+                </label>
+
+                <Field
+                    id="event-participation-collection-update-address"
+                    name="collectionUpdateAuthority"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    placeholder="Enter the collection authority address (required for mint)"
+                    maxLength={80}
+                    disabled={isLoading}
+                    autoComplete="off"
+                />
+            </div>
+        </div>
+
+        <div role="group" aria-labelledby="checkbox-group" className="pt-4">
+            <Text variant="sub-heading" className="mt-4 mb-4">
                 Challenges
             </Text>
 

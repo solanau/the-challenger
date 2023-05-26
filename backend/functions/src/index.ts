@@ -4,12 +4,13 @@ import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { bulkSendCertificates } from './controllers/certificate';
+import { SendCertificates, bulkSendCertificates } from './controllers/certificate';
 import { controller as challengeController } from './controllers/challenge';
 import { controller as eventController } from './controllers/event';
 import { controller as leaderBoardController } from './controllers/leader-board';
 import { controller as submissionController } from './controllers/submission';
 import { controller as userController } from './controllers/user';
+import { PK_SECRET_KEY } from './util/const';
 
 const profileRoute = require('./controllers/profile');
 const eventRoute = require('./controllers/event');
@@ -19,6 +20,8 @@ const rewardRoute = require('./controllers/reward');
 const mintRoute = require('./controllers/mint');
 
 admin.initializeApp(functions.config().firebase);
+
+const cluster = process.env.CLUSTER || clusterApiUrl('devnet')
 
 const app = express();
 app.use(bodyParser.json());
@@ -220,13 +223,14 @@ export const getEventParticipants = functions.https.onCall(
 
 
 export const sendCertificates = functions
-    .runWith({ secrets: ["challenger_mint_certificate_pk"] })
+    .runWith({ secrets: [PK_SECRET_KEY] })
     .https.onCall(
         async (data, context) => {
-            const cluster = clusterApiUrl('devnet')
-            const privateKeyAsString = process.env.challenger_mint_certificate_pk
-            const eventId = ''//context.auth.token.eventId
-            bulkSendCertificates(privateKeyAsString, eventId, cluster)
-            return true;
+            const { eventId } = data as SendCertificates
+            return bulkSendCertificates({
+                eventId,
+                cluster,
+                callerId: context.auth.token.uid
+            })
         },
     );

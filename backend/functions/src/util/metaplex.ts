@@ -2,7 +2,7 @@ import { Metaplex, bundlrStorage, keypairIdentity } from "@metaplex-foundation/j
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 
 
-export const mintToUser = async (metaplex: Metaplex, keypair: Keypair, userAddress: string, candyMachineAddress: string) => {
+export const mintToUser = async (metaplex: Metaplex, keypair: Keypair, userAddress: string, candyMachineAddress: string, collectionUpdateAuthority: string) => {
 
     const candyMachine = await metaplex
         .candyMachines()
@@ -11,7 +11,7 @@ export const mintToUser = async (metaplex: Metaplex, keypair: Keypair, userAddre
     return metaplex.candyMachines().mint({
         candyMachine,
         owner: new PublicKey(userAddress),
-        collectionUpdateAuthority: new PublicKey('AJBbXVqxBAhLHsQvasXnn58aJTjZixKeAsW1KnPeraDs')
+        collectionUpdateAuthority: new PublicKey(collectionUpdateAuthority)
     }, { commitment: 'finalized', payer: keypair })
 }
 

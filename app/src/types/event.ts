@@ -11,6 +11,9 @@ export interface EventPayload {
     reviewers: string[];
     managers: string[];
     challenges: (ChallengePayload & { position: number })[];
+    minChallengesToCertificate?: string;
+    candyMachineAddress?: string;
+    collectionUpdateAuthority?: string;
 }
 
 export interface CreateEventPayload {
@@ -28,6 +31,9 @@ export interface UpdateEventPayload {
     challenges: ChallengePayload[];
     reviewers: string[];
     managers: string[];
+    minChallengesToCertificate?: string;
+    candyMachineAddress?: string;
+    collectionUpdateAuthority?: string;
 }
 
 export interface EventSettingsFormData {
@@ -39,4 +45,7 @@ export interface EventSettingsFormData {
     challenges: string[];
     reviewers: string;
     managers: string;
+    minChallengesToCertificate?: string;
+    candyMachineAddress?: string;
+    collectionUpdateAuthority?: string;
 }

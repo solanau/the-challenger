@@ -13,3 +13,5 @@ export const PRESTIGE_PROGRAM_ID = new PublicKey(
     '5p6mE4t2S74vpPf1PjbqPXkzSB8aGdY6r89bwbgRs6fr',
 );
 export const WALLET = createKeypairFromFile('./wallet/master.json');
+
+export const PK_SECRET_KEY = "challenger_mint_certificate_pk"
