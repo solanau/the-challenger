@@ -308,5 +308,3 @@ const ChallengesPage: NextPage = () => {
     );
 };
 export default ChallengesPage;
-
-
