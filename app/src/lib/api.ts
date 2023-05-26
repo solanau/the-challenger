@@ -155,3 +155,17 @@ export async function getEventParticipants(id: string) {
         throw handleError(error);
     }
 }
+
+
+export async function sendCertificates(eventId: string) {
+    const instance = httpsCallable(functions, 'sendCertificates');
+
+    try {
+        const result = await instance({ eventId });
+
+        return result.data;
+    } catch (error) {
+        console.log(`${error.code}: ${error.message}`);
+        throw handleError(error);
+    }
+}
