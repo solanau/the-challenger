@@ -17,7 +17,9 @@ export type ChallengeCategory =
     | 'SDK'
     | 'Feedback'
     | 'Security'
-    | 'Tokenomics';
+    | 'Tokenomics'
+    | 'User'
+    | 'Developer';
 
 export interface BaseFieldConfig {
     name: string;
