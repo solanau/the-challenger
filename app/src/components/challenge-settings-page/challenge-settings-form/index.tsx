@@ -157,6 +157,12 @@ const ChallengeSettingsForm = ({
                     <option value="Tokenomics" className="bg-zinc-700">
                         Tokenomics
                     </option>
+                    <option value="User" className="bg-zinc-700">
+                        User
+                    </option>
+                    <option value="Developer" className="bg-zinc-700">
+                        Developer
+                    </option>
                 </Field>
             </div>
 
@@ -403,26 +409,26 @@ const ChallengeSettingsForm = ({
 
                                     {(fieldConfig.type === 'text' ||
                                         fieldConfig.type === 'textArea') && (
-                                        <div className="pt-4">
-                                            <label
-                                                htmlFor={`challenge-field-configs.${index}.maxLength`}
-                                                className="block w-full border-none bg-transparent py-2 outline-none"
-                                            >
-                                                Max Length
-                                            </label>
+                                            <div className="pt-4">
+                                                <label
+                                                    htmlFor={`challenge-field-configs.${index}.maxLength`}
+                                                    className="block w-full border-none bg-transparent py-2 outline-none"
+                                                >
+                                                    Max Length
+                                                </label>
 
-                                            <Field
-                                                id={`challenge-field-configs.${index}.maxLength`}
-                                                name={`fieldsConfig.${index}.maxLength`}
-                                                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
-                                                placeholder="Enter the field max length"
-                                                type="number"
-                                                required
-                                                disabled={isLoading}
-                                                autoComplete="off"
-                                            />
-                                        </div>
-                                    )}
+                                                <Field
+                                                    id={`challenge-field-configs.${index}.maxLength`}
+                                                    name={`fieldsConfig.${index}.maxLength`}
+                                                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                                                    placeholder="Enter the field max length"
+                                                    type="number"
+                                                    required
+                                                    disabled={isLoading}
+                                                    autoComplete="off"
+                                                />
+                                            </div>
+                                        )}
 
                                     {fieldConfig.type === 'textArea' && (
                                         <div className="pt-4">
