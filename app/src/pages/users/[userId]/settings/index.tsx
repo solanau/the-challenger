@@ -12,6 +12,11 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { UpdateUserFormData } from 'types/user';
 
+// const WalletMultiButtonDynamic = dynamic(
+//     async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
+//     { ssr: false }
+// );
+
 const UserSettingsPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { isLoggedIn, user } = useAuth();
