@@ -1,15 +1,21 @@
+import { useWallet } from '@solana/wallet-adapter-react';
 import Button from 'components/common/button';
 import Text from 'components/common/text';
 import UserSettingsForm from 'components/user-settings-page/user-settings-form';
-import { Formik } from 'formik';
+import { Formik, FormikProps, FormikValues } from 'formik';
 import { setUser } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { UpdateUserFormData } from 'types/user';
+
+// const WalletMultiButtonDynamic = dynamic(
+//     async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
+//     { ssr: false }
+// );
 
 const UserSettingsPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +43,15 @@ const UserSettingsPage: NextPage = () => {
             .finally(() => setIsLoading(false));
     };
 
+
+    const formik = useRef<FormikProps<FormikValues>>()
+    const { publicKey, sendTransaction } = useWallet();
+
+    useEffect(() => {
+        if (publicKey && formik.current)
+            formik.current.setFieldValue('walletPublicKey', publicKey.toBase58());
+    }, [publicKey, formik.current])
+
     return (
         <>
             <section className="mt-36 px-4 pt-20 sm:px-8 md:mt-0 md:px-16 lg:px-32 xl:px-48">
@@ -63,8 +78,8 @@ const UserSettingsPage: NextPage = () => {
                                     pathname: '/login',
                                     query: eventId
                                         ? {
-                                              eventId,
-                                          }
+                                            eventId,
+                                        }
                                         : {},
                                 }}
                                 passHref
@@ -91,11 +106,17 @@ const UserSettingsPage: NextPage = () => {
                             }}
                             onSubmit={handleUpdateUser}
                             enableReinitialize={true}
+                            innerRef={formik}
                         >
-                            <UserSettingsForm
-                                isLoading={isLoading}
-                            ></UserSettingsForm>
+                            {({ errors, touched, isValidating }) => (
+                                <UserSettingsForm
+                                    isLoading={isLoading}
+                                    errors={errors}
+                                    touched={touched}
+                                ></UserSettingsForm>
+                            )}
                         </Formik>
+
                     </>
                 )}
             </section>

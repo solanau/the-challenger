@@ -1,3 +1,4 @@
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
     ConnectionProvider,
     WalletProvider,
@@ -8,6 +9,7 @@ import {
     SlopeWalletAdapter,
     TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
+import { clusterApiUrl } from '@solana/web3.js';
 import { FC, ReactNode, useMemo } from 'react';
 import { WalletModalProvider } from '../components/common/wallet-adapter';
 import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
@@ -16,10 +18,10 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 export const WalletContextProvider: FC = ({ children }) => {
     useAutoConnect();
 
-    // const network = WalletAdapterNetwork.Devnet;
+    const network = WalletAdapterNetwork.Devnet;
+    const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
-    // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-    const endpoint = 'http://localhost:8899';
+    // const endpoint = 'http://localhost:8899';
 
     const wallets = useMemo(
         () => [

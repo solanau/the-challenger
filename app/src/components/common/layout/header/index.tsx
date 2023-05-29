@@ -125,7 +125,7 @@ const Header = () => {
                 </section>
                 <div className="hidden flex-row items-center gap-5 self-end sm:flex sm:gap-7">
                     <NavElement
-                        label="Home"
+                        label="Home1"
                         href={isEventPage ? `/events/${eventId}` : '/'}
                         navigationStarts={() => setIsNavOpen(false)}
                     />
