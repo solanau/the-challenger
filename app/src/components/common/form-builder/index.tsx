@@ -1,5 +1,6 @@
 import { Field, FormikErrors, FormikTouched, FormikValues } from 'formik';
 import { FieldConfig } from 'types/form';
+import { validateEmptyField } from 'utils/validations';
 
 interface FormBuilderProps {
     fieldsConfig: FieldConfig[];
@@ -10,16 +11,6 @@ interface FormBuilderProps {
 }
 
 const FormBuilder = ({ errors, touched, isValidating, fieldsConfig, disabled = false }: FormBuilderProps) => {
-
-    function validateEmptyField(value) {
-        let error;
-        if (!value) {
-            error = 'Required';
-        } else if (value.replaceAll(" ", "").length == 0) {
-            error = 'Enter a value';
-        }
-        return error;
-    }
 
     const builder = (
         fieldConfig: FieldConfig,

@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
-import Button from '../button';
 import type { MouseEvent } from 'react';
 import { TbWallet } from 'react-icons/tb';
+import Button from '../button';
 import { useWalletModal } from './use-wallet-modal';
 
 export const WalletModalButton = () => {
@@ -22,7 +22,7 @@ export const WalletModalButton = () => {
             onClick={handleClick}
             variant="transparent"
             className="!w-full"
-            text="Connect"
+            text="Set Wallet"
         ></Button>
     );
 };
