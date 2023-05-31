@@ -22,7 +22,7 @@ interface ParticipationCertificateEntry {
 const sendCertificate = async (toUserId: string, forEventId: string, cluster: string, candyMachineAddress: string, collectionUpdateAuthority: string) => {
 
     const prefix = `user:${toUserId} event:${forEventId} =>`
-    const logger = (text: string) => console.log(`${prefix} ${text}`);
+    const logger = (text: string, fn: (m: any, ...p: any[]) => void = console.log) => fn(`${prefix} ${text}`);
     const thrower = (text: string) => { throw `${prefix} ${text}` };
 
     try {
@@ -42,7 +42,6 @@ const sendCertificate = async (toUserId: string, forEventId: string, cluster: st
             logger(`User exists in database: ${userWasMinted.size > 0}`);
 
             if (userWasMinted.size > 0) {
-                // throw `${prefix} User has already minted, throwing error`;
                 thrower('User has already minted, throwing error')
             }
 
@@ -78,7 +77,7 @@ const sendCertificate = async (toUserId: string, forEventId: string, cluster: st
         logger("Transaction successfully committed!");
         return true
     } catch (e) {
-        logger(`Transaction failed: ${e}`);
+        logger(`Transaction failed: ${e}`, console.error);
         //TODO: Send email to admin
         return false
     }
@@ -102,6 +101,7 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
 
     // Get users from leaderboard
     const minChallengesToCertificate = event.data().minChallengesToCertificate
+    const maxUsersToCertificate = event.data().maxUsersToCertificate
     const submissions = (await db.doc(`events/${eventId}/`)
         .collection('submissions')
         .select('userId')
@@ -116,7 +116,10 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
         return acc
     }, [])
 
-    console.log('usersFilteredByMinimum ===>', usersFilteredByMinimum)
+    const usersFilteredByMinimumSliced =
+        !_.isNil(maxUsersToCertificate) ?
+            usersFilteredByMinimum.slice(0, maxUsersToCertificate)
+            : usersFilteredByMinimum
 
     // Mint NFT for users and save them in Firestore
     // Get candy machine adddress
@@ -132,8 +135,15 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
         return false
     }
     // Send certificates in parallel
-    const promises = usersFilteredByMinimum.map(
-        userId => sendCertificate(userId, eventId, params.cluster, candyMachineAddress, collectionUpdateAuthority))
+    const promises = usersFilteredByMinimumSliced.map(
+        userId => sendCertificate(
+            userId,
+            eventId,
+            params.cluster,
+            candyMachineAddress,
+            collectionUpdateAuthority
+        )
+    )
     const promisesResult = await Promise.all(promises)
 
     return promisesResult
