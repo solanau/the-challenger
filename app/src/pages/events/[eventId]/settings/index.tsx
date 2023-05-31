@@ -60,7 +60,7 @@ const EventSettingsPage: NextPage = () => {
                     type: 'error',
                 });
             })
-            .finally(() => setIsLoading(false));
+            .finally(() => setIsSendingParticipationNFTs(false));
     }
 
     const handleDownloadParticipantsCSV = () => {
