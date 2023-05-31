@@ -29,7 +29,7 @@ const sendCertificate = async (toUserId: string, forEventId: string, cluster: st
         await db.runTransaction(async (transaction) => {
             const user = await db.collection('users').doc(toUserId).get()
 
-            const collectionName = 'users-participation-recognition'
+            const collectionName = 'users-participation-nfts'
 
             const userWasMintedQuery = await db
                 .collection('events')
