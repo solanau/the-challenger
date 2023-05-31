@@ -177,9 +177,27 @@ const EventSettingsForm = ({
 
                 <Field
                     id="event-participation-minimun-challenges"
-                    name="minChallengesToCertificate"
+                    name="participationNFT.minChallengesToCertificate"
                     className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     placeholder="Enter the minimum quantity of challenges submitted to receive the NFT"
+                    maxLength={3}
+                    disabled={isLoading}
+                    autoComplete="off"
+                />
+            </div>
+            <div>
+                <label
+                    htmlFor="event-participation-max-users-to-certificate"
+                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                >
+                    Minimum quantity of challenges submitted
+                </label>
+
+                <Field
+                    id="event-participation-max-users-to-certificate"
+                    name="participationNFT.maxUsersToCertificate"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    placeholder="Enter the maximum users to send the certificate"
                     maxLength={3}
                     disabled={isLoading}
                     autoComplete="off"
@@ -195,7 +213,7 @@ const EventSettingsForm = ({
 
                 <Field
                     id="event-participation-candymachine-address"
-                    name="candyMachineAddress"
+                    name="participationNFT.candyMachineAddress"
                     className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     placeholder="Enter the candymachine address to mint participation NFTs"
                     maxLength={80}
@@ -213,7 +231,7 @@ const EventSettingsForm = ({
 
                 <Field
                     id="event-participation-collection-update-address"
-                    name="collectionUpdateAuthority"
+                    name="participationNFT.collectionUpdateAuthority"
                     className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                     placeholder="Enter the collection authority address (required for mint)"
                     maxLength={80}

@@ -1,5 +1,12 @@
 import { ChallengePayload } from './challenge';
 
+
+export interface ParticipationNFT {
+    minChallengesToCertificate: string;
+    candyMachineAddress: string;
+    collectionUpdateAuthority: string;
+    maxUsersToCertificate: string;
+}
 export interface EventPayload {
     id: string;
     title: string;
@@ -11,9 +18,7 @@ export interface EventPayload {
     reviewers: string[];
     managers: string[];
     challenges: (ChallengePayload & { position: number })[];
-    minChallengesToCertificate?: string;
-    candyMachineAddress?: string;
-    collectionUpdateAuthority?: string;
+    participationNFT?: ParticipationNFT
 }
 
 export interface CreateEventPayload {
@@ -31,9 +36,7 @@ export interface UpdateEventPayload {
     challenges: ChallengePayload[];
     reviewers: string[];
     managers: string[];
-    minChallengesToCertificate?: string;
-    candyMachineAddress?: string;
-    collectionUpdateAuthority?: string;
+    participationNFT?: ParticipationNFT
 }
 
 export interface EventSettingsFormData {

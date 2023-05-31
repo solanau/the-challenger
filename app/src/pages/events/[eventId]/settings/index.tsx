@@ -44,6 +44,7 @@ const EventSettingsPage: NextPage = () => {
                 });
             })
             .finally(() => setIsLoading(false));
+
     };
 
     const handleSendParticipationNFTs = () => {
@@ -162,9 +163,12 @@ const EventSettingsPage: NextPage = () => {
                                     managers: event.managers?.join(', ') ?? '',
                                     reviewers:
                                         event.reviewers?.join(', ') ?? '',
-                                    minChallengesToCertificate: event.minChallengesToCertificate,
-                                    candyMachineAddress: event.candyMachineAddress,
-                                    collectionUpdateAuthority: event.collectionUpdateAuthority,
+                                    participationNFT: {
+                                        minChallengesToCertificate: event.participationNFT?.minChallengesToCertificate ?? '',
+                                        candyMachineAddress: event.participationNFT?.candyMachineAddress ?? '',
+                                        collectionUpdateAuthority: event.participationNFT?.collectionUpdateAuthority ?? '',
+                                        maxUsersToCertificate: event.participationNFT?.maxUsersToCertificate ?? '',
+                                    }
                                 }}
                                 onSubmit={values =>
                                     handleUpdateEvent(

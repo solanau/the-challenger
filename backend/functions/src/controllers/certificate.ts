@@ -22,7 +22,7 @@ interface ParticipationCertificateEntry {
 const sendCertificate = async (toUserId: string, forEventId: string, cluster: string, candyMachineAddress: string, collectionUpdateAuthority: string) => {
 
     const prefix = `user:${toUserId} event:${forEventId} =>`
-    const logger = (text: string) => console.log(`${prefix} ${text}`);
+    const logger = (text: string, fn: (m: any, ...p: any[]) => void = console.log) => fn(`${prefix} ${text}`);
     const thrower = (text: string) => { throw `${prefix} ${text}` };
 
     try {
@@ -42,7 +42,6 @@ const sendCertificate = async (toUserId: string, forEventId: string, cluster: st
             logger(`User exists in database: ${userWasMinted.size > 0}`);
 
             if (userWasMinted.size > 0) {
-                // throw `${prefix} User has already minted, throwing error`;
                 thrower('User has already minted, throwing error')
             }
 
@@ -78,7 +77,7 @@ const sendCertificate = async (toUserId: string, forEventId: string, cluster: st
         logger("Transaction successfully committed!");
         return true
     } catch (e) {
-        logger(`Transaction failed: ${e}`);
+        logger(`Transaction failed: ${e}`, console.error);
         //TODO: Send email to admin
         return false
     }
@@ -100,42 +99,62 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
         return false
     }
 
-    // Get users from leaderboard
-    const minChallengesToCertificate = event.data().minChallengesToCertificate
-    const submissions = (await db.doc(`events/${eventId}/`)
-        .collection('submissions')
-        .select('userId')
-        .get()).docs.map(x => x.data()) as { [key: string]: string }[]
+    const participationNFT = event.data().participationNFT || {}
+
+    if (!_.isEmpty(participationNFT)) {
 
 
-    const groupedByUserId = _.groupBy(submissions, 'userId')
-    const usersFilteredByMinimum = _.transform(groupedByUserId, (acc, curr, key, dict) => {
-        const value = dict[key]
-        const valueToAdd = value.length >= minChallengesToCertificate ? key : null
-        if (valueToAdd) acc.push(key)
-        return acc
-    }, [])
+        // Get users from leaderboard
+        const minChallengesToCertificate = participationNFT.minChallengesToCertificate
+        const maxUsersToCertificate = participationNFT.maxUsersToCertificate
+        const submissions = (await db.doc(`events/${eventId}/`)
+            .collection('submissions')
+            .select('userId')
+            .get()).docs.map(x => x.data()) as { [key: string]: string }[]
 
-    console.log('usersFilteredByMinimum ===>', usersFilteredByMinimum)
 
-    // Mint NFT for users and save them in Firestore
-    // Get candy machine adddress
-    const candyMachineAddress = event.data().candyMachineAddress
-    if (_.isNil(candyMachineAddress)) {
-        //TODO: Send an email to inform managers candyMachine has not been set
-        return false
+        const groupedByUserId = _.groupBy(submissions, 'userId')
+        const usersFilteredByMinimum = _.transform(groupedByUserId, (acc, curr, key, dict) => {
+            const value = dict[key]
+            const valueToAdd = value.length >= minChallengesToCertificate ? key : null
+            if (valueToAdd) acc.push(key)
+            return acc
+        }, [])
+
+        const usersFilteredByMinimumSliced =
+            !_.isNil(maxUsersToCertificate) ?
+                usersFilteredByMinimum.slice(0, maxUsersToCertificate)
+                : usersFilteredByMinimum
+
+        // Mint NFT for users and save them in Firestore
+        // Get candy machine adddress
+        const candyMachineAddress = participationNFT.candyMachineAddress
+        if (_.isNil(candyMachineAddress)) {
+            //TODO: Send an email to inform managers candyMachine has not been set
+            return false
+        }
+        // Get collection update authority adddress
+        const collectionUpdateAuthority = participationNFT.collectionUpdateAuthority
+        if (_.isNil(collectionUpdateAuthority)) {
+            //TODO: Send an email to inform managers candyMachine has not been set
+            return false
+        }
+        // Send certificates in parallel
+        const promises = usersFilteredByMinimumSliced.map(
+            userId => sendCertificate(
+                userId,
+                eventId,
+                params.cluster,
+                candyMachineAddress,
+                collectionUpdateAuthority
+            )
+        )
+        const promisesResult = await Promise.all(promises)
+
+        return promisesResult
+    } else {
+        // Nothing was sent, return empty array
+        Promise.resolve([])
     }
-    // Get collection update authority adddress
-    const collectionUpdateAuthority = event.data().collectionUpdateAuthority
-    if (_.isNil(collectionUpdateAuthority)) {
-        //TODO: Send an email to inform managers candyMachine has not been set
-        return false
-    }
-    // Send certificates in parallel
-    const promises = usersFilteredByMinimum.map(
-        userId => sendCertificate(userId, eventId, params.cluster, candyMachineAddress, collectionUpdateAuthority))
-    const promisesResult = await Promise.all(promises)
-
-    return promisesResult
 
 }
