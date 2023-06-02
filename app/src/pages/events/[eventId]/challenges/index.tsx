@@ -23,17 +23,22 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
     options,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     const handleButtonClick = () => {
         setIsOpen(!isOpen);
     };
 
+    const handleOptionClick = (option: ButtonProps) => {
+        option.onClick();
+        option.isActive = !option.isActive; // Toggle the isActive state of the option
+    };
+
     const handleOutsideClick = (event: MouseEvent) => {
         if (
-            dropdownRef.current &&
-            !dropdownRef.current.contains(event.target as Node) &&
+            menuRef.current &&
+            !menuRef.current.contains(event.target as Node) &&
             buttonRef.current !== event.target
         ) {
             setIsOpen(false);
@@ -46,19 +51,6 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
             document.removeEventListener('mousedown', handleOutsideClick);
         };
     }, []);
-
-    useEffect(() => {
-        if (buttonRef.current && dropdownRef.current) {
-            const buttonWidth = buttonRef.current.offsetWidth;
-            const viewportWidth = window.innerWidth;
-            dropdownRef.current.style.minWidth = `${buttonWidth}px`;
-
-            // Adjust maxWidth calculation for mobile screens
-            const maxWidth = viewportWidth < 640 ? viewportWidth - 32 : viewportWidth - 16;
-            dropdownRef.current.style.maxWidth = `${maxWidth}px`;
-            dropdownRef.current.style.right = '0';
-        }
-    }, [isOpen]);
 
     return (
         <div className="relative inline-block w-full sm:w-auto">
@@ -85,32 +77,29 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
                     />
                 </svg>
             </button>
-            <div
-                className={`dropdown-menu absolute left-0 top-full mt-1 overflow-y-scroll scrollbar scrollbar-thumb-orange-500 scrollbar-track-black max-h-60 bg-black border border-white border-solid border-2 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out ${isOpen
-                    ? 'opacity-100 translate-y-0 ease-out transition-slow'
-                    : 'opacity-0 -translate-y-2 ease-in transition-fast'
-                    } `}
-                ref={dropdownRef}
-                style={{ transitionProperty: 'transform, opacity' }}
-            >
-                <div className="flex flex-wrap">
-                    {options.map((option, index) => (
-                        <button
-                            key={option.label}
-                            className={`w-full px-4 py-3 text-white text-lg sm:text-xl font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-zinc-800 hover:bg-zinc-800 ${option.isActive ? 'bg-zinc-800' : 'bg-black'
-                                } ${index === options.length - 1 ? 'mb-4 -mb-2' : ''}`} // adding margin bottom and negative margin to the last item
-                            onClick={option.onClick}
-                        >
-                            {option.isActive ? '✅ ' : ''}
-                            {option.label}
-                        </button>
-                    ))}
+            {isOpen && (
+                <div
+                    className="dropdown-menu absolute left-0 top-full mt-1 overflow-y-scroll scrollbar scrollbar-thumb-orange-500 scrollbar-track-black max-h-60 bg-black border border-white border-solid border-2 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out"
+                    ref={menuRef}
+                >
+                    <div className="flex flex-wrap">
+                        {options.map((option, index) => (
+                            <button
+                                key={option.label}
+                                className={`w-full px-4 py-3 text-white text-lg sm:text-xl font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-zinc-800 hover:bg-zinc-800 ${option.isActive ? 'bg-zinc-800' : 'bg-black'
+                                    } ${index === options.length - 1 ? 'mb-4 -mb-2' : ''}`}
+                                onClick={() => handleOptionClick(option)}
+                            >
+                                {option.isActive ? '✅ ' : ''}
+                                {option.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
-
 const ChallengesPage: NextPage = () => {
     const router = useRouter();
     const eventId =
