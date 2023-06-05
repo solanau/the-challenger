@@ -1,5 +1,5 @@
 # not working right now
-name: Deploy to Firebase Functions on push to Develop
+name: Deploy to Firebase Functions on push to Main
 "on":
   push:
     branches:
