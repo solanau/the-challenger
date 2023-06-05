@@ -97,7 +97,12 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
         .select('userId')
         .get()
 
-    const userIdsWithCertificateMinted = usersWithCertificateMinted.docs.map(x => x.data().userId)
+    const userIdsWithCertificateMinted =
+        usersWithCertificateMinted.docs.map(x => x.data().userId)
+
+    // Add a default element to the array to avoid firestore query error
+    const usersToExclude =
+        _.isEmpty(userIdsWithCertificateMinted) ? ['empty'] : userIdsWithCertificateMinted
 
     // return Promise.resolve([])
 
@@ -118,7 +123,7 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
         const maxUsersToCertificate = participationNFT.maxUsersToCertificate
         const submissions = (await db.doc(`events/${eventId}/`)
             .collection('submissions')
-            .where('userId', 'not-in', userIdsWithCertificateMinted)
+            .where('userId', 'not-in', usersToExclude)
             .select('userId')
             .get()).docs.map(x => x.data()) as { [key: string]: string }[]
 
