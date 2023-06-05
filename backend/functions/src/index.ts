@@ -21,7 +21,7 @@ const mintRoute = require('./controllers/mint');
 
 admin.initializeApp(functions.config().firebase);
 
-const cluster = process.env.CLUSTER || clusterApiUrl('devnet')
+const cluster = process.env.SOLANA_CLUSTER || clusterApiUrl('devnet')
 
 const app = express();
 app.use(bodyParser.json());
