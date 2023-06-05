@@ -102,8 +102,6 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
     const participationNFT = event.data().participationNFT || {}
 
     if (!_.isEmpty(participationNFT)) {
-
-
         // Get users from leaderboard
         const minChallengesToCertificate = participationNFT.minChallengesToCertificate
         const maxUsersToCertificate = participationNFT.maxUsersToCertificate
