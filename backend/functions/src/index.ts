@@ -226,6 +226,7 @@ export const sendCertificates = functions
     .runWith({ secrets: [PK_SECRET_KEY] })
     .https.onCall(
         async (data, context) => {
+            console.log('cluster', cluster)
             const { eventId } = data as SendCertificates
             return bulkSendCertificates({
                 eventId,
