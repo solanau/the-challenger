@@ -225,6 +225,7 @@ export const sendCertificates = functions
     .https.onCall(
         async (data, context) => {
 
+            console.log('process.env ==>', process.env)
             const cluster = process.env.SOLANA_CLUSTER || clusterApiUrl('devnet')
 
             const { eventId } = data as SendCertificates
