@@ -90,8 +90,6 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
     const user = await db.collection('users').doc(callerId).get()
     const eventManagers: string[] = event.get('managers')
 
-
-
     const usersWithCertificateMinted = await db
         .collection('events')
         .doc(eventId)
@@ -138,8 +136,6 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
                 usersFilteredByMinimum.slice(0, maxUsersToCertificate)
                 : usersFilteredByMinimum
 
-        console.log('usersFilteredByMinimumSliced ==>', usersFilteredByMinimumSliced)
-
         // Mint NFT for users and save them in Firestore
         // Get candy machine adddress
         const candyMachineAddress = participationNFT.candyMachineAddress
@@ -154,19 +150,18 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
             return false
         }
         // Send certificates in parallel
-        // const promises = usersFilteredByMinimumSliced.map(
-        //     userId => sendCertificate(
-        //         userId,
-        //         eventId,
-        //         cluster,
-        //         candyMachineAddress,
-        //         collectionUpdateAuthority
-        //     )
-        // )
-        // const promisesResult = await Promise.all(promises)
+        const promises = usersFilteredByMinimumSliced.map(
+            userId => sendCertificate(
+                userId,
+                eventId,
+                cluster,
+                candyMachineAddress,
+                collectionUpdateAuthority
+            )
+        )
+        const promisesResult = await Promise.all(promises)
 
-        // return promisesResult
-        return Promise.resolve([])
+        return promisesResult
     } else {
         // Nothing was sent, return empty array
         return Promise.resolve([])
