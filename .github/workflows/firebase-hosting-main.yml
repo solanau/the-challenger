@@ -11,18 +11,30 @@ jobs:
       - id: config-repo
         name: Pre config - 🧰 Checkout repository
         uses: actions/checkout@v3
+      - name: Get changed files for page
+        id: changed-files
+        uses: tj-actions/changed-files@v36
+        with:
+          files: |
+            app
+            assets
+            .*
+          files_ignore: backend
       - id: config-node
         name: Pre config - 🧰 Set up node 16
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
         with:
           node-version: 16
       - id: set-firebase-config
         name: Pre config - 🧰 Setting Firebase configurations
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           npm install -g firebase-tools@12.1.0
           firebase experiments:enable webframeworks
       - id: project-dependencies-installantion
         name: Installing and building project 📦
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           cd app
           yarn

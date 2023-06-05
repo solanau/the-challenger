@@ -21,8 +21,6 @@ const mintRoute = require('./controllers/mint');
 
 admin.initializeApp(functions.config().firebase);
 
-const cluster = process.env.SOLANA_CLUSTER || clusterApiUrl('devnet')
-
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -226,6 +224,9 @@ export const sendCertificates = functions
     .runWith({ secrets: [PK_SECRET_KEY] })
     .https.onCall(
         async (data, context) => {
+
+            const cluster = process.env.SOLANA_CLUSTER || clusterApiUrl('devnet')
+
             const { eventId } = data as SendCertificates
             return bulkSendCertificates({
                 eventId,
