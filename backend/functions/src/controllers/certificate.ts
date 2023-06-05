@@ -98,7 +98,8 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
         .select('userId')
         .get()
 
-    console.log('usersWithCertificateMinted', usersWithCertificateMinted)
+    console.log('usersWithCertificateMinted', usersWithCertificateMinted.docs)
+    console.log('usersWithCertificateMinted', usersWithCertificateMinted.docs.map(x => x.data().userId))
 
     return Promise.resolve([])
 
