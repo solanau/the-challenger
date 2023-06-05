@@ -1,4 +1,3 @@
-import { clusterApiUrl } from '@solana/web3.js';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -225,8 +224,9 @@ export const sendCertificates = functions
     .https.onCall(
         async (data, context) => {
 
-            console.log('process.env ==>', process.env)
-            const cluster = process.env.SOLANA_CLUSTER || clusterApiUrl('devnet')
+            // console.log('process.env ==>', process.env)
+            // const cluster = process.env.SOLANA_CLUSTER || clusterApiUrl('devnet')
+            const cluster = 'https://broken-little-pine.solana-mainnet.discover.quiknode.pro/682559021682f7e5395ee05f43247a8342681d4c/'
 
             const { eventId } = data as SendCertificates
             return bulkSendCertificates({
