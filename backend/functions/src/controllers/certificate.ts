@@ -27,6 +27,8 @@ const sendCertificate = async (toUserId: string, forEventId: string, cluster: st
     const logger = (text: string, fn: (m: any, ...p: any[]) => void = console.log) => fn(`${prefix} ${text}`);
     const thrower = (text: string) => { throw `${prefix} ${text}` };
 
+    logger(`Working on cluster ${cluster}`)
+
     try {
         await db.runTransaction(async (transaction) => {
             const user = await db.collection('users').doc(toUserId).get()
