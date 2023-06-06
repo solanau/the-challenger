@@ -190,7 +190,7 @@ const EventSettingsForm = ({
                     htmlFor="event-participation-max-users-to-certificate"
                     className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                 >
-                    Minimum quantity of challenges submitted
+                    Maximum users to send certificate
                 </label>
 
                 <Field
