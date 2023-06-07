@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { db } from '..';
 import { getKeypairFromSecretString } from '../util/keypair';
-import { getCollectionFromCandyMachine, getNFTsFromOwner, initializeMetaplex, mintToUser } from '../util/metaplex';
+import { initializeMetaplex, mintToUser } from '../util/metaplex';
 
 export interface SendCertificates {
     eventId: string
@@ -154,15 +154,15 @@ export const individualSendCertificate = async (params: SendTestCerficateParams)
         logger(`Minting with authority: ${collectionUpdateAuthority}`);
         logger(`Keypair public key: ${keypair.publicKey.toBase58()}`);
 
-        const collectionAddress = await getCollectionFromCandyMachine(metaplex, candyMachineAddress)
-        const userNFTs = await getNFTsFromOwner(metaplex, walletAddress)
-        const userHasNFTFromCollection = _.find(
-            userNFTs,
-            x => x.collection ? x.collection.address.toBase58() == collectionAddress : false
-        ) != undefined
-        // logger(`collectionAddress: ${collectionAddress}`);
+        // const collectionAddress = await getCollectionFromCandyMachine(metaplex, candyMachineAddress)
+        // const userNFTs = await getNFTsFromOwner(metaplex, walletAddress)
+        // const userHasNFTFromCollection = _.find(
+        //     userNFTs,
+        //     x => x.collection ? x.collection.address.toBase58() == collectionAddress : false
+        // ) != undefined
+        // // logger(`collectionAddress: ${collectionAddress}`);
         // logger(`userNFTs: ${userNFTs[0].collection}`);
-        logger(`userHasNFTFromCollection: ${userHasNFTFromCollection}`);
+        // logger(`userHasNFTFromCollection: ${userHasNFTFromCollection}`);
 
         const { nft, response } = await mintToUser(
             metaplex,
