@@ -184,7 +184,7 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
                 const result = promisesResult.concat(acc)
                 return result
             } else {
-                return sendChunk(index + 1, acc, chunks)
+                return await sendChunk(index + 1, acc, chunks)
             }
         }
 
