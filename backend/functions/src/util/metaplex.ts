@@ -15,6 +15,19 @@ export const mintToUser = async (metaplex: Metaplex, keypair: Keypair, userAddre
     }, { commitment: 'finalized', payer: keypair })
 }
 
+export const getNFTsFromOwner = async (metaplex: Metaplex, userAddress: string) => {
+    return await metaplex.nfts().findAllByOwner({
+        owner: new PublicKey(userAddress)
+    });
+}
+
+export const getCollectionFromCandyMachine = async (metaplex: Metaplex, candyMachineAddress: string) => {
+    const candyMachine = await metaplex
+        .candyMachines()
+        .findByAddress({ address: new PublicKey(candyMachineAddress) });
+    return candyMachine.collectionMintAddress.toBase58()
+}
+
 export const initializeMetaplex = (cluster: string, keypair: Keypair) => {
     const connection = new Connection(cluster);
     const metaplaex = Metaplex.make(connection)
