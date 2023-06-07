@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { db } from '..';
 import { getKeypairFromSecretString } from '../util/keypair';
-import { initializeMetaplex } from '../util/metaplex';
+import { initializeMetaplex, mintToUser } from '../util/metaplex';
 
 export interface SendCertificates {
     eventId: string
@@ -31,9 +31,8 @@ const sendCertificate = async (toUserId: string, forEventId: string, cluster: st
     const logger = loggerF(loggerPrefix(toUserId, forEventId))
     const thrower = throwerF(loggerPrefix(toUserId, forEventId))
 
-    logger(`Working on cluster ${cluster}`)
-
     try {
+        logger("Transaction initiated!");
         await db.runTransaction(async (transaction) => {
             const user = await db.collection('users').doc(toUserId).get()
 
@@ -53,29 +52,29 @@ const sendCertificate = async (toUserId: string, forEventId: string, cluster: st
 
             const keypair = getKeypairFromSecretString()
             const metaplex = initializeMetaplex(cluster, keypair)
-            // let { nft, response } = await mintToUser(
-            //     metaplex,
-            //     keypair,
-            //     user.data().walletPublicKey,
-            //     candyMachineAddress,
-            //     collectionUpdateAuthority
-            // )
+            let { nft, response } = await mintToUser(
+                metaplex,
+                keypair,
+                user.data().walletPublicKey,
+                candyMachineAddress,
+                collectionUpdateAuthority
+            )
 
-            // logger(`Minted NFT: ${nft.address.toString()}`);
-            // logger(`https://explorer.solana.com/address/${nft.address.toString()}`);
-            // logger(`https://explorer.solana.com/tx/${response.signature}`);
+            logger(`Minted NFT: ${nft.address.toString()}`);
+            logger(`https://explorer.solana.com/address/${nft.address.toString()}`);
+            logger(`https://explorer.solana.com/tx/${response.signature}`);
 
-            // const documentPath = `events/${forEventId}/${collectionName}/${toUserId}`
-            // const doc = await db.doc(documentPath)
+            const documentPath = `events/${forEventId}/${collectionName}/${toUserId}`
+            const doc = await db.doc(documentPath)
 
-            // const participationData: ParticipationCertificateEntry = {
-            //     userId: toUserId,
-            //     nftAddress: nft.address.toString(),
-            //     signature: response.signature
-            // }
+            const participationData: ParticipationCertificateEntry = {
+                userId: toUserId,
+                nftAddress: nft.address.toString(),
+                signature: response.signature
+            }
 
-            // await transaction.create(doc, participationData)
-            // logger(`Record in collection created`);
+            await transaction.create(doc, participationData)
+            logger(`Record in collection created`);
 
             //TODO: Send email
 
@@ -189,24 +188,7 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
             }
         }
 
-        const testChunks = [
-            "userId1",
-            "userId2",
-            "userId3",
-            "userId4",
-            "userId5",
-            "userId6",
-            "userId7",
-            "userId8",
-            "userId9",
-            "userId10",
-            "userId11",
-            "userId12",
-            "userId13",
-        ]
-
-        // const chunks = _.chunk(usersFilteredByMinimumSliced, 5)
-        const chunks = _.chunk(testChunks, 5)
+        const chunks = _.chunk(usersFilteredByMinimumSliced, 5)
 
         const results = await sendChunk(0, [], chunks)
 
