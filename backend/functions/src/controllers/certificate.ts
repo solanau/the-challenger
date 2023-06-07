@@ -159,9 +159,9 @@ export const individualSendCertificate = async (params: SendTestCerficateParams)
         const userHasNFTFromCollection = _.find(
             userNFTs,
             x => x.collection ? x.collection.address.toBase58() == collectionAddress : false
-        )
-        logger(`collectionAddress: ${collectionAddress}`);
-        logger(`userNFTs: ${userNFTs[0].collection}`);
+        ) != undefined
+        // logger(`collectionAddress: ${collectionAddress}`);
+        // logger(`userNFTs: ${userNFTs[0].collection}`);
         logger(`userHasNFTFromCollection: ${userHasNFTFromCollection}`);
 
         const { nft, response } = await mintToUser(
