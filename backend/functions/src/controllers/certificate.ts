@@ -13,6 +13,21 @@ export interface BulkSendCertificateParams {
     callerId: string;
 }
 
+export interface SendCerficateParams {
+    toUserId: string;
+    forEventId: string;
+    cluster: string;
+    candyMachineAddress: string;
+    collectionUpdateAuthority: string;
+}
+
+export interface SendTestCerficateParams {
+    walletAddress: string;
+    eventId: string;
+    cluster: string;
+    callerId: string;
+}
+
 interface ParticipationCertificateEntry {
     userId: string;
     nftAddress: string;
@@ -25,11 +40,19 @@ const collectionName = 'users-participation-nfts'
 const loggerF = (prefix: string, fn: (m: any, ...p: any[]) => void = console.log) => _.partial(fn, prefix)
 const throwerF = (prefix: string) => (text: string) => { throw `${prefix} ${text}` }
 
-const sendCertificate = async (toUserId: string, forEventId: string, cluster: string, candyMachineAddress: string, collectionUpdateAuthority: string) => {
+const sendCertificate = async (params: SendCerficateParams) => {
+    const {
+        toUserId,
+        forEventId,
+        cluster,
+        candyMachineAddress,
+        collectionUpdateAuthority
+    } = params
 
-    const loggerPrefix = (userId: string, eventId: string) => `fn:sendCertificate user:${userId} event:${eventId} =>`
-    const logger = loggerF(loggerPrefix(toUserId, forEventId))
-    const thrower = throwerF(loggerPrefix(toUserId, forEventId))
+    const loggerPrefix = `fn:sendCertificate user:${toUserId} event:${forEventId} =>`
+    const logger = loggerF(loggerPrefix)
+    const loggerError = loggerF(loggerPrefix, console.error)
+    const thrower = throwerF(loggerPrefix)
 
     try {
         logger("Transaction initiated!");
@@ -82,10 +105,67 @@ const sendCertificate = async (toUserId: string, forEventId: string, cluster: st
         logger("Transaction successfully committed!");
         return { userId: toUserId, sent: true }
     } catch (e) {
-        logger(`Transaction failed: ${e}`, console.error);
+        loggerError(`Transaction failed: ${e}`);
         //TODO: Send email to admin
         return { userId: toUserId, sent: false }
     }
+}
+
+export const sendTestCertificate = async (params: SendTestCerficateParams) => {
+    const { walletAddress, eventId, cluster, callerId } = params
+
+    const loggerPrefix = `fn:sendTestCertificate user:${walletAddress} event:${eventId} =>`
+    const logger = loggerF(loggerPrefix)
+    const loggerError = loggerF(loggerPrefix, console.error)
+
+    const event = await db.collection('events').doc(eventId).get()
+    const eventManagers: string[] = event.get('managers')
+    const user = await db.collection('users').doc(callerId).get()
+
+    const isManager = eventManagers.find(
+        manager => manager == callerId) != undefined
+    const isAdmin = user.get('isAdmin') == true
+
+    if (isManager == false && isAdmin == false) {
+        return false
+    }
+
+    const participationNFT = event.data().participationNFT || {}
+
+    // Mint NFT for users and save them in Firestore
+    // Get candy machine adddress
+    const candyMachineAddress = participationNFT.candyMachineAddress
+    if (_.isNil(candyMachineAddress)) {
+        //TODO: Send an email to inform managers candyMachine has not been set
+        return false
+    }
+    // Get collection update authority adddress
+    const collectionUpdateAuthority = participationNFT.collectionUpdateAuthority
+    if (_.isNil(collectionUpdateAuthority)) {
+        //TODO: Send an email to inform managers candyMachine has not been set
+        return false
+    }
+
+    try {
+        const keypair = getKeypairFromSecretString()
+        const metaplex = initializeMetaplex(cluster, keypair)
+        let { nft, response } = await mintToUser(
+            metaplex,
+            keypair,
+            walletAddress,
+            candyMachineAddress,
+            collectionUpdateAuthority
+        )
+
+        logger(`Minted NFT: ${nft.address.toString()}`);
+        logger(`https://explorer.solana.com/address/${nft.address.toString()}`);
+        logger(`https://explorer.solana.com/tx/${response.signature}`);
+        return true
+    } catch (e) {
+        loggerError(`Transaction failed: ${e}`);
+        return false
+    }
+
 }
 
 export const bulkSendCertificates = async (params: BulkSendCertificateParams) => {
@@ -171,13 +251,13 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
                 logger(`Sending chunk ${index} with ${chunk}`)
                 // Send certificates in parallel
                 const promises = chunk.map(
-                    userId => sendCertificate(
-                        userId,
-                        eventId,
+                    userId => sendCertificate({
+                        toUserId: userId,
+                        forEventId: eventId,
                         cluster,
                         candyMachineAddress,
                         collectionUpdateAuthority
-                    )
+                    } as SendCerficateParams)
                 )
                 const promisesResult = await Promise.all(promises)
                 const result = promisesResult.concat(acc)

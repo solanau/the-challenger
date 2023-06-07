@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { SendCertificates, SendTestCerficateParams, bulkSendCertificates, sendTestCertificate } from './controllers/certificate';
 import { controller as challengeController } from './controllers/challenge';
 import { controller as eventController } from './controllers/event';
 import { controller as leaderBoardController } from './controllers/leader-board';
@@ -224,17 +225,33 @@ export const sendCertificates = functions
         async (data, context) => {
 
             const { solana } = functions.config()
-            // const cluster = _.default(solana.cluster || clusterApiUrl('devnet')
             console.log('Working on cluster ==>', solana.cluster)
-            // const cluster = 'https://broken-little-pine.solana-mainnet.discover.quiknode.pro/682559021682f7e5395ee05f43247a8342681d4c/'
 
-            return false
+            const { eventId } = data as SendCertificates
+            return bulkSendCertificates({
+                eventId,
+                cluster: solana.cluster,
+                callerId: context.auth.token.uid
+            })
+        },
+    );
 
-            // const { eventId } = data as SendCertificates
-            // return bulkSendCertificates({
-            //     eventId,
-            //     cluster,
-            //     callerId: context.auth.token.uid
-            // })
+
+
+export const SendCertificateToTest = functions
+    .runWith({ secrets: [PK_SECRET_KEY] })
+    .https.onCall(
+        async (data, context) => {
+
+            const { solana } = functions.config()
+            console.log('Working on cluster ==>', solana.cluster)
+
+            const { eventId, walletAddress } = data as SendTestCerficateParams
+            return sendTestCertificate({
+                eventId,
+                cluster: solana.cluster,
+                callerId: context.auth.token.uid,
+                walletAddress
+            })
         },
     );
