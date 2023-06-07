@@ -166,7 +166,7 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
 
 
         const sendChunk = async (index, acc, chunks) => {
-            if (index.length < chunks.length) {
+            if (index < chunks.length) {
 
                 const chunk = chunks[index]
                 logger(`Sending chunk ${index} with ${chunk}`)
