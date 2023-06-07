@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { db } from '..';
 import { getKeypairFromSecretString } from '../util/keypair';
-import { initializeMetaplex, mintToUser } from '../util/metaplex';
+import { initializeMetaplex } from '../util/metaplex';
 
 export interface SendCertificates {
     eventId: string
@@ -21,11 +21,15 @@ interface ParticipationCertificateEntry {
 
 const collectionName = 'users-participation-nfts'
 
+
+const loggerF = (prefix: string, fn: (m: any, ...p: any[]) => void = console.log) => _.partial(fn, prefix)
+const throwerF = (prefix: string) => (text: string) => { throw `${prefix} ${text}` }
+
 const sendCertificate = async (toUserId: string, forEventId: string, cluster: string, candyMachineAddress: string, collectionUpdateAuthority: string) => {
 
-    const prefix = `user:${toUserId} event:${forEventId} =>`
-    const logger = (text: string, fn: (m: any, ...p: any[]) => void = console.log) => fn(`${prefix} ${text}`);
-    const thrower = (text: string) => { throw `${prefix} ${text}` };
+    const loggerPrefix = (userId: string, eventId: string) => `fn:sendCertificate user:${userId} event:${eventId} =>`
+    const logger = loggerF(loggerPrefix(toUserId, forEventId))
+    const thrower = throwerF(loggerPrefix(toUserId, forEventId))
 
     logger(`Working on cluster ${cluster}`)
 
@@ -49,44 +53,47 @@ const sendCertificate = async (toUserId: string, forEventId: string, cluster: st
 
             const keypair = getKeypairFromSecretString()
             const metaplex = initializeMetaplex(cluster, keypair)
-            let { nft, response } = await mintToUser(
-                metaplex,
-                keypair,
-                user.data().walletPublicKey,
-                candyMachineAddress,
-                collectionUpdateAuthority
-            )
+            // let { nft, response } = await mintToUser(
+            //     metaplex,
+            //     keypair,
+            //     user.data().walletPublicKey,
+            //     candyMachineAddress,
+            //     collectionUpdateAuthority
+            // )
 
-            logger(`Minted NFT: ${nft.address.toString()}`);
-            logger(`https://explorer.solana.com/address/${nft.address.toString()}`);
-            logger(`https://explorer.solana.com/tx/${response.signature}`);
+            // logger(`Minted NFT: ${nft.address.toString()}`);
+            // logger(`https://explorer.solana.com/address/${nft.address.toString()}`);
+            // logger(`https://explorer.solana.com/tx/${response.signature}`);
 
-            const documentPath = `events/${forEventId}/${collectionName}/${toUserId}`
-            const doc = await db.doc(documentPath)
+            // const documentPath = `events/${forEventId}/${collectionName}/${toUserId}`
+            // const doc = await db.doc(documentPath)
 
-            const participationData: ParticipationCertificateEntry = {
-                userId: toUserId,
-                nftAddress: nft.address.toString(),
-                signature: response.signature
-            }
+            // const participationData: ParticipationCertificateEntry = {
+            //     userId: toUserId,
+            //     nftAddress: nft.address.toString(),
+            //     signature: response.signature
+            // }
 
-            await transaction.create(doc, participationData)
-            logger(`Record in collection created`);
+            // await transaction.create(doc, participationData)
+            // logger(`Record in collection created`);
 
             //TODO: Send email
 
         });
         logger("Transaction successfully committed!");
-        return true
+        return { userId: toUserId, sent: true }
     } catch (e) {
         logger(`Transaction failed: ${e}`, console.error);
         //TODO: Send email to admin
-        return false
+        return { userId: toUserId, sent: false }
     }
 }
 
 export const bulkSendCertificates = async (params: BulkSendCertificateParams) => {
     const { eventId, cluster, callerId } = params
+
+    const loggerPrefix = (eventId: string) => `fn:bulkSendCertificates event:${eventId} =>`
+    const logger = loggerF(loggerPrefix(eventId))
 
     const event = await db.collection('events').doc(eventId).get()
     const user = await db.collection('users').doc(callerId).get()
@@ -156,19 +163,65 @@ export const bulkSendCertificates = async (params: BulkSendCertificateParams) =>
             //TODO: Send an email to inform managers candyMachine has not been set
             return false
         }
-        // Send certificates in parallel
-        const promises = usersFilteredByMinimumSliced.map(
-            userId => sendCertificate(
-                userId,
-                eventId,
-                cluster,
-                candyMachineAddress,
-                collectionUpdateAuthority
-            )
-        )
-        const promisesResult = await Promise.all(promises)
 
-        return promisesResult
+
+        const sendChunk = async (index, acc, chunks) => {
+            if (index.length < chunks.length) {
+
+                const chunk = chunks[index]
+                logger(`Sending chunk ${index} with ${chunk}`)
+                // Send certificates in parallel
+                const promises = chunk.map(
+                    userId => sendCertificate(
+                        userId,
+                        eventId,
+                        cluster,
+                        candyMachineAddress,
+                        collectionUpdateAuthority
+                    )
+                )
+                const promisesResult = await Promise.all(promises)
+                const result = promisesResult.concat(acc)
+                return result
+            } else {
+                return sendChunk(index + 1, acc, chunks)
+            }
+        }
+
+        const testChunks = [
+            "userId1",
+            "userId2",
+            "userId3",
+            "userId4",
+            "userId5",
+            "userId6",
+            "userId7",
+            "userId8",
+            "userId9",
+            "userId10",
+            "userId11",
+            "userId12",
+            "userId13",
+        ]
+
+        // const chunks = _.chunk(usersFilteredByMinimumSliced, 5)
+        const chunks = _.chunk(testChunks, 5)
+
+        const results = await sendChunk(0, [], chunks)
+
+        // // Send certificates in parallel
+        // const promises = usersFilteredByMinimumSliced.map(
+        //     userId => sendCertificate(
+        //         userId,
+        //         eventId,
+        //         cluster,
+        //         candyMachineAddress,
+        //         collectionUpdateAuthority
+        //     )
+        // )
+        // const promisesResult = await Promise.all(promises)
+
+        return _.flatMap(results)
     } else {
         // Nothing was sent, return empty array
         return Promise.resolve([])
