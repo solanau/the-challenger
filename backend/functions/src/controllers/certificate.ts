@@ -149,6 +149,11 @@ export const individualSendCertificate = async (params: SendTestCerficateParams)
     try {
         const keypair = getKeypairFromSecretString()
         const metaplex = initializeMetaplex(cluster, keypair)
+
+        logger(`Minting from candy machine: ${candyMachineAddress}`);
+        logger(`Minting with authority: ${collectionUpdateAuthority}`);
+        logger(`Keypair public key: ${keypair.publicKey.toBase58()}`);
+
         let { nft, response } = await mintToUser(
             metaplex,
             keypair,
