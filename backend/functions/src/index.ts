@@ -3,7 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { SendCertificates, SendTestCerficateParams, bulkSendCertificates, sendTestCertificate } from './controllers/certificate';
+import { SendCertificates, SendTestCerficateParams, bulkSendCertificates, individualSendCertificate } from './controllers/certificate';
 import { controller as challengeController } from './controllers/challenge';
 import { controller as eventController } from './controllers/event';
 import { controller as leaderBoardController } from './controllers/leader-board';
@@ -238,7 +238,7 @@ export const sendCertificates = functions
 
 
 
-export const SendCertificateToTest = functions
+export const SendCertificateToAddress = functions
     .runWith({ secrets: [PK_SECRET_KEY] })
     .https.onCall(
         async (data, context) => {
@@ -247,7 +247,7 @@ export const SendCertificateToTest = functions
             console.log('Working on cluster ==>', solana.cluster)
 
             const { eventId, walletAddress } = data as SendTestCerficateParams
-            return sendTestCertificate({
+            return individualSendCertificate({
                 eventId,
                 cluster: solana.cluster,
                 callerId: context.auth.token.uid,

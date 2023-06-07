@@ -111,10 +111,10 @@ const sendCertificate = async (params: SendCerficateParams) => {
     }
 }
 
-export const sendTestCertificate = async (params: SendTestCerficateParams) => {
+export const individualSendCertificate = async (params: SendTestCerficateParams) => {
     const { walletAddress, eventId, cluster, callerId } = params
 
-    const loggerPrefix = `fn:sendTestCertificate user:${walletAddress} event:${eventId} =>`
+    const loggerPrefix = `fn:individualSendCertificate user:${walletAddress} event:${eventId} =>`
     const logger = loggerF(loggerPrefix)
     const loggerError = loggerF(loggerPrefix, console.error)
 
