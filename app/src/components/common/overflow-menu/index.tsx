@@ -58,7 +58,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                 <Button
                     variant="orange"
                     icon={MdOutlineManageAccounts}
-                    onClick={() => setMenuOpen(!menuOpen)}
+                    onClick={() => setMenuOpen(true)}
                     buttonRef={buttonRef}
                 />
 
