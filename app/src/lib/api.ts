@@ -169,3 +169,17 @@ export async function sendCertificates(eventId: string) {
         throw handleError(error);
     }
 }
+
+
+export async function sendTestCertificate(eventId: string, walletAddress: string) {
+    const instance = httpsCallable(functions, 'SendCertificateToAddress');
+
+    try {
+        const result = await instance({ eventId, walletAddress });
+
+        return result.data;
+    } catch (error) {
+        console.log(`${error.code}: ${error.message}`);
+        throw handleError(error);
+    }
+}

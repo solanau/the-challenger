@@ -5,7 +5,7 @@ import EventSettingsForm from 'components/event-settings-page/event-settings-for
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { useEvent } from 'hooks/use-event';
-import { getEventParticipants, sendCertificates, updateEvent } from 'lib/api';
+import { getEventParticipants, sendCertificates, sendTestCertificate, updateEvent } from 'lib/api';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -26,6 +26,8 @@ const EventSettingsPage: NextPage = () => {
     const challenges = useChallenges({ version: 1, isNew: false });
     const [isLoading, setIsLoading] = useState(false);
     const [isSendingParticipationNFTs, setIsSendingParticipationNFTs] = useState(false);
+    const [isSendingParticipationTestNFT, setIsSendingParticipationTestNFT] = useState(false);
+    const [walletAddressForTestNFT, setWalletAddressForTestNFT] = useState('');
     const [isDownloadingCSV, setIsDownloadingCSV] = useState(false);
     const { isLoggedIn, credential, user } = useAuth();
 
@@ -51,7 +53,7 @@ const EventSettingsPage: NextPage = () => {
         setIsSendingParticipationNFTs(true);
         sendCertificates(eventId)
             .then(() =>
-                toast('Event updated!', {
+                toast('NFTs sent!', {
                     type: 'success',
                 }),
             )
@@ -61,6 +63,29 @@ const EventSettingsPage: NextPage = () => {
                 });
             })
             .finally(() => setIsSendingParticipationNFTs(false));
+    }
+
+    const handleSendTestParticipationNFT = () => {
+        setIsSendingParticipationTestNFT(true);
+        sendTestCertificate(eventId, walletAddressForTestNFT)
+            .then((success) => {
+                if (success) {
+
+                    toast('NFT sent!', {
+                        type: 'success',
+                    })
+                } else {
+                    toast('Unknown error, check server log', {
+                        type: 'error',
+                    });
+                }
+            })
+            .catch(error => {
+                toast(error, {
+                    type: 'error',
+                });
+            })
+            .finally(() => setIsSendingParticipationTestNFT(false));
     }
 
     const handleDownloadParticipantsCSV = () => {
@@ -195,6 +220,23 @@ const EventSettingsPage: NextPage = () => {
                                     <Button onClick={handleSendParticipationNFTs} type="button" variant="orange" disabled={isSendingParticipationNFTs}>
                                         {isSendingParticipationNFTs && <Spinner variant="large"></Spinner>}
                                         Send Participation NFTs
+                                    </Button>
+                                </div>
+                            </div>
+                            <hr className="mt-5"></hr>
+
+                            <div className="max-h-256 flex flex-col gap-5 overflow-y-auto px-2 py-4">
+                                <div className="width-full flex flex-col justify-start gap-2 pt-4">
+                                    <div className="text-red-500 mb-2 uppercase">Testing: Send a mint to a wallet address (Proceed with caution because this is a real mint)</div>
+                                    <div className='flex flex-col'>
+                                        <label className="text-red-500 mb-2">Wallet address to mint</label>
+                                        <input onChange={(e) => setWalletAddressForTestNFT(e.target.value)} className="text-red-500 w-full rounded-2xl border border-red-500 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-red-500 focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"></input>
+                                    </div>
+                                </div>
+                                <div className="width-full flex flex-row justify-start gap-2 pt-4">
+                                    <Button onClick={handleSendTestParticipationNFT} type="button" variant="danger" disabled={isSendingParticipationTestNFT}>
+                                        {isSendingParticipationTestNFT && <Spinner variant="large"></Spinner>}
+                                        Send NFT to address
                                     </Button>
                                 </div>
                             </div>
