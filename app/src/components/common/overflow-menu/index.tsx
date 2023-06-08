@@ -54,10 +54,11 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
     return (
         <>
             <div className="dropdown-end dropdown">
+
                 <Button
                     variant="orange"
                     icon={MdOutlineManageAccounts}
-                    onClick={() => setMenuOpen(true)}
+                    onClick={() => setMenuOpen(!menuOpen)}
                     buttonRef={buttonRef}
                 />
 
@@ -80,8 +81,8 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                     pathname: `/${user.userName}`,
                                                     query: eventId
                                                         ? {
-                                                              eventId,
-                                                          }
+                                                            eventId,
+                                                        }
                                                         : {},
                                                 }}
                                                 passHref
@@ -108,8 +109,8 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                     pathname: `/users/${userId}/settings`,
                                                     query: eventId
                                                         ? {
-                                                              eventId,
-                                                          }
+                                                            eventId,
+                                                        }
                                                         : {},
                                                 }}
                                                 passHref
@@ -209,8 +210,8 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                         pathname: '/login',
                                                         query: eventId
                                                             ? {
-                                                                  eventId,
-                                                              }
+                                                                eventId,
+                                                            }
                                                             : {},
                                                     }}
                                                     passHref
@@ -255,8 +256,8 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                     pathname: `/users/${userId}/settings`,
                                                     query: eventId
                                                         ? {
-                                                              eventId,
-                                                          }
+                                                            eventId,
+                                                        }
                                                         : {},
                                                 }}
                                                 passHref
@@ -279,8 +280,8 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                     pathname: `/users/${userId}/social`,
                                                     query: eventId
                                                         ? {
-                                                              eventId,
-                                                          }
+                                                            eventId,
+                                                        }
                                                         : {},
                                                 }}
                                                 passHref

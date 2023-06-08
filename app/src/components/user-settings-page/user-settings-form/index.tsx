@@ -1,6 +1,5 @@
 import Button from 'components/common/button';
 import Spinner from 'components/common/spinner';
-import { WalletModalButton } from 'components/common/wallet-adapter';
 import { Field, Form, FormikErrors, FormikTouched, FormikValues } from 'formik';
 import { NextPage } from 'next';
 import { validateEmptyField } from 'utils/validations';
@@ -78,12 +77,12 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                     maxLength={80}
                     required
                     validate={validateEmptyField}
-                    readOnly={true}
+                    // readOnly={true}
                     disabled={isLoading}
                     autoComplete="off"
                 />
                 {errors.walletPublicKey && touched.walletPublicKey && <div className='mt-2'>{errors.walletPublicKey}</div>}
-                <WalletModalButton></WalletModalButton>
+                {/* <WalletModalButton></WalletModalButton> */}
             </div>
 
             <div className="width-full flex flex-row justify-end gap-2 pt-4">
