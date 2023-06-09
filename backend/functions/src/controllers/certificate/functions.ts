@@ -296,7 +296,7 @@ export const bulkSendTopLoaderboardCertificates = async (params: BulkSendCertifi
 
         const leaderboard = (await db.doc(`events/${eventId}/`)
             .collection('leader-boards')
-            .doc("individual/participants")
+            .doc("individual")
             .get()).data()
 
         const filteredUsers = _.differenceWith(
