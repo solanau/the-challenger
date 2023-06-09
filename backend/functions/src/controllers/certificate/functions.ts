@@ -308,7 +308,7 @@ export const bulkSendTopLoaderboardCertificates = async (params: BulkSendCertifi
         )
 
         const filteredUsersWithMinPoints = _.filter(filteredUsers, participant => {
-            return participant.points > minPoints
+            return participant.points >= minPoints
         })
 
         const usersFiltered = !_.isNil(maxUsersToCertificate) ?
