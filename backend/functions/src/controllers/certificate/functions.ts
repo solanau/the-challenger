@@ -297,16 +297,26 @@ export const bulkSendTopLoaderboardCertificates = async (params: BulkSendCertifi
         // const where = query(citiesRef, where("state", "==", "CO"), where("name", "==", "Denver"));
         const leaderboard = (await db.doc(`events/${eventId}/`)
             .collection('leader-boards')
-            .where('userId', 'not-in', usersToExclude)
-            .where('points', '>=', minPoints)
-            .get()).docs.map(x => x.data())
+            .doc("individual/participants")
+            .get()).data()
 
+        const filteredUsers = _.differenceWith(
+            leaderboard.participants,
+            usersToExclude,
+            (participantLeaderboard: any, userToExclude: string) => {
+                return participantLeaderboard.userId == userToExclude
+            }
+        )
 
-        const participants = leaderboard[0].participants as { [key: string]: string }[]
+        const filteredUsersWithMinPoints = _.filter(leaderboard, participant => {
+            return participant.points > minPoints
+        })
+
+        // const participants = leaderboard[0].participants as { [key: string]: string }[]
 
         const usersFiltered = !_.isNil(maxUsersToCertificate) ?
-            participants.slice(0, maxUsersToCertificate)
-            : participants
+            filteredUsersWithMinPoints.slice(0, maxUsersToCertificate)
+            : filteredUsersWithMinPoints
 
         const usersWithExtraData = _.map(usersFiltered, user => {
             return {
