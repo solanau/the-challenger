@@ -294,7 +294,6 @@ export const bulkSendTopLoaderboardCertificates = async (params: BulkSendCertifi
         const minPoints = topLeaderboardNFT.minPoints
         const maxUsersToCertificate = topLeaderboardNFT.maxUsersToCertificate
 
-        // const where = query(citiesRef, where("state", "==", "CO"), where("name", "==", "Denver"));
         const leaderboard = (await db.doc(`events/${eventId}/`)
             .collection('leader-boards')
             .doc("individual/participants")
@@ -308,11 +307,9 @@ export const bulkSendTopLoaderboardCertificates = async (params: BulkSendCertifi
             }
         )
 
-        const filteredUsersWithMinPoints = _.filter(leaderboard, participant => {
+        const filteredUsersWithMinPoints = _.filter(filteredUsers, participant => {
             return participant.points > minPoints
         })
-
-        // const participants = leaderboard[0].participants as { [key: string]: string }[]
 
         const usersFiltered = !_.isNil(maxUsersToCertificate) ?
             filteredUsersWithMinPoints.slice(0, maxUsersToCertificate)
