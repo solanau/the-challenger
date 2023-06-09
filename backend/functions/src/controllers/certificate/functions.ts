@@ -248,7 +248,7 @@ export const bulkSendParticipationCertificates = async (params: BulkSendCertific
             return false
         }
 
-        const chunks = _.chunk(usersFiltered, 5)
+        const chunks = _.chunk(usersFiltered, 10)
 
         const params = {
             logger,
@@ -341,7 +341,7 @@ export const bulkSendTopLoaderboardCertificates = async (params: BulkSendCertifi
             return false
         }
 
-        const chunks = _.chunk(usersWithExtraData, 5)
+        const chunks = _.chunk(usersWithExtraData, 10)
 
         const params = {
             logger,
