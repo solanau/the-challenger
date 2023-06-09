@@ -208,8 +208,8 @@ export const bulkSendParticipationCertificates = async (params: BulkSendCertific
 
     if (!_.isEmpty(participationNFT)) {
 
-        const participationCollectionResult = 'users-participation-nfts'
-        const usersToExclude = await getUsersToExclude(participationCollectionResult, eventId)
+        const resultCollection = 'users-participation-nfts'
+        const usersToExclude = await getUsersToExclude(resultCollection, eventId)
 
         const minChallengesToCertificate = participationNFT.minChallengesToCertificate
         const maxUsersToCertificate = participationNFT.maxUsersToCertificate
@@ -253,7 +253,8 @@ export const bulkSendParticipationCertificates = async (params: BulkSendCertific
             cluster,
             eventId,
             candyMachineAddress,
-            collectionUpdateAuthority
+            collectionUpdateAuthority,
+            resultCollectionFirebase: resultCollection
         } as SendChunkParams
         const results = await sendChunk(0, [], chunks, params)
 
@@ -288,8 +289,8 @@ export const bulkSendTopLoaderboardCertificates = async (params: BulkSendCertifi
 
     if (!_.isEmpty(topLeaderboardNFT)) {
 
-        const participationCollectionResult = 'users-top-leaderboard-nfts'
-        const usersToExclude = await getUsersToExclude(participationCollectionResult, eventId)
+        const resultCollection = 'users-top-leaderboard-nfts'
+        const usersToExclude = await getUsersToExclude(resultCollection, eventId)
 
         const minPoints = topLeaderboardNFT.minPoints
         const maxUsersToCertificate = topLeaderboardNFT.maxUsersToCertificate
@@ -345,7 +346,8 @@ export const bulkSendTopLoaderboardCertificates = async (params: BulkSendCertifi
             cluster,
             eventId,
             candyMachineAddress,
-            collectionUpdateAuthority
+            collectionUpdateAuthority,
+            resultCollectionFirebase: resultCollection
         } as SendChunkParams
         const results = await sendChunk(0, [], chunks, params)
 

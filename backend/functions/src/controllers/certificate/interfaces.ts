@@ -27,11 +27,13 @@ export interface SendCerficateDefaultParams {
     resultCollectionFirebase: string;
 }
 
-export type SendCerficateParams = {
+export interface SendCerficateCustomParams {
     userId: string;
     eventId: string;
     extraData: object;
-} & SendCerficateDefaultParams
+}
+
+export type SendCerficateParams = SendCerficateCustomParams & SendCerficateDefaultParams
 
 
 export interface ParticipationCertificateEntry {
@@ -48,10 +50,12 @@ export interface ParticipationNFTNode {
     collectionUpdateAuthority: string,
 }
 
-export type SendChunkParams = {
+interface SendChunkParamsDefault {
     logger: (...p: any[]) => void;
     eventId: string;
-} & SendCerficateDefaultParams
+}
+
+export type SendChunkParams = SendChunkParamsDefault & SendCerficateDefaultParams
 
 export interface SendCertificateResult {
     userId: string;
