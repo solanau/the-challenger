@@ -26,6 +26,7 @@ const sendCertificate = async (params: SendCerficateParams): Promise<SendCertifi
 
     try {
         logger("Transaction initiated!");
+        logger(`Collection to save results: ${resultCollectionFirebase}`)
         await db.runTransaction(async (transaction) => {
             const user = await db.collection('users').doc(userId).get()
 
@@ -98,11 +99,11 @@ const getUsersToExclude = async (collectionName: string, eventId: string) => {
 }
 
 const sendChunk = async (index: number, acc: SendCertificateResult[], chunks: SendChunkItem[][], sendChunkParams: SendChunkParams) => {
-    const { logger, cluster, eventId, candyMachineAddress, collectionUpdateAuthority } = sendChunkParams
+    const { logger, cluster, eventId, candyMachineAddress, collectionUpdateAuthority, resultCollectionFirebase } = sendChunkParams
     if (index < chunks.length) {
 
         const chunk = chunks[index]
-        logger(`Sending chunk ${index} with ${chunk}`)
+        logger(`Sending chunk ${index} with ${JSON.stringify(chunk)}`)
         // Send certificates in parallel
         const promises = chunk.map(
             sendChunkItem => sendCertificate({
@@ -111,7 +112,8 @@ const sendChunk = async (index: number, acc: SendCertificateResult[], chunks: Se
                 cluster,
                 candyMachineAddress,
                 collectionUpdateAuthority,
-                extraData: sendChunkItem.extraData
+                extraData: sendChunkItem.extraData,
+                resultCollectionFirebase
             } as SendCerficateParams)
         )
         const promisesResult = await Promise.all(promises)
