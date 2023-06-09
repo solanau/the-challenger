@@ -238,7 +238,7 @@ export const sendParticipationCertificates = functions
 
 
 
-export const SendCertificateToAddress = functions
+export const sendParticipationCertificateToAddress = functions
     .runWith({ secrets: [PK_SECRET_KEY] })
     .https.onCall(
         async (data, context) => {
