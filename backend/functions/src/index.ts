@@ -3,7 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { SendCertificates, SendTestCerficateParams, bulkSendCertificates, individualSendCertificate } from './controllers/certificate';
+import { BulkSendCertificateParams, SendCertificatesInput, SendTestCerficateInput, SendTestCerficateParams, bulkSendParticipationCertificates, bulkSendTopLoaderboardCertificates, individualSendCertificate } from './controllers/certificate/';
 import { controller as challengeController } from './controllers/challenge';
 import { controller as eventController } from './controllers/event';
 import { controller as leaderBoardController } from './controllers/leader-board';
@@ -219,7 +219,7 @@ export const getEventParticipants = functions.https.onCall(
 );
 
 
-export const sendCertificates = functions
+export const sendParticipationCertificates = functions
     .runWith({ secrets: [PK_SECRET_KEY] })
     .https.onCall(
         async (data, context) => {
@@ -227,12 +227,12 @@ export const sendCertificates = functions
             const { solana } = functions.config()
             console.log('Working on cluster ==>', solana.cluster)
 
-            const { eventId } = data as SendCertificates
-            return bulkSendCertificates({
+            const { eventId } = data as SendCertificatesInput
+            return bulkSendParticipationCertificates({
                 eventId,
                 cluster: solana.cluster,
                 callerId: context.auth.token.uid
-            })
+            } as BulkSendCertificateParams)
         },
     );
 
@@ -246,12 +246,32 @@ export const SendCertificateToAddress = functions
             const { solana } = functions.config()
             console.log('Working on cluster ==>', solana.cluster)
 
-            const { eventId, walletAddress } = data as SendTestCerficateParams
+            const { eventId, walletAddress } = data as SendTestCerficateInput
             return individualSendCertificate({
                 eventId,
                 cluster: solana.cluster,
                 callerId: context.auth.token.uid,
                 walletAddress
+            } as SendTestCerficateParams)
+        },
+    );
+
+
+
+
+export const sendTopLoaderboardCertificates = functions
+    .runWith({ secrets: [PK_SECRET_KEY] })
+    .https.onCall(
+        async (data, context) => {
+
+            const { solana } = functions.config()
+            console.log('Working on cluster ==>', solana.cluster)
+
+            const { eventId } = data as SendCertificatesInput
+            return bulkSendTopLoaderboardCertificates({
+                eventId,
+                cluster: solana.cluster,
+                callerId: context.auth.token.uid
             })
         },
     );
