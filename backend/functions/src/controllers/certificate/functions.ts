@@ -295,8 +295,8 @@ export const bulkSendTopLoaderboardCertificates = async (params: BulkSendCertifi
         const maxUsersToCertificate = topLeaderboardNFT.maxUsersToCertificate
 
         // const where = query(citiesRef, where("state", "==", "CO"), where("name", "==", "Denver"));
-        const leaderboard = (await db.doc(`events/${eventId}/`)
-            .collection('leader-boards/individual')
+        const leaderboard = (await db.doc(`events/${eventId}/leader-boards/`)
+            .collection('individual')
             .where('userId', 'not-in', usersToExclude)
             .where('points', '>=', minPoints)
             .get()).docs.map(x => x.data()) as { [key: string]: string }[]
