@@ -7,6 +7,12 @@ export interface ParticipationNFT {
     collectionUpdateAuthority: string;
     maxUsersToCertificate: string;
 }
+export interface TopLeaderboardNFT {
+    minPoints: string;
+    candyMachineAddress: string;
+    collectionUpdateAuthority: string;
+    maxUsersToCertificate: string;
+}
 export interface EventPayload {
     id: string;
     title: string;
@@ -19,6 +25,7 @@ export interface EventPayload {
     managers: string[];
     challenges: (ChallengePayload & { position: number })[];
     participationNFT?: ParticipationNFT
+    topLeaderboardNFT?: TopLeaderboardNFT
 }
 
 export interface CreateEventPayload {
@@ -36,7 +43,8 @@ export interface UpdateEventPayload {
     challenges: ChallengePayload[];
     reviewers: string[];
     managers: string[];
-    participationNFT?: ParticipationNFT
+    participationNFT?: ParticipationNFT,
+    topLeaderboard?: TopLeaderboardNFT,
 }
 
 export interface EventSettingsFormData {

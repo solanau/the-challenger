@@ -243,6 +243,84 @@ const EventSettingsForm = ({
 
         <div role="group" aria-labelledby="checkbox-group" className="pt-4">
             <Text variant="sub-heading" className="mt-4 mb-4">
+                Top leaderboard NFT
+            </Text>
+            <div>
+                <label
+                    htmlFor="event-top-leaderboard-minimun-points"
+                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                >
+                    Minimum points
+                </label>
+
+                <Field
+                    id="event-top-leaderboard-minimun-points"
+                    name="topLeaderboardNFT.minPoints"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    placeholder="Enter the minimum quantity of points to receive the NFT"
+                    maxLength={3}
+                    disabled={isLoading}
+                    autoComplete="off"
+                />
+            </div>
+            <div>
+                <label
+                    htmlFor="event-top-leaderboard-max-users-to-certificate"
+                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                >
+                    Maximum users to send certificate
+                </label>
+
+                <Field
+                    id="event-top-leaderboard-max-users-to-certificate"
+                    name="topLeaderboardNFT.maxUsersToCertificate"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    placeholder="Enter the maximum users to send the certificate"
+                    maxLength={3}
+                    disabled={isLoading}
+                    autoComplete="off"
+                />
+            </div>
+            <div className="pt-4">
+                <label
+                    htmlFor="event-top-leaderboard-candymachine-address"
+                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                >
+                    Candy Machine Address
+                </label>
+
+                <Field
+                    id="event-top-leaderboard-candymachine-address"
+                    name="topLeaderboardNFT.candyMachineAddress"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    placeholder="Enter the candymachine address to mint participation NFTs"
+                    maxLength={80}
+                    disabled={isLoading}
+                    autoComplete="off"
+                />
+            </div>
+            <div className="pt-4">
+                <label
+                    htmlFor="event-top-leaderboard-collection-update-address"
+                    className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                >
+                    Collection Update Authority Address
+                </label>
+
+                <Field
+                    id="event-top-leaderboard-collection-update-address"
+                    name="topLeaderboardNFT.collectionUpdateAuthority"
+                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                    placeholder="Enter the collection authority address (required for mint)"
+                    maxLength={80}
+                    disabled={isLoading}
+                    autoComplete="off"
+                />
+            </div>
+        </div>
+
+        <div role="group" aria-labelledby="checkbox-group" className="pt-4">
+            <Text variant="sub-heading" className="mt-4 mb-4">
                 Challenges
             </Text>
 

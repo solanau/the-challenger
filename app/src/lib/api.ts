@@ -157,8 +157,8 @@ export async function getEventParticipants(id: string) {
 }
 
 
-export async function sendCertificates(eventId: string) {
-    const instance = httpsCallable(functions, 'sendCertificates');
+export async function sendParticipationCertificates(eventId: string) {
+    const instance = httpsCallable(functions, 'sendParticipationCertificates');
 
     try {
         const result = await instance({ eventId });
@@ -171,11 +171,26 @@ export async function sendCertificates(eventId: string) {
 }
 
 
-export async function sendTestCertificate(eventId: string, walletAddress: string) {
-    const instance = httpsCallable(functions, 'SendCertificateToAddress');
+export async function sendParticipationCertificateToAddress(eventId: string, walletAddress: string) {
+    const instance = httpsCallable(functions, 'sendParticipationCertificateToAddress');
 
     try {
         const result = await instance({ eventId, walletAddress });
+
+        return result.data;
+    } catch (error) {
+        console.log(`${error.code}: ${error.message}`);
+        throw handleError(error);
+    }
+}
+
+
+
+export async function sendTopLoaderboardCertificates(eventId: string) {
+    const instance = httpsCallable(functions, 'sendTopLoaderboardCertificates');
+
+    try {
+        const result = await instance({ eventId });
 
         return result.data;
     } catch (error) {
