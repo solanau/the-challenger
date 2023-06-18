@@ -155,7 +155,7 @@ const ChallengeSettingsForm: React.FC<ChallengeSettingsFormProps> = ({
                 <div className="pt-4">
                     <label
                         htmlFor={`challenge-field-configs.${index}.answer`}
-                        className="block w-full border-none bg-transparent py-2 outline-none"
+                        className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                     >
                         Answer
                     </label>
