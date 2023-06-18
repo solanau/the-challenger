@@ -57,13 +57,13 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
             {/* Button component */}
             <button
                 ref={buttonRef}
-                className={`w-full sm:w-auto inline-flex justify-center rounded-full text-white text-xl font-bold px-6 py-4 sm:px-9 sm:py-6 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${isOpen ? 'bg-gray-800' : 'bg-black'
+                className={`w-full sm:w-auto inline-flex justify-center rounded-full text-white text-sm sm:text-xl font-bold px-5 sm:px-6 py-4 sm:py-4 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white ${isOpen ? 'bg-gray-800' : 'bg-black'
                     } top-0`}
                 onClick={handleButtonClick}
             >
                 {label}
                 <svg
-                    className={`-mr-1 ml-2 h-5 w-5 transition-transform duration-300 ${isOpen ? 'transform rotate-180' : ''
+                    className={`-mr-1 ml-2 h-4 sm:h-5 w-4 sm:w-5 transition-transform duration-300 ${isOpen ? 'transform rotate-180' : ''
                         }`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -86,7 +86,7 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
                         {options.map((option, index) => (
                             <button
                                 key={option.label}
-                                className={`w-full px-4 py-3 text-white text-lg sm:text-xl font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-zinc-800 hover:bg-zinc-800 ${option.isActive ? 'bg-zinc-800' : 'bg-black'
+                                className={`w-full px-4 py-3 text-white text-sm sm:text-lg font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-zinc-800 hover:bg-zinc-800 ${option.isActive ? 'bg-zinc-800' : 'bg-black'
                                     } ${index === options.length - 1 ? 'mb-4 -mb-2' : ''}`}
                                 onClick={() => handleOptionClick(option)}
                             >
@@ -99,6 +99,7 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
             )}
         </div>
     );
+
 };
 const ChallengesPage: NextPage = () => {
     const router = useRouter();
