@@ -104,7 +104,7 @@ const ChallengePage: NextPage = () => {
                                     className={cn(
                                         'tooltip-bottom tooltip-error',
                                         !validBountyName &&
-                                            'tooltip-open tooltip',
+                                        'tooltip-open tooltip',
                                     )}
                                     data-tip="Challenge name"
                                 >
@@ -129,7 +129,7 @@ const ChallengePage: NextPage = () => {
                                 {challenge.fieldsConfig.map(
                                     (fieldConfig, index) => (
                                         <Text variant="paragraph" key={index}>
-                                            #{index + 1}. {fieldConfig.label}
+                                            #{index + 1}. {fieldConfig.question}
                                         </Text>
                                     ),
                                     {},

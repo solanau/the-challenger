@@ -9,7 +9,7 @@ import {
     ChallengeSettingsFormData,
     ChallengeTimeStatus,
     ExpiredChallenge,
-    PendingChallenge,
+    PendingChallenge
 } from 'types/challenge';
 import { EventPayload } from 'types/event';
 import { SubmissionPayload } from 'types/submission';
@@ -161,30 +161,33 @@ export const fromChallengeSettingsFormData = (
             case 'text': {
                 return {
                     name: fieldConfig.name,
-                    label: fieldConfig.label,
+                    question: fieldConfig.question,
                     placeholder: fieldConfig.placeholder,
                     type: fieldConfig.type,
                     maxLength: fieldConfig.maxLength,
+                    answer: fieldConfig.answer,
                 };
             }
 
             case 'textArea': {
                 return {
                     name: fieldConfig.name,
-                    label: fieldConfig.label,
+                    question: fieldConfig.question,
                     placeholder: fieldConfig.placeholder,
                     type: fieldConfig.type,
                     maxLength: fieldConfig.maxLength,
                     rows: fieldConfig.rows,
+                    answer: fieldConfig.answer,
                 };
             }
 
             default: {
                 return {
                     name: fieldConfig.name,
-                    label: fieldConfig.label,
+                    question: fieldConfig.question,
                     placeholder: fieldConfig.placeholder,
                     type: fieldConfig.type,
+                    answer: fieldConfig.answer,
                 };
             }
         }

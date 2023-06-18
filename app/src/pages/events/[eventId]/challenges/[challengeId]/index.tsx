@@ -45,7 +45,7 @@ const ChallengePage: NextPage = () => {
                 );
 
                 return {
-                    question: challenge.fieldsConfig[fieldIndex].label,
+                    question: challenge.fieldsConfig[fieldIndex].question,
                     field: challenge.fieldsConfig[fieldIndex].name,
                     reply: values[key],
                 };
