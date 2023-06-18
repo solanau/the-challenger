@@ -25,6 +25,7 @@ export type ChallengeCategory =
         name: string;
         question: string;
         placeholder: string;
+        answer:string;
       }
       
       export type TextFieldConfig = BaseFieldConfig & {
@@ -45,16 +46,12 @@ export type ChallengeCategory =
       export type EmailFieldConfig = BaseFieldConfig & {
         type: 'email';
       };
-      export type AnswerFieldConfig = BaseFieldConfig & {
-          type: 'answer';
-        };
         
       export type FieldConfig =
         | TextFieldConfig
         | TextAreaFieldConfig
         | NumberFieldConfig
-        | EmailFieldConfig
-        | AnswerFieldConfig; // Add the AnswerFieldConfig type
+        | EmailFieldConfig;
       
       
 export interface SubmissionAnswer {
