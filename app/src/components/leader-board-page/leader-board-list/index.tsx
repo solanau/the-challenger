@@ -6,9 +6,8 @@ interface LeaderBoardListProps {
     leaderBoard: LeaderBoardPayload;
 }
 
-const LeaderBoardList = ({ leaderBoard }: LeaderBoardListProps) => (
-    <div className="my-6 mx-auto grid p-4  sm:p-12 lx:px-48 sm:max-screen-w-xl sm:items-center">
-    <div className="flex flex-col gap-4">
+const LeaderBoardList: React.FC<LeaderBoardListProps> = ({ leaderBoard }) => {
+    const renderHeader = () => (
         <div className="top-36 z-30 hidden flex-row justify-between gap-5 bg-neutral bg-opacity-40 px-6 py-3 text-base-content backdrop-blur-xl 2lg:flex">
             <div className="flex w-full justify-start text-amber-400">
                 <Text variant="heading">Rank</Text>
@@ -20,23 +19,36 @@ const LeaderBoardList = ({ leaderBoard }: LeaderBoardListProps) => (
                 <Text variant="heading">Total</Text>
             </div>
         </div>
-        <div className="flex w-full flex-col gap-6">
-            {leaderBoard?.participants.length ? (
-                leaderBoard.participants.map((participant, index) => (
-                    <LeaderBoardListItem
-                        key={index}
-                        position={index + 1}
-                        participant={participant}
-                    />
-                ))
-            ) : (
-                <div className="flex h-20 items-center justify-center">
-                    <p className="text-secondary">No results found.</p>
+    );
+
+    const renderParticipants = () => {
+        if (leaderBoard?.participants.length) {
+            return leaderBoard.participants.map((participant, index) => (
+                <LeaderBoardListItem
+                    key={index}
+                    position={index + 1}
+                    participant={participant}
+                />
+            ));
+        }
+
+        return (
+            <div className="flex h-20 items-center justify-center">
+                <p className="text-secondary">No results found.</p>
+            </div>
+        );
+    };
+
+    return (
+        <div className="my-6 mx-auto grid p-4 sm:p-12 lx:px-48 sm:max-screen-w-xl sm:items-center">
+            <div className="flex flex-col gap-4">
+                {renderHeader()}
+                <div className="flex w-full flex-col gap-6">
+                    {renderParticipants()}
                 </div>
-            )}
+            </div>
         </div>
-    </div>
-    </div>
-);
+    );
+};
 
 export default LeaderBoardList;
