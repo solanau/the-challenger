@@ -62,7 +62,7 @@ const AdditionalSection = () => {
     return (
         <section className="pt-10 pb-20 md:pt-20 md:pb-40 bg-black grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="col-span-1">
-                <Card className="p-4 bg-black rounded-xl bg-opacity-10 border-white border">
+                <Card className="p-4 bg-zinc-900 rounded-xl bg-opacity-70 border-white border">
                     <Text variant="big-heading" className="text-white text-center mb-6">
                         Top 20 All-Time
                     </Text>
@@ -89,7 +89,7 @@ const AdditionalSection = () => {
                 </Card>
             </div>
             <div className="col-span-1">
-                <Card className="p-4 bg-black rounded-xl bg-opacity-10 border-white border">
+                <Card className="p-4 bg-zinc-900 rounded-xl bg-opacity-70 border-white border">
                     <Text variant="big-heading" className="text-white text-center mb-6">
                         Upcoming Events
                     </Text>
