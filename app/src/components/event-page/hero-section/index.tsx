@@ -15,8 +15,9 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ eventId, title, body }: HeroSectionProps) => {
-    const { user } = useAuth();
+    const { credential, user } = useAuth();
     const [mousePosition, setMousePosition] = useState({ left: 0, top: 0 });
+    const userId = credential?.id ?? null;
 
     function handleMouseMove(ev) {
         setMousePosition({ left: ev.pageX, top: ev.pageY });
@@ -50,34 +51,49 @@ const HeroSection = ({ eventId, title, body }: HeroSectionProps) => {
                     <Markdown>{body}</Markdown>
                 </div>
                 <div className="mb-5 mt-24 sm:mt-36 flex w-full flex-col sm:flex-row sm:mb-6 md:mt-0 md:justify-start">
-                    <Link
-                        href={{
-                            pathname: user
-                                ? `${eventId}/challenges`
-                                : '/login',
-                            query:
-                                eventId && !user
-                                    ? {
-                                        eventId,
-                                    }
-                                    : {},
-                        }}
-                        passHref
-                    >
-                        <a className="mb-2 sm:mb-0 sm:mr-2">
-                            <Button
-                                icon={!user && TbLogin}
-                                text={
-                                    !user
-                                        ? 'Sign In'
-                                        : 'View the challenges !'
-                                }
-                                variant="orange"
-                                className="!w-full"
-                                reversed={user !== null}
-                            ></Button>
-                        </a>
-                    </Link>
+                    {/* Sign In Button */}
+                    {!userId && (
+                        <Link
+                            href={{
+                                pathname: user ? `${eventId}/challenges` : '/login',
+                                query: eventId && !user ? { eventId } : {},
+                            }}
+                            passHref
+                        >
+                            <a className="mb-2 sm:mb-0 sm:mr-2">
+                                <Button
+                                    icon={!user && TbLogin}
+                                    text={!user ? 'Sign In' : 'View the challenges !'}
+                                    variant="orange"
+                                    className="!w-full"
+                                    reversed={user !== null}
+                                ></Button>
+                            </a>
+                        </Link>
+                    )}
+
+                    {/* Set Up your profile Button */}
+                    {userId && !user && (
+                        <Link
+                            href={{
+                                pathname: user ? `${eventId}/challenges` : '/users/${userId}/settings',
+                                query: eventId && !user ? { eventId } : {},
+                            }}
+                            passHref
+                        >
+                            <a className="mb-2 sm:mb-0 sm:mr-2">
+                                <Button
+                                    icon={!user && TbLogin}
+                                    text={!user ? 'Set Up your profile' : 'View the challenges !'}
+                                    variant="orange"
+                                    className="!w-full"
+                                    reversed={user !== null}
+                                ></Button>
+                            </a>
+                        </Link>
+                    )}
+
+                    {/* View Challenges Button */}
                     <Link
                         href={{
                             pathname: `${eventId}/challenges`,
@@ -97,24 +113,22 @@ const HeroSection = ({ eventId, title, body }: HeroSectionProps) => {
             </div>
             <div className="flex">
                 {/* <div className="absolute top-[450px] -right-[200px] z-20 sm:top-[350px] sm:-right-[100px] md:-right-[400px] md:top-[150px] lg:-top-[150px]">
-                    <Image
-                            src="/helicopter.png"
-                            className="hidden md:block"
-                            alt="solana icon"
-                            width={2000}
-                        />
-                        <Image
-                            src="/helicopter.png"
-                            className="block md:hidden"
-                            alt="solana icon"
-                            width={1000}
-                        />
-                </div> */}
+            <Image
+              src="/helicopter.png"
+              className="hidden md:block"
+              alt="solana icon"
+              width={2000}
+            />
+            <Image
+              src="/helicopter.png"
+              className="block md:hidden"
+              alt="solana icon"
+              width={1000}
+            />
+          </div> */}
             </div>
         </section>
     );
 };
 
 export default HeroSection;
-
-
