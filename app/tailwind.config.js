@@ -56,11 +56,15 @@ module.exports = {
                 'xs': '350px',
                 '2lg': '1111px',
             },
+            backdropFilter: {
+                'none': 'none',
+                'blur': 'blur(20px)',
+            },
+            fontFamily: {
+                sans: ['Rubik'],
+            },
+            screens: { ...defaultTheme.screens },
         },
-        fontFamily: {
-            sans: ['Rubik'],
-        },
-        screens: { ...defaultTheme.screens },
     },
     plugins: [
         typography,
