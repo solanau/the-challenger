@@ -1,6 +1,5 @@
 import Card from 'components/common/card';
 import Text from 'components/common/text';
-
 const AdditionalSection = () => {
     const upcomingEvents = [
         { name: 'New York Hacker House', date: '2023-08-31' },
@@ -68,6 +67,20 @@ const AdditionalSection = () => {
 
     return (
         <section className="pt-10 pb-20 md:pt-20 md:pb-40 bg-black grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="hidden sm:block absolute order-2 sm:mt-10 bg-blend-overlay"
+                style={{
+                    backgroundImage: `url(/upcoming-left-picture.png)`,
+                    backgroundPosition: "left",
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    width: "140%",
+                    height: "180%",
+
+                    top: 1350,
+                    left: 0,
+                }}
+            ></div>
+
             <div className="col-span-1">
                 <Text variant="big-heading" className="text-white text-center mb-6">
                     Top 10 All-Time

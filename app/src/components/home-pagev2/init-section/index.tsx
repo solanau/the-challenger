@@ -24,14 +24,15 @@ const InitSection = () => {
                     ></Button>
                 </Link>
             </div>
-            <div className="absolute order-2 sm:mt-10 bg-blend-overlay"
+            <div className="absolute sm:mt-10 bg-blend-overlay "
                 style={{
                     backgroundImage: `url(/right-home-graphic.png)`,
                     backgroundPosition: "100%, 0 center",
                     backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
                     width: "100%",
-                    height: "140%"
+                    height: "140%",
+
                 }}
             ></div>
             <div className="hidden sm:block absolute order-2 sm:mt-10 bg-blend-overlay"
