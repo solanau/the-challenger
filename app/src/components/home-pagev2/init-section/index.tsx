@@ -7,7 +7,7 @@ const InitSection = () => {
         <section className="pt-20 md:pt-10 sm:my-20 bg-gradient-to-br from-black to-gray-900 grid place-items-center overflow-hidden ">
             <div className="w-full max-w-6xl px-4 py-12 mx-auto flex flex-col items-center gap-6 sm:gap-12 z-30">
                 <div className="text-center sm:text-left">
-                    <h1 className="text-4xl sm:text-6xl md:text-8xl font-extrabold tracking-tighter text-white font-rubik">
+                    <h1 className="text-5xl sm:text-6xl md:text-8xl font-extrabold tracking-tighter text-white font-rubik">
                         The Challenger
                     </h1>
                     <p className="mt-4 text-base sm:text-lg md:text-xl font-normal text-white font-rubik">
@@ -31,7 +31,7 @@ const InitSection = () => {
                     backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
                     width: "100%",
-                    height: "100%"
+                    height: "140%"
                 }}
             ></div>
             <div className="hidden sm:block absolute order-2 sm:mt-10 bg-blend-overlay"
@@ -41,7 +41,7 @@ const InitSection = () => {
                     backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
                     width: "100%",
-                    height: "100%",
+                    height: "140%",
                 }}
             ></div>
             <div
@@ -51,7 +51,7 @@ const InitSection = () => {
                     backgroundSize: "80% 80%",
                     backgroundPosition: "bottom",
                     width: "100%",
-                    height: "100%"
+                    height: "140%"
                 }}
             ></div>
 
