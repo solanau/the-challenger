@@ -1,0 +1,50 @@
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="260.000000pt" height="260.000000pt" viewBox="0 0 260.000000 260.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,260.000000) scale(0.100000,-0.100000)"
+fill="white" stroke="none">
+<path d="M454 2224 c-23 -9 -205 -215 -199 -224 4 -6 178 -10 445 -10 l438 0
+94 101 c51 55 93 108 93 117 0 16 -36 17 -430 19 -236 1 -435 -1 -441 -3z M255 1850 c-6 -10 166 -204 196 -220 10 -6 188 -10 444 -10 371 0
+426 2 431 15 4 10 -27 51 -91 120 l-97 105 -438 0 c-270 0 -441 -4 -445 -10z M353 1395 c-54 -58 -98 -111 -98 -118 0 -9 71 -13 303 -15 l302 -2 0
+120 0 120 -204 0 -205 0 -98 -105z M904 1487 c-2 -7 -3 -60 -2 -118 l3 -104 53 -3 52 -3 0 -299 0 -298
+91 -81 92 -81 269 0 270 0 89 81 89 82 0 298 0 299 55 0 55 0 0 120 0 120
+-230 0 -230 0 0 -120 0 -120 45 0 45 0 -2 -262 -3 -263 -185 0 -185 0 -3 263
+-2 262 45 0 45 0 0 120 0 120 -225 0 c-178 0 -227 -3 -231 -13z" fill="url(#paint0_linear_950_11)"/>
+<path d="M1605 2040 l-29 -89 -99 -3 -100 -3 77 -55 c42 -30 76 -59 76 -66 0
+-6 -11 -46 -25 -89 -13 -43 -23 -80 -21 -83 2 -2 36 19 74 47 38 28 74 51 79
+51 5 0 40 -22 78 -50 38 -27 73 -50 77 -50 3 0 -7 41 -24 91 -25 75 -28 93
+-17 100 8 4 43 29 79 56 l65 48 -99 5 -98 5 -25 80 c-14 44 -28 83 -32 88 -4
+4 -20 -33 -36 -83z"  fill="url(#paint0_linear_950_11)"/>
+<path d="M620 1094 c-6 -15 -18 -53 -28 -85 l-17 -58 -100 -3 -100 -3 78 -59
+c42 -32 77 -61 77 -65 0 -3 -12 -41 -26 -84 -14 -43 -24 -81 -20 -84 3 -3 36
+18 74 46 38 28 72 51 76 51 3 0 37 -23 76 -51 39 -29 73 -49 76 -46 3 3 -6 41
+-20 84 -14 43 -26 81 -26 85 0 5 35 34 78 65 l77 58 -101 3 -100 3 -24 80
+c-12 43 -27 82 -31 85 -5 3 -14 -7 -19 -22z"  fill="url(#paint0_linear_950_11)"/>
+<defs>
+<linearGradient id="Gradient2" x1="0" x2="0.5" y1="0" y2="1">
+      <stop offset="0%" stop-color="red" />
+      <stop offset="100%" stop-color="blue" />
+</linearGradient>
+<linearGradient id="paint0_linear_174_4422"  gradientTransform="rotate(45)">
+            <stop offset="0%" stop-color="#48d23b"/>
+            <stop offset="20%" stop-color="#3affc4"/>
+            <stop offset="100%" stop-color="#573aff"/>
+            <!-- <stop offset="100%" stop-color="#d23b75"/> -->
+</linearGradient>
+<linearGradient id="paint0_linear_950_11" gradientTransform="rotate(55)">
+            <!-- <stop offset="100%" stop-color="#573aff"/> --> -->
+            <!-- <stop offset="55%" stop-color="#3affc4"/>
+            <stop offset="100%" stop-color="#ec4899"/> -->
+
+            <!-- <stop offset="0%" stop-color="#573aff"/>
+            <stop offset="60%" stop-color="#1fcff1 "/>
+            <stop offset="100%" stop-color="#3affc4"/> -->
+            <stop offset="20%" stop-color="#573aff"/>
+            <stop offset="100%" stop-color="#d946ef  "/>
+            <!-- <stop offset="120%" stop-color="#1fcff1"/> -->
+</linearGradient>
+</defs>
+</g>
+
+</svg>
