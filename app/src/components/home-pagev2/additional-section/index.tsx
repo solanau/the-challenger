@@ -3,8 +3,15 @@ import Text from 'components/common/text';
 
 const AdditionalSection = () => {
     const upcomingEvents = [
+        { name: 'New York Hacker House', date: '2023-08-31' },
+        { name: 'Tel Aviv Hacker House', date: '2023-08-31' },
+        { name: 'PlayGG', date: '2023-08-31' },
         { name: 'Berlin Hacker House', date: '2023-08-31' },
+        { name: 'Bengaluru Hacker House', date: '2023-08-31' },
+        { name: 'Mumbai Hacker House', date: '2023-08-31' },
+        { name: 'Breakpoint Hacker House', date: '2023-08-31' },
         { name: 'Korean Blockchain Week', date: '2023-09-05' },
+        { name: 'Hong Kong Hacker House', date: '2023-08-31' },
         // Add more upcoming events as needed
     ];
 
@@ -57,54 +64,54 @@ const AdditionalSection = () => {
     const sortedDataset = mergedDataset.sort((a, b) => b.points - a.points);
 
     // Slice the first 25
-    const top25 = sortedDataset.slice(0, 20).map((user, index) => ({ ...user, rank: index + 1 }));
+    const top10 = sortedDataset.slice(0, 10).map((user, index) => ({ ...user, rank: index + 1 }));
 
     return (
         <section className="pt-10 pb-20 md:pt-20 md:pb-40 bg-black grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="col-span-1">
-                <Card className="p-4 bg-zinc-900 rounded-xl bg-opacity-70 border-white border">
-                    <Text variant="big-heading" className="text-white text-center mb-6">
-                        Top 20 All-Time
-                    </Text>
-                    <table className="w-full text-white mx-auto">
+                <Text variant="big-heading" className="text-white text-center mb-6">
+                    Top 10 All-Time
+                </Text>
+                <Card className="p-8 bg-zinc-900 rounded-xl bg-opacity-70 border-zinc-800 border mx-20">
+                    <table className="w-full text-white mx-auto table-fixed">
                         <thead>
                             <tr>
-                                <th className="pb-2 border-b border-white">Rank</th>
-                                <th className="pb-2 border-b border-white">Player</th>
-                                <th className="pb-2 border-b border-white">Points</th>
+                                <th className="pb-2 border-b border-zinc-600 px-4 py-2">Rank</th>
+                                <th className="pb-2 border-b border-zinc-600 px-4 py-2">Player</th>
+                                <th className="pb-2 border-b border-zinc-600 px-4 py-2">Points</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {top25.map((user) => (
-                                <tr key={user.rank}>
-                                    <td className="py-2 border-b border-opacity-20 text-center">{user.rank}</td>
-                                    <td className="py-2 border-b border-opacity-20 text-center">{user.player}</td>
-                                    <td className="py-2 border-b border-opacity-20 text-center">{user.points}</td>
+                            {top10.map((user) => (
+                                <tr key={user.rank} className="border-b border-opacity-20 border-zinc-600">
+                                    <td className="py-2 px-4 text-center">{user.rank}</td>
+                                    <td className="py-2 px-4 text-center">{user.player}</td>
+                                    <td className="py-2 px-4 text-center">{user.points}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-
-
                 </Card>
+
             </div>
             <div className="col-span-1">
-                <Card className="p-4 bg-zinc-900 rounded-xl bg-opacity-70 border-white border">
-                    <Text variant="big-heading" className="text-white text-center mb-6">
-                        Upcoming Events
-                    </Text>
-                    <table className="w-full text-white">
+                <Text variant="big-heading" className="text-white text-center mb-6">
+                    Upcoming Events
+                </Text>
+                <Card className="p-4 bg-zinc-900 rounded-xl bg-opacity-70 border-zinc-800 border mx-20">
+
+                    <table className="w-full text-white ">
                         <thead>
                             <tr>
-                                <th className="pb-2 border-b border-white">Name</th>
-                                <th className="pb-2 border-b border-white">Date</th>
+                                <th className="pb-2 border-b border-zinc-600">Name</th>
+                                <th className="pb-2 border-b border-zinc-600">Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             {upcomingEvents.map((event) => (
                                 <tr key={event.name}>
-                                    <td className="py-2 border-b border-opacity-50">{event.name}</td>
-                                    <td className="py-2 border-b border-opacity-50">{event.date}</td>
+                                    <td className="py-2 border-b border-opacity-50 border-zinc-600 text-center">{event.name}</td>
+                                    <td className="py-2 border-b border-opacity-50 border-zinc-600 text-center">{event.date}</td>
                                 </tr>
                             ))}
                         </tbody>
