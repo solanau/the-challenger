@@ -6,7 +6,7 @@ import { useState } from 'react';
 import {
     AUTH_PATH_NAMES,
     EVENT_PATH_NAMES,
-    USER_PATH_NAMES,
+    USER_PATH_NAMES
 } from 'utils/router';
 import NavElement from './nav-element';
 
