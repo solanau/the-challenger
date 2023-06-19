@@ -74,9 +74,8 @@ const AdditionalSection = () => {
                     backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
                     width: "140%",
-                    height: "180%",
-
-                    top: 1350,
+                    height: "150%",
+                    top: 1750,
                     left: 0,
                 }}
             ></div>
