@@ -161,7 +161,7 @@ export const fromChallengeSettingsFormData = (
             case 'text': {
                 return {
                     name: fieldConfig.name,
-                    question: fieldConfig.question,
+                    label: fieldConfig.label,
                     placeholder: fieldConfig.placeholder,
                     type: fieldConfig.type,
                     maxLength: fieldConfig.maxLength,
@@ -172,7 +172,7 @@ export const fromChallengeSettingsFormData = (
             case 'textArea': {
                 return {
                     name: fieldConfig.name,
-                    question: fieldConfig.question,
+                    label: fieldConfig.label,
                     placeholder: fieldConfig.placeholder,
                     type: fieldConfig.type,
                     maxLength: fieldConfig.maxLength,
@@ -184,7 +184,7 @@ export const fromChallengeSettingsFormData = (
             default: {
                 return {
                     name: fieldConfig.name,
-                    question: fieldConfig.question,
+                    label: fieldConfig.label,
                     placeholder: fieldConfig.placeholder,
                     type: fieldConfig.type,
                     answer: fieldConfig.answer,

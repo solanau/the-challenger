@@ -3,7 +3,7 @@ export type FieldType = 'text' | 'textArea' | 'number' | 'email';
 
 export interface BaseFieldConfig {
   name: string;
-  question: string;
+  label: string;
   placeholder: string;
   answer: string;
 }

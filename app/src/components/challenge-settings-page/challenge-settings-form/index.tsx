@@ -60,15 +60,15 @@ const ChallengeSettingsForm: React.FC<ChallengeSettingsFormProps> = ({
 
                 <div className="pt-4">
                     <label
-                        htmlFor={`challenge-field-configs.${index}.question`}
+                        htmlFor={`challenge-field-configs.${index}.label`}
                         className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
                     >
                         Question
                     </label>
 
                     <Field
-                        id={`challenge-field-configs.${index}.question`}
-                        name={`fieldsConfig.${index}.question`}
+                        id={`challenge-field-configs.${index}.label`}
+                        name={`fieldsConfig.${index}.label`}
                         className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                         placeholder="Enter the field label"
                         maxLength={80}

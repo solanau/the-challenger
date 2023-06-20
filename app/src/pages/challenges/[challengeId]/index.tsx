@@ -129,7 +129,7 @@ const ChallengePage: NextPage = () => {
                                 {challenge.fieldsConfig.map(
                                     (fieldConfig, index) => (
                                         <Text variant="paragraph" key={index}>
-                                            #{index + 1}. {fieldConfig.question}
+                                            #{index + 1}. {fieldConfig.label}
                                         </Text>
                                     ),
                                     {},
