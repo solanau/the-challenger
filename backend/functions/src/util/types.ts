@@ -21,39 +21,39 @@ export type ChallengeCategory =
     | 'User'
     | 'Developer';
 
-    export interface BaseFieldConfig {
-        name: string;
-        label: string;
-        placeholder: string;
-        answer:string;
-      }
-      
-      export type TextFieldConfig = BaseFieldConfig & {
-        type: 'text';
-        maxLength?: number;
-      };
-      
-      export type TextAreaFieldConfig = BaseFieldConfig & {
-        type: 'textArea';
-        rows?: number;
-        maxLength?: number;
-      };
-      
-      export type NumberFieldConfig = BaseFieldConfig & {
-        type: 'number';
-      };
-      
-      export type EmailFieldConfig = BaseFieldConfig & {
-        type: 'email';
-      };
-        
-      export type FieldConfig =
-        | TextFieldConfig
-        | TextAreaFieldConfig
-        | NumberFieldConfig
-        | EmailFieldConfig;
-      
-      
+export interface BaseFieldConfig {
+    name: string;
+    label: string;
+    placeholder: string;
+    answer: string;
+}
+
+export type TextFieldConfig = BaseFieldConfig & {
+    type: 'text';
+    maxLength?: number;
+};
+
+export type TextAreaFieldConfig = BaseFieldConfig & {
+    type: 'textArea';
+    rows?: number;
+    maxLength?: number;
+};
+
+export type NumberFieldConfig = BaseFieldConfig & {
+    type: 'number';
+};
+
+export type EmailFieldConfig = BaseFieldConfig & {
+    type: 'email';
+};
+
+export type FieldConfig =
+    | TextFieldConfig
+    | TextAreaFieldConfig
+    | NumberFieldConfig
+    | EmailFieldConfig;
+
+
 export interface SubmissionAnswer {
     label: string;
     reply: string;
@@ -93,6 +93,7 @@ export interface ChallengePayload {
     authorName?: string;
     authorGithub?: string;
     authorTwitter?: string;
+    approvedBy?: string;
 }
 
 export interface PrizePayload {
@@ -142,6 +143,7 @@ export interface UpdateChallengePayload {
         authorName: string;
         authorGithub: string;
         authorTwitter: string;
+        approved: boolean;
     };
 }
 

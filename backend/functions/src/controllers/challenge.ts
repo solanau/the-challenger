@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions';
+import * as _ from 'lodash';
 import { db } from '..';
 import {
     Auth,
@@ -18,6 +19,10 @@ class ChallengeController {
             );
         }
 
+        const user = (await db.collection('users').doc(auth.id).get()).data()
+
+        const approvedBy = (user.isAdmin ? user.id : null)
+
         const challengeData: ChallengePayload = {
             title: payload.title,
             description: payload.description,
@@ -26,6 +31,7 @@ class ChallengeController {
             isNew: true,
             version: CHALLENGE_DOCUMENT_VERSION,
             userId: auth.id,
+            approvedBy,
         };
 
         const challenge = await db
@@ -43,9 +49,28 @@ class ChallengeController {
             );
         }
 
+        const user = (await db.collection('users').doc(auth.id).get()).data()
+
+        const challengeCurrentState = await db.doc(`challenges/${id}`).get()
+        const approvedByValue = challengeCurrentState.data().approvedBy
+        if (!_.isNil(approvedByValue) && !user.isAdmin) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `This challenge can only be updated by admins.`,
+            );
+        }
+
+        const approvedBy = (user.isAdmin ? (data.approved ? auth.id : null) : null)
+        const dataToUpdate = {
+            ..._.omit(data, ['approved']),
+            updatedAt: Date.now(),
+            isNew: false,
+            approvedBy
+        }
+
         const challenge = await db
             .doc(`challenges/${id}`)
-            .update({ ...data, updatedAt: Date.now(), isNew: false });
+            .update(dataToUpdate);
 
         return challenge;
     }
