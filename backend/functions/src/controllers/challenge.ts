@@ -51,8 +51,8 @@ class ChallengeController {
 
         const user = (await db.collection('users').doc(auth.id).get()).data()
 
-        const challengeCurrentState = await db.doc(`challenges/${id}`).get()
-        const approvedByValue = challengeCurrentState.data().approvedBy
+        const challengeCurrentState = (await db.doc(`challenges/${id}`).get()).data()
+        const approvedByValue = challengeCurrentState.approvedBy
         if (!_.isNil(approvedByValue) && !user.isAdmin) {
             throw new functions.https.HttpsError(
                 'permission-denied',
@@ -66,6 +66,13 @@ class ChallengeController {
             updatedAt: Date.now(),
             isNew: false,
             approvedBy
+        }
+
+        if (!user.isAdmin && challengeCurrentState.userId != auth.id) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `You are not allowed to modify this challenge.`,
+            );
         }
 
         const challenge = await db
