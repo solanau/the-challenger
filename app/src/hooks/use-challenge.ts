@@ -1,28 +1,30 @@
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { ChallengePayload } from 'types/challenge';
+import { UserPayload } from 'types/user';
 import { firestore } from 'utils/firebase';
 
-export const useChallenge = (challengeId: string | null, userId: string | null): ChallengePayload => {
+export const useChallenge = (challengeId: string | null, user: UserPayload | null): ChallengePayload => {
     const [challenge, setChallenge] = useState<ChallengePayload>(null);
 
     useEffect(() => {
-        if (challengeId === null) {
+
+        console.log('challengeId', challengeId)
+        console.log('user', user)
+        if (challengeId === null || user == null) {
             setChallenge(null);
             return;
         }
 
-        const whereFilters = [];
+        const whereFilters = [where('__name__', '==', challengeId)];
 
-        if (userId !== undefined) {
-            whereFilters.push(where('userId', '==', userId));
+        if (user && !user.isAdmin) {
+            whereFilters.push(where('userId', '==', user.id));
         }
 
         const unsubscribe = onSnapshot(
             query(collection(firestore, `challenges`), ...whereFilters),
             snapshot => {
-
-
                 if (snapshot.docs.length == 0) {
                     setChallenge(null);
                 } else {

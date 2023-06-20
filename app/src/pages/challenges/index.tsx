@@ -22,7 +22,9 @@ const ChallengesPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const { isLoggedIn, isAdmin, credential, user } = useAuth();
-    const challenges = useChallenges({ version: 1, userId: isAdmin ? undefined : (user ? user.id : undefined) });
+    const challenges = useChallenges({ version: 1, user });
+
+
 
     const handleCreateChallenge = (
         createChallengePayload: CreateChallengePayload,
@@ -157,6 +159,14 @@ const ChallengesPage: NextPage = () => {
                                 </Text>
 
                                 <div className="flex flex-row justify-end gap-2">
+
+                                    {!isAdmin && challenge.approvedBy != null ?
+                                        <div className='flex items-center'>
+                                            Approved
+                                        </div>
+                                        : null
+                                    }
+
                                     <Link
                                         href={`challenges/${challenge.id}`}
                                     >
@@ -167,15 +177,18 @@ const ChallengesPage: NextPage = () => {
                                         </a>
                                     </Link>
 
-                                    <Link
-                                        href={`challenges/${challenge.id}/settings`}
-                                    >
-                                        <a>
-                                            <Button variant="black">
-                                                Settings
-                                            </Button>
-                                        </a>
-                                    </Link>
+                                    {isAdmin || challenge.approvedBy == null ?
+                                        <Link
+                                            href={`challenges/${challenge.id}/settings`}
+                                        >
+                                            <a>
+                                                <Button variant="black">
+                                                    Settings
+                                                </Button>
+                                            </a>
+                                        </Link> :
+                                        null
+                                    }
                                 </div>
                             </div>
                         </Card>

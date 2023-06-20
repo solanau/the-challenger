@@ -152,44 +152,47 @@ export const toChallenge = (
 
 export const fromChallengeSettingsFormData = (
     values: ChallengeSettingsFormData,
-) => ({
-    ...values,
-    difficulty: values.difficulty as ChallengeDifficulty,
-    category: values.category as ChallengeCategory,
-    fieldsConfig: values.fieldsConfig.map(fieldConfig => {
-        switch (fieldConfig.type) {
-            case 'text': {
-                return {
-                    name: fieldConfig.name,
-                    label: fieldConfig.label,
-                    placeholder: fieldConfig.placeholder,
-                    type: fieldConfig.type,
-                    maxLength: fieldConfig.maxLength,
-                    answer: fieldConfig.answer,
-                };
-            }
+) => {
+    return {
+        ...values,
+        difficulty: values.difficulty as ChallengeDifficulty,
+        category: values.category as ChallengeCategory,
+        fieldsConfig: values.fieldsConfig.map(fieldConfig => {
+            switch (fieldConfig.type) {
+                case 'text': {
+                    return {
+                        name: fieldConfig.name,
+                        label: fieldConfig.label,
+                        placeholder: fieldConfig.placeholder,
+                        type: fieldConfig.type,
+                        maxLength: fieldConfig.maxLength,
+                        answer: fieldConfig.answer,
+                    };
+                }
 
-            case 'textArea': {
-                return {
-                    name: fieldConfig.name,
-                    label: fieldConfig.label,
-                    placeholder: fieldConfig.placeholder,
-                    type: fieldConfig.type,
-                    maxLength: fieldConfig.maxLength,
-                    rows: fieldConfig.rows,
-                    answer: fieldConfig.answer,
-                };
-            }
+                case 'textArea': {
+                    return {
+                        name: fieldConfig.name,
+                        label: fieldConfig.label,
+                        placeholder: fieldConfig.placeholder,
+                        type: fieldConfig.type,
+                        maxLength: fieldConfig.maxLength,
+                        rows: fieldConfig.rows,
+                        answer: fieldConfig.answer,
+                    };
+                }
 
-            default: {
-                return {
-                    name: fieldConfig.name,
-                    label: fieldConfig.label,
-                    placeholder: fieldConfig.placeholder,
-                    type: fieldConfig.type,
-                    answer: fieldConfig.answer,
-                };
+                default: {
+                    return {
+                        name: fieldConfig.name,
+                        label: fieldConfig.label,
+                        placeholder: fieldConfig.placeholder,
+                        type: fieldConfig.type,
+                        answer: fieldConfig.answer,
+                    };
+                }
             }
-        }
-    }),
-});
+        })
+    }
+}
+

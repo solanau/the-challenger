@@ -7,6 +7,7 @@ import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
+import { useAuth } from 'providers/AuthProvider';
 import { FieldConfig } from 'types/form';
 
 interface ChallengeSettingsFormProps {
@@ -17,6 +18,7 @@ const ChallengeSettingsForm: React.FC<ChallengeSettingsFormProps> = ({
     isLoading = false,
 }: ChallengeSettingsFormProps) => {
     const { values } = useFormikContext<{ fieldsConfig: FieldConfig[] }>();
+    const { isLoggedIn, isAdmin, credential, user } = useAuth();
 
     const renderFieldConfig = (
         fieldConfig: FieldConfig,
@@ -433,6 +435,26 @@ const ChallengeSettingsForm: React.FC<ChallengeSettingsFormProps> = ({
                     autoComplete="off"
                 />
             </div>
+            {isAdmin ?
+                <div className="pt-4">
+                    <label
+                        htmlFor="challenge-author-twitter"
+                        className="block w-full border-none bg-transparent py-2 outline-none"
+                    >
+                        Approved?
+                    </label>
+
+                    <Field
+                        id="challenge-approved"
+                        name="approved"
+                        className="rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                        disabled={isLoading}
+                        type="checkbox"
+                    />
+                </div>
+                :
+                null
+            }
 
 
             <FieldArray

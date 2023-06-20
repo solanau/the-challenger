@@ -18,8 +18,8 @@ const ChallengePage: NextPage = () => {
             ? router.query.challengeId[0]
             : router.query.challengeId;
     const [validBountyName] = useState(true);
-    const { isLoggedIn, isAdmin, credential, user } = useAuth();
-    const challenge = useChallenge(challengeId, isAdmin ? undefined : (user ? user.id : undefined));
+    const { isLoggedIn, credential, user } = useAuth();
+    const challenge = useChallenge(challengeId, user);
 
     return (
         <>
@@ -98,7 +98,7 @@ const ChallengePage: NextPage = () => {
 
                                 <Markdown>{`### How to Submit `}</Markdown>
 
-                                {challenge.fieldsConfig.map(
+                                {(challenge.fieldsConfig || []).map(
                                     (fieldConfig, index) => (
                                         <Text variant="paragraph" key={index}>
                                             #{index + 1}. {fieldConfig.label}

@@ -1,22 +1,25 @@
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { ChallengePayload } from 'types/challenge';
+import { UserPayload } from 'types/user';
 import { firestore } from 'utils/firebase';
 
 export type ChallengeFilters = Partial<{
     isNew: boolean;
     version: number;
-    userId: string;
+    user: UserPayload;
 }>;
 
 export const useChallenges = (
     filters?: ChallengeFilters,
 ): ChallengePayload[] => {
     const [challenges, setChallenges] = useState<ChallengePayload[]>([]);
-    const { isNew, version, userId } = filters
+    const { isNew, version, user } = filters
 
     useEffect(() => {
         const whereFilters = [];
+
+        if (!user) return
 
         if (isNew !== undefined) {
             whereFilters.push(where('isNew', '==', isNew));
@@ -26,8 +29,8 @@ export const useChallenges = (
             whereFilters.push(where('version', '==', version));
         }
 
-        if (userId !== undefined) {
-            whereFilters.push(where('userId', '==', userId));
+        if (user && !user.isAdmin) {
+            whereFilters.push(where('userId', '==', user.id));
         }
 
         const unsubscribe = onSnapshot(
@@ -50,7 +53,7 @@ export const useChallenges = (
         );
 
         return () => unsubscribe();
-    }, [isNew, version]);
+    }, [isNew, version, user]);
 
     return challenges;
 };

@@ -102,7 +102,10 @@ export const AuthContextProvider = ({
     const user = useUser(credential?.id ?? null);
     const isLoggedIn = useMemo(() => !!credential, [credential]);
     const isAdmin = useMemo(
-        () => isLoggedIn && user !== null && user.isAdmin,
+        () => {
+            console.log('--->', isLoggedIn, user)
+            return isLoggedIn && user !== null && user.isAdmin
+        },
         [isLoggedIn, user]
     );
 
