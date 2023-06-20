@@ -1,47 +1,107 @@
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import the required css
+
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Text from 'components/common/text';
 import Link from 'next/link';
 
+const cardData = [
+    {
+        title: 'Melbourne Hacker House',
+        date: 'February 20 to 24, 2023',
+        image: 'melbourne-banner.jpeg',
+        description: 'Welcome hackers to the Melbourne Hacker House Challenger competition! Earn prizes, rewards, and the ‘Social Club Champion’ title 🏆.',
+        link: 'https://solana.com/events/melbournehh'
+    },
+    {
+        title: 'Berlin Code Fest',
+        date: 'March 10 to 15, 2023',
+        image: 'breakpoint.png',
+        description: 'Welcome hackers to the Melbourne Hacker House Challenger competition! Earn prizes, rewards, and the ‘Social Club Champion’ title 🏆.',
+        link: 'https://solana.com/events/Berlincodefest'
+    },
+    {
+        title: 'Brisbane Hackathon',
+        date: 'April 5 to 10, 2023',
+        image: 'playgg.png',
+        description: 'Welcome hackers to the Melbourne Hacker House Challenger competition! Earn prizes, rewards, and the ‘Social Club Champion’ title 🏆.',
+        link: 'https://solana.com/events/brisbanehackathon'
+    },
+    {
+        title: 'Perth Developer Summit',
+        date: 'May 1 to 6, 2023',
+        image: 'tel-aviv-hh.png',
+        description: 'Welcome hackers to the Melbourne Hacker House Challenger competition! Earn prizes, rewards, and the ‘Social Club Champion’ title 🏆.',
+        link: 'https://solana.com/events/perthdevsummit'
+    },
+];
+
 const UpcomingChallengersSection = () => (
-    <section className="pt-30 md:pt-80 sm:my-20 grid place-items-center overflow-hidden">
+    <section className="pt-40 md:pt-80 sm:my-10 grid place-items-center overflow-hidden">
         <div className="w-full max-w-6xl px-4 py-12 mx-auto flex flex-col items-center gap-6 sm:gap-12 relative z-30">
             <div className="text-center sm:text-left">
-                <Card className="gap-10 p-4 sm:p-8 lg:p-12 bg-black rounded-xl bg-opacity-10 border-amber-600 border relative">
-                    <Text variant="big-heading" className="text-white text-center items-center mb-10">
-                        Current Competition
+                <div className="mx-auto max-w-screen-lg">
+                    <Text variant="big-heading" className="text-white text-center items-center mt-20">
+                        Current Competitions
                     </Text>
-                    <div className="flex flex-col sm:flex-row">
-                        <div className="flex items-center justify-start">
-                            <img
-                                src="melbourne-banner.jpeg"
-                                alt="Your Image"
-                                className="w-full sm:w-auto"
-                                style={{ maxWidth: '500px' }}
-                            />
-                        </div>
-                        <div className="flex flex-col gap-5 ml-5">
-                            <div className="flex flex-col gap-1">
-                                <Text variant="heading" className="mt-2 text-white">
-                                    Melbourne Hacker House
-                                </Text>
-                                <Text variant="nav-heading" className="mt-2 text-white/80">
-                                    Date: February 20 to 24, 2023
-                                </Text>
+                    <Carousel
+                        showArrows={true}
+                        infiniteLoop={true}
+                        showThumbs={false}
+                        showStatus={false}
+
+                        autoPlay={true}
+                        interval={4000}
+                        className="w-full px-5 py-5 rounded-lg shadow-lg"
+
+                    >
+                        {cardData.map((data, index) => (
+                            <div key={index}>
+
+                                <Card
+                                    className="h-full p-4 sm:p-8 lg:p-12 bg-black rounded-xl bg-opacity-10 border-zinc-600 hover:border-zinc-500 border relative transition-all duration-200 ease-in-out"
+
+                                >
+
+                                    <div className="flex flex-col sm:flex-row">
+                                        <div className="flex items-center justify-start">
+                                            <div style={{ width: '500px', height: '250px', overflow: 'hidden' }}>
+                                                <img
+                                                    src={data.image}
+                                                    alt={data.title}
+                                                    className="w-full h-full object-cover" // object-cover to ensure the image covers the entire div
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-col gap-5 ml-5">
+                                            <div className="flex flex-col gap-1">
+                                                <Text variant="heading" className="mt-2 text-white">
+                                                    {data.title}
+                                                </Text>
+                                                <Text variant="nav-heading" className="mt-2 text-white/80 ">
+                                                    Date: {data.date}
+                                                </Text>
+                                            </div>
+                                            <Text variant="paragraph" className="text-white">
+                                                {data.description}
+                                            </Text>
+                                            <Link href={data.link} target="_blank" rel="noopener noreferrer" passHref className="flex flex-col sm:flex-row sm:justify-end">
+                                                <Button
+                                                    text="View Challenges"
+                                                    variant="transparent"
+                                                    className="my-2 place-self-end sm:place-self-auto text-purple-500 border-purple-500 text-sm py-2"
+                                                />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </Card>
                             </div>
-                            <Text variant="paragraph" className="text-white">
-                                Welcome hackers to the New York Hacker House Challenger competition! Earn prizes, rewards, and the ‘Social Club Champion’ title 🏆.
-                            </Text>
-                            <Link href="https://solana.com/events/melbournehh" target="_blank" rel="noopener noreferrer" passHref className="flex flex-col sm:flex-row sm:justify-end">
-                                <Button
-                                    text="View Challenges"
-                                    variant="transparent"
-                                    className="my-2 place-self-end sm:place-self-auto text-purple-500 border-purple-500 text-sm py-2"
-                                />
-                            </Link>
-                        </div>
-                    </div>
-                </Card>
+                        ))}
+                    </Carousel>
+                </div>
+
             </div>
         </div>
         <div
@@ -53,17 +113,13 @@ const UpcomingChallengersSection = () => (
                 backgroundRepeat: "no-repeat",
                 width: "100%",
                 height: "100%",
-                top: 1800,
+                top: 1900,
                 right: 0,
                 maxHeight: 1500,
                 maxWidth: 1500,
-
-
-
             }}
         ></div>
-    </section>
+    </section >
 );
 
 export default UpcomingChallengersSection;
-
