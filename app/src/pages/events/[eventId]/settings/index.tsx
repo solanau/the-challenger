@@ -23,7 +23,6 @@ const EventSettingsPage: NextPage = () => {
             ? router.query.eventId[0]
             : router.query.eventId) ?? null;
     const event = useEvent(eventId);
-    const challenges = useChallenges({ version: 1, isNew: false });
     const [isLoading, setIsLoading] = useState(false);
     const [isSendingParticipationNFTs, setIsSendingParticipationNFTs] = useState(false);
     const [isSendingParticipationTestNFT, setIsSendingParticipationTestNFT] = useState(false);
@@ -31,6 +30,7 @@ const EventSettingsPage: NextPage = () => {
     const [walletAddressForTestNFT, setWalletAddressForTestNFT] = useState('');
     const [isDownloadingCSV, setIsDownloadingCSV] = useState(false);
     const { isLoggedIn, credential, user } = useAuth();
+    const challenges = useChallenges({ version: 1, isNew: false, user, onlyApproved: true });
 
     const handleUpdateEvent = (updateEventPayload: UpdateEventPayload) => {
         setIsLoading(true);

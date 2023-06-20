@@ -8,13 +8,14 @@ export type ChallengeFilters = Partial<{
     isNew: boolean;
     version: number;
     user: UserPayload;
+    onlyApproved: boolean;
 }>;
 
 export const useChallenges = (
     filters?: ChallengeFilters,
 ): ChallengePayload[] => {
     const [challenges, setChallenges] = useState<ChallengePayload[]>([]);
-    const { isNew, version, user } = filters
+    const { isNew, version, user, onlyApproved = false } = filters
 
     useEffect(() => {
         const whereFilters = [];
@@ -31,6 +32,10 @@ export const useChallenges = (
 
         if (user && !user.isAdmin) {
             whereFilters.push(where('userId', '==', user.id));
+        }
+
+        if (onlyApproved) {
+            whereFilters.push(where('approvedBy', '!=', null));
         }
 
         const unsubscribe = onSnapshot(
