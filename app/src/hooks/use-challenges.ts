@@ -6,14 +6,14 @@ import { firestore } from 'utils/firebase';
 export type ChallengeFilters = Partial<{
     isNew: boolean;
     version: number;
+    userId: string;
 }>;
 
 export const useChallenges = (
     filters?: ChallengeFilters,
 ): ChallengePayload[] => {
     const [challenges, setChallenges] = useState<ChallengePayload[]>([]);
-    const isNew = filters?.isNew;
-    const version = filters?.version;
+    const { isNew, version, userId } = filters
 
     useEffect(() => {
         const whereFilters = [];
@@ -26,6 +26,10 @@ export const useChallenges = (
             whereFilters.push(where('version', '==', version));
         }
 
+        if (userId !== undefined) {
+            whereFilters.push(where('userId', '==', userId));
+        }
+
         const unsubscribe = onSnapshot(
             query(collection(firestore, `challenges`), ...whereFilters),
             querySnapshot => {
@@ -35,10 +39,10 @@ export const useChallenges = (
                     setChallenges(
                         querySnapshot.docs.map(
                             doc =>
-                                ({
-                                    id: doc.id,
-                                    ...doc.data(),
-                                } as ChallengePayload),
+                            ({
+                                id: doc.id,
+                                ...doc.data(),
+                            } as ChallengePayload),
                         ),
                     );
                 }

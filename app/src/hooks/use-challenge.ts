@@ -1,9 +1,9 @@
-import { doc, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { ChallengePayload } from 'types/challenge';
 import { firestore } from 'utils/firebase';
 
-export const useChallenge = (challengeId: string | null): ChallengePayload => {
+export const useChallenge = (challengeId: string | null, userId: string | null): ChallengePayload => {
     const [challenge, setChallenge] = useState<ChallengePayload>(null);
 
     useEffect(() => {
@@ -12,16 +12,24 @@ export const useChallenge = (challengeId: string | null): ChallengePayload => {
             return;
         }
 
-        const unsubscribe = onSnapshot(
-            doc(firestore, `challenges/${challengeId}`),
-            snapshot => {
-                const data = snapshot.data();
+        const whereFilters = [];
 
-                if (!data) {
+        if (userId !== undefined) {
+            whereFilters.push(where('userId', '==', userId));
+        }
+
+        const unsubscribe = onSnapshot(
+            query(collection(firestore, `challenges`), ...whereFilters),
+            snapshot => {
+
+
+                if (snapshot.docs.length == 0) {
                     setChallenge(null);
                 } else {
+                    const doc = snapshot.docs[0]
+                    const data = doc.data()
                     setChallenge({
-                        id: snapshot.id,
+                        id: doc.id,
                         ...data,
                     } as ChallengePayload);
                 }

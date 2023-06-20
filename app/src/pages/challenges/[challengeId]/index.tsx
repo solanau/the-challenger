@@ -18,32 +18,11 @@ const ChallengePage: NextPage = () => {
             ? router.query.challengeId[0]
             : router.query.challengeId;
     const [validBountyName] = useState(true);
-    const { isLoggedIn, credential, user } = useAuth();
-    const challenge = useChallenge(challengeId);
+    const { isLoggedIn, isAdmin, credential, user } = useAuth();
+    const challenge = useChallenge(challengeId, isAdmin ? undefined : (user ? user.id : undefined));
 
     return (
         <>
-            {!isLoggedIn && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                    <Text variant="sub-heading">
-                        Sign in to access this page.
-                    </Text>
-
-                    <div className="flex flex-row gap-2">
-                        <Link href="/" passHref>
-                            <a>
-                                <Button variant="transparent" text="Go back" />
-                            </a>
-                        </Link>
-
-                        <Link href="/login" passHref>
-                            <a>
-                                <Button variant="orange" text="Sign in" />
-                            </a>
-                        </Link>
-                    </div>
-                </div>
-            )}
 
             {isLoggedIn && user === null && (
                 <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
@@ -60,15 +39,8 @@ const ChallengePage: NextPage = () => {
                 </div>
             )}
 
-            {isLoggedIn && user !== null && !user.isAdmin && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                    <Text variant="sub-heading">
-                        You're not authorized to access this page.
-                    </Text>
-                </div>
-            )}
+            {challenge ?
 
-            {isLoggedIn && user !== null && user.isAdmin && challenge && (
                 <>
                     <NextSeo
                         title={challenge.title}
@@ -165,7 +137,7 @@ const ChallengePage: NextPage = () => {
                         </div>
                     )}
                 </>
-            )}
+                : null}
         </>
     );
 };
