@@ -7,14 +7,15 @@ const InitSection = () => {
         <section className="pt-20 md:pt-10 sm:my-20 bg-gradient-to-br from-black to-gray-900 grid place-items-center overflow-hidden ">
             <div className="w-full max-w-6xl px-4 py-12 mx-auto flex flex-col items-center gap-6 sm:gap-12 z-30">
                 <div className="text-center sm:text-left">
-                    <h1 className="text-5xl sm:text-6xl md:text-8xl font-extrabold tracking-tighter text-white font-rubik">
+                    <h1 className="text-6xl sm:text-7xl md:text-9xl font-extrabold tracking-tighter text-white font-rubik">
                         The Challenger
                     </h1>
-                    <p className="mt-4 text-base sm:text-lg md:text-xl font-normal text-white font-rubik">
+                    <p className="mt-4 text-lg sm:text-xl md:text-2xl font-normal text-white font-rubik">
                         <span className="block text-center text-white">Complete Challenges. Develop New Skills</span>
                         <span className="block text-center text-white">Earn Rewards. Share your achievements.</span>
                     </p>
                 </div>
+
                 <Link href={{ pathname: '/events' }} passHref>
                     <Button
                         icon={TbSearch}
