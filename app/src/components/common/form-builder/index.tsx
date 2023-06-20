@@ -25,7 +25,7 @@ const FormBuilder = ({ errors, touched, isValidating, fieldsConfig, disabled = f
                             htmlFor={fieldConfig.name}
                             className="block w-full border-none bg-transparent pt-4 pb-2 outline-none after:text-primary after:content-['*']"
                         >
-                            {++index}. {fieldConfig.question}{' '}
+                            {++index}. {fieldConfig.label}{' '}
                         </label>
 
                         <Field
@@ -50,7 +50,7 @@ const FormBuilder = ({ errors, touched, isValidating, fieldsConfig, disabled = f
                             htmlFor={fieldConfig.name}
                             className="block w-full border-none bg-transparent pt-4 pb-2 outline-none after:text-primary after:content-['*']"
                         >
-                            {++index}. {fieldConfig.question}{' '}
+                            {++index}. {fieldConfig.label}{' '}
                         </label>
 
                         <Field
@@ -75,7 +75,7 @@ const FormBuilder = ({ errors, touched, isValidating, fieldsConfig, disabled = f
                             htmlFor={fieldConfig.name}
                             className="block w-full border-none bg-transparent  pt-4 pb-2 outline-none after:text-primary after:content-['*']"
                         >
-                            {++index}. {fieldConfig.question}{' '}
+                            {++index}. {fieldConfig.label}{' '}
                         </label>
 
                         <Field

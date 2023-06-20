@@ -8,7 +8,7 @@ export interface PrizePayload {
 }
 
 export interface CreateSubmissionAnswerPayload {
-    question: string;
+    label: string;
     reply: string;
     field: string;
 }

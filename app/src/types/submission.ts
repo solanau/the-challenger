@@ -5,7 +5,7 @@ export type SubmissionStatus =
     | 'completed';
 
 export interface SubmissionAnswerPayload {
-    question: string;
+    label: string;
     reply: string;
     isApproved: boolean;
     comments: string;

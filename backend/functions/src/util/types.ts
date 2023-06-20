@@ -23,7 +23,7 @@ export type ChallengeCategory =
 
     export interface BaseFieldConfig {
         name: string;
-        question: string;
+        label: string;
         placeholder: string;
         answer:string;
       }
@@ -55,7 +55,7 @@ export type ChallengeCategory =
       
       
 export interface SubmissionAnswer {
-    question: string;
+    label: string;
     reply: string;
     isApproved: boolean;
     comments: string;
