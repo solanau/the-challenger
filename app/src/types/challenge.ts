@@ -83,6 +83,7 @@ export interface ChallengePayload {
     authorTwitter: string;
     fieldsConfig: FieldConfig[];
     approvedBy?: string
+    userId?: string
 }
 
 export interface CreateChallengePayload {

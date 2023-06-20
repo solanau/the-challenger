@@ -88,8 +88,21 @@ const ChallengeSettingsPage: NextPage = () => {
                         </Text>
                     </div>
 
+
+
+                    {!isAdmin && challenge && challenge.userId != user.id ?
+
+                        <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                            <Text variant="sub-heading">
+                                Nothin
+                            </Text>
+                        </div>
+                        :
+                        null
+                    }
+
                     <div className="flex w-full flex-col gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                        {challenge && (
+                        {challenge && (isAdmin || challenge.userId == user.id) && (
                             <Formik
                                 initialValues={{
                                     title: challenge.title,
