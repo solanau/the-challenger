@@ -30,7 +30,7 @@ const EventSettingsPage: NextPage = () => {
     const [walletAddressForTestNFT, setWalletAddressForTestNFT] = useState('');
     const [isDownloadingCSV, setIsDownloadingCSV] = useState(false);
     const { isLoggedIn, credential, user } = useAuth();
-    const challenges = useChallenges({ version: 1, isNew: false, user, onlyApproved: true });
+    const challenges = useChallenges({ version: 1, isNew: false, user, onlyApproved: false });
 
     const handleUpdateEvent = (updateEventPayload: UpdateEventPayload) => {
         setIsLoading(true);
