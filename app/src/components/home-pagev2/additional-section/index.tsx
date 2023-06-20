@@ -77,6 +77,8 @@ const AdditionalSection = () => {
                     height: "150%",
                     top: 1750,
                     left: 0,
+                    maxHeight: 2000,
+                    maxWidth: 2000,
                 }}
             ></div>
 

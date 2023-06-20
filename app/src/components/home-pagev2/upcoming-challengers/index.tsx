@@ -45,7 +45,7 @@ const UpcomingChallengersSection = () => (
             </div>
         </div>
         <div
-            className="hidden sm:block absolute order-3 sm:mt-10 bg-blend-overlay"
+            className="absolute order-3 sm:mt-10 bg-blend-overlay"
             style={{
                 backgroundImage: `url(/upcoming-right-picture.png)`,
                 backgroundPosition: "right",
@@ -55,6 +55,8 @@ const UpcomingChallengersSection = () => (
                 height: "100%",
                 top: 1800,
                 right: 0,
+                maxHeight: 1500,
+                maxWidth: 1500,
 
 
 
