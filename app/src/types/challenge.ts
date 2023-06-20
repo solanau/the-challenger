@@ -82,6 +82,7 @@ export interface ChallengePayload {
     authorGithub: string;
     authorTwitter: string;
     fieldsConfig: FieldConfig[];
+    approvedBy?: string
 }
 
 export interface CreateChallengePayload {
@@ -99,6 +100,7 @@ export interface UpdateChallengePayload {
     authorGithub: string;
     authorTwitter: string;
     authorName: string;
+    approvedBy?: string
     fieldsConfig: FieldConfig[];
 }
 
@@ -112,5 +114,6 @@ export interface ChallengeSettingsFormData {
     authorGithub: string;
     authorTwitter: string;
     authorName: string;
+    approved: boolean;
     fieldsConfig: FieldConfig[];
 }
