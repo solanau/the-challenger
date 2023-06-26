@@ -53,17 +53,17 @@ const UpcomingChallengersSection = () => (
 
                         autoPlay={true}
                         interval={4000}
-                        className="w-full px-5 py-5 rounded-lg shadow-lg"
+                        className="w-full px-5 py-5 rounded-xl shadow-lg"
                     >
                         {cardData.map((data, index) => (
                             <div key={index}>
                                 <Card
-                                    className="h-full p-4 sm:p-8 lg:p-12 bg-black rounded-4xl bg-opacity-10 border-zinc-600 hover:border-zinc-500 border relative transition-all duration-200 ease-in-out"
+                                    className="h-full p-4 sm:p-8 lg:p-14º bg-black rounded-4xl bg-opacity-10 border-zinc-800 hover:border-zinc-500 border relative transition-all duration-200 ease-in-out"
 
                                 >
                                     <div className="flex flex-col sm:flex-row">
                                         <div className="flex items-center justify-start">
-                                            <div style={{ width: '500px', height: '250px', overflow: 'hidden' }}>
+                                            <div style={{ width: '500px', height: '250px', overflow: 'hidden', borderRadius: '5%' }}>
                                                 <img
                                                     src={data.image}
                                                     alt={data.title}
@@ -72,24 +72,29 @@ const UpcomingChallengersSection = () => (
                                             </div>
                                         </div>
 
+
                                         <div className="flex flex-col gap-5 ml-5">
                                             <div className="flex flex-col gap-1">
-                                                <Text variant="heading" className="mt-2 text-white">
+                                                <Text variant="heading" className="mt-2 text-white text-left">
                                                     {data.title}
                                                 </Text>
-                                                <Text variant="nav-heading" className="mt-2 text-white/80 ">
+                                                <Text variant="nav-heading" className="mt-2 text-white/80 text-left ">
                                                     Date: {data.date}
                                                 </Text>
                                             </div>
-                                            <Text variant="paragraph" className="text-white">
+                                            <Text variant="paragraph" className="text-white text-left">
                                                 {data.description}
                                             </Text>
                                             <Link href={data.link} target="_blank" rel="noopener noreferrer" passHref className="flex flex-col sm:flex-row sm:justify-end">
                                                 <Button
-                                                    text="View Challenges"
                                                     variant="transparent"
-                                                    className="my-2 place-self-end sm:place-self-auto text-purple-500 border-purple-500 text-sm py-2"
-                                                />
+                                                    className="my-2 place-self-end sm:place-self-auto text-white border-white text-lg py-2 flex items-center mx-10"
+                                                >
+
+                                                    <span className="ml-1"> ⛨ View Challenges</span>
+                                                </Button>
+
+
                                             </Link>
                                         </div>
                                     </div>
