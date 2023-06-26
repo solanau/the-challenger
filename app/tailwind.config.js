@@ -66,7 +66,6 @@ module.exports = {
             screens: { ...defaultTheme.screens },
         },
     },
-    
     plugins: [
         typography,
         require('daisyui'),

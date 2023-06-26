@@ -32,13 +32,15 @@ const HeroSection = ({ eventId, title, body }: HeroSectionProps) => {
             <div
                 className="spotlight absolute hidden h-full w-full sm:block"
                 style={{
-                    background: `radial-gradient(circle at ${mousePosition.left}px ${mousePosition.top}px, rgba(240, 117, 70, 0.765) 0%, rgba(203, 68, 184, 0) 60%, rgba(219, 65, 75, 0) 60%)`,
+                    background: `radial-gradient(circle at ${mousePosition.left}px ${mousePosition.top}px, rgba(0, 204, 102, 0.765) 0%, rgba(0, 255, 0, 0) 60%, rgba(0, 153, 0, 0) 60%)`,
+                    transition: 'background 0.3s ease-out',
                 }}
             ></div>
             <div
                 className="absolute block aspect-square h-[130%] sm:hidden"
                 style={{
-                    background: `radial-gradient(circle at center 30%, rgba(240, 117, 70, 0.765) 0%, rgba(203, 68, 184, 0) 40%, rgba(219, 65, 75, 0) 40%)`,
+                    background: `radial-gradient(circle at center 30%, rgba(0, 204, 102, 0.765) 0%, rgba(0, 255, 0, 0) 40%, rgba(0, 153, 0, 0) 40%)`,
+                    transition: 'background 0.3s ease-out',
                 }}
             ></div>
             <div className="bp-backdrop _backdrop absolute left-0 z-10 h-full min-h-screen w-[70%] md:w-[60%] lg:w-[70%]"></div>
@@ -114,6 +116,8 @@ const HeroSection = ({ eventId, title, body }: HeroSectionProps) => {
         </section>
     );
 };
+
+
 
 export default HeroSection;
 

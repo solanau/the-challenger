@@ -54,16 +54,13 @@ const UpcomingChallengersSection = () => (
                         autoPlay={true}
                         interval={4000}
                         className="w-full px-5 py-5 rounded-lg shadow-lg"
-
                     >
                         {cardData.map((data, index) => (
                             <div key={index}>
-
                                 <Card
-                                    className="h-full p-4 sm:p-8 lg:p-12 bg-black rounded-xl bg-opacity-10 border-zinc-600 hover:border-zinc-500 border relative transition-all duration-200 ease-in-out"
+                                    className="h-full p-4 sm:p-8 lg:p-12 bg-black rounded-4xl bg-opacity-10 border-zinc-600 hover:border-zinc-500 border relative transition-all duration-200 ease-in-out"
 
                                 >
-
                                     <div className="flex flex-col sm:flex-row">
                                         <div className="flex items-center justify-start">
                                             <div style={{ width: '500px', height: '250px', overflow: 'hidden' }}>
