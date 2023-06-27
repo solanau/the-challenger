@@ -83,10 +83,11 @@ const AdditionalSection = () => {
             ></div>
 
             <div className="col-span-1 flex flex-col justify-between">
-                <Text variant="big-heading" className="text-white text-center mb-6">
-                    Top 10 All-Time
-                </Text>
+
                 <Card className="flex-grow p-8 bg-zinc-900 shadow-xl rounded-xl bg-opacity-30 border-zinc-800 border mx-20 transition-all duration-500">
+                    <Text variant="big-heading" className="text-white text-center mb-6  ">
+                        Top 10 All-Time
+                    </Text>
                     <table className="w-full text-white mx-auto table-fixed">
                         <thead>
                             <tr>
@@ -108,7 +109,7 @@ const AdditionalSection = () => {
                                                     user.rank}
                                     </td>
 
-                                    <td className="py-2 px-4 text-center inline ml-12">
+                                    <td className="flex py-2 px-4 text-center ml-12">
                                         <img src={user.picture} alt={user.player} className="rounded-full h-8 w-8 inline mr-2 " />
                                         {user.player}
                                     </td>
@@ -122,10 +123,11 @@ const AdditionalSection = () => {
             </div>
 
             <div className="col-span-1 flex flex-col justify-between">
-                <Text variant="big-heading" className="text-white text-center mb-6">
-                    Upcoming Events
-                </Text>
+
                 <Card className="flex-grow p-8 bg-zinc-900 shadow-xl rounded-xl bg-opacity-30 border-zinc-800 border mx-20 transition-all duration-500">
+                    <Text variant="big-heading" className="text-white text-center mb-6">
+                        Upcoming Events
+                    </Text>
                     <table className="w-full text-white">
                         <thead>
                             <tr>
