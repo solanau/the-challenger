@@ -19,7 +19,7 @@ const LeaderBoardPage: NextPage = () => {
             ? router.query.eventId[0]
             : router.query.eventId) ?? null;
     const { user } = useAuth();
-    const event = useEvent(eventId);
+    const event = useEvent(eventId, user);
     const leaderBoard = useLeaderBoard(eventId, 'individual');
     const [isLoading, setIsLoading] = useState(false);
 

@@ -27,11 +27,11 @@ const SubmissionReviewPage: NextPage = () => {
             ? router.query.submissionId[0]
             : router.query.submissionId;
     const [isLoading, setIsLoading] = useState(false);
-    const { credential } = useAuth();
+    const { credential, user } = useAuth();
     const submission = useSubmission(eventId, submissionId);
-    const event = useEvent(eventId);
-    console.log('LA SUBMISSIONS', submission);
-    const user = useUserByUserId(submission);
+    const event = useEvent(eventId, user);
+
+    const submissionUser = useUserByUserId(submission);
     const handleSendReview = (
         reviewSubmissionPayload: ReviewSubmissionPayload,
     ) => {
@@ -128,12 +128,12 @@ const SubmissionReviewPage: NextPage = () => {
 
                                         <Text variant="paragraph">
                                             User Id:{' '}
-                                            <Link href={`/${user?.userName}`}>
+                                            <Link href={`/${submissionUser?.userName}`}>
                                                 <a
                                                     className="text-sky-600"
                                                     target="_blank"
                                                 >
-                                                    {user?.userName}
+                                                    {submissionUser?.userName}
                                                 </a>
                                             </Link>
                                         </Text>
@@ -191,8 +191,8 @@ const SubmissionReviewPage: NextPage = () => {
                                         pathname: '/login',
                                         query: eventId
                                             ? {
-                                                  eventId,
-                                              }
+                                                eventId,
+                                            }
                                             : {},
                                     }}
                                     passHref
