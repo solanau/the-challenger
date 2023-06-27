@@ -35,7 +35,7 @@ export const useChallenges = (
         }
 
         if (onlyApproved) {
-            whereFilters.push(where('approvedBy', '!=', null));
+            whereFilters.push(where('reviewStatus', '==', 'approved'));
         }
 
         const unsubscribe = onSnapshot(
