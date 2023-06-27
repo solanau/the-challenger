@@ -46,7 +46,6 @@ export const useEvents = (
                 where('userId', '==', user.id)
             ),
             querySnapshot => {
-                console.log("0 querySnapshot.docs", querySnapshot.docs)
                 if (!querySnapshot.empty) {
                     setAllEvents(querySnapshot.docs)
                 }
@@ -61,7 +60,6 @@ export const useEvents = (
                 where('reviewStatus', '==', 'approved')
             ),
             querySnapshot => {
-                console.log("1 querySnapshot.docs", querySnapshot.docs)
                 if (!querySnapshot.empty) {
                     setAllEvents(querySnapshot.docs)
                 }
