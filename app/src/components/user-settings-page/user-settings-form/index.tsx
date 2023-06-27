@@ -65,9 +65,9 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                 <div className="sm:pt-4">
                     <label
                         htmlFor="user-wallet-public-key"
-                        className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                        className="block w-full border-none bg-transparent py-2 outline-none after:text-primary"
                     >
-                        Wallet Public Key{' '}
+                        Wallet Public Key
                     </label>
 
                     <Field
@@ -76,13 +76,13 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                         className="mb-8 w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
                         placeholder="Enter your wallet public key"
                         maxLength={80}
-                        required
-                        validate={validateEmptyField}
+                        // required
+                        // validate={validateEmptyField}
                         // readOnly={true}
                         disabled={isLoading}
                         autoComplete="off"
                     />
-                    {errors.walletPublicKey && touched.walletPublicKey && <div className='mt-2'>{errors.walletPublicKey}</div>}
+                    {/* {errors.walletPublicKey && touched.walletPublicKey && <div className='mt-2'>{errors.walletPublicKey}</div>} */}
                     {/* <WalletModalButton></WalletModalButton> */}
                 </div>
 
