@@ -24,23 +24,28 @@ const Header = () => {
                 USER_PATH_NAMES.includes(router.pathname)));
 
     return (
-        <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between  bg-transparent bg-opacity-40 px-6  backdrop-blur-xl">
+        <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between  border-b-1.5 border-b-line bg-transparent bg-opacity-40 px-5   backdrop-blur-xl">
             <Link href={isEventPage ? `/events/${eventId}` : '/'} passHref>
-                <a className="flex w-fit cursor-pointer flex-row items-center gap-3 md:gap-6">
+                <a className="flex w-fit cursor-pointer flex-row items-center">
                     <Image
-                        src="/logo-icon.svg"
+                        src="/logo_su.svg"
                         alt="solana icon"
-                        width={29.16}
-                        height={26.08}
+                        width={42}
+                        height={42}
                     />
-                    <div className="flex flex-row items-center gap-3">
-                        <Image
-                            src="/logo-text.svg"
-                            alt="solana text"
-                            className="hidden md:inline"
-                            width={134.46}
-                            height={20.1}
-                        />
+                    <div className="flex gap-1">
+                        <div className="flex flex-row items-center gap-3">
+                            <Image
+                                src="/logo-text.svg"
+                                alt="solana text"
+                                className="hidden md:inline"
+                                width={108}
+                                height={16}
+                            />
+                        </div>
+                        <div className="ml-1 mb-1 hidden bg-gradient-to-br from-indigo-500 via-fuchsia-500 to-pink-500 bg-clip-text text-2xl tracking-tighter text-transparent md:inline">
+                            [university]
+                        </div>
                     </div>
                 </a>
             </Link>
