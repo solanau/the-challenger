@@ -22,7 +22,6 @@ const EventSettingsPage: NextPage = () => {
         (router.query.eventId instanceof Array
             ? router.query.eventId[0]
             : router.query.eventId) ?? null;
-    const event = useEvent(eventId);
     const [isLoading, setIsLoading] = useState(false);
     const [isSendingParticipationNFTs, setIsSendingParticipationNFTs] = useState(false);
     const [isSendingParticipationTestNFT, setIsSendingParticipationTestNFT] = useState(false);
@@ -30,7 +29,8 @@ const EventSettingsPage: NextPage = () => {
     const [walletAddressForTestNFT, setWalletAddressForTestNFT] = useState('');
     const [isDownloadingCSV, setIsDownloadingCSV] = useState(false);
     const { isLoggedIn, credential, user } = useAuth();
-    const challenges = useChallenges({ version: 1, isNew: false, user, onlyApproved: false });
+    const event = useEvent(eventId, user);
+    const challenges = useChallenges({ version: 1, isNew: false, user, includePublic: true });
 
     const handleUpdateEvent = (updateEventPayload: UpdateEventPayload) => {
         setIsLoading(true);
@@ -157,15 +157,15 @@ const EventSettingsPage: NextPage = () => {
                 </div>
             )}
 
-            {isLoggedIn && user !== null && !user.isAdmin && (
+            {/* {isLoggedIn && user !== null && !user.isAdmin && (
                 <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                     <Text variant="sub-heading">
                         You're not authorized to access this page.
                     </Text>
                 </div>
-            )}
+            )} */}
 
-            {isLoggedIn && user !== null && user.isAdmin && (
+            {isLoggedIn && user !== null && (
                 <>
                     <div className="flex w-full flex-col gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                         <Text variant="big-heading">Event Settings</Text>
@@ -233,6 +233,7 @@ const EventSettingsPage: NextPage = () => {
                                 ></EventSettingsForm>
                             </Formik>
                         )}
+
                         <div role="group" aria-labelledby="checkbox-group" className="pt-4">
                             <Text variant="sub-heading" className="mt-4 mb-4">
                                 Participation actions

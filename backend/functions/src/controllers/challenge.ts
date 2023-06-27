@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions';
+import * as _ from 'lodash';
 import { db } from '..';
 import {
     Auth,
@@ -58,16 +59,16 @@ class ChallengeController {
             );
         }
 
+        const statusAreNotEqual = challengeCurrentState.reviewStatus != data.reviewStatus
+
         const reviewedBy =
-            user.idAdmin ? (challengeCurrentState.reviewStatus != data.reviewStatus ?
-                auth.id :
-                challengeCurrentState.reviewedBy) : challengeCurrentState.reviewedBy
+            (user.isAdmin ? (statusAreNotEqual ? auth.id : challengeCurrentState.reviewedBy) : challengeCurrentState.reviewedBy)
 
         const dataToUpdate = {
             ...data,
             updatedAt: Date.now(),
             isNew: false,
-            reviewedBy
+            ..._.omitBy({ reviewedBy }, _.isUndefined)
         }
 
         const challenge = await db

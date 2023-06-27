@@ -3,6 +3,7 @@ import { useEvent } from 'hooks/use-event';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useAuth } from 'providers/AuthProvider';
 
 const EventPage: NextPage = () => {
     const router = useRouter();
@@ -10,7 +11,9 @@ const EventPage: NextPage = () => {
         (router.query.eventId instanceof Array
             ? router.query.eventId[0]
             : router.query.eventId) ?? null;
-    const event = useEvent(eventId);
+
+    const { user } = useAuth();
+    const event = useEvent(eventId, user);
 
     return (
         <>

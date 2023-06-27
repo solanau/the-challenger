@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions';
+import * as _ from 'lodash';
 import { db } from '..';
 import {
     Auth,
@@ -57,15 +58,29 @@ class EventController {
                 `You are not allowed to modify this challenge.`,
             );
         }
+        console.log('eventCurrentState.reviewStatus', eventCurrentState.reviewStatus)
+        console.log('data.reviewStatus', data.reviewStatus)
+        const statusAreNotEqual = eventCurrentState.reviewStatus != data.reviewStatus
+        console.log('statusAreNotEqual', statusAreNotEqual)
+        const statusIsUndefined = _.isUndefined(eventCurrentState.reviewStatus)
+        console.log('statusIsUndefined', statusIsUndefined)
+        const statusReviewer = (statusAreNotEqual || statusIsUndefined ? auth.id : eventCurrentState.reviewedBy)
+        console.log("statusReviewer", statusReviewer)
 
         const reviewedBy =
-            user.idAdmin ? (eventCurrentState.reviewStatus != data.reviewStatus ?
-                auth.id :
-                eventCurrentState.reviewedBy) : eventCurrentState.reviewedBy
+            (user.isAdmin ? statusReviewer : eventCurrentState.reviewedBy)
+
+        console.log('reviewedBy', reviewedBy, _.omitBy({ reviewedBy }, _.isUndefined))
+
 
         const event = await db
             .doc(`events/${id}`)
-            .update({ ...data, updatedAt: Date.now(), isNew: false, reviewedBy });
+            .update({
+                ...data,
+                updatedAt: Date.now(),
+                isNew: false,
+                ..._.omitBy({ reviewedBy }, _.isUndefined)
+            });
 
         return event;
     }

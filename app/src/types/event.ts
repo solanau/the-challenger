@@ -1,6 +1,7 @@
 import { ChallengePayload } from './challenge';
 
 
+export type ReviewStatus = 'approved' | 'pending' | 'rejected' | ''
 export interface ParticipationNFT {
     minChallengesToCertificate: string;
     candyMachineAddress: string;
@@ -22,7 +23,9 @@ export interface EventPayload {
     startDate: number;
     endDate: number;
     reviewers: string[];
+    userId: string;
     managers: string[];
+    reviewStatus?: ReviewStatus;
     challenges: (ChallengePayload & { position: number })[];
     participationNFT?: ParticipationNFT
     topLeaderboardNFT?: TopLeaderboardNFT
@@ -43,6 +46,7 @@ export interface UpdateEventPayload {
     challenges: ChallengePayload[];
     reviewers: string[];
     managers: string[];
+    reviewStatus?: ReviewStatus;
     participationNFT?: ParticipationNFT,
     topLeaderboard?: TopLeaderboardNFT,
 }
