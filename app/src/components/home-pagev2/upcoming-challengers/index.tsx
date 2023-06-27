@@ -38,7 +38,7 @@ const cardData = [
 ];
 
 const UpcomingChallengersSection = () => (
-    <section className="pt-40 md:pt-80 sm:my-10 grid place-items-center overflow-hidden">
+    <section className="pt-20 md:pt-20 grid place-items-center overflow-hidden">
         <div className="w-full max-w-6xl px-4 py-12 mx-auto flex flex-col items-center gap-6 sm:gap-12 relative z-30">
             <div className="text-center sm:text-left">
                 <div className="mx-auto max-w-screen-lg">
@@ -115,7 +115,7 @@ const UpcomingChallengersSection = () => (
                 backgroundRepeat: "no-repeat",
                 width: "100%",
                 height: "100%",
-                top: 3000,
+                top: 4000,
                 right: 0,
                 maxHeight: 1500,
                 maxWidth: 1500,
