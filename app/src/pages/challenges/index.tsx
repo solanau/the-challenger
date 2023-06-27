@@ -6,6 +6,7 @@ import Text from 'components/common/text';
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { createChallenge } from 'lib/api';
+import * as _ from 'lodash';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -160,12 +161,11 @@ const ChallengesPage: NextPage = () => {
 
                                 <div className="flex flex-row justify-end gap-2">
 
-                                    {!isAdmin && challenge.approvedBy != null ?
-                                        <div className='flex items-center'>
-                                            Approved
-                                        </div>
-                                        : null
-                                    }
+
+                                    <div className='flex items-start flex-col'>
+                                        <div>Status:</div>
+                                        <div className='font-semibold'>{challenge.reviewStatus ? _.capitalize(challenge.reviewStatus.toString()) : 'Pending'}</div>
+                                    </div>
 
                                     <Link
                                         href={`challenges/${challenge.id}`}
@@ -177,7 +177,7 @@ const ChallengesPage: NextPage = () => {
                                         </a>
                                     </Link>
 
-                                    {isAdmin || challenge.approvedBy == null ?
+                                    {isAdmin || challenge.reviewStatus != 'approved' ?
                                         <Link
                                             href={`challenges/${challenge.id}/settings`}
                                         >
