@@ -30,10 +30,11 @@ export const useEvents = (
                 } as EventPayload),
             ).concat(events)
             setEvents(
-                _.uniqWith(
-                    _.orderBy(allEvents, ['startDate'], ['desc']),
-                    (a, b) => a.id == b.id
-                )
+                prevState =>
+                    _.uniqWith(
+                        _.orderBy(prevState.concat(allEvents), ['startDate'], ['desc']),
+                        (a, b) => a.id == b.id
+                    )
             );
         }
 
