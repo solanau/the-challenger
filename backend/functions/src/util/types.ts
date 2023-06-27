@@ -47,6 +47,8 @@ export type EmailFieldConfig = BaseFieldConfig & {
     type: 'email';
 };
 
+export type ReviewStatus = 'approved' | 'pending' | 'rejected' | ''
+
 export type FieldConfig =
     | TextFieldConfig
     | TextAreaFieldConfig
@@ -93,7 +95,8 @@ export interface ChallengePayload {
     authorName?: string;
     authorGithub?: string;
     authorTwitter?: string;
-    approvedBy?: string;
+    reviewedBy?: string;
+    reviewStatus: ReviewStatus;
 }
 
 export interface PrizePayload {

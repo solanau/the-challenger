@@ -438,19 +438,34 @@ const ChallengeSettingsForm: React.FC<ChallengeSettingsFormProps> = ({
             {isAdmin ?
                 <div className="pt-4">
                     <label
-                        htmlFor="challenge-author-twitter"
+                        htmlFor="challenge-review-status"
                         className="block w-full border-none bg-transparent py-2 outline-none"
                     >
-                        Approved?
+                        Review Status
                     </label>
 
                     <Field
-                        id="challenge-approved"
-                        name="approved"
-                        className="rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                        id="challenge-review-status"
+                        name="reviewStatus"
+                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                        required
                         disabled={isLoading}
-                        type="checkbox"
-                    />
+                        as="select"
+                    >
+                        <option value="" className="bg-zinc-700">
+                            Select status
+                        </option>
+                        <option value="pending" className="bg-zinc-700">
+                            Pending
+                        </option>
+                        <option value="approved" className="bg-zinc-700">
+                            Approved
+                        </option>
+                        <option value="rejected" className="bg-zinc-700">
+                            Rejected
+                        </option>
+                    </Field>
+
                 </div>
                 :
                 null
