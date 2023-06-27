@@ -3,6 +3,8 @@ import Card from 'components/common/card';
 import Text from 'components/common/text';
 import { useEvent } from 'hooks/use-event';
 import { useSubmissions } from 'hooks/use-submissions';
+import { useUserIdsByUserName } from 'hooks/use-user-ids-by-name';
+import * as _ from 'lodash';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
@@ -19,12 +21,20 @@ const SubmissionsPage: NextPage = () => {
             ? router.query.eventId[0]
             : router.query.eventId) ?? null;
     const [status, setStatus] = useState('pending');
-    const { credential } = useAuth();
-    const event = useEvent(eventId);
+    const { credential, user } = useAuth();
+    const event = useEvent(eventId, user);
     const submissions = useSubmissions(eventId, null);
+    const [filteredName, setFilteredName] = useState('')
+    const usersFound = useUserIdsByUserName(filteredName)
+
     const filteredSubmissions = useMemo(
-        () => submissions.filter(submission => submission.status === status),
-        [submissions, status],
+        () => {
+            console.log(usersFound, filteredName)
+            return submissions
+                .filter(submission => submission.status === status)
+                .filter(submission => usersFound.length ? _.find(usersFound, x => x == submission.userId) != undefined : true)
+        },
+        [submissions, status, usersFound, filteredName],
     );
 
     return (
@@ -43,44 +53,60 @@ const SubmissionsPage: NextPage = () => {
 
                         <div className="my-6 mx-auto grid space-x-6 space-y-6 p-12 sm:max-w-7xl sm:items-center">
                             <div>
-                                Filter by status:
-                                <select
-                                    name="status"
-                                    id="status"
-                                    value={status}
-                                    onChange={event =>
-                                        setStatus(
-                                            event.target
-                                                .value as SubmissionStatus,
-                                        )
-                                    }
-                                    className="ml-4 h-10 rounded-lg bg-white bg-opacity-10 px-2 py-1"
-                                >
-                                    <option
-                                        value="pending"
-                                        className="bg-black bg-opacity-60 "
-                                    >
-                                        Pending
-                                    </option>
-                                    <option
-                                        value="invalid"
-                                        className="bg-black bg-opacity-60"
-                                    >
-                                        Invalid
-                                    </option>
-                                    <option
-                                        value="incorrect"
-                                        className="bg-black bg-opacity-60"
-                                    >
-                                        Incorrect
-                                    </option>
-                                    <option
-                                        value="completed"
-                                        className="bg-black bg-opacity-60"
-                                    >
-                                        Completed
-                                    </option>
-                                </select>
+                                <div className='flex flex-col justify-start items-start md:flex-row md:items-center'>
+                                    <div>
+                                        Filter by status:
+                                        <select
+                                            name="status"
+                                            id="status"
+                                            value={status}
+                                            onChange={event =>
+                                                setStatus(
+                                                    event.target
+                                                        .value as SubmissionStatus,
+                                                )
+                                            }
+                                            className="ml-4 h-10 rounded-lg bg-white bg-opacity-10 px-2 py-1"
+                                        >
+                                            <option
+                                                value="pending"
+                                                className="bg-black bg-opacity-60 "
+                                            >
+                                                Pending
+                                            </option>
+                                            <option
+                                                value="invalid"
+                                                className="bg-black bg-opacity-60"
+                                            >
+                                                Invalid
+                                            </option>
+                                            <option
+                                                value="incorrect"
+                                                className="bg-black bg-opacity-60"
+                                            >
+                                                Incorrect
+                                            </option>
+                                            <option
+                                                value="completed"
+                                                className="bg-black bg-opacity-60"
+                                            >
+                                                Completed
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div className="mt-6 md:mt-0 md:ml-8 flex flex-row items-center">
+                                        <div className='min-w-fit mr-4'>Filter by user:</div>
+                                        <input
+                                            id="challenge-description"
+                                            name="description"
+                                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                                            placeholder="Enter a user name"
+                                            autoComplete="off"
+                                            onChange={(event) => setFilteredName(event.target.value)}
+                                            maxLength={500}
+                                        />
+                                    </div>
+                                </div>
                                 <div className="mt-2">
                                     <p>
                                         Submissions:{' '}
@@ -148,8 +174,8 @@ const SubmissionsPage: NextPage = () => {
                                 pathname: '/login',
                                 query: eventId
                                     ? {
-                                          eventId,
-                                      }
+                                        eventId,
+                                    }
                                     : {},
                             }}
                             passHref

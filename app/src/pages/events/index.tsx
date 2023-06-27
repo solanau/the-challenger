@@ -56,9 +56,11 @@ const EventsPage: NextPage = () => {
     }
 
     const canViewSettings = (event: EventPayload) => {
+        const isManager = event.managers ? event.managers.find(id => id == user.id) != undefined : false
+        const isReviewer = event.reviewers ? event.reviewers.find(id => id == user.id) != undefined : false
         const isCreator = event.userId == user.id
 
-        return isCreator || isAdmin
+        return isManager || isReviewer || isCreator || isAdmin
     }
 
     return (
