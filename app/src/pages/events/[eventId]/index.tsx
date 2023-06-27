@@ -13,7 +13,7 @@ const EventPage: NextPage = () => {
             : router.query.eventId) ?? null;
 
     const { user } = useAuth();
-    const event = useEvent(eventId, user);
+    const event = useEvent(eventId);
 
     return (
         <>
