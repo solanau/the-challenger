@@ -29,7 +29,7 @@ class ChallengeController {
             version: CHALLENGE_DOCUMENT_VERSION,
             userId: auth.id,
             reviewedBy: (user.isAdmin ? user.id : null),
-            reviewStatus: (user.isAdmin ? 'approved' : '')
+            reviewStatus: (user.isAdmin ? 'approved' : 'pending')
         };
 
         const challenge = await db
