@@ -29,7 +29,7 @@ const SubmissionReviewPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { credential, user } = useAuth();
     const submission = useSubmission(eventId, submissionId);
-    const event = useEvent(eventId, user);
+    const event = useEvent(eventId);
 
     const submissionUser = useUserByUserId(submission);
     const handleSendReview = (

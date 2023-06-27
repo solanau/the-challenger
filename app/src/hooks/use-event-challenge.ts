@@ -1,5 +1,4 @@
 import { doc, onSnapshot } from 'firebase/firestore';
-import { useAuth } from 'providers/AuthProvider';
 import { useEffect, useState } from 'react';
 import { Challenge, ChallengePayload } from 'types/challenge';
 import { toChallenge } from 'utils/challenge';
@@ -14,8 +13,7 @@ export const useEventChallenge = (
 ): Challenge => {
     const [challenge, setChallenge] = useState<Challenge>(null);
     const submissions = useSubmissions(eventId, { userId });
-    const { user } = useAuth()
-    const event = useEvent(eventId, user);
+    const event = useEvent(eventId);
 
     useEffect(() => {
         if (event === null || challengeId === null) {

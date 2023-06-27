@@ -1,4 +1,3 @@
-import { useAuth } from 'providers/AuthProvider';
 import { useMemo } from 'react';
 import { Challenge } from 'types/challenge';
 import { toChallenge } from 'utils/challenge';
@@ -9,8 +8,7 @@ export const useEventChallenges = (
     eventId: string | null,
     userId: string | null,
 ): Challenge[] => {
-    const { user } = useAuth()
-    const event = useEvent(eventId, user);
+    const event = useEvent(eventId);
     const submissions = useSubmissions(eventId, { userId });
 
     return useMemo(() => {

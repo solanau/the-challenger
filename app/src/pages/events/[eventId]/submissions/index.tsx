@@ -22,7 +22,7 @@ const SubmissionsPage: NextPage = () => {
             : router.query.eventId) ?? null;
     const [status, setStatus] = useState('pending');
     const { credential, user } = useAuth();
-    const event = useEvent(eventId, user);
+    const event = useEvent(eventId);
     const submissions = useSubmissions(eventId, null);
     const [filteredName, setFilteredName] = useState('')
     const usersFound = useUserIdsByUserName(filteredName)
