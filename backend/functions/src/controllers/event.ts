@@ -19,14 +19,8 @@ class EventController {
             );
         }
 
-        /* 
-            We're adding all challenges by default.
-        */
-        const challenges = await db
-            .collection('challenges')
-            .where('version', '==', 1)
-            .where('isNew', '==', false)
-            .get();
+        const user = (await db.collection('users').doc(auth.id).get()).data()
+
         const eventData: EventPayload = {
             title: payload.title,
             description: payload.description,
@@ -36,6 +30,7 @@ class EventController {
             createdAt: Date.now(),
             updatedAt: Date.now(),
             isNew: true,
+            reviewStatus: (user.isAdmin ? 'approved' : 'pending')
         };
 
         const event = await db.doc(`events/${payload.id}`).set(eventData);
@@ -51,9 +46,26 @@ class EventController {
             );
         }
 
+
+        const user = (await db.collection('users').doc(auth.id).get()).data()
+
+        const eventCurrentState = (await db.doc(`events/${id}`).get()).data()
+
+        if (!user.isAdmin && eventCurrentState.userId != auth.id) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `You are not allowed to modify this challenge.`,
+            );
+        }
+
+        const reviewedBy =
+            user.idAdmin ? (eventCurrentState.reviewStatus != data.reviewStatus ?
+                auth.id :
+                eventCurrentState.reviewedBy) : eventCurrentState.reviewedBy
+
         const event = await db
             .doc(`events/${id}`)
-            .update({ ...data, updatedAt: Date.now(), isNew: false });
+            .update({ ...data, updatedAt: Date.now(), isNew: false, reviewedBy });
 
         return event;
     }

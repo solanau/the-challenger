@@ -77,6 +77,7 @@ export interface EventPayload {
     endDate?: number;
     reviewers?: string[];
     managers?: string[];
+    reviewStatus: ReviewStatus
 }
 
 export interface ChallengePayload {
@@ -121,6 +122,7 @@ export interface UpdateEventPayload {
         fullDescription?: string;
         description: string;
         challenges: string[];
+        reviewStatus: ReviewStatus;
     };
 }
 
@@ -146,7 +148,7 @@ export interface UpdateChallengePayload {
         authorName: string;
         authorGithub: string;
         authorTwitter: string;
-        approved: boolean;
+        reviewStatus: ReviewStatus;
     };
 }
 

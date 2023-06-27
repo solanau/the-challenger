@@ -58,11 +58,16 @@ class ChallengeController {
             );
         }
 
+        const reviewedBy =
+            user.idAdmin ? (challengeCurrentState.reviewStatus != data.reviewStatus ?
+                auth.id :
+                challengeCurrentState.reviewedBy) : challengeCurrentState.reviewedBy
+
         const dataToUpdate = {
             ...data,
             updatedAt: Date.now(),
             isNew: false,
-            reviewedBy: auth.id
+            reviewedBy
         }
 
         const challenge = await db
