@@ -115,7 +115,7 @@ const UpcomingChallengersSection = () => (
                 backgroundRepeat: "no-repeat",
                 width: "100%",
                 height: "100%",
-                top: 1900,
+                top: 3000,
                 right: 0,
                 maxHeight: 1500,
                 maxWidth: 1500,

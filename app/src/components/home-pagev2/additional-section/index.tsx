@@ -75,7 +75,7 @@ const AdditionalSection = () => {
                     backgroundRepeat: "no-repeat",
                     width: "140%",
                     height: "150%",
-                    top: 1750,
+                    top: 2800,
                     left: 0,
                     maxHeight: 1800,
                     maxWidth: 1800,
