@@ -38,7 +38,7 @@ const IntroInformation = () => {
                             <div className="h-12 w-12 mb-4 text-white">
                                 <selectedBlock.icon className="h-full w-full" aria-hidden="true" />
                             </div>
-                            <h2 className="text-6xl font-bold text-white mb-2">{selectedBlock.title}</h2>
+                            <h2 className="text-3xl font-bold text-white mb-2">{selectedBlock.title}</h2>
                             <p className="text-gray-300">{selectedBlock.description}</p>
                             <img
                                 src={selectedBlock.image}
@@ -52,10 +52,6 @@ const IntroInformation = () => {
         </section>
     );
 };
-
-
-
-
 
 const data = [
     {
