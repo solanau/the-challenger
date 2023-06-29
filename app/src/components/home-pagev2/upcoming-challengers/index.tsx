@@ -106,7 +106,7 @@ const UpcomingChallengersSection = () => (
 
             </div>
         </div>
-        <div
+        {/* <div
             className="absolute order-3 sm:mt-10 bg-blend-overlay"
             style={{
                 backgroundImage: `url(/upcoming-right-picture.png)`,
@@ -115,12 +115,12 @@ const UpcomingChallengersSection = () => (
                 backgroundRepeat: "no-repeat",
                 width: "100%",
                 height: "100%",
-                top: 2900,
+                top: 2700,
                 right: 0,
                 maxHeight: 1500,
                 maxWidth: 1500,
             }}
-        ></div>
+        ></div> */}
     </section >
 );
 

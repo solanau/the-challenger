@@ -67,50 +67,38 @@ const AdditionalSection = () => {
 
     return (
         <section className="pt-10 pb-20 md:pt-20 md:pb-40 bg-black grid grid-cols-1 md:grid-cols-2 gap-8" style={{ gridAutoRows: 'minmax(min-content, max-content)' }}>
-            <div className="hidden sm:block absolute order-2 sm:mt-10 bg-blend-overlay"
-                style={{
-                    backgroundImage: `url(/upcoming-left-picture.png)`,
-                    backgroundPosition: "left",
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat",
-                    width: "140%",
-                    height: "150%",
-                    top: 1600,
-                    left: 0,
-                    maxHeight: 1800,
-                    maxWidth: 1800,
-                }}
-            ></div>
+            <div className="hidden sm:block absolute order-2 sm:mt-10 bg-blend-overlay" style={{ backgroundImage: `url(/upcoming-left-picture.png)`, backgroundPosition: 'left', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', width: '140%', height: '150%', top: 2300, left: 0, maxHeight: 1800, maxWidth: 1800 }}></div>
 
             <div className="col-span-1 flex flex-col justify-between">
-
-                <Card className="flex-grow p-8 bg-zinc-900 shadow-xl rounded-xl bg-opacity-30 border-zinc-800 border mx-20 transition-all duration-500">
-                    <Text variant="big-heading" className="text-white text-center mb-6  ">
+                <Card className="flex-grow p-8 bg-zinc-900 shadow-xl rounded-xl bg-opacity-30 border-zinc-800 border mx-4 md:mx-20 transition-all duration-500">
+                    <Text variant="big-heading" className="text-white text-center mb-6">
                         Top 10 All-Time
                     </Text>
                     <table className="w-full text-white mx-auto table-fixed">
                         <thead>
                             <tr>
-                                <th className="pb-2 border-b border-zinc-600 px-4 py-2 text-2xl font-bold">Rank</th>
-                                <th className="pb-2 border-b border-zinc-600 px-4 py-2 text-2xl font-bold">Player</th>
-                                <th className="pb-2 border-b border-zinc-600 px-4 py-2 text-2xl font-bold">Points</th>
+                                <th className="pb-2 border-b border-zinc-600 px-4 py-2 text-xl md:text-2xl font-bold">Rank</th>
+                                <th className="pb-2 border-b border-zinc-600 px-4 py-2 text-xl md:text-2xl font-bold">Player</th>
+                                <th className="pb-2 border-b border-zinc-600 px-4 py-2 text-xl md:text-2xl font-bold">Points</th>
                             </tr>
                         </thead>
                         <tbody>
                             {top10.map((user) => (
                                 <tr key={user.rank} className="border-b border-opacity-20 border-zinc-600 hover:bg-zinc-800 transition-all duration-300">
                                     <td className="py-2 px-4 text-center">
-                                        {user.rank === 1 ?
-                                            <span className="text-2xl">🥇</span> :
-                                            user.rank === 2 ?
-                                                <span className="text-2xl">🥈</span> :
-                                                user.rank === 3 ?
-                                                    <span className="text-2xl">🥉</span> :
-                                                    user.rank}
+                                        {user.rank === 1 ? (
+                                            <span className="text-2xl">🥇</span>
+                                        ) : user.rank === 2 ? (
+                                            <span className="text-2xl">🥈</span>
+                                        ) : user.rank === 3 ? (
+                                            <span className="text-2xl">🥉</span>
+                                        ) : (
+                                            user.rank
+                                        )}
                                     </td>
 
-                                    <td className="flex py-2 px-4 text-center ml-12">
-                                        <img src={user.picture} alt={user.player} className="rounded-full h-8 w-8 inline mr-2 " />
+                                    <td className="flex py-2 px-4 text-center md:ml-12">
+                                        <img src={user.picture} alt={user.player} className="rounded-full h-8 w-8 inline mr-2" />
                                         {user.player}
                                     </td>
                                     <td className="py-2 px-4 text-center">{user.points}</td>
@@ -119,20 +107,18 @@ const AdditionalSection = () => {
                         </tbody>
                     </table>
                 </Card>
-
             </div>
 
             <div className="col-span-1 flex flex-col justify-between">
-
-                <Card className="flex-grow p-8 bg-zinc-900 shadow-xl rounded-xl bg-opacity-30 border-zinc-800 border mx-20 transition-all duration-500">
+                <Card className="flex-grow p-8 bg-zinc-900 shadow-xl rounded-xl bg-opacity-30 border-zinc-800 border mx-4 md:mx-20 transition-all duration-500">
                     <Text variant="big-heading" className="text-white text-center mb-6">
                         Upcoming Events
                     </Text>
                     <table className="w-full text-white">
                         <thead>
                             <tr>
-                                <th className="pb-2 border-b border-zinc-600 px-4 py-2 text-2xl font-bold">Name</th>
-                                <th className="pb-2 border-b border-zinc-600 px-4 py-2 text-2xl font-bold">Date</th>
+                                <th className="pb-2 border-b border-zinc-600 px-4 py-2 text-xl md:text-2xl font-bold">Name</th>
+                                <th className="pb-2 border-b border-zinc-600 px-4 py-2 text-xl md:text-2xl font-bold">Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -147,8 +133,6 @@ const AdditionalSection = () => {
                 </Card>
             </div>
         </section>
-
-
     );
 };
 
