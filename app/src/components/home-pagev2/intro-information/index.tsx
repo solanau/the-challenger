@@ -10,12 +10,13 @@ const IntroInformation = () => {
     };
 
     return (
-        <section className="md:pt-80 sm:my-40 grid overflow-hidden relative">
-            <div className="container mx-auto mt-40 px-4 z-10">
-                <Text variant="big-heading" className="text-white text-left items-center mt-20">
-                    The Ultimate Education Tool for Your Events
+        <section className="pt-20 sm:pt-80 sm:my-40 grid overflow-hidden relative">
+            <div className="container mx-auto sm:mt-40 px-4 z-10">
+                <Text variant="big-heading" className="text-xl sm:text-xl md:text-2xl lg:text-6xl text-white text-left items-center sm:mt-20">
+                    The Education Tool for Events
                 </Text>
-                <div className="grid grid-cols-2 gap-4 mb-2 mt-10 sm:grid-cols-1 md:grid-cols-4">
+
+                <div className="grid grid-cols-2 gap-4 mb-2 mt-10 sm:grid-cols-2 md:grid-cols-4">
                     {data.map((block, index) => (
                         <div
                             key={index}
@@ -33,18 +34,18 @@ const IntroInformation = () => {
                 </div>
                 <div className={`transform transition-transform duration-500 ease-in-out ${selectedBlock ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                     {selectedBlock && (
-                        <div className="w-full md:w-3/4 mx-auto bg-gray-800 rounded-b-xl shadow-lg p-8 space-y-4 mt-8 mb-4 bg-gradient-to-b from-black via-black to-black border-zinc-800 border mx-20 transition-all duration-500 rounded-2xl h-auto">
+                        <div className="w-full md:w-3/4 mx-auto my-8 bg-gray-800 rounded-b-xl shadow-lg p-8 space-y-4 sm:space-y-6 bg-gradient-to-b from-black via-black to-black border-zinc-800 border transition-all duration-500 rounded-2xl">
                             <div className="h-12 w-12 mb-4 text-white">
                                 <selectedBlock.icon className="h-full w-full" aria-hidden="true" />
                             </div>
-                            <h2 className="text-3xl font-bold text-white mb-2">
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2">
                                 {selectedBlock.title}
                             </h2>
-                            <p className="text-gray-300">{selectedBlock.description}</p>
+                            <p className="text-gray-300 text-sm">{selectedBlock.description}</p>
                             <img
                                 src={selectedBlock.image}
                                 alt={selectedBlock.title}
-                                className="w-3/4 h-120 mx-auto object-cover rounded-xl"
+                                className="w-full h-auto mx-auto mt-4 object-cover rounded-xl"
                             />
                         </div>
                     )}
@@ -85,6 +86,7 @@ const data = [
 ];
 
 export default IntroInformation;
+
 
 
 

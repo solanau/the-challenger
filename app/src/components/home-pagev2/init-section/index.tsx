@@ -51,7 +51,7 @@ const InitSection = () => {
                     <h1 className="text-6xl sm:text-7xl md:text-9xl font-extrabold tracking-tighter text-white font-rubik">
                         The Challenger
                     </h1>
-                    <p className="mt-4 text-lg sm:text-xl md:text-2xl font-normal text-white font-rubik">
+                    <p className="mt-4 text-lg sm:text-xl md:text-4xl font-normal text-white font-rubik">
                         <span className="block text-center text-white">Complete Challenges. Develop New Skills</span>
                         <span className="block text-center text-white">Earn Rewards. Share your achievements.</span>
                     </p>
