@@ -15,18 +15,17 @@ const IntroInformation = () => {
                 <Text variant="big-heading" className="text-white text-left items-center mt-20">
                     The Ultimate Education Tool for Your Events
                 </Text>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-2 mt-10">
+                <div className="grid grid-cols-2 gap-4 mb-2 mt-10 sm:grid-cols-1 md:grid-cols-4">
                     {data.map((block, index) => (
                         <div
                             key={index}
-                            className={`relative flex flex-col items-center p-8 sm:p-12 cursor-pointer md:p-16 bg-gray-800 rounded-xl shadow-lg bg-gradient-to-b from-zinc-900 via-black to-black ${selectedBlock?.index === index ? 'ring-1 ring-white z-10' : ''
-                                }`}
+                            className={`relative flex flex-col items-center p-4 sm:p-8 cursor-pointer md:p-12 bg-gray-800 rounded-xl shadow-lg bg-gradient-to-b from-zinc-900 via-black to-black ${selectedBlock?.index === index ? 'ring-1 ring-white z-10' : ''}`}
                             onClick={() => handleCardClick(block, index)}
                         >
-                            <div className="h-12 w-12 mb-4 text-white">
+                            <div className="h-8 w-8 sm:h-10 sm:w-10 mb-2 text-white">
                                 <block.icon className="h-full w-full" aria-hidden="true" />
                             </div>
-                            <h2 className="text-xl font-bold text-white mb-2">
+                            <h2 className="text-sm font-bold text-white mb-2 lg:text-2xl">
                                 {block.title}
                             </h2>
                         </div>
@@ -38,7 +37,9 @@ const IntroInformation = () => {
                             <div className="h-12 w-12 mb-4 text-white">
                                 <selectedBlock.icon className="h-full w-full" aria-hidden="true" />
                             </div>
-                            <h2 className="text-3xl font-bold text-white mb-2">{selectedBlock.title}</h2>
+                            <h2 className="text-3xl font-bold text-white mb-2">
+                                {selectedBlock.title}
+                            </h2>
                             <p className="text-gray-300">{selectedBlock.description}</p>
                             <img
                                 src={selectedBlock.image}
@@ -84,6 +85,8 @@ const data = [
 ];
 
 export default IntroInformation;
+
+
 
 
 
