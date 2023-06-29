@@ -2,7 +2,7 @@ import Image from 'components/common/image';
 import Link from 'next/link';
 
 const Footer = () => (
-    <footer className="border-t-2 border-[#141414] bg-black hover:text-white sm:mt-40">
+    <footer className="border-t-2 border-[#141414] bg-black hover:text-white">
         <div className="md:px-6 py-16">
             <div className="grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-8 md:space-x-12">
                 <div className='flex flex-col col-span-2 mx-4 items-center md:items-start'>

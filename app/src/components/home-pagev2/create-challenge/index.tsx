@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const CreateChallengeSection = () => {
     return (
-        <section className="pt-10 pb-20 mt-80 md:pt-20 md:pb-20">
+        <section className="pt-10 pb-20 mt-70 md:pt-20 md:pb-20 relative">
             <div className="w-full max-w-6xl px-4 py-12 mx-auto text-center">
                 <Card className="flex-grow p-8 bg-zinc-900 shadow-xl rounded-xl bg-opacity-70 border-zinc-600 border mx-20 ">
                     <Text variant="big-heading" className="text-white mb-6">
@@ -22,9 +22,23 @@ const CreateChallengeSection = () => {
                         />
                     </Link>
                 </Card>
+                <div
+                    className="hidden sm:block absolute bottom-0 right-0 bg-blend-overlay"
+                    style={{
+                        backgroundImage: `url(/bottom_picture.png)`,
+                        backgroundPosition: "right",
+                        backgroundSize: "contain",
+                        backgroundRepeat: "no-repeat",
+                        width: "140%",
+                        height: "120%",
+                        maxHeight: 800,
+                        maxWidth: 800,
+                    }}
+                ></div>
             </div>
         </section>
     );
 };
 
 export default CreateChallengeSection;
+
