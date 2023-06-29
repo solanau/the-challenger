@@ -10,7 +10,13 @@ type BackgroundImageProps = {
     extraClasses?: string;
 };
 
-const BackgroundImage: React.FC<BackgroundImageProps> = ({ source, altText, position, size, extraClasses = "" }) => (
+const BackgroundImage: React.FC<BackgroundImageProps> = ({
+    source,
+    altText,
+    position,
+    size,
+    extraClasses = "",
+}) => (
     <div
         className={`absolute sm:mt-10 bg-blend-overlay ${extraClasses}`}
         style={{
@@ -24,7 +30,6 @@ const BackgroundImage: React.FC<BackgroundImageProps> = ({ source, altText, posi
     />
 );
 
-
 const BackgroundGradient = () => (
     <div
         className="absolute order-2 sm:mt-10"
@@ -33,14 +38,14 @@ const BackgroundGradient = () => (
             backgroundSize: "80% 80%",
             backgroundPosition: "bottom",
             width: "100%",
-            height: "140%"
+            height: "140%",
         }}
     />
 );
 
 const InitSection = () => {
     return (
-        <section className="pt-20 md:pt-10 sm:my-20 bg-gradient-to-br from-black to-gray-900 grid place-items-center overflow-hidden">
+        <section className="pt-5 md:pt-10 sm:my-20 bg-gradient-to-br from-black to-gray-900 grid place-items-center overflow-hidden">
             <div className="w-full max-w-6xl px-4 py-12 mx-auto flex flex-col items-center gap-6 sm:gap-12 z-30">
                 <div className="text-center sm:text-left">
                     <h1 className="text-6xl sm:text-7xl md:text-9xl font-extrabold tracking-tighter text-white font-rubik">
@@ -57,9 +62,10 @@ const InitSection = () => {
                         icon={TbSearch}
                         text={'View all events'}
                         variant="transparent"
-                        className="w-screen sm:w-64 hover:bg-gradient-to-br hover:from-white hover:to-white bg-gradient-to-br from-indigo-500 to-fuchsia-500"
+                        className="w-full sm:w-auto md:w-64 lg:w-80 max-w-xs hover:bg-gradient-to-br hover:from-white hover:to-white bg-gradient-to-br from-indigo-500 to-fuchsia-500 sm:text-2xl md:text-3xl lg:text-4xl"
                     />
                 </Link>
+
             </div>
             <BackgroundImage
                 source="/right-home-graphic.png"
@@ -77,9 +83,11 @@ const InitSection = () => {
             <BackgroundGradient />
         </section>
     );
-}
+};
 
 export default InitSection;
+
+
 
 
 

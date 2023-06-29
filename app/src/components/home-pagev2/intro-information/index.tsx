@@ -10,7 +10,7 @@ const IntroInformation = () => {
     };
 
     return (
-        <section className="pt-40 md:pt-80 sm:my-40 grid overflow-hidden relative">
+        <section className="md:pt-80 sm:my-40 grid overflow-hidden relative">
             <div className="container mx-auto mt-40 px-4 z-10">
                 <Text variant="big-heading" className="text-white text-left items-center mt-20">
                     The Ultimate Education Tool for Your Events
