@@ -99,10 +99,14 @@ const AdditionalSection = () => {
 
                                     <td className="flex py-2 px-4 text-center md:ml-12">
                                         <img src={user.picture} alt={user.player} className="rounded-full h-8 w-8 inline mr-2" />
-                                        {user.player}
+                                        <span className="text-white md:text-lg">{user.player}</span>
                                     </td>
-                                    <td className="py-2 px-4 text-center">{user.points}</td>
+
+                                    <td className="py-2 px-4 text-center">
+                                        <span className="text-white md:text-lg">{user.points}</span>
+                                    </td>
                                 </tr>
+
                             ))}
                         </tbody>
                     </table>
