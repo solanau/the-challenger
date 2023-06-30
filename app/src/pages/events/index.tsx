@@ -157,7 +157,7 @@ const EventsPage: NextPage = () => {
                     </div>
                 </div>
 
-                <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-8 xl:px-32 xl:py-20">
+                <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-8 xl:px-48 xl:py-16">
 
                     <div>
                         Filter by ownership:
