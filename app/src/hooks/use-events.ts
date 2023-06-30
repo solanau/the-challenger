@@ -1,23 +1,27 @@
 import { DocumentData, QueryDocumentSnapshot, collection, onSnapshot, query, where } from 'firebase/firestore';
 import * as _ from 'lodash';
 import { useEffect, useState } from 'react';
+import { ReviewStatus } from 'types/challenge';
 import { EventPayload } from 'types/event';
 import { UserPayload } from 'types/user';
 import { firestore } from 'utils/firebase';
 
 export type EventFilters = Partial<{
     user: UserPayload;
-    includePublic: boolean
+    includePublic: boolean;
+    userEventsStatus?: ReviewStatus;
 }>;
 
 export const useEvents = (
     filters?: EventFilters
 ): EventPayload[] => {
     const [events, setEvents] = useState<EventPayload[]>([]);
-    const { user, includePublic = false } = filters
+    const { user, includePublic = false, userEventsStatus = 'approved' } = filters
 
     useEffect(() => {
         const versionConstraint = where('version', '==', 1)
+
+        const aggregatedEvents = []
 
         if (!user) return
 
@@ -28,26 +32,33 @@ export const useEvents = (
                     id: doc.id,
                     ...doc.data(),
                 } as EventPayload),
-            ).concat(events)
+            )
+            allEvents.forEach(x => aggregatedEvents.push(x))
+            console.log('aggregatedEvents', aggregatedEvents)
             setEvents(
-                prevState =>
-                    _.uniqWith(
-                        _.orderBy(prevState.concat(allEvents), ['startDate'], ['desc']),
-                        (a, b) => a.id == b.id
-                    )
+                _.clone(aggregatedEvents)
             );
         }
+
+        const userEventsStatusConstraints =
+            userEventsStatus == '' ?
+                [] : [where('reviewStatus', '==', userEventsStatus)]
+
 
 
         const unsubscribeOnlyUser = !user.isAdmin ? onSnapshot(
             query(
                 collection(firestore, `events`),
                 versionConstraint,
-                where('userId', '==', user.id)
+                where('userId', '==', user.id),
+                ...userEventsStatusConstraints
             ),
             querySnapshot => {
+                console.log('unsubscribeOnlyUser', querySnapshot.docs)
                 if (!querySnapshot.empty) {
                     setAllEvents(querySnapshot.docs)
+                } else {
+                    setAllEvents([])
                 }
             },
         ) : null;
@@ -60,8 +71,11 @@ export const useEvents = (
                 where('reviewStatus', '==', 'approved')
             ),
             querySnapshot => {
+                console.log('unsubscribePublicNotFromUser', querySnapshot.docs)
                 if (!querySnapshot.empty) {
                     setAllEvents(querySnapshot.docs)
+                } else {
+                    setAllEvents([])
                 }
             },
         ) : null;
@@ -72,8 +86,11 @@ export const useEvents = (
                 versionConstraint,
             ),
             querySnapshot => {
+                console.log('unsubscribeAdmin', querySnapshot.docs)
                 if (!querySnapshot.empty) {
                     setAllEvents(querySnapshot.docs)
+                } else {
+                    setAllEvents([])
                 }
             },
         ) : null;
@@ -83,7 +100,7 @@ export const useEvents = (
             if (unsubscribePublicNotFromUser) unsubscribePublicNotFromUser()
             if (unsubscribeAdmin) unsubscribeAdmin()
         };
-    }, []);
+    }, [filters.includePublic, filters.user, filters.userEventsStatus]);
 
     return events;
 };

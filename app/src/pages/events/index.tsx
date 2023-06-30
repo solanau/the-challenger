@@ -11,9 +11,10 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { TbPlus } from 'react-icons/tb';
 import { toast } from 'react-toastify';
+import { ReviewStatus } from 'types/challenge';
 import { CreateEventPayload, EventPayload } from 'types/event';
 import { v4 as uuid } from 'uuid';
 
@@ -22,7 +23,9 @@ const EventsPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const { isLoggedIn, credential, user, isAdmin } = useAuth();
-    const events = useEvents({ user, includePublic: true });
+    const [showPublicEvents, setShowPublicEvents] = useState(true)
+    const [eventsStatus, setEventsStatus] = useState<ReviewStatus>('approved')
+    const events = useEvents({ user, includePublic: showPublicEvents, userEventsStatus: eventsStatus });
 
     const handleCreateEvent = (createEventPayload: CreateEventPayload) => {
         setIsLoading(true);
@@ -63,10 +66,15 @@ const EventsPage: NextPage = () => {
         return isManager || isReviewer || isCreator || isAdmin
     }
 
+    const showFilterOwnership = useMemo(() => {
+        return isAdmin || !isAdmin && showPublicEvents == false
+    }, [showPublicEvents, user])
+
     return (
         <>
             {!isLoggedIn && (
                 <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+
                     <Text variant="sub-heading">
                         Sign in to access this page.
                     </Text>
@@ -102,15 +110,6 @@ const EventsPage: NextPage = () => {
                 </div>
             )}
 
-            {/* {isLoggedIn && user !== null && !user.isAdmin && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                    <Text variant="sub-heading">
-                        You're not authorized to access this page.
-                    </Text>
-                </div>
-            )} */}
-
-            {/* {isLoggedIn && user !== null && user.isAdmin && ( */}
             <>
                 <div className="flex w-full flex-col flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                     <Text variant="big-heading">Events</Text>
@@ -156,6 +155,71 @@ const EventsPage: NextPage = () => {
                             </Formik>
                         </Modal>
                     </div>
+                </div>
+
+                <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-8 xl:px-32 xl:py-20">
+
+                    <div>
+                        Filter by ownership:
+                        <select
+                            id="ownership"
+                            // value={status}
+                            onChange={(evt) => {
+                                console.log('evt', evt.target.value == 'all')
+                                setShowPublicEvents(evt.target.value == 'all')
+                            }}
+                            className="ml-4 h-10 rounded-lg bg-white bg-opacity-10 px-2 py-1"
+                        >
+                            <option
+                                value="all"
+                                className="bg-black bg-opacity-60 "
+                            >
+                                All
+                            </option>
+                            <option
+                                value="mine"
+                                className="bg-black bg-opacity-60"
+                            >
+                                My events
+                            </option>
+                        </select>
+                    </div>
+
+                    {showFilterOwnership ? <div>
+                        Filter by status:
+                        <select
+                            id="ownership"
+                            // value={status}
+                            onChange={(evt) => setEventsStatus(evt.target.value as ReviewStatus)}
+                            className="ml-4 h-10 rounded-lg bg-white bg-opacity-10 px-2 py-1"
+                        >
+                            <option
+                                value=""
+                                className="bg-black bg-opacity-60 "
+                            >
+                                All
+                            </option>
+                            <option
+                                value="pending"
+                                className="bg-black bg-opacity-60 "
+                            >
+                                Pending
+                            </option>
+                            <option
+                                value="approved"
+                                className="bg-black bg-opacity-60"
+                            >
+                                Approved
+                            </option>
+                            <option
+                                value="rejected"
+                                className="bg-black bg-opacity-60"
+                            >
+                                Rejected
+                            </option>
+                        </select>
+                    </div> : null}
+
                 </div>
 
                 <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
