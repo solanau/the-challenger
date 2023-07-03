@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const CreateChallengeSection = () => {
     return (
-        <section className="pt-10 pb-20 mt-10 md:pt-20 md:pb-20 relative">
+        <section className="pt-10 pb-20 mt-10 md:pt-10 md:pb-20 relative">
             <div className="w-full max-w-6xl px-4 py-12 mx-auto text-center">
                 <Text variant="big-heading" className="text-white mb-6">
                     Create your Own Challenge
