@@ -62,7 +62,7 @@ const InitSection = () => {
                         icon={TbSearch}
                         text={'View all events'}
                         variant="transparent"
-                        className="w-full sm:w-auto md:w-64 lg:w-80 max-w-xs hover:bg-gradient-to-br hover:from-white hover:to-white bg-gradient-to-br from-indigo-500 to-fuchsia-500 sm:text-2xl md:text-3xl lg:text-4xl"
+                        className="w-full sm:w-auto md:w-64 lg:w-80 max-w-xs hover:bg-gradient-to-br bg-gradient-to-br from-indigo-500 to-fuchsia-500 sm:text-2xl md:text-3xl lg:text-4xl"
                     />
                 </Link>
 
