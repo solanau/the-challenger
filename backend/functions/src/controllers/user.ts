@@ -26,11 +26,21 @@ class UserController {
             );
         }
 
+        if (!Array.isArray(payload.skills)) {
+            throw new functions.https.HttpsError(
+                'invalid-argument',
+                `The skills field must be an array.`,
+            );
+        }
+
         await db.doc(`users/${auth.id}`).set({
             fullName: payload.fullName,
             userName: payload.userName,
             email: auth.email,
+
             walletPublicKey: payload.walletPublicKey,
+            avatar: payload.avatar,
+            skills: payload.skills.map(skill => String(skill).trim()), // sanitize the skills
         });
 
         return payload;

@@ -52,9 +52,9 @@ const SignUpForm: NextPage<SignUpFormProps> = ({ isLoading = false }) => (
         </div>
 
         <div className="width-full flex flex-row justify-end gap-2 pt-4">
-            <Button type="submit" variant="purple" disabled={isLoading}>
+            <Button className="w-1/3" type="submit" variant="purplefull" disabled={isLoading}>
                 {isLoading && <Spinner variant="large"></Spinner>}
-                Submit
+                Sign Up
             </Button>
         </div>
     </Form>

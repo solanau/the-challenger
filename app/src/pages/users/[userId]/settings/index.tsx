@@ -38,85 +38,89 @@ const UserSettingsPage: NextPage = () => {
             .finally(() => setIsLoading(false));
     };
 
-
-    const formik = useRef<FormikProps<FormikValues>>()
+    const formik = useRef<FormikProps<FormikValues>>(null);
     const { publicKey, sendTransaction } = useWallet();
 
     useEffect(() => {
-        if (publicKey && formik.current)
+        if (publicKey && formik.current) {
             formik.current.setFieldValue('walletPublicKey', publicKey.toBase58());
-    }, [publicKey, formik.current])
+        }
+    }, [publicKey, formik.current]);
 
     return (
         <>
-            <section className="px-4 pt-20 sm:px-8 md:mt-0 md:px-16 lg:px-32 xl:px-48">
-                {!isLoggedIn && (
-                    <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                        <Text variant="sub-heading">
-                            Sign in to view the challenge.
-                        </Text>
+            <section className="mt-0 px-8 pt-20 sm:px-8 md:px-16 lg:px-32 xl:px-48 mb-40">
+                <div className="flex w-full flex-col gap-6 px-10 sm:px-16 md:px-32 lg:px-64 xl:px-96 justify-beginning">
+                    {!isLoggedIn && (
+                        <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                            <Text variant="sub-heading">
+                                Sign in to view the challenge.
+                            </Text>
 
-                        <div className="flex flex-row gap-2">
-                            <Link
-                                href={eventId ? `/events/${eventId}` : '/'}
-                                passHref
-                            >
-                                <a>
-                                    <Button
-                                        variant="transparent"
-                                        text="Go back"
-                                    />
-                                </a>
-                            </Link>
-                            <Link
-                                href={{
-                                    pathname: '/login',
-                                    query: eventId
-                                        ? {
-                                            eventId,
-                                        }
-                                        : {},
-                                }}
-                                passHref
-                            >
-                                <a>
-                                    <Button variant="purple" text="Sign in" />
-                                </a>
-                            </Link>
+                            <div className="flex flex-row gap-2">
+                                <Link
+                                    href={eventId ? `/events/${eventId}` : '/'}
+                                    passHref
+                                >
+                                    <a>
+                                        <Button
+                                            variant="transparent"
+                                            text="Go back"
+                                        />
+                                    </a>
+                                </Link>
+                                <Link
+                                    href={{
+                                        pathname: '/login',
+                                        query: eventId
+                                            ? {
+                                                eventId,
+                                            }
+                                            : {},
+                                    }}
+                                    passHref
+                                >
+                                    <a>
+                                        <Button variant="purple" text="Sign in" />
+                                    </a>
+                                </Link>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {isLoggedIn && (
-                    <>
-                        <h1>
-                            <Text variant="heading">Profile Settings</Text>
-                        </h1>
+                    {isLoggedIn && (
+                        <>
+                            <h1>
+                                <Text variant="heading">Edit Profile</Text>
+                            </h1>
 
-                        <Formik
-                            initialValues={{
-                                fullName: user?.fullName ?? '',
-                                userName: user?.userName ?? '',
-                                walletPublicKey: user?.walletPublicKey ?? '',
-                            }}
-                            onSubmit={handleUpdateUser}
-                            enableReinitialize={true}
-                            innerRef={formik}
-                        >
-                            {({ errors, touched, isValidating }) => (
-                                <UserSettingsForm
-                                    isLoading={isLoading}
-                                    errors={errors}
-                                    touched={touched}
-                                ></UserSettingsForm>
-                            )}
-                        </Formik>
-
-                    </>
-                )}
+                            <Formik
+                                initialValues={{
+                                    fullName: user?.fullName ?? '',
+                                    userName: user?.userName ?? '',
+                                    walletPublicKey: user?.walletPublicKey ?? '',
+                                    avatar: user?.avatar ?? null,
+                                    skills: user?.skills ?? [],
+                                }}
+                                onSubmit={handleUpdateUser}
+                                enableReinitialize={true}
+                                innerRef={formik}
+                            >
+                                {({ errors, touched, isValidating }) => (
+                                    <UserSettingsForm
+                                        isLoading={isLoading}
+                                        errors={errors}
+                                        touched={touched}
+                                    />
+                                )}
+                            </Formik>
+                        </>
+                    )}
+                </div>
             </section>
         </>
     );
 };
 
 export default UserSettingsPage;
+

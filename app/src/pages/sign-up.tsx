@@ -6,7 +6,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { SignUpFormData } from 'types/auth';
 
@@ -14,16 +14,29 @@ const SignUpPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { signUp } = useAuth();
     const router = useRouter();
+    const isMounted = useRef(true); // Add this line
+
     const eventId =
         (router.query.eventId instanceof Array
             ? router.query.eventId[0]
             : router.query.eventId) ?? null;
 
+    useEffect(() => {
+        return () => {
+            isMounted.current = false;
+        };
+    }, []);
     const handleSignUp = async ({ email, password }: SignUpFormData) => {
-        setIsLoading(true);
+        if (isMounted.current) {
+            setIsLoading(true);
+        }
 
         signUp(email, password)
-            .then(() => router.push(eventId ? `/events/${eventId}` : '/'))
+            .then(() => {
+                if (isMounted.current) {
+                    router.push(eventId ? `/events/${eventId}` : '/');
+                }
+            })
             .catch(error => {
                 if (typeof error === 'string') {
                     toast(error, {
@@ -39,7 +52,11 @@ const SignUpPage: NextPage = () => {
                     });
                 }
             })
-            .finally(() => setIsLoading(false));
+            .finally(() => {
+                if (isMounted.current) {
+                    setIsLoading(false);
+                }
+            });
     };
 
     return (

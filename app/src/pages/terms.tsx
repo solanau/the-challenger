@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 
 const TermsPage: NextPage = () => (
     <>
-        <section className="mt-36 flex justify-center px-4 pt-20 sm:px-8 md:mt-0 md:px-16 lg:px-32 xl:px-48">
+        <section className="mt-36 flex justify-center px-4 pt-20 sm:px-8 md:mt-0 md:px-32 lg:px-64 xl:px-96">
             <Markdown>
                 {`
 ### Terms and Conditions

@@ -53,7 +53,11 @@ export interface SetUserPayload {
     fullName: string;
     userName: string;
     walletPublicKey: string;
-}
+    avatar: File | null;
+    skills: string[];
+
+  }
+  
 
 export type UpdateLeaderBoardPayload = {
     eventId: string;
