@@ -67,7 +67,19 @@ const AdditionalSection = () => {
 
     return (
         <section className="pt-10 pb-20 md:pt-20 md:pb-40 bg-black grid grid-cols-1 md:grid-cols-2 gap-8" style={{ gridAutoRows: 'minmax(min-content, max-content)' }}>
-            <div className="hidden sm:block absolute order-2 sm:mt-10 bg-blend-overlay" style={{ backgroundImage: `url(/upcoming-left-picture.png)`, backgroundPosition: 'left', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', width: '140%', height: '150%', top: 2300, left: 0, maxHeight: 1800, maxWidth: 1800 }}></div>
+            <div className="hidden sm:block absolute order-2 sm:mt-10 bg-blend-overlay"
+                style={{
+                    backgroundImage: `url(/upcoming-left-picture.png)`,
+                    backgroundPosition: 'left', backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    width: '140%',
+                    height: '150%',
+                    top: 2000,
+                    left: 0,
+                    maxHeight: 1400,
+                    maxWidth: 1800
+                }}>
+            </div>
 
             <div className="col-span-1 flex flex-col justify-between">
                 <Card className="flex-grow p-8 bg-zinc-900 shadow-xl rounded-xl bg-opacity-30 border-zinc-800 border mx-4 md:mx-20 transition-all duration-500">

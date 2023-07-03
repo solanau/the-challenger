@@ -50,7 +50,6 @@ const UpcomingChallengersSection = () => (
                         infiniteLoop={true}
                         showThumbs={false}
                         showStatus={false}
-
                         autoPlay={true}
                         interval={4000}
                         className="w-full px-5 py-5 rounded-xl shadow-lg"
@@ -59,7 +58,6 @@ const UpcomingChallengersSection = () => (
                             <div key={index}>
                                 <Card
                                     className="h-full p-4 sm:p-8 lg:p-14º bg-black rounded-4xl bg-opacity-10 border-zinc-800 hover:border-zinc-500 border relative transition-all duration-200 ease-in-out"
-
                                 >
                                     <div className="flex flex-col sm:flex-row">
                                         <div className="flex items-center justify-start">
@@ -71,8 +69,6 @@ const UpcomingChallengersSection = () => (
                                                 />
                                             </div>
                                         </div>
-
-
                                         <div className="flex flex-col gap-5 ml-5">
                                             <div className="flex flex-col gap-1">
                                                 <Text variant="heading" className="mt-2 text-white text-left">
@@ -90,11 +86,8 @@ const UpcomingChallengersSection = () => (
                                                     variant="transparent"
                                                     className="my-2 place-self-end sm:place-self-auto text-white border-white text-lg py-2 flex items-center mx-10"
                                                 >
-
                                                     <span className="ml-1"> ⛨ View Challenges</span>
                                                 </Button>
-
-
                                             </Link>
                                         </div>
                                     </div>
@@ -103,10 +96,9 @@ const UpcomingChallengersSection = () => (
                         ))}
                     </Carousel>
                 </div>
-
             </div>
         </div>
-        {/* <div
+        <div
             className="absolute order-3 sm:mt-10 bg-blend-overlay"
             style={{
                 backgroundImage: `url(/upcoming-right-picture.png)`,
@@ -115,13 +107,13 @@ const UpcomingChallengersSection = () => (
                 backgroundRepeat: "no-repeat",
                 width: "100%",
                 height: "100%",
-                top: 2700,
+                top: 1350,
                 right: 0,
                 maxHeight: 1500,
                 maxWidth: 1500,
             }}
-        ></div> */}
-    </section >
+        ></div>
+    </section>
 );
 
 export default UpcomingChallengersSection;

@@ -9,8 +9,8 @@ const Home: NextPage = () => (
 
     <>
         <InitSection />
-        <IntroInformation />
         <UpcomingChallengersSection />
+        <IntroInformation />
         <AdditionalSection />
         <CreateChallengeSection />
 

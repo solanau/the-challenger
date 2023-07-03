@@ -10,9 +10,9 @@ const IntroInformation = () => {
     };
 
     return (
-        <section className="pt-20 sm:pt-80 sm:my-40 grid overflow-hidden relative">
-            <div className="container mx-auto sm:mt-40 px-4 z-10">
-                <Text variant="big-heading" className="text-xl sm:text-xl md:text-2xl lg:text-6xl text-white text-left items-center sm:mt-20">
+        <section className="grid overflow-hidden relative">
+            <div className="container mx-auto px-4 z-10">
+                <Text variant="big-heading" className="text-xl sm:text-xl md:text-2xl lg:text-6xl text-white text-center items-center sm:mt-20">
                     The Education Tool for Events
                 </Text>
 
@@ -41,11 +41,12 @@ const IntroInformation = () => {
                             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2">
                                 {selectedBlock.title}
                             </h2>
-                            <p className="text-gray-300 text-sm">{selectedBlock.description}</p>
+                            <p className="text-gray-300 text-3xl">{selectedBlock.description}</p>
                             <img
                                 src={selectedBlock.image}
                                 alt={selectedBlock.title}
                                 className="w-full h-auto mx-auto mt-4 object-cover rounded-xl"
+                                style={{ maxWidth: '500px', maxHeight: '500px' }}
                             />
                         </div>
                     )}
@@ -60,7 +61,7 @@ const data = [
         icon: AcademicCapIcon,
         title: 'Learn',
         description:
-            'This is a longer description. A Sed e risus, in pharetra nunc ante at magna.',
+            'The Challenger is a tool designed to make learning fun and engaging throught challenges and rewards.',
         image: 'learn.jpeg',
     },
     {
@@ -86,9 +87,3 @@ const data = [
 ];
 
 export default IntroInformation;
-
-
-
-
-
-
