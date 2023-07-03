@@ -272,7 +272,7 @@ const ChallengePage: NextPage = () => {
                                                     Cancel
                                                 </Button>
                                                 <Button
-                                                    variant="orange"
+                                                    variant="purple"
                                                     className="sm:px-12"
                                                     onClick={() =>
                                                         handleCreateSubmission(
@@ -321,7 +321,7 @@ const ChallengePage: NextPage = () => {
                                 >
                                     <a>
                                         <Button
-                                            variant="orange"
+                                            variant="purple"
                                             text="Sign in"
                                         />
                                     </a>

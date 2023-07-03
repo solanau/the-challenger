@@ -121,7 +121,7 @@ const EventSettingsPage: NextPage = () => {
     return (
         <>
             {!isLoggedIn && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20 py-20">
                     <Text variant="sub-heading">
                         Sign in to access this page.
                     </Text>
@@ -240,7 +240,7 @@ const EventSettingsPage: NextPage = () => {
 
                             <div className="max-h-256 flex flex-col gap-5 overflow-y-auto px-2 py-4">
                                 <div className="width-full flex flex-row justify-start gap-2 pt-4">
-                                    <Button onClick={handleSendParticipationNFTs} type="button" variant="orange" disabled={isSendingParticipationNFTs}>
+                                    <Button onClick={handleSendParticipationNFTs} type="button" variant="purple" disabled={isSendingParticipationNFTs}>
                                         {isSendingParticipationNFTs && <Spinner variant="large"></Spinner>}
                                         Send Participation NFTs
                                     </Button>
@@ -272,7 +272,7 @@ const EventSettingsPage: NextPage = () => {
 
                             <div className="max-h-256 flex flex-col gap-5 overflow-y-auto px-2 py-4">
                                 <div className="width-full flex flex-row justify-start gap-2 pt-4">
-                                    <Button onClick={handleSendTopLeaderboardNFTs} type="button" variant="orange" disabled={isSendingTopLeaderboardNFTs}>
+                                    <Button onClick={handleSendTopLeaderboardNFTs} type="button" variant="purple" disabled={isSendingTopLeaderboardNFTs}>
                                         {isSendingTopLeaderboardNFTs && <Spinner variant="large"></Spinner>}
                                         Send Top Leaderboard NFTs
                                     </Button>

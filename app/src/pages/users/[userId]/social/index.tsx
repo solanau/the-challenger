@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import {
     facebookAuthProvider,
     githubAuthProvider,
-    twitterAuthProvider,
+    twitterAuthProvider
 } from 'utils/firebase';
 
 const UserSocialPage: NextPage = () => {
@@ -157,14 +157,14 @@ const UserSocialPage: NextPage = () => {
                                     pathname: '/login',
                                     query: eventId
                                         ? {
-                                              eventId,
-                                          }
+                                            eventId,
+                                        }
                                         : {},
                                 }}
                                 passHref
                             >
                                 <a>
-                                    <Button variant="orange" text="Sign in" />
+                                    <Button variant="purple" text="Sign in" />
                                 </a>
                             </Link>
                         </div>
@@ -231,7 +231,7 @@ const UserSocialPage: NextPage = () => {
 
                                 {credential.githubUserName === null && (
                                     <Button
-                                        variant="orange"
+                                        variant="purple"
                                         onClick={handleLinkGitHub}
                                         disabled={isLinkingGitHub}
                                     >
@@ -298,7 +298,7 @@ const UserSocialPage: NextPage = () => {
 
                                 {credential.twitterUserName === null && (
                                     <Button
-                                        variant="orange"
+                                        variant="purple"
                                         onClick={handleLinkTwitter}
                                         disabled={isLinkingTwitter}
                                     >
@@ -365,7 +365,7 @@ const UserSocialPage: NextPage = () => {
 
                                 {credential.facebookUserName === null && (
                                     <Button
-                                        variant="orange"
+                                        variant="purple"
                                         onClick={handleLinkFacebook}
                                         disabled={isLinkingFacebook}
                                     >

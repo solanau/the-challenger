@@ -80,7 +80,7 @@ const UserSettingsPage: NextPage = () => {
                                 passHref
                             >
                                 <a>
-                                    <Button variant="orange" text="Sign in" />
+                                    <Button variant="purple" text="Sign in" />
                                 </a>
                             </Link>
                         </div>

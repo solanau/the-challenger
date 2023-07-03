@@ -9,7 +9,7 @@ type ButtonProps = {
     disabled?: boolean;
     reversed?: boolean;
     onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
-    variant: 'black' | 'orange' | 'transparent' | 'danger' | 'label' | 'none' | 'purple';
+    variant: 'black' | 'orange' | 'transparent' | 'danger' | 'label' | 'none' | 'purple' | 'transparentpurple' | 'purplefull';
     text?: string;
     icon?: IconType;
     children?: React.ReactNode;
@@ -25,6 +25,8 @@ const variants = {
     danger: 'border-secondary text-danger hover:text-white hover:bg-secondary',
     label: 'text-secondary hover:text-white !p-0 border-none',
     purple: 'border-transparent bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white',
+    transparentpurple: 'text-white border-purple-500',
+    purplefull: 'border-transparent bg-gradient-to-br from-purple-800 via-purple-800 to-purple-900 text-white',
     none: '',
 };
 

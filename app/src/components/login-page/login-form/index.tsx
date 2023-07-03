@@ -22,7 +22,7 @@ const LoginForm: NextPage<LoginFormProps> = ({ isLoading = false }) => (
                 name="email"
                 type="email"
                 className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
-                placeholder="Enter a email for the credential"
+                placeholder="Enter an email for the credential"
                 maxLength={80}
                 required
                 disabled={isLoading}
@@ -52,7 +52,7 @@ const LoginForm: NextPage<LoginFormProps> = ({ isLoading = false }) => (
         </div>
 
         <div className="width-full flex flex-row justify-end gap-2 pt-4">
-            <Button type="submit" variant="orange" disabled={isLoading}>
+            <Button type="submit" variant="purplefull" disabled={isLoading}>
                 {isLoading && <Spinner variant="large"></Spinner>}
                 Submit
             </Button>

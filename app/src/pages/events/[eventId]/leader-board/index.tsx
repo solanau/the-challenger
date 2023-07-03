@@ -66,7 +66,7 @@ const LeaderBoardPage: NextPage = () => {
                         {user && event && event.managers && event.managers.includes(user.id) && (
                             <Button
                                 className="flex items-center justify-center h-8 px-4 bg-gradient-to-tl from-[#ef3c11] via-[#fdb735] to-[#ffeb3a]"
-                                variant="orange"
+                                variant="purple"
                                 onClick={handleUpdateLeaderBoard}
                             >
                                 {isLoading && <Spinner variant="large" />}

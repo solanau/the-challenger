@@ -40,7 +40,7 @@ const CreateSubmissionForm: NextPage<CreateSubmissionFormProps> = ({
                 <FormBuilder fieldsConfig={fieldsConfig} disabled={isLoading} errors={errors} touched={touched} isValidating={isValidating} />
 
                 <div className="width-full flex flex-row justify-end gap-2 pt-4">
-                    <Button type="submit" variant="orange" className="px-8" disabled={isLoading}>
+                    <Button type="submit" variant="purplefull" className="px-8" disabled={isLoading}>
                         {isLoading && <Spinner variant="large"></Spinner>}
                         Submit
                     </Button>

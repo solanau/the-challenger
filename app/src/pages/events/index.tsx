@@ -49,7 +49,7 @@ const EventsPage: NextPage = () => {
     return (
         <>
             {!isLoggedIn && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20 py-20">
                     <Text variant="sub-heading">
                         Sign in to access this page.
                     </Text>
@@ -162,7 +162,7 @@ const EventsPage: NextPage = () => {
                                         <Link href={`events/${event.id}`}>
                                             <a className="w-full md:w-auto">
                                                 <Button
-                                                    variant="orange"
+                                                    variant="purple"
                                                     className="w-full md:w-auto"
                                                 >
                                                     View Preview
@@ -175,7 +175,7 @@ const EventsPage: NextPage = () => {
                                         >
                                             <a className="w-full md:w-auto">
                                                 <Button
-                                                    variant="orange"
+                                                    variant="purple"
                                                     className="w-full md:w-auto"
                                                 >
                                                     View Submissions

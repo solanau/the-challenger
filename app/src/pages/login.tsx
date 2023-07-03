@@ -12,7 +12,7 @@ import {
     linkWithCredential,
     OAuthCredential,
     signInWithEmailAndPassword,
-    signInWithPopup,
+    signInWithPopup
 } from 'firebase/auth';
 import { Formik } from 'formik';
 import { NextPage } from 'next';
@@ -20,7 +20,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from 'providers/AuthProvider';
 import { useState } from 'react';
-import { TbBrandFacebook, TbBrandGithub, TbBrandTwitter } from 'react-icons/tb';
+import { TbBrandGithub, TbBrandTwitter } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { AuthProviderType } from 'types/api';
 import { auth, getSocialProvider, handleSocialError } from 'utils/firebase';
@@ -96,7 +96,7 @@ const LoginPage: NextPage = () => {
         signInWithPopup(auth, authProvider)
             .then(() => router.push(eventId ? `/events/${eventId}` : '/'))
             .catch(error => {
-                console.log(error); 
+                console.log(error);
                 if (
                     error.code ===
                     'auth/account-exists-with-different-credential'
@@ -214,8 +214,8 @@ const LoginPage: NextPage = () => {
                 }}
             ></EnterNewPasswordWithSocialDialog>
 
-            <section className="mt-0 px-4 pt-20 sm:px-8 md:px-16 lg:px-32 xl:px-48">
-                <div className="flex w-full flex-col gap-6 px-5 sm:px-8 md:px-16 lg:px-32 xl:px-48">
+            <section className="mt-0 px-8 pt-20 sm:px-16 md:px-32 lg:px-64 xl:px-96 mb-40">
+                <div className="flex w-full flex-col gap-6 px-10 sm:px-16 md:px-32 lg:px-64 xl:px-96 justify-center">
                     <h1>
                         <Text variant="heading">Login</Text>
                     </h1>
@@ -237,8 +237,8 @@ const LoginPage: NextPage = () => {
                                 pathname: '/sign-up',
                                 query: eventId
                                     ? {
-                                          eventId,
-                                      }
+                                        eventId,
+                                    }
                                     : {},
                             }}
                             passHref
@@ -249,11 +249,11 @@ const LoginPage: NextPage = () => {
 
                     <hr></hr>
 
-                    <div className="flex flex-wrap gap-4 ">
+                    <div className="flex gap-4">
                         <Button
                             icon={TbBrandGithub}
-                            variant="orange"
-                            className="w-full md:w-auto"
+                            variant="transparentpurple"
+                            className="w-full md:w-1/2"
                             disabled={isLoading}
                             onClick={() =>
                                 handleLogInWithSocial(
@@ -261,13 +261,13 @@ const LoginPage: NextPage = () => {
                                 )
                             }
                         >
-                            Login with GitHub
+                            Log In GitHub
                         </Button>
 
-                        {/* <Button
+                        <Button
                             icon={TbBrandTwitter}
-                            variant="orange"
-                            className="w-full md:w-auto"
+                            variant="transparentpurple"
+                            className="w-full md:w-1/2"
                             disabled={isLoading}
                             onClick={() =>
                                 handleLogInWithSocial(
@@ -275,12 +275,11 @@ const LoginPage: NextPage = () => {
                                 )
                             }
                         >
-                            Login with Twitter
+                            Log In Twitter
                         </Button>
-
-                        <Button
+                        {/* <Button
                             icon={TbBrandFacebook}
-                            variant="orange"
+                            variant="transparentpurple"
                             className="w-full md:w-auto"
                             disabled={isLoading}
                             onClick={() =>

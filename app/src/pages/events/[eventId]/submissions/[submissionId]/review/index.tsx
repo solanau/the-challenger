@@ -191,15 +191,15 @@ const SubmissionReviewPage: NextPage = () => {
                                         pathname: '/login',
                                         query: eventId
                                             ? {
-                                                  eventId,
-                                              }
+                                                eventId,
+                                            }
                                             : {},
                                     }}
                                     passHref
                                 >
                                     <a>
                                         <Button
-                                            variant="orange"
+                                            variant="purple"
                                             text="Sign in"
                                         />
                                     </a>

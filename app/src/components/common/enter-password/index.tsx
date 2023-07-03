@@ -88,7 +88,7 @@ export default function EnterPasswordDialog({
 
                                         <div className="mt-4">
                                             <Button
-                                                variant="orange"
+                                                variant="purple"
                                                 onClick={() =>
                                                     onClose(password)
                                                 }

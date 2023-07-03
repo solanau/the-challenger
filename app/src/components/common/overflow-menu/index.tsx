@@ -142,7 +142,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                     <Button
                                                         text="Manage Social"
                                                         icon={FaTwitter}
-                                                        variant="orange"
+                                                        variant="purple"
                                                         className="mt-2 !w-full"
                                                         onClick={() =>
                                                             setMenuOpen(false)

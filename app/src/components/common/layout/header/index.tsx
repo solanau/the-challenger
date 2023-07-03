@@ -58,9 +58,9 @@ const Header = () => {
                         className="HAMBURGER-ICON space-y-2.5"
                         onClick={() => setIsNavOpen(prev => !prev)}
                     >
-                        <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-                        <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-                        <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
+                        <span className="block h-0.5 w-8 animate-pulse bg-purple-600"></span>
+                        <span className="block h-0.5 w-8 animate-pulse bg-purple-600"></span>
+                        <span className="block h-0.5 w-8 animate-pulse bg-purple-600"></span>
                     </div>
                     <div className="flex h-full flex-row items-center gap-2 md:gap-10">
                         <div className="h-8 w-0.5 bg-zinc-900" />

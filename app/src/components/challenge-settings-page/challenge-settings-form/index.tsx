@@ -445,7 +445,7 @@ const ChallengeSettingsForm: React.FC<ChallengeSettingsFormProps> = ({
                             </Text>
 
                             <Button
-                                variant="orange"
+                                variant="purple"
                                 type="button"
                                 onClick={() =>
                                     arrayHelpers.push({
@@ -472,7 +472,7 @@ const ChallengeSettingsForm: React.FC<ChallengeSettingsFormProps> = ({
             />
 
             <div className="width-full flex flex-row justify-end gap-2 pt-4">
-                <Button type="submit" variant="orange" disabled={isLoading}>
+                <Button type="submit" variant="purple" disabled={isLoading}>
                     {isLoading && <Spinner variant="large" />}
                     Save changes
                 </Button>

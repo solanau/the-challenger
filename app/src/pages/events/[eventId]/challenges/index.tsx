@@ -79,7 +79,7 @@ const DropdownMenu: React.FC<{ label: string; options: ButtonProps[] }> = ({
             </button>
             {isOpen && (
                 <div
-                    className="dropdown-menu absolute left-0 top-full mt-1 overflow-y-scroll scrollbar scrollbar-thumb-orange-500 scrollbar-track-black max-h-60 bg-black border border-white border-solid border-2 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out"
+                    className="dropdown-menu absolute left-0 top-full mt-1 overflow-y-scroll scrollbar scrollbar-thumb-purple-500 scrollbar-track-black max-h-60 bg-black border border-white border-solid border-2 rounded-lg py-1 shadow-md z-10 transition-all duration-300 ease-in-out"
                     ref={menuRef}
                 >
                     <div className="flex flex-wrap">

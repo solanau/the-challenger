@@ -74,7 +74,7 @@ const HeroSection = ({ eventId, title, body }: HeroSectionProps) => {
                                         ? 'Sign In'
                                         : 'View the challenges !'
                                 }
-                                variant="orange"
+                                variant="purple"
                                 className="!w-full"
                                 reversed={user !== null}
                             ></Button>

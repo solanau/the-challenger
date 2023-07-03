@@ -133,7 +133,7 @@ const SubmissionReviewForm: NextPage<SubmissionReviewFormProps> = ({
         </div>
 
         <div className="width-full flex flex-row justify-end gap-2 pt-4">
-            <Button type="submit" variant="orange" disabled={isLoading}>
+            <Button type="submit" variant="purplefull" disabled={isLoading}>
                 {isLoading && <Spinner variant="large"></Spinner>}
                 Send Review
             </Button>

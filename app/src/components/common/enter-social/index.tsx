@@ -67,7 +67,7 @@ export default function EnterSocialDialog({
                                         <Button
                                             icon={TbBrandFacebook}
                                             text={'Sign In with Facebook'}
-                                            variant="orange"
+                                            variant="purple"
                                             className="mt-4 !w-full"
                                             onClick={() =>
                                                 onClose(
@@ -80,7 +80,7 @@ export default function EnterSocialDialog({
                                         <Button
                                             icon={TbBrandTwitter}
                                             text={'Sign In with Twitter'}
-                                            variant="orange"
+                                            variant="purple"
                                             className="mt-4 !w-full"
                                             onClick={() =>
                                                 onClose(
@@ -93,7 +93,7 @@ export default function EnterSocialDialog({
                                         <Button
                                             icon={TbBrandGithub}
                                             text={'Sign In with Github'}
-                                            variant="orange"
+                                            variant="purple"
                                             className="mt-4 !w-full"
                                             onClick={() =>
                                                 onClose(
