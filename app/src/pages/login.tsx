@@ -243,17 +243,19 @@ const LoginPage: NextPage = () => {
                             }}
                             passHref
                         >
-                            <a className="text-primary"> Go to sign up page.</a>
+                            <a className="text-primary underline"> Go to sign up page.</a>
                         </Link>
                     </Text>
-
-                    <hr></hr>
-
-                    <div className="flex gap-4">
+                    <div className="flex flex-col md:flex-row items-center gap-4">
+                        <hr className="flex-grow bg-gray-300 h-px w-full md:w-auto" />
+                        <span className="text-gray-500">or other options</span>
+                        <hr className="flex-grow bg-gray-300 h-px w-full md:w-auto" />
+                    </div>
+                    <div className="flex flex-col md:flex-row gap-4">
                         <Button
                             icon={TbBrandGithub}
                             variant="transparentpurple"
-                            className="w-full md:w-1/2"
+                            className="w-full"
                             disabled={isLoading}
                             onClick={() =>
                                 handleLogInWithSocial(
@@ -261,13 +263,13 @@ const LoginPage: NextPage = () => {
                                 )
                             }
                         >
-                            Log In GitHub
+                            Login GitHub
                         </Button>
 
                         <Button
                             icon={TbBrandTwitter}
                             variant="transparentpurple"
-                            className="w-full md:w-1/2"
+                            className="w-full"
                             disabled={isLoading}
                             onClick={() =>
                                 handleLogInWithSocial(
@@ -275,7 +277,7 @@ const LoginPage: NextPage = () => {
                                 )
                             }
                         >
-                            Log In Twitter
+                            Login Twitter
                         </Button>
                         {/* <Button
                             icon={TbBrandFacebook}

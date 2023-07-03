@@ -11,7 +11,7 @@ module.exports = {
         themes: [
             {
                 mytheme: {
-                    primary: '#e37542',
+                    primary: '#9055DD',
                     secondary: '#D926A9',
                     accent: '#1FB2A6',
                     neutral: '#191D24',
@@ -28,7 +28,7 @@ module.exports = {
         extend: {
             colors: {
                 // Primary
-                primary: '#e37542',
+                primary: '#9055DD',
                 'primary-focus': '#ffffff',
 
                 // Secondary
@@ -56,15 +56,11 @@ module.exports = {
                 'xs': '350px',
                 '2lg': '1111px',
             },
-            backdropFilter: {
-                'none': 'none',
-                'blur': 'blur(20px)',
-            },
-            fontFamily: {
-                sans: ['Rubik'],
-            },
-            screens: { ...defaultTheme.screens },
         },
+        fontFamily: {
+            sans: ['Rubik'],
+        },
+        screens: { ...defaultTheme.screens },
     },
     plugins: [
         typography,

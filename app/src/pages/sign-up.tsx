@@ -44,8 +44,8 @@ const SignUpPage: NextPage = () => {
 
     return (
         <>
-            <section className="mt-0 px-4 pt-20 sm:px-8 md:px-16 lg:px-32 xl:px-48">
-                <div className="flex w-full flex-col gap-6 px-5 sm:px-8 md:px-16 lg:px-32 xl:px-48">
+            <section className="mt-0 px-8 pt-20 sm:px-16 md:px-32 lg:px-64 xl:px-96 mb-40">
+                <div className="flex w-full flex-col gap-6 px-10 sm:px-16 md:px-32 lg:px-64 xl:px-96 justify-center">
                     <h1>
                         <Text variant="heading">Sign up</Text>
                     </h1>
@@ -67,13 +67,13 @@ const SignUpPage: NextPage = () => {
                                 pathname: '/login',
                                 query: eventId
                                     ? {
-                                          eventId,
-                                      }
+                                        eventId,
+                                    }
                                     : {},
                             }}
                             passHref
                         >
-                            <a className="text-primary"> Go to login page.</a>
+                            <a className="text-primary underline"> Go to login page.</a>
                         </Link>
                     </Text>
                 </div>
