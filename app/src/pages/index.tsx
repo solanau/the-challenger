@@ -4,7 +4,7 @@ import InitSection from 'components/home-pagev2/init-section';
 import IntroInformation from 'components/home-pagev2/intro-information';
 import UpcomingChallengersSection from 'components/home-pagev2/upcoming-challengers';
 import { NextPage } from 'next';
-// Home
+
 const Home: NextPage = () => (
 
     <>

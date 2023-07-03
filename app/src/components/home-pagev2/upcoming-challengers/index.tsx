@@ -52,46 +52,54 @@ const UpcomingChallengersSection = () => (
                         showStatus={false}
                         autoPlay={true}
                         interval={4000}
-                        className="w-full px-5 py-5 rounded-xl shadow-lg"
+                        className="w-full px-5 py-5 rounded-xl shadow-lg carousel"
                     >
                         {cardData.map((data, index) => (
                             <div key={index}>
-                                <Card
-                                    className="h-full p-4 sm:p-8 lg:p-14º bg-black rounded-4xl bg-opacity-10 border-zinc-800 hover:border-zinc-500 border relative transition-all duration-200 ease-in-out"
-                                >
-                                    <div className="flex flex-col sm:flex-row">
-                                        <div className="flex items-center justify-start">
-                                            <div style={{ width: '500px', height: '250px', overflow: 'hidden', borderRadius: '5%' }}>
+                                <Card className="h-full p-2 sm:p-4 lg:p-8 bg-black rounded-4xl bg-opacity-10 border-zinc-800 hover:border-zinc-500 border relative transition-all duration-200 ease-in-out">
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 h-full">
+                                        <div className="sm:col-span-2 h-full">
+                                            <div style={{ width: '100%', height: '100%', overflow: 'hidden', borderRadius: '5%' }}>
                                                 <img
-                                                    src={data.image}
-                                                    alt={data.title}
-                                                    className="w-full h-full object-cover" // object-cover to ensure the image covers the entire div
+                                                    src={data.image || 'defaultPlaceholderImage.png'}
+                                                    alt={data.title || 'No Title'}
+                                                    className="w-full h-auto object-cover"
                                                 />
                                             </div>
                                         </div>
-                                        <div className="flex flex-col gap-5 ml-5">
+                                        <div className="sm:col-span-1 flex flex-col gap-4 h-full">
                                             <div className="flex flex-col gap-1">
-                                                <Text variant="heading" className="mt-2 text-white text-left">
-                                                    {data.title}
+                                                <Text variant="heading" className="text-white text-left">
+                                                    {data.title || 'No Title'}
                                                 </Text>
-                                                <Text variant="nav-heading" className="mt-2 text-white/80 text-left ">
-                                                    Date: {data.date}
+                                                <Text variant="nav-heading" className="text-white/80 text-left">
+                                                    Date: {data.date || 'No Date'}
+                                                </Text>
+                                                <Text variant="paragraph" className="text-white text-left">
+                                                    {data.description || 'No Description'}
                                                 </Text>
                                             </div>
-                                            <Text variant="paragraph" className="text-white text-left">
-                                                {data.description}
-                                            </Text>
-                                            <Link href={data.link} target="_blank" rel="noopener noreferrer" passHref className="flex flex-col sm:flex-row sm:justify-end">
-                                                <Button
-                                                    variant="transparent"
-                                                    className="my-2 place-self-end sm:place-self-auto text-white border-white text-lg py-2 flex items-center mx-10"
-                                                >
-                                                    <span className="ml-1"> ⛨ View Challenges</span>
-                                                </Button>
-                                            </Link>
+                                            <div className="flex justify-center mt-auto sm:mt-0">
+                                                <Link href={data.link || '#'} passHref>
+                                                    <a target="_blank" rel="noopener noreferrer">
+                                                        <Button
+                                                            variant="transparent"
+                                                            className="text-white border-white text-lg py-2 flex items-center"
+                                                        >
+                                                            <span>⛨ View Challenges</span>
+                                                        </Button>
+                                                    </a>
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
                                 </Card>
+
+
+
+
+
+
                             </div>
                         ))}
                     </Carousel>
@@ -107,7 +115,7 @@ const UpcomingChallengersSection = () => (
                 backgroundRepeat: "no-repeat",
                 width: "100%",
                 height: "100%",
-                top: 1350,
+                top: 0,
                 right: 0,
                 maxHeight: 1500,
                 maxWidth: 1500,
