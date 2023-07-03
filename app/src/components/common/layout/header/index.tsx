@@ -24,7 +24,7 @@ const Header = () => {
                 USER_PATH_NAMES.includes(router.pathname)));
 
     return (
-        <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between  border-b-1.5 border-b-line bg-transparent bg-opacity-40 px-5   backdrop-blur-xl">
+        <header className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between  border-b-1.5 border-b-line bg-zinc-900 bg-opacity-40 px-5 backdrop-blur-xl">
             <Link href={isEventPage ? `/events/${eventId}` : '/'} passHref>
                 <a className="flex w-fit cursor-pointer flex-row items-center">
                     <Image

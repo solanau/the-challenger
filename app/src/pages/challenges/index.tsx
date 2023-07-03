@@ -65,7 +65,7 @@ const ChallengesPage: NextPage = () => {
 
                         <Link href="/login" passHref>
                             <a>
-                                <Button variant="orange" text="Sign in" />
+                                <Button variant="purple" text="Sign in" />
                             </a>
                         </Link>
                     </div>

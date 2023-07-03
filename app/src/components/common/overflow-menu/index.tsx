@@ -56,7 +56,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
             <div className="dropdown-end dropdown">
 
                 <Button
-                    variant="orange"
+                    variant="purple"
                     icon={MdOutlineManageAccounts}
                     onClick={() => setMenuOpen(true)}
                     ref={buttonRef} // change buttonRef to ref
@@ -118,7 +118,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                     <Button
                                                         text="Edit Profile"
                                                         icon={MdSettings}
-                                                        variant="orange"
+                                                        variant="purple"
                                                         className="mt-2 !w-full"
                                                         onClick={() =>
                                                             setMenuOpen(false)
@@ -219,7 +219,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                         <Button
                                                             text="Sign in"
                                                             icon={MdLogin}
-                                                            variant="orange"
+                                                            variant="purple"
                                                             className="!w-full"
                                                             onClick={() =>
                                                                 setMenuOpen(
@@ -265,7 +265,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                     <Button
                                                         text="Set up profile"
                                                         icon={MdSettings}
-                                                        variant="orange"
+                                                        variant="purple"
                                                         className="mt-2 !w-full"
                                                         onClick={() =>
                                                             setMenuOpen(false)
@@ -289,7 +289,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                                                     <Button
                                                         text="Manage Social"
                                                         icon={FaTwitter}
-                                                        variant="orange"
+                                                        variant="purple"
                                                         className="mt-2 !w-full"
                                                         onClick={() =>
                                                             setMenuOpen(false)

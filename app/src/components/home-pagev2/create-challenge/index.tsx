@@ -23,16 +23,16 @@ const CreateChallengeSection = () => {
                     </Link>
                 </Card>
                 <div
-                    className="hidden sm:block absolute bottom-0 right-0 bg-blend-overlay"
+                    className="absolute bottom-0 right-0 bg-blend-overlay hidden md:block"
                     style={{
                         backgroundImage: `url(/bottom_picture.png)`,
-                        backgroundPosition: "right",
-                        backgroundSize: "contain",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
                         backgroundRepeat: "no-repeat",
-                        width: "140%",
-                        height: "120%",
-                        maxHeight: 800,
-                        maxWidth: 800,
+                        width: "100%",
+                        height: "100%",
+                        maxHeight: "500px",
+                        maxWidth: "250px"
                     }}
                 ></div>
             </div>
@@ -41,5 +41,4 @@ const CreateChallengeSection = () => {
 };
 
 export default CreateChallengeSection;
-
 
