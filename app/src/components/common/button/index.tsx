@@ -17,6 +17,7 @@ type ButtonProps = {
     tabIndex?: number;
 };
 
+
 const variants = {
     black: 'border-transparent bg-black',
     orange: 'border-transparent bg-primary text-black',
@@ -66,6 +67,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         </button>
     )
 );
+
+Button.displayName = 'Button';
 
 export default Button;
 

@@ -3,7 +3,7 @@ import Text from 'components/common/text';
 import { useState } from 'react';
 
 const IntroInformation = () => {
-    const [selectedBlock, setSelectedBlock] = useState({ ...data[0], index: 0 });
+    const [selectedBlock, setSelectedBlock] = useState(null);
 
     const handleCardClick = (block, index) => {
         setSelectedBlock(selectedBlock?.index === index ? null : { ...block, index });
@@ -32,7 +32,7 @@ const IntroInformation = () => {
                         </div>
                     ))}
                 </div>
-                <div className={`transform transition-transform duration-500 ease-in-out ${selectedBlock ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                <div className={`transition-all duration-500 ${selectedBlock ? 'h-[auto] max-h-[1000px]' : 'h-0 max-h-0'}`}>
                     {selectedBlock && (
                         <div className="w-full md:w-3/4 mx-auto my-8 bg-gray-800 rounded-b-xl shadow-lg p-8 space-y-4 sm:space-y-6 bg-gradient-to-b from-black via-black to-black border-zinc-800 border transition-all duration-500 rounded-2xl">
                             <div className="h-12 w-12 mb-4 text-white">
@@ -61,7 +61,7 @@ const data = [
         icon: AcademicCapIcon,
         title: 'Learn',
         description:
-            'The Challenger is a tool designed to make learning fun and engaging throught challenges and rewards.',
+            'The Challenger is a tool designed to make learning fun and engaging through challenges and rewards.',
         image: 'learn.jpeg',
     },
     {
@@ -87,3 +87,6 @@ const data = [
 ];
 
 export default IntroInformation;
+
+
+

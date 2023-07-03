@@ -7,7 +7,7 @@ import {
     MdLogin,
     MdLogout,
     MdOutlineManageAccounts,
-    MdSettings,
+    MdSettings
 } from 'react-icons/md';
 import Button from '../button';
 import Card from '../card';
@@ -59,8 +59,9 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                     variant="orange"
                     icon={MdOutlineManageAccounts}
                     onClick={() => setMenuOpen(true)}
-                    buttonRef={buttonRef}
+                    ref={buttonRef} // change buttonRef to ref
                 />
+
 
                 {menuOpen && (
                     <Card className="bg-opacity-85 dropdown-content mt-3 block w-[calc(100vw-3rem)] !bg-[#232225] sm:w-80">
