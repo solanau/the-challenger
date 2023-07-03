@@ -38,8 +38,8 @@ const cardData = [
 ];
 
 const UpcomingChallengersSection = () => (
-    <section className="pt-20 md:pt-20 grid place-items-center overflow-hidden">
-        <div className="w-full max-w-6xl px-4 py-12 mx-auto flex flex-col items-center gap-6 sm:gap-12 relative z-30">
+    <section className="md:pt-20 grid place-items-center overflow-hidden">
+        <div className="w-full max-w-6xl px-4 mx-auto flex flex-col items-center gap-6 sm:gap-12 relative z-30">
             <div className="text-center sm:text-left">
                 <div className="mx-auto max-w-screen-lg">
                     <Text variant="big-heading" className="text-white text-center items-center mt-20">
@@ -94,12 +94,6 @@ const UpcomingChallengersSection = () => (
                                         </div>
                                     </div>
                                 </Card>
-
-
-
-
-
-
                             </div>
                         ))}
                     </Carousel>
