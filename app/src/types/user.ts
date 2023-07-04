@@ -10,11 +10,11 @@ export type UserPayload = {
     closedBountiesCount?: number;
     level?: number;
     isAdmin: boolean;
-    settings:{
+  
       toggleWalletAddress:boolean,
       toggleTotalChallenges:boolean;
       toggleBadges:boolean;
-    }
+    
 };
 
 export interface UpdateUserFormData {
@@ -23,9 +23,7 @@ export interface UpdateUserFormData {
     walletPublicKey: string;
     avatar: File | null;
   skills: string[];
-  settings:{
     toggleWalletAddress:boolean,
     toggleTotalChallenges:boolean;
     toggleBadges:boolean;
-  }
 }

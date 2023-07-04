@@ -40,11 +40,10 @@ class UserController {
       walletPublicKey: payload.walletPublicKey,
       avatar: payload.avatar,
       skills: payload.skills.map((skill) => String(skill).trim()), // sanitize the skills
-      settings: {
-        toggleTotalChallenges: payload.settings.toggleTotalChallenges,
-        toggleWalletAddress: payload.settings.toggleWalletAddress,
-        toggleBadges: payload.settings.toggleBadges,
-      },
+
+        toggleTotalChallenges: payload.toggleTotalChallenges,
+        toggleWalletAddress: payload.toggleWalletAddress,
+        toggleBadges: payload.toggleBadges,
     });
 
     return payload;

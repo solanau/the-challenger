@@ -201,11 +201,10 @@ export interface SetUserPayload {
     walletPublicKey: string;
     avatar: File | null;
     skills: string[];
-    settings:{
     toggleWalletAddress:boolean;
     toggleTotalChallenges:boolean;
     toggleBadges:boolean;
-    }
+    
 
 }
 

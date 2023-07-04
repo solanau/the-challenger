@@ -18,14 +18,10 @@ export type SetUserPayload = {
     walletPublicKey: string;
     avatar: File | null;
     skills: string[];
-    settings: {
-        toggleWalletAddress: boolean;
-        toggleTotalChallenges: boolean;
-        toggleBadges: boolean;
-    };
+    toggleWalletAddress: boolean;
+    toggleTotalChallenges: boolean;
+    toggleBadges: boolean;
 };
-
-
 
 const UserSettingsPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -46,13 +42,10 @@ const UserSettingsPage: NextPage = () => {
             walletPublicKey,
             avatar,
             skills,
-            settings: {
-                toggleWalletAddress, // Assign toggleWalletAddress value directly
-                toggleTotalChallenges,
-                toggleBadges,
-            },
-        } = formik.current.values;
-
+            toggleWalletAddress,
+            toggleTotalChallenges,
+            toggleBadges,
+        } = updateUserFormData;
 
         const setUserPayload: SetUserPayload = {
             fullName,
@@ -60,11 +53,9 @@ const UserSettingsPage: NextPage = () => {
             walletPublicKey,
             avatar,
             skills,
-            settings: {
-                toggleWalletAddress,
-                toggleTotalChallenges,
-                toggleBadges,
-            },
+            toggleWalletAddress,
+            toggleTotalChallenges,
+            toggleBadges,
         };
 
         setUser(setUserPayload)
@@ -96,30 +87,18 @@ const UserSettingsPage: NextPage = () => {
                 <div className="flex w-full flex-col gap-6 px-10 sm:px-16 md:px-32 lg:px-64 xl:px-96 justify-beginning">
                     {!isLoggedIn && (
                         <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                            <Text variant="sub-heading">
-                                Sign in to view the challenge.
-                            </Text>
+                            <Text variant="sub-heading">Sign in to view the challenge.</Text>
 
                             <div className="flex flex-row gap-2">
-                                <Link
-                                    href={eventId ? `/events/${eventId}` : '/'}
-                                    passHref
-                                >
+                                <Link href={eventId ? `/events/${eventId}` : '/'} passHref>
                                     <a>
-                                        <Button
-                                            variant="transparent"
-                                            text="Go back"
-                                        />
+                                        <Button variant="transparent" text="Go back" />
                                     </a>
                                 </Link>
                                 <Link
                                     href={{
                                         pathname: '/login',
-                                        query: eventId
-                                            ? {
-                                                eventId,
-                                            }
-                                            : {},
+                                        query: eventId ? { eventId } : {},
                                     }}
                                     passHref
                                 >
@@ -134,7 +113,9 @@ const UserSettingsPage: NextPage = () => {
                     {isLoggedIn && (
                         <>
                             <h1>
-                                <Text variant="heading" className='ml-10 font-rubik'>Edit Profile</Text>
+                                <Text variant="heading" className="ml-10 font-rubik">
+                                    Edit Profile
+                                </Text>
                             </h1>
 
                             <Formik
@@ -144,13 +125,12 @@ const UserSettingsPage: NextPage = () => {
                                     walletPublicKey: user?.walletPublicKey ?? '',
                                     avatar: user?.avatar ?? null,
                                     skills: user?.skills ?? [],
-                                    settings: {
-                                        toggleWalletAddress: user?.settings.toggleWalletAddress ?? false,
-                                        toggleTotalChallenges: user?.settings.toggleTotalChallenges ?? false,
-                                        toggleBadges: user?.settings.toggleBadges ?? false,
-                                    },
-                                }}
 
+                                    toggleWalletAddress: user?.toggleWalletAddress ?? false,
+                                    toggleTotalChallenges: user?.toggleTotalChallenges ?? false,
+                                    toggleBadges: user?.toggleBadges ?? false,
+
+                                }}
                                 onSubmit={handleUpdateUser}
                                 enableReinitialize={true}
                                 innerRef={formik}
@@ -172,5 +152,3 @@ const UserSettingsPage: NextPage = () => {
 };
 
 export default UserSettingsPage;
-
-

@@ -1,14 +1,26 @@
 import Button from 'components/common/button';
 import Spinner from 'components/common/spinner';
-import { Field, Form, FormikErrors, FormikTouched, FormikValues, useField, useFormikContext } from 'formik';
+import {
+    Field,
+    Form,
+    FormikErrors,
+    FormikTouched,
+    FormikValues,
+    useField,
+    useFormikContext
+} from 'formik';
 import { NextPage } from 'next';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { validateEmptyField } from 'utils/validations';
 
 interface UserSettingsFormProps {
     isLoading?: boolean;
     errors: FormikErrors<FormikValues>;
     touched: FormikTouched<FormikValues>;
+}
+
+interface ToggleState {
+    [key: string]: boolean;
 }
 
 const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
@@ -22,10 +34,15 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
     const [, meta] = useField('skills');
     const [currentSkill, setCurrentSkill] = useState('');
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [toggles, setToggles] = useState<ToggleState>(() => ({
+        toggleWalletAddress: values.toggleWalletAddress ?? false,
+        toggleTotalChallenges: values.toggleTotalChallenges ?? false,
+        toggleBadges: values.toggleBadges ?? false,
+    }));
 
-    useState(() => {
+    useEffect(() => {
         setPreviewUrl('/pfp.png');
-    });
+    }, []);
 
     const handleAvatarChange = () => {
         const file = fileInputRef.current?.files?.[0];
@@ -71,18 +88,18 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
         values.skills.every((skill) => skill !== '') &&
         values.skills.length === new Set(values.skills).size;
 
-    const [toggles, setToggles] = useState({
-        toggleWalletAddress: false,
-        toggleTotalChallenges: false,
-        toggleBadges: false,
-    });
-
-    const handleToggle = (toggleName: string) => {
-        setToggles((prevToggles) => ({
-            ...prevToggles,
-            [toggleName]: !prevToggles[toggleName],
-        }));
+    const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = event.target;
+        setFieldValue(name, checked);
     };
+    useEffect(() => {
+        setToggles({
+            toggleWalletAddress: values.toggleWalletAddress ?? false,
+            toggleTotalChallenges: values.toggleTotalChallenges ?? false,
+            toggleBadges: values.toggleBadges ?? false,
+        });
+    }, [values.toggleWalletAddress, values.toggleTotalChallenges, values.toggleBadges]);
+
 
     return (
         <Form>
@@ -215,21 +232,21 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                 </div>
                 <div className="flex flex-col space-y-4 ml-10 mt-3">
                     <div className="flex items-center space-x-4">
-                        <input
+                        <Field
                             type="checkbox"
                             id="toggleWalletAddress"
-                            name="settings.toggleWalletAddress"
-                            checked={toggles.toggleWalletAddress}
-                            onChange={() => handleToggle('toggleWalletAddress')}
+                            name="toggleWalletAddress"
                             className="hidden"
+                            onChange={handleToggle}
+                            checked={values.toggleWalletAddress}
                         />
                         <label
                             htmlFor="toggleWalletAddress"
-                            className={`relative inline-block w-12 h-7 transition-colors duration-300 ease-out cursor-pointer rounded-xl ${toggles.toggleWalletAddress ? 'bg-green-400' : 'bg-gray-400'
+                            className={`relative inline-block w-12 h-7 transition-colors duration-300 ease-out cursor-pointer rounded-xl ${values.toggleWalletAddress ? 'bg-green-400' : 'bg-gray-400'
                                 }`}
                         >
                             <div
-                                className={`absolute block w-6 h-6 mt-1 rounded-full bg-gray-300 shadow-md transition-transform ease-in-out duration-300 ${toggles.toggleWalletAddress ? 'translate-x-full' : 'translate-x-0'
+                                className={`absolute block w-6 h-6 mt-1 rounded-full bg-white shadow-md transition-transform ease-in-out duration-300 ${values.toggleWalletAddress ? 'translate-x-full' : 'translate-x-0'
                                     }`}
                             />
                         </label>
@@ -240,18 +257,18 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                         <Field
                             type="checkbox"
                             id="toggleTotalChallenges"
-                            name="settings.toggleTotalChallenges"
+                            name="toggleTotalChallenges"
                             className="hidden"
-                            checked={toggles.toggleTotalChallenges}
-                            onChange={() => handleToggle('toggleTotalChallenges')}
+                            onChange={handleToggle}
+                            checked={values.toggleTotalChallenges}
                         />
                         <label
                             htmlFor="toggleTotalChallenges"
-                            className={`relative inline-block w-12 h-7 transition-colors duration-300 ease-out cursor-pointer rounded-xl ${toggles.toggleTotalChallenges ? 'bg-green-400' : 'bg-gray-400'
+                            className={`relative inline-block w-12 h-7 transition-colors duration-300 ease-out cursor-pointer rounded-xl ${values.toggleTotalChallenges ? 'bg-green-400' : 'bg-gray-400'
                                 }`}
                         >
                             <div
-                                className={`absolute block w-6 h-6 mt-1 rounded-full bg-gray-300 shadow-md transition-transform ease-in-out duration-300 ${toggles.toggleTotalChallenges ? 'translate-x-full' : 'translate-x-0'
+                                className={`absolute block w-6 h-6 mt-1 rounded-full bg-white shadow-md transition-transform ease-in-out duration-300 ${values.toggleTotalChallenges ? 'translate-x-full' : 'translate-x-0'
                                     }`}
                             />
                         </label>
@@ -262,18 +279,18 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
                         <Field
                             type="checkbox"
                             id="toggleBadges"
-                            name="settings.toggleBadges"
+                            name="toggleBadges"
                             className="hidden"
-                            checked={toggles.toggleBadges}
-                            onChange={() => handleToggle('toggleBadges')}
+                            onChange={handleToggle}
+                            checked={values.toggleBadges}
                         />
                         <label
                             htmlFor="toggleBadges"
-                            className={`relative inline-block w-12 h-7 transition-colors duration-300 ease-out cursor-pointer rounded-xl ${toggles.toggleBadges ? 'bg-green-400' : 'bg-gray-400'
+                            className={`relative inline-block w-12 h-7 transition-colors duration-300 ease-out cursor-pointer rounded-xl ${values.toggleBadges ? 'bg-green-400' : 'bg-gray-400'
                                 }`}
                         >
                             <div
-                                className={`absolute block w-6 h-6 mt-1 rounded-full bg-gray-300 shadow-md transition-transform ease-in-out duration-300 ${toggles.toggleBadges ? 'translate-x-full' : 'translate-x-0'
+                                className={`absolute block w-6 h-6 mt-1 rounded-full bg-white shadow-md transition-transform ease-in-out duration-300 ${values.toggleBadges ? 'translate-x-full' : 'translate-x-0'
                                     }`}
                             />
                         </label>
