@@ -1,14 +1,6 @@
 import Button from 'components/common/button';
 import Spinner from 'components/common/spinner';
-import {
-    Field,
-    Form,
-    FormikErrors,
-    FormikTouched,
-    FormikValues,
-    useField,
-    useFormikContext
-} from 'formik';
+import { Field, Form, FormikErrors, FormikTouched, FormikValues, useField, useFormikContext } from 'formik';
 import { NextPage } from 'next';
 import React, { useEffect, useRef, useState } from 'react';
 import { validateEmptyField } from 'utils/validations';
@@ -18,11 +10,6 @@ interface UserSettingsFormProps {
     errors: FormikErrors<FormikValues>;
     touched: FormikTouched<FormikValues>;
 }
-
-interface ToggleState {
-    [key: string]: boolean;
-}
-
 const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
     isLoading = false,
     errors,
@@ -34,11 +21,6 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
     const [, meta] = useField('skills');
     const [currentSkill, setCurrentSkill] = useState('');
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [toggles, setToggles] = useState<ToggleState>(() => ({
-        toggleWalletAddress: values.toggleWalletAddress ?? false,
-        toggleTotalChallenges: values.toggleTotalChallenges ?? false,
-        toggleBadges: values.toggleBadges ?? false,
-    }));
 
     useEffect(() => {
         setPreviewUrl('/pfp.png');
@@ -92,14 +74,6 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({
         const { name, checked } = event.target;
         setFieldValue(name, checked);
     };
-    useEffect(() => {
-        setToggles({
-            toggleWalletAddress: values.toggleWalletAddress ?? false,
-            toggleTotalChallenges: values.toggleTotalChallenges ?? false,
-            toggleBadges: values.toggleBadges ?? false,
-        });
-    }, [values.toggleWalletAddress, values.toggleTotalChallenges, values.toggleBadges]);
-
 
     return (
         <Form>
