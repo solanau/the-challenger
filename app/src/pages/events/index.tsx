@@ -95,7 +95,8 @@ const EventsPage: NextPage = () => {
 
             {isLoggedIn && user !== null && user.isAdmin && (
                 <>
-                    <div className="flex w-full flex-col flex-wrap gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+
+                    <div className="flex w-full flex-col flex-wrap gap-5 bg-gradient-to-tr from-black via-purple-900 to-black p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                         <Text variant="big-heading">Events</Text>
                         <Text variant="paragraph">
                             Explore events near by and start competing with
