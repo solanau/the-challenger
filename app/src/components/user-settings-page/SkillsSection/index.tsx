@@ -40,7 +40,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ values, setFieldValue, me
 
     return (
         <div className="pt-8">
-            <label htmlFor="user-skills" className="block text-2xl font-medium mb-2 font-rubik ml-10">
+            <label htmlFor="user-skills" className="block text-2xl font-medium mb-2 font-rubik sm:ml-10">
                 Skills
             </label>
             <div className="flex items-center gap-2 mb-4">
@@ -48,7 +48,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ values, setFieldValue, me
                     <div className="flex items-center">
                         <input
                             id="user-new-skill"
-                            className={`w-full rounded-2xl border ${skillsValid ? 'border-zinc-200' : 'border-red-500'} bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500 ml-10`}
+                            className={`w-full rounded-2xl border ${skillsValid ? 'border-zinc-200' : 'border-red-500'} bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500 sm:ml-10`}
                             placeholder="Enter a skill"
                             maxLength={80}
                             value={currentSkill}
@@ -61,7 +61,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ values, setFieldValue, me
                             type="button"
                             onClick={addSkill}
                             variant="purple"
-                            className="w-1/5 text-white font-medium ml-2 rounded-lg"
+                            className="w-1/5 text-white font-medium ml-2 rounded-lg "
                             disabled={isLoading || values.skills.length >= 25 || !skillsValid}
                         >
                             Enter

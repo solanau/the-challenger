@@ -14,11 +14,11 @@ const PublicProfileSection: React.FC<PublicProfileSectionProps> = ({ values, set
 
     return (
         <div className="pt-8">
-            <div className="block text-2xl font-medium mb-2 font-rubik ml-10 mt-10">Public Profile Information</div>
-            <div className="block text-xl text-gray-500 font-medium mb-2 font-rubik ml-10 mt-3">
+            <div className="block text-2xl font-medium mb-2 font-rubik sm:ml-10 mt-10">Public Profile Information</div>
+            <div className="block text-xl text-gray-500 font-medium mb-2 font-rubik sm:ml-10 mt-3">
                 Choose what information to display in your public profile
             </div>
-            <div className="flex flex-col space-y-4 ml-10 mt-3">
+            <div className="flex flex-col space-y-4 sm:ml-10 mt-3">
                 <div className="flex items-center space-x-4">
                     <Field
                         type="checkbox"
@@ -41,7 +41,7 @@ const PublicProfileSection: React.FC<PublicProfileSectionProps> = ({ values, set
                     <span className="text-lg font-medium text-gray-700">walletAddress</span>
                 </div>
 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 ">
                     <Field
                         type="checkbox"
                         id="toggleTotalChallenges"

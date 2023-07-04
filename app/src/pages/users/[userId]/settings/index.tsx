@@ -113,7 +113,7 @@ const UserSettingsPage: NextPage = () => {
                     {isLoggedIn && (
                         <>
                             <h1>
-                                <Text variant="heading" className="ml-10 font-rubik">
+                                <Text variant="heading" className="sm:ml-10 font-rubik">
                                     Edit Profile
                                 </Text>
                             </h1>

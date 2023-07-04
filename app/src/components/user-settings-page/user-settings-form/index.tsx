@@ -13,8 +13,6 @@ import WalletPublicKeySection from './../WalletPublicKeySection';
 
 
 
-
-
 interface UserSettingsFormProps {
     isLoading?: boolean;
     errors: FormikErrors<FormikValues>;
@@ -62,7 +60,7 @@ const UserSettingsForm: NextPage<UserSettingsFormProps> = ({ isLoading = false, 
                 values={values}
                 setFieldValue={setFieldValue}
             />
-            <div className="pt-8 flex justify-start ml-10">
+            <div className="pt-8 flex justify-start sm:ml-10">
                 <Button type="submit" variant="purplefull" disabled={isLoading}>
                     {isLoading && <Spinner variant="large" />}
                     Save Profile

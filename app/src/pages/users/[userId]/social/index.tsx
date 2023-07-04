@@ -18,10 +18,9 @@ import {
 const UserSocialPage: NextPage = () => {
     const { isLoggedIn, credential, link, unlink } = useAuth();
     const router = useRouter();
-    const eventId =
-        (router.query.eventId instanceof Array
-            ? router.query.eventId[0]
-            : router.query.eventId) ?? null;
+    const eventId = (router.query.eventId instanceof Array
+        ? router.query.eventId[0]
+        : router.query.eventId) ?? null;
     const [isLinkingGitHub, setIsLinkingGitHub] = useState(false);
     const [isUnlinkingGitHub, setIsUnlinkingGitHub] = useState(false);
     const [isLinkingTwitter, setIsLinkingTwitter] = useState(false);
@@ -131,256 +130,201 @@ const UserSocialPage: NextPage = () => {
             .finally(() => setIsUnlinkingFacebook(false));
     };
 
-    return (
-        <>
+    if (!isLoggedIn) {
+        return (
             <section className="px-4 pt-20 sm:px-8 md:mt-0">
-                {!isLoggedIn && (
-                    <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                        <Text variant="sub-heading">
-                            Sign in to view the challenge.
-                        </Text>
-
-                        <div className="flex flex-row gap-2">
-                            <Link
-                                href={eventId ? `/events/${eventId}` : '/'}
-                                passHref
-                            >
-                                <a>
-                                    <Button
-                                        variant="transparent"
-                                        text="Go back"
-                                    />
-                                </a>
-                            </Link>
-                            <Link
-                                href={{
-                                    pathname: '/login',
-                                    query: eventId
-                                        ? {
-                                            eventId,
-                                        }
-                                        : {},
-                                }}
-                                passHref
-                            >
-                                <a>
-                                    <Button variant="purple" text="Sign in" />
-                                </a>
-                            </Link>
-                        </div>
+                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                    <Text variant="sub-heading">Sign in to view the challenge.</Text>
+                    <div className="flex flex-row gap-2">
+                        <Link href={eventId ? `/events/${eventId}` : '/'} passHref>
+                            <a>
+                                <Button variant="transparent" text="Go back" />
+                            </a>
+                        </Link>
+                        <Link
+                            href={{
+                                pathname: '/login',
+                                query: eventId ? { eventId } : {},
+                            }}
+                            passHref
+                        >
+                            <a>
+                                <Button variant="purple" text="Sign in" />
+                            </a>
+                        </Link>
                     </div>
-                )}
-
-                {isLoggedIn && (
-                    <>
-                        <h1 className="mb-8">
-                            <Text variant="heading">Socials</Text>
-                        </h1>
-
-                        <Card className="mb-8 flex p-5">
-                            <div className="grow">
-                                <Text variant="sub-heading" className="mb-2">
-                                    <FaGithub size={24} className="inline" />{' '}
-                                    GitHub
-                                </Text>
-
-                                {credential.githubUserName === null && (
-                                    <Text
-                                        variant="paragraph"
-                                        className="text-danger"
-                                    >
-                                        Not linked
-                                    </Text>
-                                )}
-
-                                {credential.githubUserName !== null && (
-                                    <Link
-                                        href={`https://github.com/${credential.githubUserName}`}
-                                        passHref
-                                    >
-                                        <a
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-primary"
-                                        >
-                                            {`@${credential.githubUserName}`}
-                                        </a>
-                                    </Link>
-                                )}
-
-                                <Text variant="paragraph">
-                                    By linking your GitHub account you'll get
-                                    access to the challenges that require GitHub
-                                    interactions.
-                                </Text>
-                            </div>
-
-                            <div>
-                                {credential.githubUserName !== null && (
-                                    <Button
-                                        variant="danger"
-                                        onClick={handleUnlinkGitHub}
-                                        disabled={isUnlinkingGitHub}
-                                    >
-                                        {isUnlinkingGitHub && (
-                                            <Spinner variant="large"></Spinner>
-                                        )}
-                                        Unlink GitHub
-                                    </Button>
-                                )}
-
-                                {credential.githubUserName === null && (
-                                    <Button
-                                        variant="purple"
-                                        onClick={handleLinkGitHub}
-                                        disabled={isLinkingGitHub}
-                                    >
-                                        {isLinkingGitHub && (
-                                            <Spinner variant="large"></Spinner>
-                                        )}
-                                        Link GitHub
-                                    </Button>
-                                )}
-                            </div>
-                        </Card>
-
-                        <Card className="mb-8 flex p-5">
-                            <div className="grow">
-                                <Text variant="sub-heading" className="mb-2">
-                                    <FaTwitter size={24} className="inline" />{' '}
-                                    Twitter
-                                </Text>
-
-                                {credential.twitterUserName === null && (
-                                    <Text
-                                        variant="paragraph"
-                                        className="text-danger"
-                                    >
-                                        Not linked
-                                    </Text>
-                                )}
-
-                                {credential.twitterUserName !== null && (
-                                    <Link
-                                        href={`https://twitter.com/${credential.twitterUserName}`}
-                                        passHref
-                                    >
-                                        <a
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-primary"
-                                        >
-                                            {`@${credential.twitterUserName}`}
-                                        </a>
-                                    </Link>
-                                )}
-
-                                <Text variant="paragraph">
-                                    By linking your Twitter account you'll get
-                                    access to the challenges that require
-                                    Twitter interactions.
-                                </Text>
-                            </div>
-
-                            <div>
-                                {credential.twitterUserName !== null && (
-                                    <Button
-                                        variant="danger"
-                                        onClick={handleUnlinkTwitter}
-                                        disabled={isUnlinkingTwitter}
-                                    >
-                                        {isUnlinkingTwitter && (
-                                            <Spinner variant="large"></Spinner>
-                                        )}
-                                        Unlink Twitter
-                                    </Button>
-                                )}
-
-                                {credential.twitterUserName === null && (
-                                    <Button
-                                        variant="purple"
-                                        onClick={handleLinkTwitter}
-                                        disabled={isLinkingTwitter}
-                                    >
-                                        {isLinkingTwitter && (
-                                            <Spinner variant="large"></Spinner>
-                                        )}
-                                        Link Twitter
-                                    </Button>
-                                )}
-                            </div>
-                        </Card>
-
-                        <Card className="mb-8 flex p-5">
-                            <div className="grow">
-                                <Text variant="sub-heading" className="mb-2">
-                                    <FaFacebook size={24} className="inline" />{' '}
-                                    Facebook
-                                </Text>
-
-                                {credential.facebookUserName === null && (
-                                    <Text
-                                        variant="paragraph"
-                                        className="text-danger"
-                                    >
-                                        Not linked
-                                    </Text>
-                                )}
-
-                                {credential.facebookUserName !== null && (
-                                    <Link
-                                        href={`https://facebook.com/${credential.facebookUserName}`}
-                                        passHref
-                                    >
-                                        <a
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-primary"
-                                        >
-                                            {`@${credential.facebookUserName}`}
-                                        </a>
-                                    </Link>
-                                )}
-
-                                <Text variant="paragraph">
-                                    By linking your Facebook account you'll get
-                                    access to the challenges that require
-                                    Facebook interactions.
-                                </Text>
-                            </div>
-
-                            <div>
-                                {credential.facebookUserName !== null && (
-                                    <Button
-                                        variant="danger"
-                                        onClick={handleUnlinkFacebook}
-                                        disabled={isUnlinkingFacebook}
-                                    >
-                                        {isUnlinkingFacebook && (
-                                            <Spinner variant="large"></Spinner>
-                                        )}
-                                        Unlink Facebook
-                                    </Button>
-                                )}
-
-                                {credential.facebookUserName === null && (
-                                    <Button
-                                        variant="purple"
-                                        onClick={handleLinkFacebook}
-                                        disabled={isLinkingFacebook}
-                                    >
-                                        {isLinkingFacebook && (
-                                            <Spinner variant="large"></Spinner>
-                                        )}
-                                        Link Facebook
-                                    </Button>
-                                )}
-                            </div>
-                        </Card>
-                    </>
-                )}
+                </div>
             </section>
-        </>
+        );
+    }
+
+    return (
+        <section className="pt-20 sm:px-8 md:mt-0">
+            <>
+                <h1 className="mb-8">
+                    <Text variant="heading">Socials</Text>
+                </h1>
+
+                <Card className="mb-8 flex flex-col sm:flex-row p-5">
+                    <div className="flex-grow">
+                        <Text variant="sub-heading" className="mb-2">
+                            <FaGithub size={24} className="inline" /> GitHub
+                        </Text>
+                        {credential.githubUserName === null ? (
+                            <Text variant="paragraph" className="text-danger">
+                                Not linked
+                            </Text>
+                        ) : (
+                            <Link
+                                href={`https://github.com/${credential.githubUserName}`}
+                                passHref
+                            >
+                                <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-primary"
+                                >
+                                    {`@${credential.githubUserName}`}
+                                </a>
+                            </Link>
+                        )}
+                        <Text variant="paragraph">
+                            By linking your GitHub account you'll get access to the challenges
+                            that require GitHub interactions.
+                        </Text>
+                    </div>
+                    <div className="flex items-center mt-4 sm:mb-16">
+                        {credential.githubUserName !== null ? (
+                            <Button
+                                variant="danger"
+                                onClick={handleUnlinkGitHub}
+                                disabled={isUnlinkingGitHub}
+                                className="w-full sm:w-auto"
+                            >
+                                {isUnlinkingGitHub && <Spinner variant="large"></Spinner>}
+                                Unlink GitHub
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="purple"
+                                onClick={handleLinkGitHub}
+                                disabled={isLinkingGitHub}
+                                className="w-full sm:w-auto"
+                            >
+                                {isLinkingGitHub && <Spinner variant="large"></Spinner>}
+                                Link GitHub
+                            </Button>
+                        )}
+                    </div>
+                </Card>
+
+                <Card className="mb-8 flex flex-col sm:flex-row p-5">
+                    <div className="flex-grow">
+                        <Text variant="sub-heading" className="mb-2">
+                            <FaTwitter size={24} className="inline" /> Twitter
+                        </Text>
+                        {credential.twitterUserName === null ? (
+                            <Text variant="paragraph" className="text-danger">
+                                Not linked
+                            </Text>
+                        ) : (
+                            <Link
+                                href={`https://twitter.com/${credential.twitterUserName}`}
+                                passHref
+                            >
+                                <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-primary"
+                                >
+                                    {`@${credential.twitterUserName}`}
+                                </a>
+                            </Link>
+                        )}
+                        <Text variant="paragraph">
+                            By linking your Twitter account you'll get access to the challenges
+                            that require Twitter interactions.
+                        </Text>
+                    </div>
+                    <div className="flex items-center mt-4 sm:mb-16">
+                        {credential.twitterUserName !== null ? (
+                            <Button
+                                variant="danger"
+                                onClick={handleUnlinkTwitter}
+                                disabled={isUnlinkingTwitter}
+                                className="w-full sm:w-auto"
+                            >
+                                {isUnlinkingTwitter && <Spinner variant="large"></Spinner>}
+                                Unlink Twitter
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="purple"
+                                onClick={handleLinkTwitter}
+                                disabled={isLinkingTwitter}
+                                className="w-full sm:w-auto"
+                            >
+                                {isLinkingTwitter && <Spinner variant="large"></Spinner>}
+                                Link Twitter
+                            </Button>
+                        )}
+                    </div>
+                </Card>
+
+                <Card className="mb-8 flex flex-col sm:flex-row p-5">
+                    <div className="flex-grow">
+                        <Text variant="sub-heading" className="mb-2">
+                            <FaFacebook size={24} className="inline" /> Facebook
+                        </Text>
+                        {credential.facebookUserName === null ? (
+                            <Text variant="paragraph" className="text-danger">
+                                Not linked
+                            </Text>
+                        ) : (
+                            <Link
+                                href={`https://facebook.com/${credential.facebookUserName}`}
+                                passHref
+                            >
+                                <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-primary"
+                                >
+                                    {`@${credential.facebookUserName}`}
+                                </a>
+                            </Link>
+                        )}
+                        <Text variant="paragraph">
+                            By linking your Facebook account you'll get access to the challenges
+                            that require Facebook interactions.
+                        </Text>
+                    </div>
+                    <div className="flex items-center mt-4 sm:mb-16">
+                        {credential.facebookUserName !== null ? (
+                            <Button
+                                variant="danger"
+                                onClick={handleUnlinkFacebook}
+                                disabled={isUnlinkingFacebook}
+                                className="w-full sm:w-auto"
+                            >
+                                {isUnlinkingFacebook && <Spinner variant="large"></Spinner>}
+                                Unlink Facebook
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="purple"
+                                onClick={handleLinkFacebook}
+                                disabled={isLinkingFacebook}
+                                className="w-full sm:w-auto"
+                            >
+                                {isLinkingFacebook && <Spinner variant="large"></Spinner>}
+                                Link Facebook
+                            </Button>
+                        )}
+                    </div>
+                </Card>
+            </>
+        </section>
     );
 };
 

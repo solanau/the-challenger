@@ -10,13 +10,13 @@ interface UsernameSectionProps {
 const UsernameSection: React.FC<UsernameSectionProps> = ({ isLoading, errors, touched }) => {
     return (
         <div className="pt-8">
-            <label htmlFor="user-user-name" className="block text-2xl font-medium mb-2 after:content-['*'] font-rubik ml-10">
+            <label htmlFor="user-user-name" className="block text-2xl font-medium mb-2 after:content-['*'] font-rubik sm:ml-10">
                 Username
             </label>
             <Field
                 id="user-user-name"
                 name="userName"
-                className="w-full rounded-2xl border border-zinc-200 text-2xl bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500 ml-10"
+                className="w-full rounded-2xl border border-zinc-200 text-2xl bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500 sm:ml-10"
                 placeholder="Enter your username"
                 maxLength={80}
                 required
