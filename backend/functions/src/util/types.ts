@@ -200,15 +200,19 @@ export interface SetUserPayload {
     userName: string;
     walletPublicKey: string;
     avatar: File | null;
+    skills: string[];
+    settings:{
+    toggleWalletAddress:boolean;
+    toggleTotalChallenges:boolean;
+    toggleBadges:boolean;
+    }
 
-  skills: string[];
 }
 
 export interface SubmissionPayload {
     eventId: string;
     challengeId: string;
     title: string;
-
     fullDescription?: string;
     description: string;
     userId: string;

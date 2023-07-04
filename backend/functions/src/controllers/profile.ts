@@ -32,16 +32,17 @@ exports.createNewProfile = async (req, res) => {
     try {
       const profile = {
         pubkey: req.body.pubkey,
-        username: req.body.username,
         fullName: req.body.fullName,
         userName: req.body.userName,
-
         walletPublicKey: req.body.walletPublicKey,
         avatar: req.body.avatar,
         skills: Array.isArray(req.body.skills) ? req.body.skills : [],
-
-
-      };
+        settings: {
+          toggleWalletAddress: req.body.settings && req.body.settings.toggleWalletAddress !== undefined ? req.body.settings.toggleWalletAddress : false,
+          toggleTotalChallenges: req.body.settings && req.body.settings.toggleTotalChallenges !== undefined ? req.body.settings.toggleTotalChallenges : false,
+          toggleBadges: req.body.settings && req.body.settings.toggleBadges !== undefined ? req.body.settings.toggleBadges : false,
+        }
+      }; // This bracket was missing
       console.log(profile);
       const newDoc = await db.collection(profileCollection).add(profile);
       console.log(newDoc);
@@ -65,10 +66,12 @@ exports.updateProfile = async (req, res) => {
         username: req.body.username,
         fullName: req.body.fullName,
         userName: req.body.userName,
-  
         walletPublicKey: req.body.walletPublicKey,
         avatar: req.body.avatar,
         skills: JSON.parse(req.body.skills || '[]'),
+        toggleWalletAddress: req.body.settings.toggleWalletAddress,
+        toggleTotalChallenges:req.body.settings.toggleTotalChallenges,
+        toggleBadges:req.body.settings.toggleBadges
       };
       const newDoc = await db
         .collection(profileCollection)

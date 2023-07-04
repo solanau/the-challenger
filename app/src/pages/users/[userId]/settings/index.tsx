@@ -12,6 +12,21 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { UpdateUserFormData } from 'types/user';
 
+export type SetUserPayload = {
+    fullName: string;
+    userName: string;
+    walletPublicKey: string;
+    avatar: File | null;
+    skills: string[];
+    settings: {
+        toggleWalletAddress: boolean;
+        toggleTotalChallenges: boolean;
+        toggleBadges: boolean;
+    };
+};
+
+
+
 const UserSettingsPage: NextPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { isLoggedIn, user } = useAuth();
@@ -24,13 +39,41 @@ const UserSettingsPage: NextPage = () => {
     const handleUpdateUser = async (updateUserFormData: UpdateUserFormData) => {
         setIsLoading(true);
 
-        setUser(updateUserFormData)
+        // Retrieve the current form values from the formik values object
+        const {
+            fullName,
+            userName,
+            walletPublicKey,
+            avatar,
+            skills,
+            settings: {
+                toggleWalletAddress, // Assign toggleWalletAddress value directly
+                toggleTotalChallenges,
+                toggleBadges,
+            },
+        } = formik.current.values;
+
+
+        const setUserPayload: SetUserPayload = {
+            fullName,
+            userName,
+            walletPublicKey,
+            avatar,
+            skills,
+            settings: {
+                toggleWalletAddress,
+                toggleTotalChallenges,
+                toggleBadges,
+            },
+        };
+
+        setUser(setUserPayload)
             .then(() =>
                 toast('Changes saved!', {
                     type: 'success',
-                }),
+                })
             )
-            .catch(error => {
+            .catch((error) => {
                 toast(error, {
                     type: 'error',
                 });
@@ -91,7 +134,7 @@ const UserSettingsPage: NextPage = () => {
                     {isLoggedIn && (
                         <>
                             <h1>
-                                <Text variant="heading">Edit Profile</Text>
+                                <Text variant="heading" className='ml-10 font-rubik'>Edit Profile</Text>
                             </h1>
 
                             <Formik
@@ -101,7 +144,13 @@ const UserSettingsPage: NextPage = () => {
                                     walletPublicKey: user?.walletPublicKey ?? '',
                                     avatar: user?.avatar ?? null,
                                     skills: user?.skills ?? [],
+                                    settings: {
+                                        toggleWalletAddress: user?.settings.toggleWalletAddress ?? false,
+                                        toggleTotalChallenges: user?.settings.toggleTotalChallenges ?? false,
+                                        toggleBadges: user?.settings.toggleBadges ?? false,
+                                    },
                                 }}
+
                                 onSubmit={handleUpdateUser}
                                 enableReinitialize={true}
                                 innerRef={formik}
@@ -123,4 +172,5 @@ const UserSettingsPage: NextPage = () => {
 };
 
 export default UserSettingsPage;
+
 

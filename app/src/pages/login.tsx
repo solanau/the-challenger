@@ -1,7 +1,6 @@
 import Button from 'components/common/button';
 import EnterPasswordDialog from 'components/common/enter-password';
 import EnterNewPasswordWithSocialDialog from 'components/common/enter-password-or-social';
-
 import EnterSocialDialog from 'components/common/enter-social';
 import Text from 'components/common/text';
 import LoginForm from 'components/login-page/login-form';
@@ -24,6 +23,7 @@ import { TbBrandGithub, TbBrandTwitter } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import { AuthProviderType } from 'types/api';
 import { auth, getSocialProvider, handleSocialError } from 'utils/firebase';
+
 
 const LoginPage: NextPage = () => {
     const [email, setEmail] = useState('');
