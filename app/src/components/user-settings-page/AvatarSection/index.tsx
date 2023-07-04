@@ -27,12 +27,10 @@ const AvatarSection: React.FC<AvatarSectionProps> = ({ isLoading, errors, touche
             ))}
 
             {/* Avatar Section */}
-            <label htmlFor="avatar" className="block text-left mb-2 text-2xl font-medium mb-6">
-                Avatar
-            </label>
+
             <div className="flex flex-col items-start">
                 {/* Avatar preview */}
-                <div className="w-40 h-40 rounded-full overflow-hidden mb-2">
+                <div className="w-40 h-40 rounded-full overflow-hidden mb-2 ml-5">
                     {avatarUrl ? (
                         <img src={avatarUrl} alt="Avatar Preview" className="w-full h-full object-cover" />
                     ) : (
@@ -53,7 +51,8 @@ const AvatarSection: React.FC<AvatarSectionProps> = ({ isLoading, errors, touche
                     <button
                         type="button"
                         onClick={() => document.getElementById('avatar')?.click()}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                        className="bg-purple-800 text-white px-4 py-2 rounded-md ml-10"
+
                         disabled={isLoading}
                     >
                         Choose Avatar
