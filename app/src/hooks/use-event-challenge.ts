@@ -11,9 +11,9 @@ export const useEventChallenge = (
     challengeId: string | null,
     userId: string | null,
 ): Challenge => {
-    const event = useEvent(eventId);
     const [challenge, setChallenge] = useState<Challenge>(null);
     const submissions = useSubmissions(eventId, { userId });
+    const event = useEvent(eventId);
 
     useEffect(() => {
         if (event === null || challengeId === null) {

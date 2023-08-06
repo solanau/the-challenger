@@ -31,7 +31,7 @@ const SubmissionReviewForm: NextPage<SubmissionReviewFormProps> = ({
                             <div className="flex items-start gap-4">
                                 <div className="grow">
                                     <Text variant="sub-heading">
-                                        #{index} {answer.question}:
+                                        #{index} {answer.label}:
                                     </Text>
                                     <Text
                                         className="pl-4 pt-4 w-full mx-auto font-normal max-h-256 max-w-124 text-green-200 overflow-y-auto pb-2"

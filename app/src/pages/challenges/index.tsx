@@ -6,6 +6,7 @@ import Text from 'components/common/text';
 import { Formik } from 'formik';
 import { useChallenges } from 'hooks/use-challenges';
 import { createChallenge } from 'lib/api';
+import * as _ from 'lodash';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -20,9 +21,11 @@ const ChallengesPage: NextPage = () => {
     const [isCreateChallengeModalOpen, setIsCreateChallengeModalOpen] =
         useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const challenges = useChallenges({ version: 1 });
     const router = useRouter();
-    const { isLoggedIn, credential, user } = useAuth();
+    const { isLoggedIn, isAdmin, credential, user } = useAuth();
+    const challenges = useChallenges({ version: 1, user });
+
+
 
     const handleCreateChallenge = (
         createChallengePayload: CreateChallengePayload,
@@ -87,92 +90,94 @@ const ChallengesPage: NextPage = () => {
                 </div>
             )}
 
-            {isLoggedIn && user !== null && !user.isAdmin && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
-                    <Text variant="sub-heading">
-                        You're not authorized to access this page.
+
+
+
+            <>
+                <div className="flex w-full flex-col gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
+                    <Text variant="big-heading">{isAdmin ? 'Challenges' : 'My Challenges'}</Text>
+
+                    <Text variant="paragraph">
+                        Explore challenges available for you to use in your
+                        next event.
                     </Text>
-                </div>
-            )}
 
-            {isLoggedIn && user !== null && user.isAdmin && (
-                <>
-                    <div className="flex w-full flex-col gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
-                        <Text variant="big-heading">Challenges</Text>
+                    <div>
+                        <Button
+                            icon={TbPlus}
+                            text={'Create a challenge'}
+                            variant="transparent"
+                            className="bg-zinc-700"
+                            onClick={() =>
+                                setIsCreateChallengeModalOpen(
+                                    !isCreateChallengeModalOpen,
+                                )
+                            }
+                        ></Button>
 
-                        <Text variant="paragraph">
-                            Explore challenges available for you to use in your
-                            next event.
-                        </Text>
-
-                        <div>
-                            <Button
-                                icon={TbPlus}
-                                text={'Create a challenge'}
-                                variant="transparent"
-                                className="bg-zinc-700"
-                                onClick={() =>
-                                    setIsCreateChallengeModalOpen(
-                                        !isCreateChallengeModalOpen,
-                                    )
-                                }
-                            ></Button>
-
-                            <Modal
-                                title="New Challenge"
-                                subTitle="Create a new challenge that can be added to events."
-                                isOpen={isCreateChallengeModalOpen}
-                                onClose={() =>
-                                    !isLoading &&
-                                    setIsCreateChallengeModalOpen(false)
-                                }
+                        <Modal
+                            title="New Challenge"
+                            subTitle="Create a new challenge that can be added to events."
+                            isOpen={isCreateChallengeModalOpen}
+                            onClose={() =>
+                                !isLoading &&
+                                setIsCreateChallengeModalOpen(false)
+                            }
+                        >
+                            <Formik
+                                initialValues={{
+                                    title: '',
+                                    description: '',
+                                }}
+                                onSubmit={handleCreateChallenge}
                             >
-                                <Formik
-                                    initialValues={{
-                                        title: '',
-                                        description: '',
-                                    }}
-                                    onSubmit={handleCreateChallenge}
-                                >
-                                    <CreateChallengeForm
-                                        isLoading={isLoading}
-                                    ></CreateChallengeForm>
-                                </Formik>
-                            </Modal>
-                        </div>
+                                <CreateChallengeForm
+                                    isLoading={isLoading}
+                                ></CreateChallengeForm>
+                            </Formik>
+                        </Modal>
                     </div>
+                </div>
 
-                    <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
-                        {challenges.map(challenge => (
-                            <Card
-                                key={challenge.id}
-                                className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
-                            >
-                                <div className="flex flex-col gap-5">
-                                    <Text
-                                        className="break-word min-w-fit"
-                                        variant="big-heading"
+                <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-2 lg:px-32 lg:py-16 xl:px-4 xl:py-20">
+                    {challenges.map(challenge => (
+                        <Card
+                            key={challenge.id}
+                            className="flex min-w-fit flex-1 flex-col justify-between gap-10 p-12"
+                        >
+                            <div className="flex flex-col gap-5">
+                                <Text
+                                    className="break-word min-w-fit"
+                                    variant="big-heading"
+                                >
+                                    {challenge.title}
+                                </Text>
+                                <Text
+                                    variant="paragraph"
+                                    className="break-word"
+                                >
+                                    {challenge.description}
+                                </Text>
+
+                                <div className="flex flex-row justify-end gap-2">
+
+
+                                    <div className='flex items-start flex-col'>
+                                        <div>Status:</div>
+                                        <div className='font-semibold'>{challenge.reviewStatus ? _.capitalize(challenge.reviewStatus.toString()) : 'Pending'}</div>
+                                    </div>
+
+                                    <Link
+                                        href={`challenges/${challenge.id}`}
                                     >
-                                        {challenge.title}
-                                    </Text>
-                                    <Text
-                                        variant="paragraph"
-                                        className="break-word"
-                                    >
-                                        {challenge.description}
-                                    </Text>
+                                        <a>
+                                            <Button variant="orange">
+                                                View Preview
+                                            </Button>
+                                        </a>
+                                    </Link>
 
-                                    <div className="flex flex-row justify-end gap-2">
-                                        <Link
-                                            href={`challenges/${challenge.id}`}
-                                        >
-                                            <a>
-                                                <Button variant="orange">
-                                                    View Preview
-                                                </Button>
-                                            </a>
-                                        </Link>
-
+                                    {isAdmin || challenge.reviewStatus != 'approved' ?
                                         <Link
                                             href={`challenges/${challenge.id}/settings`}
                                         >
@@ -181,14 +186,15 @@ const ChallengesPage: NextPage = () => {
                                                     Settings
                                                 </Button>
                                             </a>
-                                        </Link>
-                                    </div>
+                                        </Link> :
+                                        null
+                                    }
                                 </div>
-                            </Card>
-                        ))}
-                    </div>
-                </>
-            )}
+                            </div>
+                        </Card>
+                    ))}
+                </div>
+            </>
         </>
     );
 };

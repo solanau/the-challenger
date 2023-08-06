@@ -7,7 +7,7 @@ import {
     MdLogin,
     MdLogout,
     MdOutlineManageAccounts,
-    MdSettings,
+    MdSettings
 } from 'react-icons/md';
 import Button from '../button';
 import Card from '../card';
@@ -58,7 +58,7 @@ const OverflowMenu = ({ eventId, isEventPage = false }: OverflowMenuProps) => {
                 <Button
                     variant="orange"
                     icon={MdOutlineManageAccounts}
-                    onClick={() => setMenuOpen(true)}
+                    onClick={() => setMenuOpen(prev => !prev)}
                     buttonRef={buttonRef}
                 />
 

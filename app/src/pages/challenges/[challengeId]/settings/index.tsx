@@ -1,5 +1,4 @@
 import ChallengeSettingsForm from 'components/challenge-settings-page/challenge-settings-form';
-import Button from 'components/common/button';
 import Text from 'components/common/text';
 import { Formik } from 'formik';
 import { useChallenge } from 'hooks/use-challenge';
@@ -20,9 +19,9 @@ const ChallengeSettingsPage: NextPage = () => {
             ? router.query.challengeId[0]
             : router.query.challengeId;
 
-    const challenge = useChallenge(challengeId);
     const [isLoading, setIsLoading] = useState(false);
-    const { isLoggedIn, credential, user } = useAuth();
+    const { isLoggedIn, isAdmin, credential, user } = useAuth();
+    const challenge = useChallenge(challengeId, user);
 
     const handleUpdateChallenge = (
         updateChallengePayload: UpdateChallengePayload,
@@ -45,28 +44,6 @@ const ChallengeSettingsPage: NextPage = () => {
 
     return (
         <>
-            {!isLoggedIn && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                    <Text variant="sub-heading">
-                        Sign in to access this page.
-                    </Text>
-
-                    <div className="flex flex-row gap-2">
-                        <Link href="/" passHref>
-                            <a>
-                                <Button variant="transparent" text="Go back" />
-                            </a>
-                        </Link>
-
-                        <Link href="/login" passHref>
-                            <a>
-                                <Button variant="orange" text="Sign in" />
-                            </a>
-                        </Link>
-                    </div>
-                </div>
-            )}
-
             {isLoggedIn && user === null && (
                 <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                     <Text variant="sub-heading">
@@ -82,15 +59,24 @@ const ChallengeSettingsPage: NextPage = () => {
                 </div>
             )}
 
-            {isLoggedIn && user !== null && !user.isAdmin && (
+            {/* {isLoggedIn && user !== null && !user.isAdmin && (
                 <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                     <Text variant="sub-heading">
                         You're not authorized to access this page.
                     </Text>
                 </div>
-            )}
+            )} */}
 
-            {isLoggedIn && user !== null && user.isAdmin && (
+            {challenge && challenge.reviewStatus && !isAdmin ?
+                <>
+                    <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                        <Text variant="sub-heading">
+                            This challenge is already approved, if you want to modify it please contact us at support@challenger.solanau.org
+                        </Text>
+                    </div>
+                </>
+                :
+
                 <>
                     <div className="flex w-full flex-col gap-5 bg-gradient-to-tr from-primary to-secondary p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
                         <Text variant="big-heading">Challenge Settings</Text>
@@ -102,8 +88,21 @@ const ChallengeSettingsPage: NextPage = () => {
                         </Text>
                     </div>
 
+
+
+                    {!isAdmin && challenge && challenge.userId != user.id ?
+
+                        <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
+                            <Text variant="sub-heading">
+                                Nothin
+                            </Text>
+                        </div>
+                        :
+                        null
+                    }
+
                     <div className="flex w-full flex-col gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                        {challenge && (
+                        {challenge && (isAdmin || challenge.userId == user.id) && (
                             <Formik
                                 initialValues={{
                                     title: challenge.title,
@@ -117,6 +116,7 @@ const ChallengeSettingsPage: NextPage = () => {
                                     authorTwitter:
                                         challenge?.authorTwitter ?? '',
                                     fieldsConfig: challenge?.fieldsConfig ?? [],
+                                    reviewStatus: challenge?.reviewStatus ?? ''
                                 }}
                                 onSubmit={values =>
                                     handleUpdateChallenge(
@@ -131,7 +131,7 @@ const ChallengeSettingsPage: NextPage = () => {
                         )}
                     </div>
                 </>
-            )}
+            }
         </>
     );
 };

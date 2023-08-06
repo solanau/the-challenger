@@ -24,18 +24,19 @@ export type ChallengeCategory =
 export interface BaseFieldConfig {
     name: string;
     label: string;
-    key: string;
     placeholder: string;
-    maxLength?: number;
+    answer: string;
 }
 
 export type TextFieldConfig = BaseFieldConfig & {
     type: 'text';
+    maxLength?: number;
 };
 
 export type TextAreaFieldConfig = BaseFieldConfig & {
     type: 'textArea';
     rows?: number;
+    maxLength?: number;
 };
 
 export type NumberFieldConfig = BaseFieldConfig & {
@@ -46,14 +47,17 @@ export type EmailFieldConfig = BaseFieldConfig & {
     type: 'email';
 };
 
+export type ReviewStatus = 'approved' | 'pending' | 'rejected' | ''
+
 export type FieldConfig =
     | TextFieldConfig
     | TextAreaFieldConfig
     | NumberFieldConfig
     | EmailFieldConfig;
 
+
 export interface SubmissionAnswer {
-    question: string;
+    label: string;
     reply: string;
     isApproved: boolean;
     comments: string;
@@ -73,6 +77,7 @@ export interface EventPayload {
     endDate?: number;
     reviewers?: string[];
     managers?: string[];
+    reviewStatus: ReviewStatus
 }
 
 export interface ChallengePayload {
@@ -91,6 +96,8 @@ export interface ChallengePayload {
     authorName?: string;
     authorGithub?: string;
     authorTwitter?: string;
+    reviewedBy?: string;
+    reviewStatus: ReviewStatus;
 }
 
 export interface PrizePayload {
@@ -115,6 +122,7 @@ export interface UpdateEventPayload {
         fullDescription?: string;
         description: string;
         challenges: string[];
+        reviewStatus: ReviewStatus;
     };
 }
 
@@ -140,6 +148,7 @@ export interface UpdateChallengePayload {
         authorName: string;
         authorGithub: string;
         authorTwitter: string;
+        reviewStatus: ReviewStatus;
     };
 }
 

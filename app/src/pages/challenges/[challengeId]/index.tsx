@@ -19,31 +19,10 @@ const ChallengePage: NextPage = () => {
             : router.query.challengeId;
     const [validBountyName] = useState(true);
     const { isLoggedIn, credential, user } = useAuth();
-    const challenge = useChallenge(challengeId);
+    const challenge = useChallenge(challengeId, user);
 
     return (
         <>
-            {!isLoggedIn && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                    <Text variant="sub-heading">
-                        Sign in to access this page.
-                    </Text>
-
-                    <div className="flex flex-row gap-2">
-                        <Link href="/" passHref>
-                            <a>
-                                <Button variant="transparent" text="Go back" />
-                            </a>
-                        </Link>
-
-                        <Link href="/login" passHref>
-                            <a>
-                                <Button variant="orange" text="Sign in" />
-                            </a>
-                        </Link>
-                    </div>
-                </div>
-            )}
 
             {isLoggedIn && user === null && (
                 <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
@@ -60,15 +39,8 @@ const ChallengePage: NextPage = () => {
                 </div>
             )}
 
-            {isLoggedIn && user !== null && !user.isAdmin && (
-                <div className="flex w-full grow flex-col items-center justify-center gap-3 p-5 text-center sm:p-8 md:px-16 lg:px-32 lg:py-16 xl:px-48 xl:py-20">
-                    <Text variant="sub-heading">
-                        You're not authorized to access this page.
-                    </Text>
-                </div>
-            )}
+            {challenge ?
 
-            {isLoggedIn && user !== null && user.isAdmin && challenge && (
                 <>
                     <NextSeo
                         title={challenge.title}
@@ -104,7 +76,7 @@ const ChallengePage: NextPage = () => {
                                     className={cn(
                                         'tooltip-bottom tooltip-error',
                                         !validBountyName &&
-                                            'tooltip-open tooltip',
+                                        'tooltip-open tooltip',
                                     )}
                                     data-tip="Challenge name"
                                 >
@@ -126,7 +98,7 @@ const ChallengePage: NextPage = () => {
 
                                 <Markdown>{`### How to Submit `}</Markdown>
 
-                                {challenge.fieldsConfig.map(
+                                {(challenge.fieldsConfig || []).map(
                                     (fieldConfig, index) => (
                                         <Text variant="paragraph" key={index}>
                                             #{index + 1}. {fieldConfig.label}
@@ -165,7 +137,7 @@ const ChallengePage: NextPage = () => {
                         </div>
                     )}
                 </>
-            )}
+                : null}
         </>
     );
 };

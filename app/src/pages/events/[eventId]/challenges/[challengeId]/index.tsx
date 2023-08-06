@@ -45,7 +45,7 @@ const ChallengePage: NextPage = () => {
                 );
 
                 return {
-                    question: challenge.fieldsConfig[fieldIndex].label,
+                    label: challenge.fieldsConfig[fieldIndex].label,
                     field: challenge.fieldsConfig[fieldIndex].name,
                     reply: values[key],
                 };
@@ -244,7 +244,7 @@ const ChallengePage: NextPage = () => {
                                                             <Text variant="sub-heading">
                                                                 #{index + 1}{' '}
                                                                 {
-                                                                    answer.question
+                                                                    answer.label
                                                                 }
                                                                 :
                                                             </Text>

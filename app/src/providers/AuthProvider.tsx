@@ -79,6 +79,7 @@ export interface AuthContextState {
     user: UserPayload;
     credential: Credential;
     isLoggedIn: boolean;
+    isAdmin: boolean;
     signUp(email: string, password: string): Promise<void>;
     logIn(email: string, password: string): Promise<void>;
     logOut(): Promise<void>;
@@ -100,6 +101,13 @@ export const AuthContextProvider = ({
     const [credential, setCredential] = useState<Credential>(null);
     const user = useUser(credential?.id ?? null);
     const isLoggedIn = useMemo(() => !!credential, [credential]);
+    const isAdmin = useMemo(
+        () => {
+            console.log('--->', isLoggedIn, user)
+            return isLoggedIn && user !== null && user.isAdmin
+        },
+        [isLoggedIn, user]
+    );
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
@@ -167,6 +175,7 @@ export const AuthContextProvider = ({
             value={{
                 credential,
                 user,
+                isAdmin,
                 isLoggedIn,
                 signUp,
                 logIn,

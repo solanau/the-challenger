@@ -1,21 +1,203 @@
+import { Field, FieldArray, Form, useFormikContext } from 'formik';
+import React from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { IoIosAdd } from 'react-icons/io';
+
 import Button from 'components/common/button';
 import Card from 'components/common/card';
 import Spinner from 'components/common/spinner';
 import Text from 'components/common/text';
-import { Field, FieldArray, Form, useFormikContext } from 'formik';
-import { AiOutlineClose } from 'react-icons/ai';
-import { IoIosAdd } from 'react-icons/io';
+import { useAuth } from 'providers/AuthProvider';
 import { FieldConfig } from 'types/form';
 
 interface ChallengeSettingsFormProps {
     isLoading?: boolean;
 }
 
-const ChallengeSettingsForm = ({
+const ChallengeSettingsForm: React.FC<ChallengeSettingsFormProps> = ({
     isLoading = false,
 }: ChallengeSettingsFormProps) => {
     const { values } = useFormikContext<{ fieldsConfig: FieldConfig[] }>();
+    const { isLoggedIn, isAdmin, credential, user } = useAuth();
 
+    const renderFieldConfig = (
+        fieldConfig: FieldConfig,
+        index: number,
+        arrayHelpers: any
+    ) => {
+        const { type } = fieldConfig;
+
+        return (
+            <Card key={index} className="mb-8 p-4">
+                <div className="mb-4 flex items-center justify-between gap-4">
+                    <Text variant="sub-heading">Field #{index + 1}</Text>
+                    <Button
+                        variant="danger"
+                        type="button"
+                        onClick={() => arrayHelpers.remove(index)}
+                    >
+                        <AiOutlineClose />
+                    </Button>
+                </div>
+
+                <div className="pt-4">
+                    <label
+                        htmlFor={`challenge-field-configs.${index}.name`}
+                        className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                    >
+                        Name{' '}
+                    </label>
+
+                    <Field
+                        id={`challenge-field-configs.${index}.name`}
+                        name={`fieldsConfig.${index}.name`}
+                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                        placeholder="Enter the field name"
+                        maxLength={80}
+                        required
+                        disabled={isLoading}
+                        autoComplete="off"
+                    />
+                </div>
+
+                <div className="pt-4">
+                    <label
+                        htmlFor={`challenge-field-configs.${index}.label`}
+                        className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                    >
+                        Question
+                    </label>
+
+                    <Field
+                        id={`challenge-field-configs.${index}.label`}
+                        name={`fieldsConfig.${index}.label`}
+                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                        placeholder="Enter the field label"
+                        maxLength={80}
+                        required
+                        disabled={isLoading}
+                        autoComplete="off"
+                    />
+                </div>
+
+                <div className="pt-4">
+                    <label
+                        htmlFor={`challenge-field-configs.${index}.placeholder`}
+                        className="block w-full border-none bg-transparent py-2 outline-none"
+                    >
+                        Placeholder
+                    </label>
+
+                    <Field
+                        id={`challenge-field-configs.${index}.placeholder`}
+                        name={`fieldsConfig.${index}.placeholder`}
+                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                        placeholder="Enter the field placeholder"
+                        maxLength={80}
+                        disabled={isLoading}
+                        autoComplete="off"
+                    />
+                </div>
+
+                <div className="pt-4">
+                    <label
+                        htmlFor={`challenge-field-configs.${index}.type`}
+                        className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                    >
+                        Type
+                    </label>
+
+                    <Field
+                        id={`challenge-field-configs.${index}.type`}
+                        name={`fieldsConfig.${index}.type`}
+                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                        required
+                        disabled={isLoading}
+                        as="select"
+                    >
+                        <option value="" className="bg-zinc-700">
+                            Select type
+                        </option>
+                        <option value="text" className="bg-zinc-700">
+                            Text
+                        </option>
+                        <option value="textArea" className="bg-zinc-700">
+                            Text Area
+                        </option>
+                        <option value="number" className="bg-zinc-700">
+                            Number
+                        </option>
+                        <option value="email" className="bg-zinc-700">
+                            Email
+                        </option>
+                    </Field>
+                </div>
+
+                {(type === 'text' || type === 'textArea') && (
+                    <div className="pt-4">
+                        <label
+                            htmlFor={`challenge-field-configs.${index}.maxLength`}
+                            className="block w-full border-none bg-transparent py-2 outline-none"
+                        >
+                            Max Length
+                        </label>
+
+                        <Field
+                            id={`challenge-field-configs.${index}.maxLength`}
+                            name={`fieldsConfig.${index}.maxLength`}
+                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                            placeholder="Enter the field max length"
+                            type="number"
+                            required
+                            disabled={isLoading}
+                            autoComplete="off"
+                        />
+                    </div>
+                )}
+                <div className="pt-4">
+                    <label
+                        htmlFor={`challenge-field-configs.${index}.answer`}
+                        className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
+                    >
+                        Answer
+                    </label>
+
+                    <Field
+                        id={`challenge-field-configs.${index}.answer`}
+                        name={`fieldsConfig.${index}.answer`}
+                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                        placeholder="Enter the answer"
+                        maxLength={140}
+                        required
+                        disabled={isLoading}
+                        autoComplete="off"
+                    />
+                </div>
+
+                {type === 'textArea' && (
+                    <div className="pt-4">
+                        <label
+                            htmlFor={`challenge-field-configs.${index}.rows`}
+                            className="block w-full border-none bg-transparent py-2 outline-none"
+                        >
+                            Rows
+                        </label>
+
+                        <Field
+                            id={`challenge-field-configs.${index}.rows`}
+                            name={`fieldsConfig.${index}.rows`}
+                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                            placeholder="Enter the field rows"
+                            type="number"
+                            required
+                            disabled={isLoading}
+                            autoComplete="off"
+                        />
+                    </div>
+                )}
+            </Card>
+        );
+    };
     return (
         <Form>
             <div className="pt-4">
@@ -221,7 +403,7 @@ const ChallengeSettingsForm = ({
                     htmlFor="challenge-author-github"
                     className="block w-full border-none bg-transparent py-2 outline-none"
                 >
-                    Author Github{' '}
+                    Author GitHub{' '}
                 </label>
 
                 <Field
@@ -253,10 +435,46 @@ const ChallengeSettingsForm = ({
                     autoComplete="off"
                 />
             </div>
+            {isAdmin ?
+                <div className="pt-4">
+                    <label
+                        htmlFor="challenge-review-status"
+                        className="block w-full border-none bg-transparent py-2 outline-none"
+                    >
+                        Review Status
+                    </label>
+
+                    <Field
+                        id="challenge-review-status"
+                        name="reviewStatus"
+                        className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
+                        required
+                        disabled={isLoading}
+                        as="select"
+                    >
+                        <option value="" className="bg-zinc-700">
+                            Select status
+                        </option>
+                        <option value="pending" className="bg-zinc-700">
+                            Pending
+                        </option>
+                        <option value="approved" className="bg-zinc-700">
+                            Approved
+                        </option>
+                        <option value="rejected" className="bg-zinc-700">
+                            Rejected
+                        </option>
+                    </Field>
+
+                </div>
+                :
+                null
+            }
+
 
             <FieldArray
                 name="fieldsConfig"
-                render={arrayHelpers => (
+                render={(arrayHelpers) => (
                     <div>
                         <div className="flex items-center gap-4">
                             <Text variant="sub-heading" className="my-4">
@@ -282,177 +500,9 @@ const ChallengeSettingsForm = ({
                         </div>
 
                         <div className="flex max-h-96 flex-col gap-5 overflow-y-auto">
-                            {values.fieldsConfig.map((fieldConfig, index) => (
-                                <Card key={index} className="mb-8 p-4">
-                                    <div className="mb-4 flex items-center justify-between gap-4">
-                                        <Text variant="sub-heading">
-                                            Field #{index + 1}
-                                        </Text>
-                                        <Button
-                                            variant="danger"
-                                            type="button"
-                                            onClick={() =>
-                                                arrayHelpers.remove(index)
-                                            }
-                                        >
-                                            <AiOutlineClose />
-                                        </Button>
-                                    </div>
-
-                                    <div className="pt-4">
-                                        <label
-                                            htmlFor={`challenge-field-configs.${index}.name`}
-                                            className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
-                                        >
-                                            Name{' '}
-                                        </label>
-
-                                        <Field
-                                            id={`challenge-field-configs.${index}.name`}
-                                            name={`fieldsConfig.${index}.name`}
-                                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
-                                            placeholder="Enter the field name"
-                                            maxLength={80}
-                                            required
-                                            disabled={isLoading}
-                                            autoComplete="off"
-                                        />
-                                    </div>
-
-                                    <div className="pt-4">
-                                        <label
-                                            htmlFor={`challenge-field-configs.${index}.label`}
-                                            className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
-                                        >
-                                            Label{' '}
-                                        </label>
-
-                                        <Field
-                                            id={`challenge-field-configs.${index}.label`}
-                                            name={`fieldsConfig.${index}.label`}
-                                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
-                                            placeholder="Enter the field label"
-                                            maxLength={80}
-                                            required
-                                            disabled={isLoading}
-                                            autoComplete="off"
-                                        />
-                                    </div>
-
-                                    <div className="pt-4">
-                                        <label
-                                            htmlFor={`challenge-field-configs.${index}.placeholder`}
-                                            className="block w-full border-none bg-transparent py-2 outline-none"
-                                        >
-                                            Placeholder
-                                        </label>
-
-                                        <Field
-                                            id={`challenge-field-configs.${index}.placeholder`}
-                                            name={`fieldsConfig.${index}.placeholder`}
-                                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
-                                            placeholder="Enter the field placeholder"
-                                            maxLength={80}
-                                            disabled={isLoading}
-                                            autoComplete="off"
-                                        />
-                                    </div>
-
-                                    <div className="pt-4">
-                                        <label
-                                            htmlFor={`challenge-field-configs.${index}.type`}
-                                            className="block w-full border-none bg-transparent py-2 outline-none after:text-primary after:content-['*']"
-                                        >
-                                            Type{' '}
-                                        </label>
-
-                                        <Field
-                                            id={`challenge-field-configs.${index}.type`}
-                                            name={`fieldsConfig.${index}.type`}
-                                            className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
-                                            required
-                                            disabled={isLoading}
-                                            as="select"
-                                        >
-                                            <option
-                                                value=""
-                                                className="bg-zinc-700"
-                                            >
-                                                Select type
-                                            </option>
-                                            <option
-                                                value="text"
-                                                className="bg-zinc-700"
-                                            >
-                                                Text
-                                            </option>
-                                            <option
-                                                value="textArea"
-                                                className="bg-zinc-700"
-                                            >
-                                                Text Area
-                                            </option>
-                                            <option
-                                                value="number"
-                                                className="bg-zinc-700"
-                                            >
-                                                Number
-                                            </option>
-                                            <option
-                                                value="email"
-                                                className="bg-zinc-700"
-                                            >
-                                                Email
-                                            </option>
-                                        </Field>
-                                    </div>
-
-                                    {(fieldConfig.type === 'text' ||
-                                        fieldConfig.type === 'textArea') && (
-                                            <div className="pt-4">
-                                                <label
-                                                    htmlFor={`challenge-field-configs.${index}.maxLength`}
-                                                    className="block w-full border-none bg-transparent py-2 outline-none"
-                                                >
-                                                    Max Length
-                                                </label>
-
-                                                <Field
-                                                    id={`challenge-field-configs.${index}.maxLength`}
-                                                    name={`fieldsConfig.${index}.maxLength`}
-                                                    className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
-                                                    placeholder="Enter the field max length"
-                                                    type="number"
-                                                    required
-                                                    disabled={isLoading}
-                                                    autoComplete="off"
-                                                />
-                                            </div>
-                                        )}
-
-                                    {fieldConfig.type === 'textArea' && (
-                                        <div className="pt-4">
-                                            <label
-                                                htmlFor={`challenge-field-configs.${index}.rows`}
-                                                className="block w-full border-none bg-transparent py-2 outline-none"
-                                            >
-                                                Rows
-                                            </label>
-
-                                            <Field
-                                                id={`challenge-field-configs.${index}.rows`}
-                                                name={`fieldsConfig.${index}.rows`}
-                                                className="w-full rounded-2xl border border-zinc-200 bg-base bg-opacity-70 p-3.5 outline-none transition-all duration-300 focus:border-3 focus:border-primary focus:bg-opacity-50 focus:p-3 disabled:cursor-not-allowed disabled:text-zinc-500"
-                                                placeholder="Enter the field rows"
-                                                type="number"
-                                                required
-                                                disabled={isLoading}
-                                                autoComplete="off"
-                                            />
-                                        </div>
-                                    )}
-                                </Card>
-                            ))}
+                            {values.fieldsConfig.map((fieldConfig, index) =>
+                                renderFieldConfig(fieldConfig, index, arrayHelpers)
+                            )}
                         </div>
                     </div>
                 )}
@@ -460,7 +510,7 @@ const ChallengeSettingsForm = ({
 
             <div className="width-full flex flex-row justify-end gap-2 pt-4">
                 <Button type="submit" variant="orange" disabled={isLoading}>
-                    {isLoading && <Spinner variant="large"></Spinner>}
+                    {isLoading && <Spinner variant="large" />}
                     Save changes
                 </Button>
             </div>
@@ -469,3 +519,4 @@ const ChallengeSettingsForm = ({
 };
 
 export default ChallengeSettingsForm;
+

@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions';
+import * as _ from 'lodash';
 import { db } from '..';
 import {
     Auth,
@@ -18,6 +19,8 @@ class ChallengeController {
             );
         }
 
+        const user = (await db.collection('users').doc(auth.id).get()).data()
+
         const challengeData: ChallengePayload = {
             title: payload.title,
             description: payload.description,
@@ -26,6 +29,8 @@ class ChallengeController {
             isNew: true,
             version: CHALLENGE_DOCUMENT_VERSION,
             userId: auth.id,
+            reviewedBy: (user.isAdmin ? user.id : null),
+            reviewStatus: (user.isAdmin ? 'approved' : 'pending')
         };
 
         const challenge = await db
@@ -43,9 +48,32 @@ class ChallengeController {
             );
         }
 
+        const user = (await db.collection('users').doc(auth.id).get()).data()
+
+        const challengeCurrentState = (await db.doc(`challenges/${id}`).get()).data()
+
+        if (!user.isAdmin && challengeCurrentState.userId != auth.id) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `You are not allowed to modify this challenge.`,
+            );
+        }
+
+        const statusAreNotEqual = challengeCurrentState.reviewStatus != data.reviewStatus
+
+        const reviewedBy =
+            (user.isAdmin ? (statusAreNotEqual ? auth.id : challengeCurrentState.reviewedBy) : challengeCurrentState.reviewedBy)
+
+        const dataToUpdate = {
+            ...data,
+            updatedAt: Date.now(),
+            isNew: false,
+            ..._.omitBy({ reviewedBy }, _.isUndefined)
+        }
+
         const challenge = await db
             .doc(`challenges/${id}`)
-            .update({ ...data, updatedAt: Date.now(), isNew: false });
+            .update(dataToUpdate);
 
         return challenge;
     }

@@ -69,6 +69,8 @@ export type ExpiredChallenge = BaseChallenge & {
 
 export type Challenge = ActiveChallenge | PendingChallenge | ExpiredChallenge;
 
+export type ReviewStatus = 'approved' | 'pending' | 'rejected' | ''
+
 export interface ChallengePayload {
     id: string;
     title: string;
@@ -82,6 +84,8 @@ export interface ChallengePayload {
     authorGithub: string;
     authorTwitter: string;
     fieldsConfig: FieldConfig[];
+    reviewStatus?: ReviewStatus
+    userId?: string
 }
 
 export interface CreateChallengePayload {
@@ -99,6 +103,7 @@ export interface UpdateChallengePayload {
     authorGithub: string;
     authorTwitter: string;
     authorName: string;
+    reviewStatus?: ReviewStatus
     fieldsConfig: FieldConfig[];
 }
 
@@ -112,5 +117,6 @@ export interface ChallengeSettingsFormData {
     authorGithub: string;
     authorTwitter: string;
     authorName: string;
+    reviewStatus: ReviewStatus;
     fieldsConfig: FieldConfig[];
 }

@@ -12,32 +12,48 @@ interface LeaderBoardListItemProps {
     participant: ParticipantPayload;
 }
 
-const LeaderBoardListItem = ({
+const LeaderBoardListItem: React.FC<LeaderBoardListItemProps> = ({
     position,
     participant,
-}: LeaderBoardListItemProps) => {
+}) => {
     const user = useUser(participant.userId);
     const { credential } = useAuth();
     const userId = credential?.id ?? null;
+
+    const renderPlayerName = () => {
+        const isCurrentUser = userId === user?.id;
+
+        return (
+            <Text
+                variant="heading"
+                className={cn(
+                    'xs:text-xl overflow-hidden text-ellipsis whitespace-nowrap',
+                    isCurrentUser && 'text-primary'
+                )}
+            >
+                <a>
+                    <span className="pr-4">{user?.userName}</span>
+                </a>
+            </Text>
+        );
+    };
 
     return (
         <Card
             className={cn(
                 'flex h-fit w-80 flex-shrink-0 snap-start flex-col items-start justify-between gap-2 p-6 sm:w-98',
                 '!w-full 2lg:flex-row 2lg:items-center',
-                'transition-all duration-300 hover:bg-opacity-[97%]',
+                'transition-all duration-300 hover:bg-opacity-[97%]'
             )}
         >
-            <Link href={`${user?.userName}`} passHref>
+            <Link href={`/${user?.userName}`} passHref>
                 <div className="flex w-full cursor-pointer overflow-hidden">
                     <div className="w-full overflow-hidden">
                         <div className="flex h-16 flex-col justify-between">
-                            <Chip highlightValue={'rank'} />
+                            <Chip highlightValue="rank" />
                             <Text
                                 variant="heading"
-                                className={cn(
-                                    'xs:text-xl inline w-full overflow-hidden text-ellipsis whitespace-nowrap',
-                                )}
+                                className="xs:text-xl inline w-full overflow-hidden text-ellipsis whitespace-nowrap"
                             >
                                 #{position}
                             </Text>
@@ -47,43 +63,11 @@ const LeaderBoardListItem = ({
                     <div className="flex w-full flex-row justify-between">
                         <div className="flex h-16 min-w-0 flex-1 flex-row gap-3">
                             <div className="flex h-full flex-col justify-between gap-3">
-                                <Text
-                                    variant="label"
-                                    className="text-secondary"
-                                >
+                                <Text variant="label" className="text-secondary">
                                     Player
                                 </Text>
                                 <div className="flex flex-col justify-start">
-                                    {/* only show handle, not full name but link to profile */}
-                                    {/* <Text
-                                variant="heading"
-                                className="overflow-hidden text-ellipsis whitespace-nowrap"
-                            >
-                                {user?.fullName} {' '}
-                            </Text> */}
-                                    <Text
-                                        variant="heading"
-                                        className={`xs:text-xl overflow-hidden text-ellipsis whitespace-nowrap ${
-                                            userId === user?.id &&
-                                            'text-primary'
-                                        }`}
-                                    >
-                                        <a>
-                                            <span className="pr-4">
-                                                {user?.userName}
-                                            </span>
-                                        </a>
-                                    </Text>
-                                    {/* <Text variant="paragraph" className="text-primary">
-                                <Link href={`${user?.userName}`} passHref>
-                                    <a>
-                                        @
-                                        <span className=" underline">
-                                            {user?.userName}
-                                        </span>
-                                    </a>
-                                </Link>
-                            </Text> */}
+                                    {renderPlayerName()}
                                 </div>
                             </div>
                         </div>
@@ -91,10 +75,7 @@ const LeaderBoardListItem = ({
 
                     <div className="flex w-full max-w-full flex-row justify-between overflow-hidden md:justify-end">
                         <div className="basis-18 flex h-16 flex-shrink-0 flex-col justify-between overflow-hidden">
-                            <Text
-                                variant="label"
-                                className="inline text-secondary"
-                            >
+                            <Text variant="label" className="inline text-secondary">
                                 Points
                             </Text>
                             <Text

@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions';
+import * as _ from 'lodash';
 import { db } from '..';
 import {
     Auth,
@@ -19,14 +20,8 @@ class EventController {
             );
         }
 
-        /* 
-            We're adding all challenges by default.
-        */
-        const challenges = await db
-            .collection('challenges')
-            .where('version', '==', 1)
-            .where('isNew', '==', false)
-            .get();
+        const user = (await db.collection('users').doc(auth.id).get()).data()
+
         const eventData: EventPayload = {
             title: payload.title,
             description: payload.description,
@@ -36,6 +31,7 @@ class EventController {
             createdAt: Date.now(),
             updatedAt: Date.now(),
             isNew: true,
+            reviewStatus: (user.isAdmin ? 'approved' : 'pending')
         };
 
         const event = await db.doc(`events/${payload.id}`).set(eventData);
@@ -51,9 +47,40 @@ class EventController {
             );
         }
 
+
+        const user = (await db.collection('users').doc(auth.id).get()).data()
+
+        const eventCurrentState = (await db.doc(`events/${id}`).get()).data()
+
+        if (!user.isAdmin && eventCurrentState.userId != auth.id) {
+            throw new functions.https.HttpsError(
+                'permission-denied',
+                `You are not allowed to modify this challenge.`,
+            );
+        }
+        console.log('eventCurrentState.reviewStatus', eventCurrentState.reviewStatus)
+        console.log('data.reviewStatus', data.reviewStatus)
+        const statusAreNotEqual = eventCurrentState.reviewStatus != data.reviewStatus
+        console.log('statusAreNotEqual', statusAreNotEqual)
+        const statusIsUndefined = _.isUndefined(eventCurrentState.reviewStatus)
+        console.log('statusIsUndefined', statusIsUndefined)
+        const statusReviewer = (statusAreNotEqual || statusIsUndefined ? auth.id : eventCurrentState.reviewedBy)
+        console.log("statusReviewer", statusReviewer)
+
+        const reviewedBy =
+            (user.isAdmin ? statusReviewer : eventCurrentState.reviewedBy)
+
+        console.log('reviewedBy', reviewedBy, _.omitBy({ reviewedBy }, _.isUndefined))
+
+
         const event = await db
             .doc(`events/${id}`)
-            .update({ ...data, updatedAt: Date.now(), isNew: false });
+            .update({
+                ...data,
+                updatedAt: Date.now(),
+                isNew: false,
+                ..._.omitBy({ reviewedBy }, _.isUndefined)
+            });
 
         return event;
     }
