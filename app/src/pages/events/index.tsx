@@ -159,7 +159,7 @@ const EventsPage: NextPage = () => {
 
                 <div className="flex w-full flex-row flex-wrap gap-5 bg-gradient-to-tr p-5 sm:p-8 md:px-16 lg:px-32 lg:py-8 xl:px-48 xl:py-16">
 
-                    <div>
+                    {user && !user.isAdmin ? <div>
                         Filter by ownership:
                         <select
                             id="ownership"
@@ -183,7 +183,7 @@ const EventsPage: NextPage = () => {
                                 My events
                             </option>
                         </select>
-                    </div>
+                    </div> : null}
 
                     {showFilterOwnership ? <div>
                         Filter by status:

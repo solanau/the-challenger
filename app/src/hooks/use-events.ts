@@ -25,8 +25,6 @@ export const useEvents = (
 
         if (!user) return
 
-        // console.log('user.isAdmin', user.isAdmin)
-        // console.log('includePublic', includePublic)
         console.log('userEventsStatus', userEventsStatus)
 
         const setAllEvents = (eventsData: Array<QueryDocumentSnapshot<DocumentData>>) => {
@@ -88,6 +86,7 @@ export const useEvents = (
             query(
                 collection(firestore, `events`),
                 versionConstraint,
+                ...userEventsStatusConstraints
             ),
             querySnapshot => {
                 console.log('unsubscribeAdmin', querySnapshot.docs)
