@@ -24,7 +24,7 @@ const EventsPage: NextPage = () => {
     const router = useRouter();
     const { isLoggedIn, credential, user, isAdmin } = useAuth();
     const [showPublicEvents, setShowPublicEvents] = useState(true)
-    const [eventsStatus, setEventsStatus] = useState<ReviewStatus>('approved')
+    const [eventsStatus, setEventsStatus] = useState<ReviewStatus>('')
     const events = useEvents({ user, includePublic: showPublicEvents, userEventsStatus: eventsStatus });
 
     const handleCreateEvent = (createEventPayload: CreateEventPayload) => {

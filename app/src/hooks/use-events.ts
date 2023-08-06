@@ -25,6 +25,10 @@ export const useEvents = (
 
         if (!user) return
 
+        // console.log('user.isAdmin', user.isAdmin)
+        // console.log('includePublic', includePublic)
+        console.log('userEventsStatus', userEventsStatus)
+
         const setAllEvents = (eventsData: Array<QueryDocumentSnapshot<DocumentData>>) => {
             const allEvents = eventsData.map(
                 doc =>
@@ -94,6 +98,7 @@ export const useEvents = (
                 }
             },
         ) : null;
+
 
         return () => {
             if (unsubscribeOnlyUser) unsubscribeOnlyUser()
